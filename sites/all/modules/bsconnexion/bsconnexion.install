@@ -1,0 +1,83 @@
+<?php
+
+function bsconnexion_schema() {
+ 
+  $schema['users_extra_fields'] = array(
+    'fields' => array(
+      'name' => array(
+        'type' => 'varchar',
+        'length' => 500,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'civilite' => array(
+        'type' => 'varchar',
+        'length' => 500,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'nom_prenom' => array(
+        'type' => 'varchar',
+        'length' => 500,
+        'not null' => FALSE,
+      ),
+     'siren' => array(
+        'type' => 'varchar',
+        'length' => 500,
+        'not null' => FALSE,
+      ),     
+      'poste_service' => array(
+        'type' => 'varchar',
+        'length' => 500,
+        'not null' => TRUE,
+      ),
+      'code_postal' => array(
+        'type' => 'varchar',
+        'length' => 500,
+        'not null' => TRUE,
+      ),
+      'telephone' => array(
+        'type' => 'text',
+        'length' => 500,
+        'not null' => FALSE,
+      ),
+      'affiliation_societe' => array(
+        'type' => 'varchar',
+        'length' => 500,
+        'not null' => TRUE,
+      ),
+      'fax' => array(
+        'type' => 'varchar',
+        'length' => 500,
+        'not null' => TRUE,
+      ),
+      'ville' => array(
+        'type' => 'varchar',
+        'length' => 500,
+        'not null' => TRUE,
+      ),
+      'adresse' => array(
+        'type' => 'varchar',
+        'length' => 500,
+        'not null' => TRUE,
+      ),
+      'distributeur_fabricant' => array(
+        'type' => 'varchar',
+        'length' => 500,
+        'not null' => TRUE,
+      ),
+    ),
+  );
+  return $schema;
+}
+
+function bsconnexion_install() {
+
+}
+
+function bsconnexion_uninstall() {
+  db_query('DROP TABLE {users_extra_fields}');
+}
+
+?>
+

@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function hi_counter_schema() {
+  $schema['hi_counter'] = array(
+    'fields' => array(
+      'entity_type' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'The entity type this data is attached to.',
+      ),
+      'entity_id' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'The entity id this data is attached to.',
+      ),
+      'revision_id' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'The revision_id for the entity object this data is attached to.',
+      ),
+      'language' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'The language of the tag.',
+      ),
+      'data' => array(
+        'type' => 'blob',
+        'size' => 'big',
+        'not null' => TRUE,
+        'serialize' => TRUE,
+      ),
+    ),
+    'indexes' => array(
+      'type_revision' => array(
+        'entity_type',
+        'revision_id',
+      ),
+    ),
+    'primary key' => array(
+      'entity_type',
+      'entity_id',
+      'revision_id',
+      'language',
+    ),
+  );
+  return $schema;
+}

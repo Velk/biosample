@@ -1,0 +1,5 @@
+name = HI Counter
+description = Webform Counter
+core = 7.x
+package = Handicap International
+project = "hi_counter"

@@ -1,0 +1,138 @@
+#Bandeau_connexion{
+	height: 70px;
+	vertical-align: middle;
+	width: 100%;
+	background-color: #1e6a8e;
+	display: inline-block;
+}
+
+#Bandeau_connexion p.BC_Text_Left{
+	margin-top: 0%;
+	margin-bottom: 0%;
+	padding-left: 20%;
+	font-family: Arial, Helvetica, sans-serif;
+	color: white;
+	display: inline-block;
+}
+
+#Bandeau_connexion p.BC_Text_Left2{
+	padding-top: 2%;
+	margin-top: 0%;
+	margin-bottom: 0%;
+	padding-left: 20%;
+	font-family: Arial, Helvetica, sans-serif;
+	color: white;
+	display: inline-block;
+}
+
+#Bandeau_connexion p.BC_Text_connected{
+	padding-right: 10%;
+	color: white;
+}
+
+#BC_Form input.form-text{
+	background-color: #c1c0c0;
+	border: solid 5px white;
+	border-radius: 10px;
+	display: inline-block;
+	width: 100%;
+	color: #585858;
+}
+
+#BC_Form .form-type-checkbox{
+	text-align: left !important;
+	width: 14% !important;
+}
+
+#BC_Form .form-item{
+	width: 20%;
+	display: inline-block;
+}
+
+#BC_Form span.button input.form-submit{
+	display: inline-block;
+	font-weight: bold;
+	background: white !important;
+	background-color: white !important;
+	border: solid 1px white !important;
+	border-radius: 8px !important;
+	-webkit-box-shadow: 0 0 0px white !important;
+	color: #1e6a8e !important;
+}
+
+#BC_Form span.form-required{
+	position: absolute;
+	left: -9999px;
+}
+
+#BC_Form .item-list{
+	position: absolute;
+	left: -9999px;
+}
+
+#BC_Form .form-actions{
+	display: inline-block;
+}
+
+#user-login{
+	display: inline-block;
+}
+
+#user-login span.button input.form-submit{
+	margin-left: 1%;
+}
+
+#BC_Bouton_Signup{
+	display: inline-block;
+	padding-bottom: 2%;
+}
+
+#BC_Bouton_Signup span.button input.form-submit{
+	font-weight: bold;
+	background: white !important;
+	background-color: white !important;
+	border: solid 1px white !important;
+	border-radius: 8px !important;
+	-webkit-box-shadow: 0 0 0px white !important;
+	color: #1e6a8e !important;
+}
+	
+#BC_Form{
+	padding-top: 1%;
+	display: inline-block;
+	text-align: right;
+	width: 80%;
+}
+
+#BC_Content_Form{
+	text-align: right;
+	float: right;
+	display: inline-block;
+	padding-right: 20%;
+	width: 50%;
+}
+
+#BC_Content_Text{
+	margin-top: 2%;
+	width: 10%;
+	vertical-align: middle;
+	display: inline-block;
+	padding-left: 20%;
+}
+
+#Bandeau_connexion label{
+	position: absolute !important;
+	left: -9999px !important;
+}
+
+#Bandeau_connexion .description{
+	position: absolute !important;
+	left: -9999px !important;
+}
+
+#BC_Profil{
+	margin-top: 2%;
+	float: right;
+	text-align: right;
+	margin-right: 20%;
+}

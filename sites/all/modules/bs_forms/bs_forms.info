@@ -1,0 +1,4 @@
+name = BS Forms
+description = BS form for our prestations.
+core = 7.x
+package = BIOSAMPLE

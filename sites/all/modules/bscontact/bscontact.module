@@ -1,0 +1,124 @@
+<?php 
+
+function bscontact_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#bscontact':
+      return '<p>' . t('Module for BIOSAMPLE contact page.') . '</p>';
+  }
+}
+
+function bscontact_block_info() {
+  $blocks['bscontactcood'] = array(
+    'info' => t('BS Contact Cood'), 
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+function bscontact_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'bscontactcood':
+      $data['cood_title'] = variable_get('bscontact_title');
+
+      $data['cood_adr_title'] = "Adresse : ";
+      $data['cood_adr_content1'] = variable_get('bscontact_adress');
+      $data['cood_adr_content2'] = variable_get('bscontact_city');
+      $data['cood_tf_title'] = "Tel / Fax : ";
+      $data['cood_tf_content'] = variable_get('bscontact_tel_fax');
+      $data['cood_mail_title'] = "Mail : ";
+      $data['cood_mail_content'] = variable_get('bscontact_mail');
+
+      $data['map_script1'] = "<script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyB_dBiSyZnQAcf70ca81iR6Dx7c9l4jt7c'></script>";
+      $data['map_script2'] = "<script type='text/javascript' src='https://embedmaps.com/google-maps-authorization/script.js?id=ed3fff63c6cbefe079ad45f602efc6007bf27145'></script>";
+      $data['map_script3'] = "<script type='text/javascript'>function init_map(){var myOptions = {zoom:13,center:new google.maps.LatLng(".variable_get('bscontact_latitude','45.7477813').",".variable_get('bscontact_longitude','4.791871899999933')."),mapTypeId: google.maps.MapTypeId.ROADMAP};map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);marker = new google.maps.Marker({map: map,position: new google.maps.LatLng(".variable_get('bscontact_latitude','45.7477813').",".variable_get('bscontact_longitude','4.791871899999933').")});infowindow = new google.maps.InfoWindow({content:'<strong>".variable_get('bscontact_title','BIOSAMPLE')."</strong><br>".variable_get('bscontact_adress','73 rue Commandant Charcot')."<br>".variable_get('bscontact_city','69110 Lyon')."<br>'});google.maps.event.addListener(marker, 'click', function(){infowindow.open(map,marker);});infowindow.open(map,marker);}google.maps.event.addDomListener(window, 'load', init_map);</script>";
+
+      $block['content']['#markup'] = theme('bscontact', $data);
+      $block['content']['#attached']['css'][] = array(
+        'data' => drupal_get_path('module', 'bscontact').'/css/bscontact.css',
+        'type' => 'file'
+      );
+      break;
+  }
+  return $block;
+}
+
+function bscontact_theme($existing, $type, $theme, $path) {
+  return array(
+    'bscontact' => array(
+      'template' => 'theme/bs-contact-prestation',
+      'path' => drupal_get_path('module', 'bscontact'),
+      'variables' => array('infos' => NULL),
+    ),
+  );
+}
+
+function bscontact_menu(){
+  $items['admin/config/system/bscontact'] = array(
+    'title' => t('BS Contact Settings'),
+    'description' => t('BS Contact configuration page'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('bscontact_admin_settings'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+ 
+  return $items; 
+}
+
+function bscontact_admin_settings(){
+  $form['bscontact_latitude'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Latitude of the map'),
+    '#description' => t('Change the latitude of the map'),
+    '#default_value' => variable_get('bscontact_latitude','45.7477813'),
+  );
+
+  $form['bscontact_longitude'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Longitude of the map'),
+    '#description' => t('Change the longitude of the map'),
+    '#default_value' => variable_get('bscontact_longitude','4.791871899999933'),
+  );
+
+  $form['bscontact_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title of the marker'),
+    '#description' => t('Change the title of the marker'),
+    '#default_value' => variable_get('bscontact_title','BIOSAMPLE'),
+  );
+
+  $form['bscontact_adress'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Adress of the marker'),
+    '#description' => t('Change the adress of the marker'),
+    '#default_value' => variable_get('bscontact_adress','73 rue Commandant Charcot'),
+  );
+
+  $form['bscontact_city'] = array(
+    '#type' => 'textfield',
+    '#title' => t('City of the marker'),
+    '#description' => t('Change the city of the marker'),
+    '#default_value' => variable_get('bscontact_city','69110 Sainte-Foy-Lès-Lyon'),
+  );
+
+  $form['bscontact_tel_fax'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Tel/Fax in the coords block'),
+    '#description' => t('Change the tel/fax in the coords block'),
+    '#default_value' => variable_get('bscontact_tel_fax','09 83 02 46 99'),
+  );
+
+  $form['bscontact_mail'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Mail in the coords block'),
+    '#description' => t('Change the mail in the coords block'),
+    '#default_value' => variable_get('bscontact_mail','contact@biosample.fr'),
+  );
+
+  return system_settings_form($form);
+}
+
+
+?>

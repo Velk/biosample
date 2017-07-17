@@ -1,0 +1,148 @@
+<?php
+
+/**
+ * Implementation of hook_block()
+ *
+ * @return array
+ */
+function bs_forms_block_info() {
+  $blocks = array();
+  $blocks['prestation_form'] = array(
+    'info' => t('BS - Formulaire prestation'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['ressbio_form'] = array(
+    'info' => t('BS - Formulaire Ressources Bio'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  return $blocks;
+}
+
+/**
+ * Implementation of hook_block_view()
+ *
+ * @param string $delta
+ * @return array
+ */
+function bs_forms_block_view($delta='') {
+  $block = array();
+  switch ($delta) {
+    case 'prestation_form':
+      $block['subject'] = t('');
+      $data['title'] = "Formulaire de demande de prestation";
+
+      if (user_is_logged_in() === TRUE) {
+        //$block['content'] = drupal_get_form('bs_forms_presta_form');
+        $data['user_status'] = NULL;
+      } else {
+        $data['user_status'] = variable_get('bs_forms_loggin');
+        $block['content']['#markup'] = theme('bs_forms', $data);
+      }
+
+      $block['content']['#attached']['css'][] = array(
+        'data' => drupal_get_path('module', 'bs_forms').'/css/bs_forms.css',
+        'type' => 'file'
+      );
+      break;
+
+    case 'ressbio_form':
+      $block['subject'] = t('');
+      $data['title'] = "Formulaire de demande de prestation";
+
+      if (user_is_logged_in() === TRUE) {
+        //$block['content'] = drupal_get_form('bs_forms_bio_form');
+        $data['user_status'] = NULL;
+      } else {
+        $data['user_status'] = variable_get('bs_forms_loggin');
+        $block['content']['#markup'] = theme('bs_forms', $data);
+      }
+
+      $block['content']['#attached']['css'][] = array(
+        'data' => drupal_get_path('module', 'bs_forms').'/css/bs_forms.css',
+        'type' => 'file'
+      );
+      break;
+  }
+  //kpr($block);
+  return $block;
+}
+
+function bs_forms_presta_form($form, &$form_state) {
+  $form['presta_name'] = array();
+  $form['presta_fonction'] = array();
+  $form['presta_phone'] = array();
+  $form['presta_mail'] = array();
+  $form['presta_object'] = array();
+  $form['presta_project'] = array();
+  $form['presta_'] = array();
+
+
+  return $form;
+}
+
+function bs_forms_bio_form($form, &$form_state) {
+  return $form;
+}
+
+/**
+ * Implementation of hook_theme()
+ *
+ * @param $existing
+ * @param $type
+ * @param $theme
+ * @param $path
+ * @return array
+ */
+function bs_forms_theme($existing, $type, $theme, $path) {
+  return array(
+    'bs_forms' => array(
+      'template' => 'theme/bs-forms-prestation',
+      'path' => drupal_get_path('module', 'bs_forms'),
+      'variables' => array('infos' => NULL),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_menu()
+ *
+ * @return array
+ */
+function bs_forms_menu(){
+  $items = array();
+  $items['admin/BioSample'] =  array(
+    'title' => t('BioSample') ,
+    'description' => t('Outils BioSample') ,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+  );
+
+  $items['admin/BioSample/Formulaires'] = array(
+    'title' => t('BS - Webform BO'),
+    'description' => t('Configuration des formulaires'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('bs_forms_admin_form'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_form()
+ * For admin settings
+ *
+ * @param $form
+ * @param $form_state
+ * @return mixed
+ */
+function bs_forms_admin_form($form, &$form_state){
+  $form['bs_forms_loggin'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Message de connexion multi formulaire'),
+    '#description' => t('Message en cas d\'utilisateur non connecte'),
+    '#default_value' => variable_get('bs_forms_loggin'),
+  );
+  return system_settings_form($form);
+}
