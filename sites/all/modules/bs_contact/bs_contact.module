@@ -1,0 +1,160 @@
+<?php
+
+/**
+ * Implment hook_help()
+ *
+ * @param $path
+ * @param $arg
+ * @return string
+ */
+function bs_contact_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#bs_contact':
+      return '<p>' . t('Get the adress and gmap block for contact webform page') . '</p>';
+  }
+}
+
+/**
+ * Implement hook_menu()
+ *
+ * @return mixed
+ */
+function bs_contact_menu(){
+  $items['admin/BioSample/contact-settings'] = array(
+    'title' => t('BS - Contact Settings'),
+    'description' => t('BS Contact configuration page'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('bs_contact_admin_settings'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Implement hook_admin_settings()
+ *
+ * @return mixed
+ */
+function bs_contact_admin_settings(){
+  $form['bs_contact_latitude'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Latitude of BioSample on the map'),
+    '#description' => t('Change the latitude of BioSample on the map'),
+    '#default_value' => variable_get('bs_contact_latitude','45.7477813'),
+  );
+
+  $form['bs_contact_longitude'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Longitude of BioSample on the map'),
+    '#description' => t('Change the longitude of BioSample on the map'),
+    '#default_value' => variable_get('bs_contact_longitude','4.791871899999933'),
+  );
+
+  $form['bs_contact_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#description' => t('Change the title'),
+    '#default_value' => variable_get('bs_contact_title','BIOSAMPLE'),
+  );
+
+  $form['bs_contact_adress'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Adress'),
+    '#description' => t('Change the adress'),
+    '#default_value' => variable_get('bs_contact_adress','73 rue Commandant Charcot'),
+  );
+
+  $form['bs_contact_city'] = array(
+    '#type' => 'textfield',
+    '#title' => t('City'),
+    '#description' => t('Change the city'),
+    '#default_value' => variable_get('bs_contact_city','69110 Sainte-Foy-Lès-Lyon'),
+  );
+
+  $form['bs_contact_tel_fax'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Tel / Fax'),
+    '#description' => t('Change the tel and fax'),
+    '#default_value' => variable_get('bs_contact_tel_fax','09 83 02 46 99'),
+  );
+
+  $form['bs_contact_mail'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Mail'),
+    '#description' => t('Change the mail'),
+    '#default_value' => variable_get('bs_contact_mail','contact@biosample.fr'),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Implement hook_block_info()
+ *
+ * @return mixed
+ */
+function bs_contact_block_info() {
+  $blocks['bs_contact'] = array(
+    'info' => t('BS Contact'),
+    'status' => TRUE,
+    'region' => 'content',
+    'visibility' => BLOCK_VISIBILITY_LISTED,
+    'pages' => 'contactez-nous',
+    'cache' => DRUPAL_NO_CACHE,
+    'weight' => -99,
+  );
+  return $blocks;
+}
+
+/**
+ * Implement hook_block_view()
+ *
+ * @param string $delta
+ * @return array
+ */
+function bs_contact_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'bs_contact':
+
+      $data['title'] = variable_get('bs_contact_title');
+      $data['adress'] = variable_get('bs_contact_adress');
+      $data['city'] = variable_get('bs_contact_city');
+      $data['telfax'] = variable_get('bs_contact_tel_fax');
+      $data['mail'] = variable_get('bs_contact_mail');
+
+      $data['map_script1'] = "<script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyB_dBiSyZnQAcf70ca81iR6Dx7c9l4jt7c'></script>";
+      $data['map_script2'] = "<script type='text/javascript' src='https://embedmaps.com/google-maps-authorization/script.js?id=ed3fff63c6cbefe079ad45f602efc6007bf27145'></script>";
+      $data['map_script3'] = "<script type='text/javascript'>function init_map(){var myOptions = {zoom:13,center:new google.maps.LatLng(".variable_get('bscontact_latitude','45.7477813').",".variable_get('bscontact_longitude','4.791871899999933')."),mapTypeId: google.maps.MapTypeId.ROADMAP};map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);marker = new google.maps.Marker({map: map,position: new google.maps.LatLng(".variable_get('bscontact_latitude','45.7477813').",".variable_get('bscontact_longitude','4.791871899999933').")});infowindow = new google.maps.InfoWindow({content:'<strong>".variable_get('bscontact_title','BIOSAMPLE')."</strong><br>".variable_get('bscontact_adress','73 rue Commandant Charcot')."<br>".variable_get('bscontact_city','69110 Lyon')."<br>'});google.maps.event.addListener(marker, 'click', function(){infowindow.open(map,marker);});infowindow.open(map,marker);}google.maps.event.addDomListener(window, 'load', init_map);</script>";
+
+      $block['content']['#markup'] = theme('bs_contact', $data);
+      $block['content']['#attached']['css'][] = array(
+        'data' => drupal_get_path('module', 'bs_contact').'/css/bs_contact.css',
+        'type' => 'file'
+      );
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Implement hook_theme()
+ *
+ * @param $existing
+ * @param $type
+ * @param $theme
+ * @param $path
+ * @return array
+ */
+function bs_contact_theme($existing, $type, $theme, $path) {
+  return array(
+    'bs_contact' => array(
+      'template' => 'theme/bs-contact-prestation',
+      'path' => drupal_get_path('module', 'bs_contact'),
+      'variables' => array('infos' => NULL),
+    ),
+  );
+}
+

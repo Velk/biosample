@@ -1,0 +1,4 @@
+name = BS Contact
+description = BS Contact block.
+core = 7.x
+package = BIOSAMPLE

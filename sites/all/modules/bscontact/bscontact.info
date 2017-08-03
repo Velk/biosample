@@ -1,5 +1,0 @@
-; $Id:
-name = BS Contact
-description = BS Contact from BIOSAMPLE.
-core = 7.x
-package = BIOSAMPLE
