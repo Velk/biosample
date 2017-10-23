@@ -29,7 +29,7 @@ function bs_forms_block_view($delta='') {
   switch ($delta) {
     case 'prestation_form':
       $block['subject'] = t('');
-      $data['title'] = "Formulaire de demande de prestation";
+      $data['title'] = "Formulaire de demande";
 
       if (user_is_logged_in() === TRUE) {
         //$block['content'] = drupal_get_form('bs_forms_presta_form');
@@ -47,7 +47,7 @@ function bs_forms_block_view($delta='') {
 
     case 'ressbio_form':
       $block['subject'] = t('');
-      $data['title'] = "Formulaire de demande de prestation";
+      $data['title'] = "Formulaire de demande";
 
       if (user_is_logged_in() === TRUE) {
         //$block['content'] = drupal_get_form('bs_forms_bio_form');
