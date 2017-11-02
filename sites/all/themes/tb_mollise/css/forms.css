@@ -119,8 +119,13 @@ textarea:focus {
 }
 
 .form-item input.error, .form-item textarea.error, .form-item select.error {
-  color: #7B7D80;
-  border: 1px solid #fcce0a;
+  color: #F44336;
+  background-color: #ffd1d1;
+}
+
+.form-item select.error {
+  /* Ajout Gael */
+  color: #FE8F87 !important;
 }
 
 .container-inline .form-item input {
@@ -268,6 +273,7 @@ div.resizable-textarea textarea {
 
 #search-block-form .container-inline div {
   float: left;
+  margin: 10px !important;
 }
 
 #search-block-form .form-item {

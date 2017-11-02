@@ -16,12 +16,24 @@
 /* CSS COORDONNES + MAP */
 
 #All_coords_map{
-	background-image: linear-gradient(#165c72, #1e6a8e);
+	/*background-image: linear-gradient(#165c72, #1e6a8e);*/
+	background-image: linear-gradient(#424242, #9E9E9E);
 	display: inline-block;
 	width: 100%;
 	max-height: 650px;
 	min-height: 650px;
 }
+
+#All_coords{
+	/*background-color: #1e6a8e;*/
+	background-color: #424242;
+	width: 50%;
+	display: inline-block;
+	text-align: center;
+	height: 100% !important;
+	position: absolute;
+}
+
 
 /* CSS COORDONNES */
 
@@ -62,12 +74,14 @@
 @media screen and (max-width: 1280px)
 {
 
-	#All_coords{
+	/*#All_coords{
 		background-color: #1e6a8e;
 		width: 50%;
 		display: inline-block;
 		text-align: center;
-	}
+		height: 100% !important;
+		position: absolute;
+	}*/
 	   
 	h1.contact-title{
 		color: white;
@@ -103,11 +117,13 @@
 @media screen and (min-width: 1281px) and (max-width: 1550px)
 {
 
-	#All_coords{
+	/*#All_coords{
 		background-color: #1e6a8e;
 		width: 50%;
 		display: inline-block;
-	}
+		height: 100% !important;
+		position: absolute;
+	}*/
 	   
 	h1.contact-title{
 		color: white;
@@ -143,11 +159,11 @@
 @media screen and (min-width: 1551px)
 {
 
-	#All_coords{
+	/*#All_coords{
 		background-color: #1e6a8e;
 		width: 50%;
 		display: inline-block;
-	}
+	}*/
 	   
 	h1.contact-title{
 		color: white;
@@ -214,6 +230,103 @@
 	font-size: 20px;
 }
 
+/* DEBUT - Partie Gael */
+
+
+/* START - Contact Informations */
+
+.contact-subtitle {
+	position: relative !important;
+	display: inline-block !important;
+	box-sizing: border-box !important;
+	width: 39% !important;
+	/*padding: 0 0 0 25% !important;*/
+	padding: 0 25px 0 0 !important;
+	text-align:right !important;
+	margin: 5% 0 0 0 !important;
+}
+
+.contact-content {
+	position: relative !important;
+	display: inline-block !important;
+	box-sizing: border-box !important;
+	width: 59% !important;
+	text-align: justify !important;
+}
+
+#main-content .grid-inner {
+	padding: 0 !important;
+}
+
+/* END - Contact Informations */
+
+/* START - Contact Form */
+
+.form-item {
+	display:inline-block !important;
+	box-sizing: border-box !important;
+	margin: 10px 0 !important;
+	width:100%;
+}
+
+.webform-hints-field {
+	border:2px solid #1e6a8e !important;
+	border-radius: 4px;
+	width:100% !important;
+	background-color: #FFF;
+	height: 40px !important;
+	padding: 0 10px !important;
+	-webkit-box-sizing: border-box !important;
+	-moz-box-sizing: border-box !important;
+	box-sizing: border-box !important;
+}
+
+#edit-submitted-message {
+	height: auto !important;
+	padding: 10px 10px !important;
+}
+
+#edit-submitted-civilite {
+	color: #777;
+}
+
+#webform-component-civilite {
+	width: 25% !important;
+	float: left !important;
+}
+
+#webform-component-nom {
+	width: 73% !important;
+	float: right !important;
+}
+
+#webform-component-affiliation---societe, #webform-component-ndegsiren---siret {
+	width: 49.5% !important;
+}
+
+#webform-component-affiliation---societe, #webform-component-fax{
+	float:right !important;
+}
+
+#webform-component-ndegsiren---siret, #webform-component-code-postal {
+	float:left !important;
+}
+
+#webform-component-code-postal, #webform-component-telephone, #webform-component-fax {
+	width:32.5% !important;
+	float:left !important;
+	margin-right:1% !important;
+}
+#webform-component-fax{
+	margin-right:0 !important;
+	float:right !important;
+}
+
+/* END - Contact Form */
+
+/* FIN - Partie Gael */
+
+/*
 #webform-component-civilite .webform-hints-field{
 	border: solid 5px #1e6a8e;
 	border-radius: 10px;
@@ -290,6 +403,7 @@
 	border: solid 5px #1e6a8e;
 	border-radius: 10px;
 }
+*/
 
 .webform-client-form #edit-actions{
 	text-align: center;
@@ -299,8 +413,8 @@
 	background: #1e6a8e !important;
 	background-color: #1e6a8e !important;
 	border: solid 5px #1e6a8e !important;
-	border-radius: 10px !important;
-	-webkit-box-shadow: 0 0 5px #1e6a8e !important;
+	border-radius: 4px !important;
+	-webkit-box-shadow: 0 0 !important;
 	color: white !important;
 }
 
