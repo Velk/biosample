@@ -120,3 +120,14 @@ function nucleus_customize_slideshow() {
 	}
 }
 
+$("div").click(function(){
+    taille_menu();
+    console.log("testest");
+});
+
+function taille_menu() {
+    console.log("est");
+    console.log(jQuery("#header-wrapper").height());
+}
+
+

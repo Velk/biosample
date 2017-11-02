@@ -22,7 +22,35 @@ Drupal.TBMegaMenu = Drupal.TBMegaMenu || {};
           tbitem.removeClass('open');
         });
      });
-     /*
+     /*$("div.tb-megamenu>button").click(function(){
+          taille_menu();
+          console.log("testest");
+      });
+
+      function taille_menu() {
+          console.log("est");
+          console.log(jQuery("#header-wrapper").height());
+      }*/
+
+    /* Gael - JavaScript - Début Modification menu responsive */
+
+      // Récupération de la taille du bandeau de connexion
+      var tailleBC = $("#Bandeau_connexion").height();
+      // Ajustement de la taille qu'occupe le menu
+      if(tailleBC == null){
+        tailleBC = 0;
+      }
+      $("#header-wrapper").css("margin-top", tailleBC);
+      // Place le menu responsive à une certaine distance
+      $("div.tb-megamenu>button").click(function(){
+          var tailleMenu = $("#header-wrapper").height();
+
+          $(".tb-megamenu .nav-collapse").css("top",tailleMenu + tailleBC);
+      });
+
+    /* Gael - JavaScript - Fin Modification menu responsive */
+
+    /*
      items.children('a').children('span.caret').each( function() {
 	var $item = $(this).parent();
         $item.click(function(event){
@@ -65,3 +93,5 @@ Drupal.TBMegaMenu = Drupal.TBMegaMenu || {};
     }
   }
 })(jQuery);
+
+

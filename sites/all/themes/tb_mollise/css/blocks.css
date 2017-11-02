@@ -1170,4 +1170,6 @@ div.error, table tr.error {
 div.error {
   border: 1px solid #323232;
   color: #949494;
+  /* Ajout Gael */
+  display:none;
 }
