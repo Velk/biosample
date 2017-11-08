@@ -119,15 +119,3 @@ function nucleus_customize_slideshow() {
 		slideshow.css({'width': screen_width + "px", 'overflow': 'hidden'});
 	}
 }
-
-$("div").click(function(){
-    taille_menu();
-    console.log("testest");
-});
-
-function taille_menu() {
-    console.log("est");
-    console.log(jQuery("#header-wrapper").height());
-}
-
-

@@ -1,3 +1,35 @@
+/* Ajout Gael : Rogne ce qui déborde des div */
+@media screen and (max-width: 979px) {
+    body > div {
+        overflow: hidden;
+    }
+}
+/* Ajout Gael : Le bouton pour les cookies (bas-gauche) passe en dessous du menu */
+/*div#cccwr #ccc-icon, .ccc-widget  {
+    z-index: 21 !important;
+}*/
+/* Ajout Gael : bouton pour quitter le menu */
+#divCancelCross{
+    position:fixed;
+    bottom:0;
+    right:0;
+    width:100%;
+    text-align: center;
+}
+#divCancelCross>button{
+    background: none;
+    background-color: transparent;
+    border: none;
+}
+#cancelCross{
+    color: #ffffff;
+}
+
+/*.nav-collapse, .always-show, .collapse{
+    height:0;
+    overflow:hidden;
+}*/
+
 .wrapper {
 }
 
@@ -179,6 +211,140 @@
     .region-header {
         display: block;
         margin-left: 84px;
+    }
+}
+
+/* Gael - Rectification */
+#All_coords > .contact-title {
+    margin: 165px 0 25px 0;
+    padding: 0;
+}
+#article-110 > div > div > div > div > p {
+    text-align: center;
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* Gael - Responsive < 800 px */
+@media screen and (max-width : 800px){
+    #All_coords_map {
+        display: block;
+        position: relative;
+        width: 100%;
+        max-height: none;
+        min-height: none;
+        height:600px;
+    }
+    #All_coords {
+        display: block;
+        width: 100%;
+        height: 50% !important;
+        position: relative;
+    }
+    #bscontact_gmap {
+        position: relative;
+        display: block;
+        width: 100% !important;
+        height: 50% !important;
+    }
+    #gmap_canvas{
+        height: 100% !important;
+    }
+    #All_coords > .contact-title {
+        padding: 35px 0 30px 0 !important;
+        margin: 0;
+    }
+    #All_coords > .contact-subtitle {
+        margin: 0 !important;
+    }
+    #All_coords > .contact-content {
+        margin: 0 0 30px 0 !important;
+        top:0;
+    }
+    #webform-client-form-110 {
+        font-size: 14px;
+    }
+}
+
+/* Gael - Responsive < 550 px */
+@media screen and (max-width : 550px){
+    #webform-client-form-110 {
+        font-size: 12px;
+    }
+}
+
+/* Gael - Responsive < 500 px */
+@media screen and (max-width : 500px){
+    .region-header {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    #search-block-form {
+        position: relative !important;
+        display: block !important;
+        width: 100% !important;
+    }
+
+    .tb-megamenu.tb-megamenu-main-menu {
+        padding: 0;
+        float: right;
+    }
+
+    .tb-megamenu .btn-navbar {
+        /*padding: 10px;*/
+        margin-right: -10px;
+    }
+
+    #search-block-form {
+        position: relative !important;
+        display: block !important;
+        width: 100% !important;
+    }
+
+    #search-block-form, #search-block-form>div, #search-block-form>div>div{
+        width: 100% !important;
+    }
+
+    #search-block-form .container-inline div {
+        /*float: left;*/
+        margin: 10px 0 !important;
+        width: calc(100% - 45px);
+    }
+
+    #edit-search-block-form--2{
+        width:100% !important;
+    }
+
+    #edit-actions--2{
+        float: left;
+        margin: 10px 0 !important;
+        width:45px !important;
+    }
+
+    #header-wrapper {
+        height: 200px;
+    }
+    #webform-client-form-110 > div > div{
+        float: none !important;
+        display: block !important;
+        width: 100% !important;
+        margin: 15px 0 !important;
+    }
+}
+
+/* Gael - Responsive < 400 px */
+@media screen and (max-width : 400px){
+    #All_coords > .contact-subtitle {
+        font-size: 18px;
+    }
+    #All_coords > .contact-content {
+        font-size: 12px;
+    }
+    /*#webform-component-poste---service, #webform-component-civilite, #webform-component-nom, #webform-component-code-postal, #webform-component-telephone, #webform-component-fax, #webform-component-ndegsiren---siret, #webform-component-affiliation---societe {*/
+
+    #article-110 > div > div > div > div > p > span, #All_coords > h1 {
+        font-size:32px !important;
     }
 }
 
@@ -681,138 +847,4 @@ div.container {
     width: 85% !important;
     margin-left: auto !important;
     margin-right: auto !important;
-}
-
-/* Gael - Rectification */
-#All_coords > .contact-title {
-    margin: 165px 0 25px 0;
-    padding: 0;
-}
-#article-110 > div > div > div > div > p {
-    text-align: center;
-    width: 80%;
-    margin: 0 auto;
-}
-
-/* Gael - Responsive < 800 px */
-@media screen and (max-width : 800px){
-    #All_coords_map {
-        display: block;
-        position: relative;
-        width: 100%;
-        max-height: none;
-        min-height: none;
-        height:600px;
-    }
-    #All_coords {
-        display: block;
-        width: 100%;
-        height: 50% !important;
-        position: relative;
-    }
-    #bscontact_gmap {
-        position: relative;
-        display: block;
-        width: 100% !important;
-        height: 50% !important;
-    }
-    #gmap_canvas{
-        height: 100% !important;
-    }
-    #All_coords > .contact-title {
-        padding: 35px 0 45px 0 !important;
-        margin: 0;
-    }
-    #All_coords > .contact-subtitle {
-        margin: 0 !important;
-    }
-    #All_coords > .contact-content {
-        margin: 0 0 30px 0 !important;
-        top:0;
-    }
-    #webform-client-form-110 {
-        font-size: 14px;
-    }
-}
-
-/* Gael - Responsive < 550 px */
-@media screen and (max-width : 550px){
-    #webform-client-form-110 {
-        font-size: 12px;
-    }
-}
-
-/* Gael - Responsive < 500 px */
-@media screen and (max-width : 500px){
-    .region-header {
-        margin-left: 0;
-        width: 100%;
-    }
-
-    #search-block-form {
-        position: relative !important;
-        display: block !important;
-        width: 100% !important;
-    }
-
-    .tb-megamenu.tb-megamenu-main-menu {
-        padding: 0;
-        float: right;
-    }
-
-    .tb-megamenu .btn-navbar {
-        /*padding: 10px;*/
-        margin-right: -10px;
-    }
-
-    #search-block-form {
-        position: relative !important;
-        display: block !important;
-        width: 100% !important;
-    }
-
-    #search-block-form, #search-block-form>div, #search-block-form>div>div{
-        width: 100% !important;
-    }
-
-    #search-block-form .container-inline div {
-        /*float: left;*/
-        margin: 10px 0 !important;
-        width: calc(100% - 45px);
-    }
-
-    #edit-search-block-form--2{
-        width:100% !important;
-    }
-
-    #edit-actions--2{
-        float: left;
-        margin: 10px 0 !important;
-        width:45px !important;
-    }
-
-    #header-wrapper {
-        height: 200px;
-    }
-    #webform-client-form-110 > div > div{
-        float: none !important;
-        display: block !important;
-        width: 100% !important;
-        margin: 15px 0 !important;
-    }
-}
-
-/* Gael - Responsive < 400 px */
-@media screen and (max-width : 400px){
-    #All_coords > .contact-subtitle {
-        font-size: 18px;
-    }
-    #All_coords > .contact-content {
-        font-size: 12px;
-    }
-    /*#webform-component-poste---service, #webform-component-civilite, #webform-component-nom, #webform-component-code-postal, #webform-component-telephone, #webform-component-fax, #webform-component-ndegsiren---siret, #webform-component-affiliation---societe {*/
-
-    #article-110 > div > div > div > div > p > span, #All_coords > h1 {
-        font-size:32px !important;
-    }
 }
