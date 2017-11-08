@@ -2,6 +2,8 @@
 
 .tb-megamenu{
   position: relative;
+  margin-top: 20px;
+  padding-left: 25px;
 }
 
 @media screen and (max-width: 1480px) {
@@ -18,13 +20,30 @@
 
 @media screen and (max-width: 1300px) {
   .tb-megamenu .nav > li {
-    padding: 0 20px 0 5px;
+    padding: 0 20px;
   }
 }
 
 @media screen and (max-width: 1200px) {
   .tb-megamenu .nav > li {
-    padding: 0 0 0 5px;
+    padding: 0 10px;
+  }
+  /* Ajout Gael */
+  .tb-megamenu {
+    font-size: 1.2em !important;
+  }
+  .tb-megamenu .mega-nav > li, .tb-megamenu .dropdown-menu .mega-nav > li {
+    font-size: 11px;
+  }
+}
+
+@media screen and (max-width: 1050px) {
+  .tb-megamenu .nav > li {
+    padding: 0 7px;
+  }
+  .tb-megamenu {
+    font-size: 1em !important;
+    margin-top : 25px;
   }
 }
 

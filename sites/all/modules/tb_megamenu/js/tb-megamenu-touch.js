@@ -22,7 +22,57 @@ Drupal.TBMegaMenu = Drupal.TBMegaMenu || {};
           tbitem.removeClass('open');
         });
      });
-     /*
+     /*$("div.tb-megamenu>button").click(function(){
+          taille_menu();
+          console.log("testest");
+      });
+
+      function taille_menu() {
+          console.log("est");
+          console.log(jQuery("#header-wrapper").height());
+      }*/
+
+    /* Gael - JavaScript - Début Modification menu responsive */
+
+      // Récupération de la taille du bandeau de connexion
+      var tailleBC = $("#Bandeau_connexion").height();
+      // Ajustement de la taille qu'occupe le menu
+      if(tailleBC == null){
+        tailleBC = 0;
+      }
+      $("#header-wrapper").css("margin-top", tailleBC);
+      // Place le menu responsive à une certaine distance
+      $("div.tb-megamenu>button").click(function(){
+          /*var tailleMenu = $("#header-wrapper").height();
+          $(".tb-megamenu .nav-collapse").css("top",tailleMenu + tailleBC);*/
+
+          /* Affiche le menu en dessous du bandeau de connexion */
+          $(".tb-megamenu .nav-collapse").css("top", tailleBC);
+          /* Place les cookies en dessous du menu */
+          $("#ccc-icon, .ccc-widget").css("z-index", "20");
+          /* Ajoute une croix pour quitter le menu */
+          $(".nav-collapse, .always-show, .collapse").append('<div id="divCancelCross"><button><i id="cancelCross" class="fa fa-5x fa-times" aria-hidden="true"></i></button></div>');
+          /* Paramètres pour regler l'affichage de la croix */
+          var distanceNav = $(".tb-megamenu-nav").height();
+          var tailleEcran = window.innerHeight;
+          var result = tailleEcran - distanceNav - tailleBC;
+          $("#divCancelCross").css("height", result);
+
+          /* Quand on clique sur la croix, ça reinitialise l'affichage */
+          $("#divCancelCross>button").click(function(){
+              $(".nav-collapse, .always-show, .collapse").css("height", "0");
+              $(".nav-collapse, .always-show, .collapse").css("overflow", "hidden");
+              $("#ccc-icon, .ccc-widget").css("z-index", "9999");
+              $("#divCancelCross").remove();
+          });
+      });
+
+
+
+
+    /* Gael - JavaScript - Fin Modification menu responsive */
+
+    /*
      items.children('a').children('span.caret').each( function() {
 	var $item = $(this).parent();
         $item.click(function(event){
@@ -65,3 +115,5 @@ Drupal.TBMegaMenu = Drupal.TBMegaMenu || {};
     }
   }
 })(jQuery);
+
+

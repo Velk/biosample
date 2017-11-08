@@ -119,4 +119,3 @@ function nucleus_customize_slideshow() {
 		slideshow.css({'width': screen_width + "px", 'overflow': 'hidden'});
 	}
 }
-
