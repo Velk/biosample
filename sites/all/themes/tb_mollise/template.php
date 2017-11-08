@@ -13,3 +13,15 @@ function tb_mollise_form_alter(&$form, &$form_state, $form_id) {
         $form['search_block_form']['#attributes']['placeholder'] = t('Rechercher');
     }
 }
+
+/* Gael : Ajout de la métadonnées viewport pour faire fonctionner le responsive */
+function tb_mollise_preprocess_html(&$vars) {
+    $viewport = array(
+        '#tag' => 'meta',
+        '#attributes' => array(
+            'name' => 'viewport',
+            'content' => 'width=device-width, initial-scale=1',
+        ),
+    );
+    drupal_add_html_head($viewport, 'viewport');
+}
