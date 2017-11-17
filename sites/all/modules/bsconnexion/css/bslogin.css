@@ -1,138 +1,291 @@
-#Bandeau_connexion{
-	height: 70px;
+/* Start - Gael | When the user is not connected */
+
+/* Start - Remove the OpenID field of the headband */
+#bs-cc-headband > #bs-cc-headband-fields > form > div > div.item-list{
+	display : none;
+}
+
+#bs-cc-headband-fields > form > div > .form-item-openid-identifier {
+	display: none !important;
+}
+/* End - Remove the OpenID field of the headband */
+
+#bs-cc-headband{
+	position: fixed;
+	height: 35px;
 	vertical-align: middle;
 	width: 100%;
+	background-color: #424242;
+	display: inline-block;
+	margin:0;
+	padding:0;
+	top: 0;
+	left:0;
+	z-index: 90;
+	box-sizing: border-box;
+	text-align: right;
+}
+
+#bs-cc-headband-fields {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	margin: 0;
+	padding: 0;
+}
+
+#bs-cc-headband > #bs-cc-headband-fields > form{
+	margin:0;
+	height: 35px;
+	font-size: 14px;
+}
+
+#bs-cc-headband > #bs-cc-headband-fields > form > div{
+	margin:0;
+	height: 35px;
+}
+
+#bs-cc-headband-fields {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+	height:35px;
+	margin: 0;
+	padding: 0 25px;
+	box-sizing: border-box;
+	top: 0;
+	left: 0;
+}
+
+.bs-cc-headband-field{
+	position: relative;
+	display: inline-block;
+	height: 100%;
+	width: auto;
+	padding: 6px;
+	box-sizing: border-box;
+	vertical-align: middle;
+}
+
+.bs-cc-headband-field > div, #bs-cc-headband-field-username, #bs-cc-headband-field-password{
+	margin:0 !important;
+}
+
+#bs-cc-headband > #bs-cc-headband-fields > form > div > #edit-actions,
+#bs-cc-headband > #bs-cc-headband-fields > form > div > div#edit-actions--2,
+#bs-cc-headband > #bs-cc-headband-fields > form > div > div#edit-actions--3 {
+	display: inline-block;
+	width:auto;
+	margin:0;
+}
+
+#bs-cc-headband-field-username, #bs-cc-headband-field-password{
+	border: none;
+	height: 23px;
+	box-sizing:border-box;
+	padding: 4px 10px;
+	border-radius:2px;
+}
+
+#bs-cc-headband-field-username.error,  #bs-cc-headband-field-password.error {
+	color: #424242;
+	background-color: #ffdede;
+	border:1px solid #ffa2a2;
+	box-sizing:border-box;
+}
+
+#bs-cc-headband-buttons-login, #bs-cc-headband-buttons-signup{
+	height: 23px;
+	border: none;
+	border-radius: 2px;
+	padding: 5px 10px;
 	background-color: #1e6a8e;
-	display: inline-block;
-}
-
-#Bandeau_connexion p.BC_Text_Left{
-	margin-top: 0%;
-	margin-bottom: 0%;
-	padding-left: 20%;
-	font-family: Arial, Helvetica, sans-serif;
-	color: white;
-	display: inline-block;
-}
-
-#Bandeau_connexion p.BC_Text_Left2{
-	padding-top: 2%;
-	margin-top: 0%;
-	margin-bottom: 0%;
-	padding-left: 20%;
-	font-family: Arial, Helvetica, sans-serif;
-	color: white;
-	display: inline-block;
-}
-
-#Bandeau_connexion p.BC_Text_connected{
-	padding-right: 10%;
-	color: white;
-}
-
-#BC_Form input.form-text{
-	background-color: #c1c0c0;
-	border: solid 5px white;
-	border-radius: 10px;
-	display: inline-block;
-	width: 100%;
-	color: #585858;
-}
-
-#BC_Form .form-type-checkbox{
-	text-align: left !important;
-	width: 14% !important;
-}
-
-#BC_Form .form-item{
-	width: 20%;
-	display: inline-block;
-}
-
-#BC_Form span.button input.form-submit{
-	display: inline-block;
-	font-weight: bold;
-	background: white !important;
-	background-color: white !important;
-	border: solid 1px white !important;
-	border-radius: 8px !important;
-	-webkit-box-shadow: 0 0 0px white !important;
-	color: #1e6a8e !important;
-}
-
-#BC_Form span.form-required{
-	position: absolute;
-	left: -9999px;
-}
-
-#BC_Form .item-list{
-	position: absolute;
-	left: -9999px;
-}
-
-#BC_Form .form-actions{
-	display: inline-block;
-}
-
-#user-login{
-	display: inline-block;
-}
-
-#user-login span.button input.form-submit{
-	margin-left: 1%;
-}
-
-#BC_Bouton_Signup{
-	display: inline-block;
-	padding-bottom: 2%;
-}
-
-#BC_Bouton_Signup span.button input.form-submit{
-	font-weight: bold;
-	background: white !important;
-	background-color: white !important;
-	border: solid 1px white !important;
-	border-radius: 8px !important;
-	-webkit-box-shadow: 0 0 0px white !important;
-	color: #1e6a8e !important;
-}
-	
-#BC_Form{
-	padding-top: 1%;
-	display: inline-block;
-	text-align: right;
-	width: 80%;
-}
-
-#BC_Content_Form{
-	text-align: right;
-	float: right;
-	display: inline-block;
-	padding-right: 20%;
-	width: 50%;
-}
-
-#BC_Content_Text{
-	margin-top: 2%;
-	width: 10%;
+	background: #1e6a8e;
+	color: #fff;
+	box-sizing: border-box;
+	box-shadow: none;
+	text-shadow: none;
+	font-size: 12px;
 	vertical-align: middle;
+}
+
+span.bs-cc-headband-buttons-signup {
+	box-sizing: border-box;
+	padding: 0px 0px 0px 10px;
+}
+
+
+@media screen and (max-width : 736px){
+	#bs-cc-headband-fields {
+		padding: 0 10px;
+	}
+
+	#bs-cc-headband-field-username, #bs-cc-headband-field-password {
+		width: 150px !important;
+	}
+
+	#bs-cc-headband > #bs-cc-headband-fields > form > div > div#edit-actions--2 {
+		width: auto !important;
+		margin: 0 !important;
+		float: none;
+	}
+}
+
+@media screen and (max-width : 576px){
+	#bs-cc-headband-field-username, #bs-cc-headband-field-password {
+		width: 125px !important;
+	}
+
+	.bs-cc-headband-field {
+		padding: 6px 0;
+	}
+
+	#bs-cc-headband-div-field-username{
+		padding-right:2px;
+	}
+
+	#bs-cc-headband-div-field-password{
+		padding-left:2px;
+	}
+
+	span.bs-cc-headband-buttons-signup {
+		box-sizing: border-box;
+		padding: 0px 0px 0px 2px;
+	}
+}
+
+@media screen and (max-width : 500px){
+	#bs-cc-headband {
+		height: 70px;
+	}
+
+	#bs-cc-headband-fields {
+		padding: 0;
+	}
+
+	.bs-cc-headband-field {
+		width: 50%;
+	}
+
+	#bs-cc-headband-div-field-username {
+		padding: 4px 2px 4px 4px;
+	}
+
+	#bs-cc-headband-div-field-password {
+		padding: 4px 4px 4px 2px;
+	}
+
+	#bs-cc-headband-field-username, #bs-cc-headband-field-password {
+		width: 100% !important;
+		height: 27px;
+		border-radius: 0px;
+	}
+
+	#bs-cc-headband > #bs-cc-headband-fields > form > div > div#edit-actions--2 {
+		width: 50% !important;
+		margin: 0 !important;
+		display: inline-block;
+		height: 35px;
+		float: left;
+		padding-right: 1px;
+		box-sizing: border-box;
+	}
+
+	#bs-cc-headband-fields > form > div > div#edit-actions--3 {
+		width: 50% !important;
+		margin: 0 !important;
+		display: inline-block;
+		height: 35px;
+		float: left;
+		padding-right: 1px;
+		box-sizing: border-box;
+	}
+
+	#button bs-cc-headband-buttons-signup {
+		display: inline-block;
+		height: 35px;
+	}
+
+	#bs-cc-headband-buttons-login {
+		width: 100%;
+		height: 100%;
+		border-radius:0px;
+	}
+
+	#bs-cc-headband-buttons-signup {
+		height: 35px;
+		width: 50%;
+		border-radius: 0px;
+	}
+
+	span.bs-cc-headband-buttons-signup {
+		padding: 0px 0px 0px 1px;
+	}
+}
+
+/* End - Gael | When the user is not connected */
+
+/*//////////////////////////////////////////////////////////////////////////////////////////*/
+
+/* Start - Gael | When the user is connected */
+
+#bs-cc-user-connected {
+	height: 35px;
+	vertical-align: middle;
+	padding: 6px 15px;
+	box-sizing: border-box;
+}
+
+#bs-cc-user-connected-welcome, #bs-cc-user-connected-profil, #bs-cc-user-connected-logout {
+	position: relative;
+	width:auto;
+	height: auto;
+	margin: 0;
 	display: inline-block;
-	padding-left: 20%;
+	padding: 0 25px;
+	box-sizing: border-box;
+	color: #e9e9e9;
 }
 
-#Bandeau_connexion label{
-	position: absolute !important;
-	left: -9999px !important;
+#bs-cc-user-connected-profil {
+	border-right: 1px solid #e9e9e9;
+	border-left: 1px solid #e9e9e9;
 }
 
-#Bandeau_connexion .description{
-	position: absolute !important;
-	left: -9999px !important;
+
+@media screen and (max-width : 500px){
+
+	/* When user is connected */
+	#bs-cc-user-connected-welcome {
+		display: block;
+		text-align: center;
+		width: 100%;
+		height: 35px;
+		padding: 7px 5px;
+	}
+
+	#bs-cc-user-connected {
+		padding: 0;
+	}
+
+	#bs-cc-user-connected-profil, #bs-cc-user-connected-logout {
+		width:50%;
+		height: 35px;
+		padding: 5px;
+		border: none;
+		background-color: #1e6a8e;
+		text-align: center;
+	}
+
+	#bs-cc-user-connected-profil{
+		border-right:1px solid #424242;
+	}
+
+	#bs-cc-user-connected-logout{
+		border-left:1px solid #424242;
+	}
+
 }
 
-#BC_Profil{
-	margin-top: 2%;
-	float: right;
-	text-align: right;
-	margin-right: 20%;
-}
+/* End - Gael | When the user is connected */

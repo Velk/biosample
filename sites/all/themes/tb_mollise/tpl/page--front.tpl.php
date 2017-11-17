@@ -85,24 +85,18 @@
     <?php endif;?>
     <!-- HEADER -->
     <div id="header-wrapper" class="wrapper">
-      <?php //BANDEAU CONNEXION
-      if(module_exists('bsconnexion')){
+    <!-- Start - Headband Client Account Module -->
+    <?php // Headband Client Account Module
+    if(module_exists('bsconnexion')){
         if (user_is_logged_in()){
-          echo bsconnexion_Form_connected();
+            echo bsconnexion_form_user_connected();
         }
         else{
-          echo '<div id="Bandeau_connexion">';
-          echo '<div id="BC_Content_Text"><p class="BC_Text_Left">';
-          echo variable_get('bsconnexion_bc_text_left_connexion');
-          echo '</p></div>';
-          echo '<div id="BC_Content_Form"><div id="BC_Form">';
-          echo drupal_render(drupal_get_form('user_login'));
-          echo '</div>';
-          echo '<div id="BC_Bouton_Signup"><span class="button "><input type="button" class="form-submit" value="s\'enregistrer" onclick="location.href='."'"."signup"."'".'"/></span>';
-          echo '</div></div></div>';
+            echo drupal_render(drupal_get_form('user_login'));
         }
-      }
-      ?>
+    }
+    ?>
+    <!-- End - Headband Client Account Module -->
       <div class="container <?php print $grid; ?>">
         <div class="grid-inner clearfix">
           <div id="header" class="clearfix">
