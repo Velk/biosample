@@ -1376,7 +1376,7 @@
 }
 @media screen and (max-width: 979px) {
     html body.admin-menu > div#header-wrapper > div > div > div > div > div > div > div {
-        top: 229px;
+        /*top: 229px;*/
     }
     .tb-megamenu {
         background-color: inherit;
@@ -1401,9 +1401,9 @@
         position: fixed;
         background-color: rgba(0,0,0,0.9);
         width: 100%;
-        top:35px;
-        right: 0;
-        bottom: 0;
+        /*top:35px;*/
+        /*right: 0;*/
+        /*bottom: 0;*/
         z-index: 900;
       }
     .tb-megamenu .nav-collapse .dropdown-menu {
@@ -1680,3 +1680,41 @@
   box-sizing: border-box;
   border-radius: 0px;
 }
+
+/* Debut - Gael | Style for the responsive menu */
+
+@media screen and (max-width: 979px) {
+    /* Define a width for the responsive menu */
+    .nav-collapse.always-show {
+        width: 200px;
+    }
+
+    /* Ajout Gael : Rogne ce qui déborde des div */
+    body > div {
+        overflow: hidden;
+    }
+}
+
+/* Style for the div behind the menu */
+#behindMenu{
+    position:fixed;
+    width:200px;
+    height:100%;
+    background-color: rgba(0,0,0,0.9);
+}
+
+/* Place the responsive menu on the right
+or left side depending the responsive width */
+@media screen and (max-width : 500px){
+    .nav-collapse.always-show, #behindMenu {
+        left: 0;
+    }
+}
+
+@media screen and (min-width : 501px){
+    .nav-collapse.always-show, #behindMenu {
+        right: 0;
+    }
+}
+
+/* Fin - Gael | Style for the responsive menu */
