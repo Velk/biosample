@@ -1,35 +1,3 @@
-/* Ajout Gael : Rogne ce qui déborde des div */
-@media screen and (max-width: 979px) {
-    body > div {
-        overflow: hidden;
-    }
-}
-/* Ajout Gael : Le bouton pour les cookies (bas-gauche) passe en dessous du menu */
-/*div#cccwr #ccc-icon, .ccc-widget  {
-    z-index: 21 !important;
-}*/
-/* Ajout Gael : bouton pour quitter le menu */
-#divCancelCross{
-    position:fixed;
-    bottom:0;
-    right:0;
-    width:100%;
-    text-align: center;
-}
-#divCancelCross>button{
-    background: none;
-    background-color: transparent;
-    border: none;
-}
-#cancelCross{
-    color: #ffffff;
-}
-
-/*.nav-collapse, .always-show, .collapse{
-    height:0;
-    overflow:hidden;
-}*/
-
 .wrapper {
 }
 
@@ -324,7 +292,9 @@
 
     #header-wrapper {
         height: 200px;
+        margin-top: 70px !important;
     }
+
     #webform-client-form-110 > div > div{
         float: none !important;
         display: block !important;

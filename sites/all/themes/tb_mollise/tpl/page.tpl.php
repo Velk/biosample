@@ -79,6 +79,18 @@
   <!-- HEADER -->
     <div id="header-wrapper" class="wrapper">
       <!-- <a href="#" class="accordion active">&nbsp;</a> set to get back the header top -->
+    <!-- Start - Headband Client Account Module -->
+    <?php // Headband Client Account Module
+    if(module_exists('bsconnexion')){
+        if (user_is_logged_in()){
+            echo bsconnexion_form_user_connected();
+        }
+        else{
+            echo drupal_render(drupal_get_form('user_login'));
+        }
+    }
+    ?>
+    <!-- End - Headband Client Account Module -->
       <div class="container <?php print $grid; ?>">
         <div class="grid-inner clearfix">
           <div id="header" class="clearfix">

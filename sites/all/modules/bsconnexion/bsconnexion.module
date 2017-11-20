@@ -29,8 +29,17 @@ function bsconnexion_menu(){
     'type' => MENU_NORMAL_ITEM,
   );
 
-  $items['signup'] = array( 
-    'title' => 'S\'ENREGISTRER', 
+//  // Formulaire de connexion
+//  $items['login'] = array(
+//      'title' => 'SE CONNECTER',
+//      'page callback' => 'drupal_get_form',
+//      'page arguments' => array('user_register_form'),
+//      'access callback' => TRUE
+//  );
+
+  // Formulaire d'enregistrement
+  $items['signup'] = array(
+    'title' => 'S\'ENREGISTRER',
     'page callback' => 'drupal_get_form', 
     'page arguments' => array('user_register_form'), 
     'access callback' => TRUE
@@ -42,7 +51,7 @@ function bsconnexion_menu(){
     'page arguments' => array('bsconnexion_form'), 
     'access callback' => TRUE
   );
- 
+
   return $items; 
 }
 
@@ -69,21 +78,75 @@ function bsconnexion_user_login(&$edit, $account) {
 }
 
 function bsconnexion_form_user_login_alter(&$form, $form_state) {
-  $form['actions']['submit'] = array('#type' => 'submit', '#value' => t('Connexion'));
+  $form['#prefix'] = '<div id="bs-cc-headband"><div id="bs-cc-headband-fields">';
+
+  $form['name'] = array(
+        '#type' => 'textfield',
+        '#size' => 60,
+        '#maxlength' => USERNAME_MAX_LENGTH,
+        '#required' => TRUE,
+        '#attributes' =>array('placeholder' => t('Username')),
+        '#id' => 'bs-cc-headband-field-username',
+        '#prefix' => '<div class="bs-cc-headband-field" id="bs-cc-headband-div-field-username">',
+        '#suffix' => '</div>',
+    );
+
+    $form['pass'] = array(
+        '#type' => 'password',
+        '#required' => TRUE,
+        '#attributes' =>array('placeholder' => t('Password')),
+        '#id' => 'bs-cc-headband-field-password',
+        '#prefix' => '<div class="bs-cc-headband-field" id="bs-cc-headband-div-field-password">',
+        '#suffix' => '</div>',
+    );
+
+    $form['actions']['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Connexion'),
+        '#id' => 'bs-cc-headband-buttons-login',
+    );
+
+    $form['signup'] = array(
+        '#type' => 'button',
+        '#value' => t('S\'enregistrer'),
+        '#id' => 'bs-cc-headband-buttons-signup',
+        '#weight' => 100,
+        // IMPORTANT :
+        // This button is modified in the js/script.js file.
+        // Let's check it because drupal has an issue with the '#type' => 'button'.
+        // It returns an input type=submit, and no type=button.
+        // So the script.js file, change that.
+    );
+
+    $form['#suffix'] = '</div></div>';
 }
 
-function bsconnexion_Form_Connected(){
-  $var = '<div id="Bandeau_connexion">';
-  $var .= '<p class="BC_Text_Left2">';
-  $var .= variable_get('bsconnexion_bc_text_left_connected');
-  $var .= '</p>';
-  $var .= '<div id="BC_Profil">';
-  $var .= '<p class="BC_Text_connected">Bienvenue&nbsp'.$GLOBALS['user']->name.'&nbsp|&nbsp<a href="/biosample/profil">Profil</a>&nbsp|&nbsp<a href="/biosample/user/logout">Déconnexion</a></p>';
+/* Start - Gael | When the user is connected, display this */
+function bsconnexion_form_user_connected(){
+  $var = '<div id="bs-cc-headband">';
+  $var .= '<div id="bs-cc-user-connected">';
+  $var .= '<p id="bs-cc-user-connected-welcome">Bienvenue&nbsp'.$GLOBALS['user']->name.'</p>';
+  $var .= '<a id="bs-cc-user-connected-profil" href="/profil">Profil</a>';
+  $var .= '<a id="bs-cc-user-connected-logout" href="/user/logout">Déconnexion</a>';
   $var .= '</div>';
   $var .= '</div>';
 
   return $var;
 }
+/* End - Gael | When the user is connected, display this */
+
+//function bsconnexion_form_user_connected(){
+//  $var = '<div id="Bandeau_connexion">';
+//  $var .= '<p class="BC_Text_Left2">';
+//  $var .= variable_get('bsconnexion_bc_text_left_connected');
+//  $var .= '</p>';
+//  $var .= '<div id="BC_Profil">';
+//  $var .= '<p class="BC_Text_connected">Bienvenue&nbsp'.$GLOBALS['user']->name.'&nbsp|&nbsp<a href="/biosample/profil">Profil</a>&nbsp|&nbsp<a href="/biosample/user/logout">Déconnexion</a></p>';
+//  $var .= '</div>';
+//  $var .= '</div>';
+//
+//  return $var;
+//}
 
 function bsconnexion_functions_validate($form, &$form_state){
   if ($form_state['values']['civilite'] == 0){
