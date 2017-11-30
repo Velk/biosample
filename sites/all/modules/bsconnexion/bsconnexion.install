@@ -4,69 +4,98 @@ function bsconnexion_schema() {
  
   $schema['users_extra_fields'] = array(
     'fields' => array(
-      'name' => array(
+      'username' => array(
         'type' => 'varchar',
-        'length' => 500,
+        'length' => 60,
         'not null' => TRUE,
         'default' => '',
-      ),
-      'civilite' => array(
-        'type' => 'varchar',
-        'length' => 500,
-        'not null' => TRUE,
-        'default' => '',
-      ),
-      'nom_prenom' => array(
-        'type' => 'varchar',
-        'length' => 500,
-        'not null' => FALSE,
-      ),
-     'siren' => array(
-        'type' => 'varchar',
-        'length' => 500,
-        'not null' => FALSE,
-      ),     
-      'poste_service' => array(
-        'type' => 'varchar',
-        'length' => 500,
-        'not null' => TRUE,
-      ),
-      'code_postal' => array(
-        'type' => 'varchar',
-        'length' => 500,
-        'not null' => TRUE,
-      ),
-      'telephone' => array(
-        'type' => 'text',
-        'length' => 500,
-        'not null' => FALSE,
+        'description' => 'Unique user name.',
       ),
       'affiliation_societe' => array(
         'type' => 'varchar',
-        'length' => 500,
+        'length' => 100,
         'not null' => TRUE,
+        'default' => '',
+        'description' => 'Company name.',
       ),
-      'fax' => array(
+     'siren' => array(
         'type' => 'varchar',
-        'length' => 500,
+        'length' => 60,
         'not null' => TRUE,
-      ),
-      'ville' => array(
-        'type' => 'varchar',
-        'length' => 500,
-        'not null' => TRUE,
+        'default' => '',
+        'description' => 'SIREN.',
       ),
       'adresse' => array(
         'type' => 'varchar',
-        'length' => 500,
+        'length' => 100,
         'not null' => TRUE,
+        'default' => '',
+        'description' => 'Address of the company.',
       ),
-      'distributeur_fabricant' => array(
+      'code_postal' => array(
         'type' => 'varchar',
-        'length' => 500,
+        'length' => 25,
         'not null' => TRUE,
+        'default' => '',
+        'description' => 'Code postal of the company.',
+      ),
+      'ville' => array(
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'City name of the company.',
+      ),
+      'civilite' => array(
+        'type' => 'varchar',
+        'length' => 25,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "Civilite of the company's contact.",
+      ),
+      'nom_prenom' => array(
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "Firstname and lastname of the company's contact.",
+      ),
+      'poste_service' => array(
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "Title of the workstation of the company's contact.",
+      ),
+      'mail' => array(
+        'type' => 'varchar',
+        'length' => 254,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "Mail address of the company's contact.",
+      ),
+      'telephone' => array(
+        'type' => 'varchar',
+        'length' => 25,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "Phone number of the company's contact.",
+      ),
+      'fax' => array(
+        'type' => 'varchar',
+        'length' => 25,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => "Fax of the company's contact.",
+      ),
+      'payment_date' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Timestamp for when user paid his subscribe.',
       ),
     ),
+    'primary key' => array('username'),
   );
   return $schema;
 }
@@ -80,4 +109,3 @@ function bsconnexion_uninstall() {
 }
 
 ?>
-
