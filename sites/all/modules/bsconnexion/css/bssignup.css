@@ -1,5 +1,6 @@
 @media screen and (min-width: 0px){
     #bs-cc-register-form-name-div,
+    #bs-cc-register-form-mail-div,
     #bs-cc-register-form-fieldset-company,
     #bs-cc-register-form-affiliationsociete-div,
     #bs-cc-register-form-siren-div,
@@ -10,7 +11,7 @@
     #bs-cc-register-form-civilite-div,
     #bs-cc-register-form-nomprenom-div,
     #bs-cc-register-form-posteservice-div,
-    #bs-cc-register-form-mail-div,
+    #bs-cc-register-form-mail-contact-div,
     #bs-cc-register-form-telephone-div,
     #bs-cc-register-form-fax-div {
         position: relative;
@@ -25,6 +26,7 @@
     }
 
     #bs-cc-register-form-name,
+    #bs-cc-register-form-mail,
     #bs-cc-register-form-affiliationsociete,
     #bs-cc-register-form-siren,
     #bs-cc-register-form-adresse,
@@ -33,7 +35,7 @@
     #bs-cc-register-form-civilite,
     #bs-cc-register-form-nomprenom,
     #bs-cc-register-form-posteservice,
-    #bs-cc-register-form-mail,
+    #bs-cc-register-form-mail-contact,
     #bs-cc-register-form-telephone,
     #bs-cc-register-form-fax {
         position: relative;
@@ -50,6 +52,7 @@
     }
 
     #bs-cc-register-form-name.error,
+    #bs-cc-register-form-mail.error,
     #bs-cc-register-form-affiliationsociete.error,
     #bs-cc-register-form-siren.error,
     #bs-cc-register-form-adresse.error,
@@ -58,7 +61,7 @@
     #bs-cc-register-form-civilite.error,
     #bs-cc-register-form-nomprenom.error,
     #bs-cc-register-form-posteservice.error,
-    #bs-cc-register-form-mail.error,
+    #bs-cc-register-form-mail-contact.error,
     #bs-cc-register-form-telephone.error,
     #bs-cc-register-form-fax.error {
         background-color: #ffd1d1;

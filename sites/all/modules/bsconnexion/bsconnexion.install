@@ -11,6 +11,13 @@ function bsconnexion_schema() {
         'default' => '',
         'description' => 'Unique user name.',
       ),
+      'mail' => array(
+        'type' => 'varchar',
+        'length' => 254,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "Mail address for the account.",
+      ),
       'affiliation_societe' => array(
         'type' => 'varchar',
         'length' => 100,
@@ -67,7 +74,7 @@ function bsconnexion_schema() {
         'default' => '',
         'description' => "Title of the workstation of the company's contact.",
       ),
-      'mail' => array(
+      'mail_contact' => array(
         'type' => 'varchar',
         'length' => 254,
         'not null' => TRUE,

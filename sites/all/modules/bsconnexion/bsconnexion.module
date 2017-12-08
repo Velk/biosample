@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Implment hook_help()
+ * Implement hook_help()
  *
  * @param $path
  * @param $arg
@@ -61,12 +61,40 @@ function bsconnexion_menu(){
         'access callback' => TRUE
     );
 
-    $items['profil'] = array(
-        'title' => 'MON PROFIL',
-        'page callback' => 'drupal_get_form',
-        'page arguments' => array('bsconnexion_form'),
-        'access callback' => TRUE
-    );
+//    $items['profil'] = array(
+//        'title' => 'MON PROFIL',
+//        'page callback' => 'drupal_get_form',
+//        'page arguments' => array('bsconnexion_profil_form'),
+//        'access callback' => TRUE
+//    );
+
+//    $items['utilisateur/%'] = array(
+////        'title' => 'Page de bienvenue',
+//        'page callback' => array('bsconnexion_user_connected_profil_menu'),
+////        'access callback' => TRUE
+//        'access callback' => 'user_is_logged_in',
+//    );
+//
+//    $items['utilisateur/profil'] = array(
+//        'title' => 'Page de bienvenue',
+////        'page callback' => 'drupal_get_form',
+////        'page arguments' => array('bsconnexion_user_connected_profil_form'),
+//        'access callback' => 'user_is_logged_in',
+//    );
+
+//    $items['utilisateur/profil'] = array(
+////        'title' => 'PROFILLLLL',
+//        'page callback' => 'drupal_get_form',
+//        'page arguments' => array('bsconnexion_user_connected_profil_form'),
+//        'access callback' => TRUE
+//    );
+//
+//    $items['utilisateur/catalogueg'] = array(
+////        'title' => 'PROFILLLLL',
+//        'page callback' => 'drupal_get_form',
+//        'page arguments' => array('bsconnexion_user_connected_catalogueg_form'),
+//        'access callback' => TRUE
+//    );
 
     return $items;
 }
@@ -134,6 +162,8 @@ function bsconnexion_form_user_login_alter(&$form, $form_state, $path) {
         '#id' => 'bs-cc-headband-buttons-login',
     );
 
+    $form['actions']['submit']['#submit'][] = 'bsconnexion_user_login_submit';
+
     $form['signup'] = array(
         '#type' => 'button',
         '#value' => t('S\'enregistrer'),
@@ -151,18 +181,57 @@ function bsconnexion_form_user_login_alter(&$form, $form_state, $path) {
     $form['#suffix'] = '</div></div>';
 }
 
+/**
+ * Submit handler for the login form. Load $user object and perform standard login
+ * tasks. The user is then redirected to the My Account page. Setting the
+ * destination in the query string overrides the redirect.
+ */
+function bsconnexion_user_login_submit($form, &$form_state) {
+    global $user;
+    $user = user_load($form_state['uid']);
+
+//    $result_affiliation_societe = db_query("SELECT affiliation_societe from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
+
+    $form_state['redirect'] = 'utilisateur/profil';
+//    $form_state['redirect'] = 'utilisateur/' . $user->uid . '/profil';
+//    $form_state['redirect'] = 'user/' . $user->uid;
+
+//    $query = db_select('users', 'u');
+//    $query->join('users_extra_fields', 'uef', 'uef.username = u.name');
+//    $result = $query
+//        ->fields('uef', array('ville'))
+//        ->condition('u.uid', $user->uid, '=')
+//        ->execute();
+//
+//    foreach ($result as $row) {
+//        $form_state['redirect'] = 'user/' . $row;
+//    }
+
+    user_login_finalize($form_state);
+}
+
 /* Start - Gael | Function when the user is connected, display that */
 function bsconnexion_form_user_connected(){
+//    global $user;
+//    $user = user_load($form_state['uid']);
+//
+//    $form_state['redirect'] = 'user/' . $user->uid;
+
+    $result_affiliation_societe = db_query("SELECT affiliation_societe from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
+
+
     $var = '<div id="bs-cc-headband">';
     $var .= '<div id="bs-cc-user-connected">';
-    $var .= '<p id="bs-cc-user-connected-welcome">Bienvenue&nbsp'.$GLOBALS['user']->name.'</p>';
-    $var .= '<a id="bs-cc-user-connected-profil" href="/profil">Profil</a>';
-    $var .= '<a id="bs-cc-user-connected-logout" href="/user/logout">Déconnexion</a>';
+    $var .= '<p id="bs-cc-user-connected-welcome">Bienvenue&nbsp'.$result_affiliation_societe.'</p>';
+    $var .= '<a id="bs-cc-user-connected-profil" href="/utilisateur/profil"><i class="fa fa-user fa-1x" aria-hidden="true"></i></a>';
+//    $var .= '<a id="bs-cc-user-connected-profil" href="/utilisateur/'.$GLOBALS['user']->uid.'/profil"><i class="fa fa-user fa-1x" aria-hidden="true"></i></a>';
+    $var .= '<a id="bs-cc-user-connected-logout" href="/user/logout"><i class="fa fa-sign-out fa-1x" aria-hidden="true"></i></a>';
     $var .= '</div>';
     $var .= '</div>';
 
     return $var;
 }
+
 /* End - Gael | Function when the user is connected, display that */
 
 /**
@@ -307,6 +376,17 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
         '#weight' => 23,
     );
 
+    // Contact's mail field
+    $form['account']['mail_contact'] = array(
+        '#type' => 'textfield',
+        '#attributes' => array('placeholder' => t('* Adresse mail du contact')),
+        '#required' => TRUE,
+        '#id' => 'bs-cc-register-form-mail-contact',
+        '#prefix' => '<div id="bs-cc-register-form-mail-contact-div">',
+        '#suffix' => '</div>',
+        '#weight' => 24,
+    );
+
     // Téléphone field
     $form['account']['telephone'] = array(
         '#type' => 'textfield',
@@ -327,6 +407,8 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
         '#suffix' => '</div>',
         '#weight' => 26,
     );
+
+//////////////////////////////////////////CONTRATS GENERAUX///////////////////////////////////////////
 
     // 'J'accepte les Conditions Générales d'Utilisation' checkbox
     $form['account']['CGU'] = array(
@@ -350,7 +432,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
         '#weight' => 28,
     );
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //    // 'Je suis un fournisseur' checkbox
 //    $form['account']['im_fournisseur'] = array(
@@ -392,6 +474,17 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
 function bsconnexion_user_register_validate($form, $form_state){
 // To set a regex, put your regex inside : "/^ REGEX $/"
 
+//// Username verification
+//    // Retrieve the values of the username field
+//    $name_value = $form_state['values']['name'];
+//    if ($error = (!preg_match("/^[a-zA-Z0-9 ]*$/",$name_value))) {
+//        // Check if the username value match with the Regular Expression above
+//        // Allow alphanumeric and spaces
+//        drupal_set_message(t("Le nom d'utilisateur n'est pas valide."));
+//        // Display an error in the username field
+//        form_set_error('name', $error);
+//    }
+
 // Email verification
     // Retrieve the values of the mail field
     $mail_value = $form_state['values']['mail'];
@@ -406,17 +499,6 @@ function bsconnexion_user_register_validate($form, $form_state){
         // Display an error in the mail field
         form_set_error('mail', $error);
     }
-
-//// Username verification
-//    // Retrieve the values of the username field
-//    $name_value = $form_state['values']['name'];
-//    if ($error = (!preg_match("/^[a-zA-Z0-9 ]*$/",$name_value))) {
-//        // Check if the username value match with the Regular Expression above
-//        // Allow alphanumeric and spaces
-//        drupal_set_message(t("Le nom d'utilisateur n'est pas valide."));
-//        // Display an error in the username field
-//        form_set_error('name', $error);
-//    }
 
 // Affiliation Societe verification
     $affiliation_societe_value = $form_state['values']['affiliation_societe'];
@@ -456,6 +538,21 @@ function bsconnexion_user_register_validate($form, $form_state){
         drupal_set_message(t("Le champ nom, prénom n'est pas valide."));
         // Display an error in the nom prenom field
         form_set_error('nom_prenom', $error);
+    }
+
+// Contact's mail verification
+    // Retrieve the values of the contact's mail field
+    $mail_contact_value = $form_state['values']['mail_contact'];
+    if($error = (!preg_match("/^[a-zA-Z0-9_\-\.]+@[a-zA-Z-]+\.[a-z]{2,3}$/", $mail_contact_value))){
+        // Check if the contact's mail value match with the Regular Expression above
+        drupal_set_message(t("L'adresse mail du contact n'est pas valide car elle contient des symboles inappropriés !"));
+        // Display an error in the contact's mail field
+        form_set_error('mail_contact', $error);
+    }else if($error = (preg_match("/^[a-zA-Z0-9_\-\.]+@yopmail+\.[a-z]{2,3}$/", $mail_contact_value))) {
+        // Check if the contact's mail value match with the Regular Expression  above
+        drupal_set_message(t("L'adresse mail du contact n'est pas valide. Yopmail n'est pas autorisé."));
+        // Display an error in the contact's mail field
+        form_set_error('mail_contact', $error);
     }
 
 // Phone number verification
@@ -507,6 +604,7 @@ function bsconnexion_user_register_submit($form, $form_state){
     db_insert('users_extra_fields')->fields(
         array(
             'username' => $form_state['values']['name'],
+            'mail' => $form_state['values']['mail'],
             'affiliation_societe' => $form_state['values']['affiliation_societe'],
             'siren' => $form_state['values']['siren'],
             'adresse' => $form_state['values']['adresse'],
@@ -515,7 +613,7 @@ function bsconnexion_user_register_submit($form, $form_state){
             'civilite' => $form_state['values']['civilite'],
             'nom_prenom' => $form_state['values']['nom_prenom'],
             'poste_service' => $form_state['values']['poste_service'],
-            'mail' => $form_state['values']['mail'],
+            'mail_contact' => $form_state['values']['mail_contact'],
             'telephone' => $form_state['values']['telephone'],
             'fax' => $form_state['values']['fax'],
         )
@@ -525,6 +623,565 @@ function bsconnexion_user_register_submit($form, $form_state){
     // Display a message saying that datas are set in database.
     drupal_set_message(t('Les données renseignées ont été enregistrées.'));
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/**
+ * Implement hook_theme()
+ *
+ * @param $existing
+ * @param $type
+ * @param $theme
+ * @param $path
+ * @return array
+ */
+function bsconnexion_theme($existing, $type, $theme, $path) {
+    return array(
+        'bsconnexion_profil' => array(
+            'template' => 'template/bs-cc-profil-unchangeable-datas',
+            'path' => drupal_get_path('module', 'bsconnexion'),
+            'variables' => array('infos' => NULL),
+        ),
+        'bsconnexion_client_account_menu' => array(
+            'template' => 'template/bs-cc-menu',
+            'path' => drupal_get_path('module', 'bsconnexion'),
+            'variables' => array('infos' => NULL),
+        ),
+    );
+}
+
+function bsconnexion_block_info() {
+    $blocks['user_client_account_menu'] = array(
+        'info' => t('Menu compte client'),
+        'status' => TRUE,
+        'region' => 'content',
+        'visibility' => BLOCK_VISIBILITY_LISTED,
+        'pages' => 'utilisateur/profil',
+//        'cache' => DRUPAL_NO_CACHE,
+        'weight' => 1,
+    );
+    // This example comes from node.module.
+    $blocks['user_profil_unchangeable_datas'] = array(
+        'info' => t('Données inchangeables société'),
+        'status' => TRUE,
+        'region' => 'content',
+        'visibility' => BLOCK_VISIBILITY_LISTED,
+        'pages' => 'utilisateur/profil',
+//        'cache' => DRUPAL_NO_CACHE,
+        'weight' => 2,
+    );
+
+    $blocks['user_profil_changeable_datas'] = array(
+        'info' => t('Profil utilisateur'),
+        'status' => TRUE,
+        'region' => 'content',
+        'visibility' => BLOCK_VISIBILITY_LISTED,
+        'pages' => 'utilisateur/profil',
+//        'cache' => DRUPAL_NO_CACHE,
+        'weight' => 3,
+    );
+
+    return $blocks;
+}
+
+
+function bsconnexion_block_view($delta = '') {
+    $block = array();
+
+    switch ($delta) {
+// BLOCK - Client account menu
+        case 'user_client_account_menu':
+            // Link the template for the client account menu
+            $block['content']['#markup'] = theme('bsconnexion_client_account_menu');
+
+            // Link a js file for the client account menu
+            $block['content']['#attached']['css'][] = array(
+                'data' => drupal_get_path('module', 'bsconnexion').'/css/bs-cc-menu.css',
+                'type' => 'file'
+            );
+
+            // Link a js file for the client account menu
+            $block['content']['#attached']['js'][] = array(
+                'data' => drupal_get_path('module', 'bsconnexion').'/js/bs-cc-menu.js',
+                'type' => 'file'
+            );
+
+            break;
+
+// BLOCK - Client account, profil page, unchangeable datas
+        case 'user_profil_unchangeable_datas':
+
+            // Retrieve user's datas from table users_extra_fields in the database
+            $result_affiliation_societe = db_query("SELECT affiliation_societe from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
+            $result_siren = db_query("SELECT siren from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
+            $result_code_postal = db_query("SELECT code_postal from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
+            $result_adresse = db_query("SELECT adresse from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
+            $result_ville = db_query("SELECT ville from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
+
+            // Set the retrieve's datas in drupal's variables
+            $data['affiliation_societe'] = $result_affiliation_societe;
+            $data['siren'] = $result_siren;
+            $data['code_postal'] = $result_code_postal;
+            $data['adresse'] = $result_adresse;
+            $data['ville'] = $result_ville;
+
+            $block['subject'] = t('Informations de la société');
+            // Link the template to display datas
+            $block['content']['#markup'] = theme('bsconnexion_profil', $data);
+
+            // Link a js file for unchangeable datas in the profil page
+            $block['content']['#attached']['css'][] = array(
+                'data' => drupal_get_path('module', 'bsconnexion').'/css/bs-cc-profil-datas.css',
+                'type' => 'file'
+            );
+
+            // Link a js file for unchangeable datas in the profil page
+            $block['content']['#attached']['js'][] = array(
+                'data' => drupal_get_path('module', 'bsconnexion').'/js/bs-cc-profil-datas.js',
+                'type' => 'file'
+            );
+
+            break;
+
+// BLOCK - Client account, profil page, changeable datas
+        case 'user_profil_changeable_datas':
+            $block['subject'] = t('Informations du contact');
+            $block['content'] = drupal_get_form('bsconnexion_profil_changeable_datas_form');
+
+            // Link a js file for changeable datas in the profil page
+            $block['content']['#attached']['css'][] = array(
+                'data' => drupal_get_path('module', 'bsconnexion').'/css/bs-cc-profil-datas.css',
+                'type' => 'file'
+            );
+
+            // Link a js file for changeable datas in the profil page
+            $block['content']['#attached']['js'][] = array(
+                'data' => drupal_get_path('module', 'bsconnexion').'/js/bs-cc-profil-datas.js',
+                'type' => 'file'
+            );
+
+            break;
+
+//        case 'recent':
+//            if (user_access('access content')) {
+//                $block['subject'] = t('Recent content');
+//                if ($nodes = node_get_recent(variable_get('node_recent_block_count', 10))) {
+//                    $block['content'] = array(
+//                        '#theme' => 'node_recent_block',
+//                        '#nodes' => $nodes,
+//                    );
+//                }
+//                else {
+//                    $block['content'] = t('No content available.');
+//                }
+//            }
+//            break;
+    }
+    return $block;
+}
+
+
+function bsconnexion_profil_changeable_datas_form($form, &$form_state){
+
+    // Retrieve user's datas from table users_extra_fields in the database
+    $result_civilite = db_query("SELECT civilite from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
+    $result_nom_prenom = db_query("SELECT nom_prenom from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
+    $result_poste_service = db_query("SELECT poste_service from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
+    $result_mail_contact = db_query("SELECT mail_contact from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
+    $result_telephone = db_query("SELECT telephone from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
+    $result_fax = db_query("SELECT fax from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
+
+    // Change the value of the $form_state['values']['civilite']
+    // to stock either Monsieur or Madame.
+    if($result_civilite == "Madame"){
+        $result_civilite = 0;
+    }else{
+        $result_civilite = 1;
+    }
+
+    if(isset($result_fax)){
+        $result_fax = "Non renseigné";
+    }
+
+    $form['update_account']['#prefix'] = '<p id="update-account-disclaimer">Pour modifier ces données, cliquez sur le bouton correspondant au(x) champ(s) souhaité(s).</p>';
+
+    // Update account : civilite field
+    $form['update_account']['update_civilite'] = array(
+        '#type' => 'select',
+        '#default_value' => $result_civilite,
+//        '#required' => TRUE,
+        '#id' => 'bs-cc-update-account-civilite',
+        '#options' => array(
+            0 => t('Madame'),
+            1 => t('Monsieur'),
+        ),
+        '#weight' => 1,
+        '#prefix' => '<div id="bs-cc-update-account-civilite-div"><p>Civilité : </p>',
+        '#suffix' => '</div>',
+    );
+
+    // Update account : nom_prenom field
+    $form['update_account']['update_nom_prenom'] = array(
+        '#type' => 'textfield',
+        '#attributes' => array('placeholder' => $result_nom_prenom),
+//        '#value' => $result_nom_prenom,
+        '#id' => 'bs-cc-update-account-nomprenom',
+        '#weight' => 2,
+//        '#required' => TRUE,
+        '#prefix' => '<div id="bs-cc-update-account-nomprenom-div"><p>Nom prénom : </p>',
+        '#suffix' => '</div>',
+    );
+
+    // Update account : poste_service field
+    $form['update_account']['update_poste_service'] = array(
+        '#type' => 'textfield',
+        '#attributes' => array('placeholder' => $result_poste_service),
+//        '#value' => $result_poste_service,
+        '#id' => 'bs-cc-update-account-posteservice',
+        '#weight' => 3,
+//        '#required' => TRUE,
+        '#prefix' => '<div id="bs-cc-update-account-posteservice-div"><p>Poste / Service : </p>',
+        '#suffix' => '</div>',
+    );
+
+    // Update account : mail_contact field
+    $form['update_account']['update_mail_contact'] = array(
+        '#type' => 'textfield',
+        '#attributes' => array('placeholder' => $result_mail_contact),
+//        '#value' => $result_mail_contact,
+        '#id' => 'bs-cc-update-account-mailcontact',
+        '#weight' => 4,
+//        '#required' => TRUE,
+        '#prefix' => '<div id="bs-cc-update-account-mailcontact-div"><p>Mail du contact : </p>',
+        '#suffix' => '</div>',
+    );
+
+    // Update account : telephone field
+    $form['update_account']['update_telephone'] = array(
+        '#type' => 'textfield',
+        '#attributes' => array('placeholder' => $result_telephone),
+//        '#value' => $result_telephone,
+        '#id' => 'bs-cc-update-account-telephone',
+        '#weight' => 5,
+//        '#required' => TRUE,
+        '#prefix' => '<div id="bs-cc-update-account-telephone-div"><p>Téléphone : </p>',
+        '#suffix' => '</div>',
+    );
+
+    // Update account : fax field
+    $form['update_account']['update_fax'] = array(
+        '#type' => 'textfield',
+        '#attributes' => array('placeholder' => $result_fax),
+//        '#value' => $result_fax,
+        '#id' => 'bs-cc-update-account-fax',
+        '#weight' => 6,
+        '#prefix' => '<div id="bs-cc-update-account-fax-div"><p>Fax : </p>',
+        '#suffix' => '</div>',
+    );
+
+    $form['update_account']['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Valider'),
+        '#id' => 'bs-cc-update-account-submit',
+        '#weight' => 7,
+        '#prefix' => '<div id="bs-cc-update-account-submit-div">',
+        '#suffix' => '</div>',
+    );
+
+    $form['update_account']['submit']['#submit'][] = 'bsconnexion_profil_changeable_datas_submit';
+
+    return $form;
+}
+
+function bsconnexion_profil_changeable_datas_submit($form, &$form_state){
+
+    // Change the value of the $form_state['values']['update_civilite']
+    // to stock either Monsieur or Madame.
+    if($form_state['values']['update_civilite'] == 0){
+        $form_state['values']['update_civilite'] = "Madame";
+    }else{
+        $form_state['values']['update_civilite'] = "Monsieur";
+    }
+
+    // Update civilite data
+    db_update('users_extra_fields')
+        ->fields(array(
+            'civilite' => $form_state['values']['update_civilite'],
+        ))
+        ->execute();
+
+
+    // Update nom_prenom data
+    if($form_state['values']['nom_prenom'] != $form_state['values']['update_nom_prenom']){
+        db_update('users_extra_fields')
+            ->fields(array(
+                'nom_prenom' => $form_state['values']['update_nom_prenom'],
+            ))
+            ->execute();
+    }else{
+        drupal_set_message('nom prenom : non');
+    }
+
+    // Update poste_service data
+    if($form_state['values']['poste_service'] != $form_state['values']['update_poste_service']){
+        db_update('users_extra_fields')
+            ->fields(array(
+                'poste_service' => $form_state['values']['update_poste_service'],
+            ))
+            ->execute();
+    }else{
+        drupal_set_message('poste service : non');
+    }
+
+    // Update mail_contact data
+    if($form_state['values']['mail_contact'] != $form_state['values']['update_mail_contact']){
+        db_update('users_extra_fields')
+            ->fields(array(
+                'mail_contact' => $form_state['values']['update_mail_contact'],
+            ))
+            ->execute();
+    }else{
+        drupal_set_message('mail contact : non');
+    }
+
+    // Update telephone data
+    if($form_state['values']['telephone'] != $form_state['values']['update_telephone']){
+        db_update('users_extra_fields')
+        ->fields(array(
+            'telephone' => $form_state['values']['update_telephone'],
+        ))
+        ->execute();
+    }else{
+        drupal_set_message('tel : non');
+    }
+
+    // Update fax data
+    if($form_state['values']['fax'] != $form_state['values']['update_fax']){
+        db_update('users_extra_fields')
+        ->fields(array(
+            'fax' => $form_state['values']['update_fax'],
+        ))
+            ->execute();
+    }else{
+        drupal_set_message('fax : non');
+    }
+
+
+
+    //    $result_affiliation_societe = db_query("SELECT affiliation_societe from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
+
+//    $result_affiliation_societe = db_query("UPDATE nom_prenom from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
+
+//    $result = db_query("UPDATE {node} SET uid = %d, status = %d WHERE created >= %d", 5, 1, time() - 3600);
+
+
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+///**
+// * Implements bsconnexion_user_connected_profil_menu().
+// *
+// * Display a menu and load function depending tab selected
+// *
+// * @see bsconnexion_user_connected_profil_tab_choice()
+// */
+//function bsconnexion_user_connected_profil_menu(){
+//
+//    $var =  '<div id="bs-cc-user-connected-menu">';
+//    $var .=     '<ul>';
+////    $var .=         '<li id="bs-cc-profil-li"><a class="active" href="'. $GLOBALS["user"]->uid .'/profil?profil=true">PROFIL</a></li>';
+//    $var .=         '<li id="bs-cc-profil-li"><a class="active" href="/utilisateur/'.$GLOBALS['user']->uid.'/profil">PROFIL</a></li>';
+//    $var .=         '<li id="bs-cc-catalogueG-li"><a href="/utilisateur/'.$GLOBALS['user']->uid.'/catalogueg">CATALOGUE GENERAL</a></li>';
+//    $var .=         '<li id="bs-cc-catalogueP-li"><a href="/utilisateur/'.$GLOBALS['user']->uid.'/cataloguep">CATALOGUE PERSONNALISÉ</a></li>';
+//    $var .=         '<li id="bs-cc-historique-li"><a>HISTORIQUE</a>';
+//    $var .=             '<ul id="bs-cc-dropdown-historique">';
+//    $var .=                 '<li id="bs-cc-factures-li"><a href="/utilisateur/'.$GLOBALS['user']->uid.'/factures">Factures</a></li>';
+//    $var .=                 '<li id="bs-cc-commandes-li"><a href="/utilisateur/'.$GLOBALS['user']->uid.'/commandes">Commandes en cours</a></li>';
+//    $var .=             '</ul>';
+//    $var .=         '</li>';
+//    $var .=         '<li id="bs-cc-abonnements-li"><a href="/utilisateur/'.$GLOBALS['user']->uid.'/abonnements">ABONNEMENTS</a></li>';
+//    $var .=     '</ul>';
+//    $var .= '</div>';
+//
+//    return $var;
+//}
+//
+///**
+// * Implements bsconnexion_user_connected_profil_tab_choice().
+// *
+// * Call a function depending the tab selected
+// *
+// * @see bsconnexion_user_connected_profil_menu()
+// * @see bsconnexion_user_connected_profil_profil()
+// * @see bsconnexion_user_connected_profil_catalogueg()
+// * @see bsconnexion_user_connected_profil_cataloguep()
+// * @see bsconnexion_user_connected_profil_factures()
+// * @see bsconnexion_user_connected_profil_commandes()
+// * @see bsconnexion_user_connected_profil_abonnements()
+// */
+////function bsconnexion_user_connected_profil_tab_choice(){
+////    if (isset($_GET['profil'])) {
+//////        echo "<script>alert('huso');</script>";
+////        return bsconnexion_user_connected_profil_form();
+////    }elseif (isset($_GET['catalogueg'])) {
+////        return bsconnexion_user_connected_profil_catalogueg();
+////    }elseif (isset($_GET['cataloguep'])) {
+////        return bsconnexion_user_connected_profil_cataloguep();
+////    }elseif (isset($_GET['factures'])) {
+////        return bsconnexion_user_connected_profil_factures();
+////    }elseif (isset($_GET['commandes'])) {
+////        return bsconnexion_user_connected_profil_commandes();
+////    }elseif (isset($_GET['abonnements'])) {
+////        return bsconnexion_user_connected_profil_abonnements();
+////    }
+////
+////}
+//
+///**
+// * Implements bsconnexion_user_connected_profil_profil().
+// *
+// * Display content if profil tab is selected
+// *
+// * @see bsconnexion_user_connected_profil_menu()
+// * @see bsconnexion_user_connected_profil_tab_choice()
+// */
+////function bsconnexion_user_connected_profil_profil(){
+////    // Method 1 : db_query
+////    // $result_affiliation_societe = db_query("SELECT affiliation_societe from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
+////
+////    // Method 2 : db_select
+////    $query = db_select('users_extra_fields', 'uef')
+////        ->fields('uef', array('affiliation_societe'))
+////        ->condition('uef.username', $GLOBALS['user']->name)
+////        ->execute();
+////    $result_affiliation_societe = $query->fetchField();
+////
+////    $var =  '<div id="">';
+////    $var .= '<p>Bienvenue sur l\'onglet profil '.$GLOBALS['user']->name.'</p>';
+////    $var .= '<p>Votre username '.$result_affiliation_societe.'</p>';
+////    $var .= '</div>';
+////
+////    return $var;
+////}
+//
+//function bsconnexion_user_connected_profil_form($form, &$form_state){
+//
+//    $form["#prefix"] = bsconnexion_user_connected_profil_menu();
+//
+//    $form["test"] = array(
+//        '#type' => 'container',
+//    );
+//
+//    $form['update_account']['hay'] = array(
+//        '#type' => 'textfield',
+//        '#attributes' => array('placeholder' => t('Exemple de champ ')),
+//    );
+//
+//    $form['update_account']['hay2'] = array(
+//        '#type' => 'textfield',
+//
+//        '#attributes' => array('value' => t('Jean GAIN')),
+//    );
+//
+//
+//    return $form;
+//}
+//
+//function bsconnexion_test_form($form, &$form_state){
+//
+//
+//    $form['test']['test'] = array(
+//        '#type' => 'textfield',
+//
+//        '#attributes' => array('placeholder' => t('TEST')),
+//    );
+//
+//    return $form;
+//}
+//
+//
+///**
+// * Implements bsconnexion_user_connected_profil_catalogueg().
+// *
+// * Display content if catalogueg tab is selected
+// *
+// * @see bsconnexion_user_connected_profil_menu()
+// * @see bsconnexion_user_connected_profil_tab_choice()
+// */
+//function bsconnexion_user_connected_profil_catalogueg(){
+//    $var =  '<div id="">';
+//    $var .= '<p>Bienvenue sur l\'onglet Catalogue général</p>';
+//    $var .= '</div>';
+//
+//    return $var;
+//}
+//
+///**
+// * Implements bsconnexion_user_connected_profil_cataloguep().
+// *
+// * Display content if cataloguep tab is selected
+// *
+// * @see bsconnexion_user_connected_profil_menu()
+// * @see bsconnexion_user_connected_profil_tab_choice()
+// */
+//function bsconnexion_user_connected_profil_cataloguep(){
+//    $var =  '<div id="">';
+//    $var .= '<p>Bienvenue sur l\'onglet Catalogue personnalisé</p>';
+//    $var .= '</div>';
+//
+//    return $var;
+//}
+//
+///**
+// * Implements bsconnexion_user_connected_profil_factures().
+// *
+// * Display content if factures tab is selected
+// *
+// * @see bsconnexion_user_connected_profil_menu()
+// * @see bsconnexion_user_connected_profil_tab_choice()
+// */
+//function bsconnexion_user_connected_profil_factures(){
+//    $var =  '<div id="">';
+//    $var .= '<p>Bienvenue sur l\'onglet Factures</p>';
+//    $var .= '</div>';
+//
+//    return $var;
+//}
+//
+///**
+// * Implements bsconnexion_user_connected_profil_commandes().
+// *
+// * Display content if commandes tab is selected
+// *
+// * @see bsconnexion_user_connected_profil_menu()
+// * @see bsconnexion_user_connected_profil_tab_choice()
+// */
+//function bsconnexion_user_connected_profil_commandes(){
+//    $var =  '<div id="">';
+//    $var .= '<p>Bienvenue sur l\'onglet Commandes</p>';
+//    $var .= '</div>';
+//
+//    return $var;
+//}
+//
+///**
+// * Implements bsconnexion_user_connected_profil_abonnements().
+// *
+// * Display content if abonnements tab is selected
+// *
+// * @see bsconnexion_user_connected_profil_menu()
+// * @see bsconnexion_user_connected_profil_tab_choice()
+// */
+//function bsconnexion_user_connected_profil_abonnements(){
+//    $var =  '<div id="">';
+//    $var .= '<p>Bienvenue sur l\'onglet Abonnements</p>';
+//    $var .= '</div>';
+//
+//    return $var;
+//}
 
 
 //function bsconnexion_functions_validate($form, &$form_state){

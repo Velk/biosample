@@ -5,7 +5,9 @@ package = BIOSAMPLE
 
 stylesheets[all][] = 'css/bslogin.css'
 stylesheets[all][] = 'css/bssignup.css'
+stylesheets[all][] = 'css/bsprofil.css'
 
 dependencies[] = user
+dependencies[] = fontawesome
 
 scripts[] = 'js/script.js'

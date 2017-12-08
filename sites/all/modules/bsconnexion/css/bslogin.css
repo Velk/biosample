@@ -283,10 +283,11 @@ span.bs-cc-headband-buttons-signup {
 	#bs-cc-user-connected-profil, #bs-cc-user-connected-logout {
 		width:50%;
 		height: 35px;
-		padding: 5px;
+		padding: 6px;
 		border: none;
 		background-color: #1e6a8e;
 		text-align: center;
+		font-size: 22px;
 	}
 
 	#bs-cc-user-connected-profil{

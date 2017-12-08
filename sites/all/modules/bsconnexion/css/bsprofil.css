@@ -1,143 +1,153 @@
-.block-content .form-select{
-	border: solid 5px #1e6a8e;
-	border-radius: 10px;
-	color: rgba(28, 28, 17, 0.4) !important;
-}
+/* Start - Unchangeable datas | Customize the user connected profil */
 
-.block-content .form-text{
-	border: solid 5px #1e6a8e !important;
-	border-radius: 10px;
-	color: rgba(28, 28, 17, 0.4) !important;
-}
 
-.block-content .form-item-civilite .form-select{
-	margin-top: 20px;
-	float: left;
-	display: inline-block;
-}
 
-.block-content .form-item-nom-prenom .form-text{
-	margin-top: 20px;
-	margin-left: 53.5%;
-	float: left;
-	display: inline-block;
-}
 
-.block-content .form-item-siren .form-text{
-	margin-top: 10px;
-	float: left;
-	display: inline-block;
-}
+/* End - Unchangeable datas | Customize the user connected profil */
 
-.block-content .form-item-poste-service .form-text{
-	margin-top: 10px;
-	margin-left: 30%;
-	float: left;
-	display: inline-block;
-}
 
-.block-content .form-item-code-postal .form-text{
-	margin-top: 10px;
-	float: left;
-	display: inline-block;
-}
 
-.block-content .form-item-tel .form-text{
-	margin-top: 10px;
-	margin-left: 30%;
-	float: left;
-	display: inline-block;
-}
 
-.block-content .form-item-affiliation-société .form-text{
-	margin-top: 10px;
-	float: left;
-	display: inline-block;
-}
+/*.block-content .form-select{*/
+	/*border: solid 5px #1e6a8e;*/
+	/*border-radius: 10px;*/
+	/*color: rgba(28, 28, 17, 0.4) !important;*/
+/*}*/
 
-.block-content .form-item-fax .form-text{
-	margin-top: 10px;
-	margin-left: 30%;
-	float: left;
-	display: inline-block;
-}
+/*.block-content .form-text{*/
+	/*border: solid 5px #1e6a8e !important;*/
+	/*border-radius: 10px;*/
+	/*color: rgba(28, 28, 17, 0.4) !important;*/
+/*}*/
 
-.block-content .form-item-ville .form-text{
-	margin-bottom: 10px;
-	margin-top: 10px;
-	float: left;
-	display: inline-block;
-}
+/*.block-content .form-item-civilite .form-select{*/
+	/*margin-top: 20px;*/
+	/*float: left;*/
+	/*display: inline-block;*/
+/*}*/
 
-.block-content .form-item-adresse .form-text{
-	margin-top: 10px;
-	margin-left: 30%;
-	margin-bottom: 10px;
-	float: left;
-}
+/*.block-content .form-item-nom-prenom .form-text{*/
+	/*margin-top: 20px;*/
+	/*margin-left: 53.5%;*/
+	/*float: left;*/
+	/*display: inline-block;*/
+/*}*/
 
-.block-content input.form-submit{
-	background: #1e6a8e !important;
-	background-color: #1e6a8e !important;
-	border: solid 5px #1e6a8e !important;
-	border-radius: 10px !important;
-	-webkit-box-shadow: 0 0 5px #1e6a8e !important;
-	color: white !important;
-	margin-top: 1%;
-}
+/*.block-content .form-item-siren .form-text{*/
+	/*margin-top: 10px;*/
+	/*float: left;*/
+	/*display: inline-block;*/
+/*}*/
 
-.block-content form#bsconnexion-form{
-	text-align: center !important;
-}
+/*.block-content .form-item-poste-service .form-text{*/
+	/*margin-top: 10px;*/
+	/*margin-left: 30%;*/
+	/*float: left;*/
+	/*display: inline-block;*/
+/*}*/
 
-.block-content .form-item-distr-fabri{
-	text-align: left !important;
-}
+/*.block-content .form-item-code-postal .form-text{*/
+	/*margin-top: 10px;*/
+	/*float: left;*/
+	/*display: inline-block;*/
+/*}*/
 
-/* Cachons la case à cocher */
-[type="checkbox"]:not(:checked),
-[type="checkbox"]:checked {
-  position: absolute;
-  left: -9999px;
-}
- 
-/* on prépare le label */
-[type="checkbox"]:not(:checked) + label,
-[type="checkbox"]:checked + label {
-  position: relative; /* permet de positionner les pseudo-éléments */
-  padding-left: 28px; /* fait un peu d'espace pour notre case à venir */
-  padding-top: 6px;
-  cursor: pointer;    /* affiche un curseur adapté */
-}
+/*.block-content .form-item-tel .form-text{*/
+	/*margin-top: 10px;*/
+	/*margin-left: 30%;*/
+	/*float: left;*/
+	/*display: inline-block;*/
+/*}*/
 
-[type="checkbox"]:not(:checked) + label:before,
-[type="checkbox"]:checked + label:before {
-  content: '';
-  position: absolute;
-  left:0; top: 2px;
-  width: 17px; height: 17px; /* dim. de la case */
-  border: 3px solid #1e6a8e;
-  background: #ffffff;
-  border-radius: 2px;
-}
+/*.block-content .form-item-affiliation-société .form-text{*/
+	/*margin-top: 10px;*/
+	/*float: left;*/
+	/*display: inline-block;*/
+/*}*/
 
-/* Aspect général de la coche */
-[type="checkbox"]:not(:checked) + label:after,
-[type="checkbox"]:checked + label:after {
-  content: '✔';
-  position: absolute;
-  top: 2px; left: 6px;
-  font-size: 14px;
-  color: #1e6a8e;
-  transition: all .2s; /* on prévoit une animation */
-}
-/* Aspect si "pas cochée" */
-[type="checkbox"]:not(:checked) + label:after {
-  opacity: 0; /* coche invisible */
-  transform: scale(0); /* mise à l'échelle à 0 */
-}
-/* Aspect si "cochée" */
-[type="checkbox"]:checked + label:after {
-  opacity: 1; /* coche opaque */
-  transform: scale(1); /* mise à l'échelle 1:1 */
-}
+/*.block-content .form-item-fax .form-text{*/
+	/*margin-top: 10px;*/
+	/*margin-left: 30%;*/
+	/*float: left;*/
+	/*display: inline-block;*/
+/*}*/
+
+/*.block-content .form-item-ville .form-text{*/
+	/*margin-bottom: 10px;*/
+	/*margin-top: 10px;*/
+	/*float: left;*/
+	/*display: inline-block;*/
+/*}*/
+
+/*.block-content .form-item-adresse .form-text{*/
+	/*margin-top: 10px;*/
+	/*margin-left: 30%;*/
+	/*margin-bottom: 10px;*/
+	/*float: left;*/
+/*}*/
+
+/*.block-content input.form-submit{*/
+	/*background: #1e6a8e !important;*/
+	/*background-color: #1e6a8e !important;*/
+	/*border: solid 5px #1e6a8e !important;*/
+	/*border-radius: 10px !important;*/
+	/*-webkit-box-shadow: 0 0 5px #1e6a8e !important;*/
+	/*color: white !important;*/
+	/*margin-top: 1%;*/
+/*}*/
+
+/*.block-content form#bsconnexion-form{*/
+	/*text-align: center !important;*/
+/*}*/
+
+/*.block-content .form-item-distr-fabri{*/
+	/*text-align: left !important;*/
+/*}*/
+
+/*!* Cachons la case à cocher *!*/
+/*[type="checkbox"]:not(:checked),*/
+/*[type="checkbox"]:checked {*/
+  /*position: absolute;*/
+  /*left: -9999px;*/
+/*}*/
+ /**/
+/*!* on prépare le label *!*/
+/*[type="checkbox"]:not(:checked) + label,*/
+/*[type="checkbox"]:checked + label {*/
+  /*position: relative; !* permet de positionner les pseudo-éléments *!*/
+  /*padding-left: 28px; !* fait un peu d'espace pour notre case à venir *!*/
+  /*padding-top: 6px;*/
+  /*cursor: pointer;    !* affiche un curseur adapté *!*/
+/*}*/
+
+/*[type="checkbox"]:not(:checked) + label:before,*/
+/*[type="checkbox"]:checked + label:before {*/
+  /*content: '';*/
+  /*position: absolute;*/
+  /*left:0; top: 2px;*/
+  /*width: 17px; height: 17px; !* dim. de la case *!*/
+  /*border: 3px solid #1e6a8e;*/
+  /*background: #ffffff;*/
+  /*border-radius: 2px;*/
+/*}*/
+
+/*!* Aspect général de la coche *!*/
+/*[type="checkbox"]:not(:checked) + label:after,*/
+/*[type="checkbox"]:checked + label:after {*/
+  /*content: '✔';*/
+  /*position: absolute;*/
+  /*top: 2px; left: 6px;*/
+  /*font-size: 14px;*/
+  /*color: #1e6a8e;*/
+  /*transition: all .2s; !* on prévoit une animation *!*/
+/*}*/
+/*!* Aspect si "pas cochée" *!*/
+/*[type="checkbox"]:not(:checked) + label:after {*/
+  /*opacity: 0; !* coche invisible *!*/
+  /*transform: scale(0); !* mise à l'échelle à 0 *!*/
+/*}*/
+/*!* Aspect si "cochée" *!*/
+/*[type="checkbox"]:checked + label:after {*/
+  /*opacity: 1; !* coche opaque *!*/
+  /*transform: scale(1); !* mise à l'échelle 1:1 *!*/
+/*}*/
