@@ -1,7 +1,7 @@
 <?php
 
 function bsconnexion_schema() {
- 
+
   $schema['users_extra_fields'] = array(
     'fields' => array(
       'username' => array(
@@ -95,6 +95,48 @@ function bsconnexion_schema() {
         'default' => '',
         'description' => "Fax of the company's contact.",
       ),
+      'bscontact_civilite' => array(
+        'type' => 'varchar',
+        'length' => 25,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => "Civilite of the Biosample's contact",
+      ),
+      'bscontact_nom' => array(
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => "Lastname of the Biosample's contact",
+      ),
+      'bscontact_prenom' => array(
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => "Firstname of the Biosample's contact",
+      ),
+      'bscontact_mail' => array(
+        'type' => 'varchar',
+        'length' => 254,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => "Mail address of the Biosample's contact",
+      ),
+      'bscontact_phone' => array(
+        'type' => 'varchar',
+        'length' => 25,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => "Phone number of the Biosample's contact",
+      ),
+      'payment_method' => array(
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => "Payment method defined by Biosample",
+      ),
       'payment_date' => array(
         'type' => 'int',
         'not null' => TRUE,
@@ -104,6 +146,7 @@ function bsconnexion_schema() {
     ),
     'primary key' => array('username'),
   );
+
   return $schema;
 }
 
@@ -112,7 +155,7 @@ function bsconnexion_install() {
 }
 
 function bsconnexion_uninstall() {
-  db_query('DROP TABLE {users_extra_fields}');
+    db_drop_table('users_extra_fields');
 }
 
 ?>

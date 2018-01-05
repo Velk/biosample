@@ -2,17 +2,6 @@
     Drupal.behaviors.bs_cc_profil_changeable_datas = {
         attach: function (context, settings) {
 
-            if((window.location.pathname == "/utilisateur/profil")
-                || (window.location.pathname == "/utilisateur/catalogueg")
-                || (window.location.pathname == "/utilisateur/cataloguep")
-                || (window.location.pathname == "/utilisateur/factures")
-                || (window.location.pathname == "/utilisateur/commandes")
-                || (window.location.pathname == "/utilisateur/abonnements")){
-                $("#main-content-wrapper").css("margin-left", -$("#main-content-wrapper").offset().left);
-                $("#main-content-wrapper").css("width", $(window).width());
-                $("#main-content-wrapper>div>div").css("padding", "0");
-            }
-
 /*/////////////////////////////////////////////////////////////////////////////////////////////////*/
 /*////////////////////////////////// CHANGEABLE DATAS /////////////////////////////////////////////*/
 /*/////////////////////////////////////////////////////////////////////////////////////////////////*/
@@ -42,6 +31,31 @@
                     fieldDisabled = true;
                 }
             });
+
+            /* Start - Display or not the button submit when the user changes a value */
+            var saveCivilite = $("#bs-cc-update-account-civilite").val();
+            var saveNomPrenom = $("#bs-cc-update-account-nomprenom").val();
+            var savePosteService = $("#bs-cc-update-account-posteservice").val();
+            var saveMailContact = $("#bs-cc-update-account-mailcontact").val();
+            var saveTelephone = $("#bs-cc-update-account-telephone").val();
+            var saveFax = $("#bs-cc-update-account-fax").val();
+
+            function checkValuesChanged() {
+                if ($("#bs-cc-update-account-civilite").val() != saveCivilite
+                    || $("#bs-cc-update-account-nomprenom").val() != saveNomPrenom
+                    || $("#bs-cc-update-account-posteservice").val() != savePosteService
+                    || $("#bs-cc-update-account-mailcontact").val() != saveMailContact
+                    || $("#bs-cc-update-account-telephone").val() != saveTelephone
+                    || $("#bs-cc-update-account-fax").val() != saveFax) {
+                    $("#bs-cc-update-account-submit").fadeIn();
+                } else {
+                    $("#bs-cc-update-account-submit").fadeOut();
+                }
+            }
+
+            // ...repeat it once every second
+            window.setInterval(checkValuesChanged, 1000);
+            /* End - Display or not the button submit when the user changes a value */
 
 /*/////////////////////////////////////////////////////////////////////////////////////////////////*/
 /*//////////////////////////////// UNCHANGEABLE DATAS /////////////////////////////////////////////*/

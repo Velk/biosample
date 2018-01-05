@@ -3,7 +3,7 @@
         <li id="bs-cc-profil-li">
             <a class="active" href="/utilisateur/profil">PROFIL</a>
         </li><li id="bs-cc-catalogueG-li">
-            <a href="/utilisateur/catalogueg">CATALOGUE GENERAL</a>
+            <a href="/utilisateur/catalogueg">CATALOGUE GÉNÉRAL</a>
         </li><li id="bs-cc-catalogueP-li">
             <a href="/utilisateur/cataloguep">CATALOGUE PERSONNALISÉ</a>
         </li><li id="bs-cc-historique-li">

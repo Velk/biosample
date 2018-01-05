@@ -76,6 +76,27 @@
             });
         /* End - Gael | Actualize the username field with the value of the mail field */
 
+
+            if(
+                (window.location.pathname == "/utilisateur/profil")
+                || (window.location.pathname == "/utilisateur/catalogueg")
+                || (window.location.pathname == "/utilisateur/cataloguep")
+                || (window.location.pathname == "/utilisateur/factures")
+                || (window.location.pathname == "/utilisateur/commandes")
+                || (window.location.pathname == "/utilisateur/abonnements")
+                || (window.location.pathname == "/utilisateur/profil/")
+                || (window.location.pathname == "/utilisateur/catalogueg/")
+                || (window.location.pathname == "/utilisateur/cataloguep/")
+                || (window.location.pathname == "/utilisateur/factures/")
+                || (window.location.pathname == "/utilisateur/commandes/")
+                || (window.location.pathname == "/utilisateur/abonnements/")
+            ){
+                $("#main-content-wrapper").css("margin-left", -$("#main-content-wrapper").offset().left);
+                $("#main-content-wrapper").css("width", $(window).width());
+                $("#main-content-wrapper>div>div").css("padding", "0");
+                $("#main-wrapper .container-inner").css("margin-top", "17px");
+            }
+
         }
     };
 }(jQuery));

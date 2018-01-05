@@ -393,17 +393,27 @@ body.not-front #main-content .region-content {
 }
 
 .page-title-wrap #page-title {
-  color: #fff;
-  font-size: 2.5em;
-  margin: 0;
-  padding: 0 10px;
-  text-transform: uppercase;
-  position: relative;
-  bottom: 15px;
+    color: #fff;
+    font-size: 3em;
+    margin: 0;
+    padding: 0 10px;
+    text-transform: uppercase;
+    position: relative;
+    font-family: "BebasNeue Regular";
+    height: 50px;
 }
+/*.page-title-wrap #page-title {*/
+  /*color: #fff;*/
+  /*font-size: 2.5em;*/
+  /*margin: 0;*/
+  /*padding: 0 10px;*/
+  /*text-transform: uppercase;*/
+  /*position: relative;*/
+  /*bottom: 15px;*/
+/*}*/
 
 #main-wrapper .page-title-wrap .container {
-  padding: 45px 0 13px 0;
+  padding: 15px;
 }
 
 #page-title {
