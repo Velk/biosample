@@ -19,18 +19,26 @@
   margin: 0;
 }
 .tb-megamenu .nav > li {
-  float: left;
-  margin-left: 0;
-  padding: 0 70px 0 5px;
+    float: left;
+    height: auto;
+    padding: 0;
+    margin: 0 40px;
 }
 
 .tb-megamenu .nav > li > a {
-  border-top: 0;
-  color: #1e6a8e;
-  font-weight: normal;
-  padding: 10px 25px;
-  text-shadow: none;
+    height: 100%;
+    padding: 6px 30px;
+    border-top: 0;
+    color: #1e6a8e;
+    font-weight: normal;
+    text-shadow: none;
+    box-sizing: border-box;
 }
+
+.tb-megamenu-item .level-2 > a {
+    font-size: 16px;
+}
+
 .tb-megamenu .nav > li > a:focus,
 .tb-megamenu .nav > li > a:hover {
   color: #FFF;
@@ -1674,7 +1682,7 @@
 }
 
 .tb-megamenu .dropdown-menu{
-  position: relative;
+  position: absolute;
   width: 100%;
   border: none;
   box-sizing: border-box;
@@ -1701,6 +1709,11 @@
     width:200px;
     height:100%;
     background-color: rgba(0,0,0,0.9);
+}
+
+.tb-megamenu{
+    font-family: "BebasNeue Regular", Sans-Serif;
+    font-size: 25px;
 }
 
 /* Place the responsive menu on the right

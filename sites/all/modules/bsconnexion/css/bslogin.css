@@ -74,7 +74,8 @@
 
 #bs-cc-headband > #bs-cc-headband-fields > form > div > #edit-actions,
 #bs-cc-headband > #bs-cc-headband-fields > form > div > div#edit-actions--2,
-#bs-cc-headband > #bs-cc-headband-fields > form > div > div#edit-actions--3 {
+#bs-cc-headband > #bs-cc-headband-fields > form > div > div#edit-actions--3,
+#bs-cc-headband-div-button-signup {
 	display: inline-block;
 	width:auto;
 	margin:0;
@@ -213,14 +214,24 @@ span.bs-cc-headband-buttons-signup {
 		border-radius:0px;
 	}
 
+	#bs-cc-headband-div-button-signup {
+		position: relative;
+		width: 50%;
+		box-sizing: border-box;
+		float: right;
+		padding: 0;
+		margin: 0;
+		padding-left: 1px;
+	}
+
 	#bs-cc-headband-buttons-signup {
 		height: 35px;
-		width: 50%;
+		width: 100%;
 		border-radius: 0px;
 	}
 
 	span.bs-cc-headband-buttons-signup {
-		padding: 0px 0px 0px 1px;
+		padding: 0;
 	}
 }
 
@@ -272,10 +283,11 @@ span.bs-cc-headband-buttons-signup {
 	#bs-cc-user-connected-profil, #bs-cc-user-connected-logout {
 		width:50%;
 		height: 35px;
-		padding: 5px;
+		padding: 6px;
 		border: none;
 		background-color: #1e6a8e;
 		text-align: center;
+		font-size: 22px;
 	}
 
 	#bs-cc-user-connected-profil{

@@ -1,0 +1,120 @@
+div#block-bsconnexion-user-client-account-menu {
+    position: absolute;
+}
+
+p.bs-cc-title-page {
+    margin: 0 0 0px 0;
+    font-size: 25px;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-align: center;
+    background-color: #1e6a8e;
+    color: #fff;
+    border-bottom: 1px solid #fff;
+    border-top: 1px solid #fff;
+    padding: 7px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+ul#bs-cc-dropdown-historique {
+    display: none;
+}
+
+#bs-cc-user-connected-menu *{
+    color: #FFFFFF !important;
+}
+
+#bs-cc-profil-li>a,
+#bs-cc-catalogueG-li>a,
+#bs-cc-catalogueP-li>a,
+#bs-cc-abonnements-li>a,
+#bs-cc-historique-li>a {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 13px 0px;
+}
+
+#bs-cc-user-connected-menu ul{
+    list-style-type: none;
+    margin: 0;
+}
+
+#bs-cc-user-connected-menu>ul>li{
+    position: relative;
+    display: inline-block;
+    width:20%;
+    background-color: #1e6a8e;
+    height: 50px;
+    margin: 0;
+}
+
+#bs-cc-user-connected-menu>ul>li:hover{
+    background-color: #424242;
+}
+
+#bs-cc-dropdown-historique>li {
+    position: relative;
+    width: 100%;
+    background-color: #1e6a8e;
+    opacity: .75;
+    height: 40px;
+    margin: 0;
+}
+
+#bs-cc-dropdown-historique>li:hover {
+    background-color: #424242;
+    opacity: .75;
+}
+
+#bs-cc-dropdown-historique>li>a {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 9px 20px;
+}
+
+#bs-cc-historique-button{
+    display: inline-block;
+    width:20%;
+    text-align:center;
+    background-color: #1e6a8e;
+    height: 50px;
+}
+
+#bs-cc-historique-dropdown-content{
+    display:none;
+}
+
+@media screen and (max-width: 1075px){
+    #bs-cc-profil-li>a,
+    #bs-cc-catalogueG-li>a,
+    #bs-cc-catalogueP-li>a,
+    #bs-cc-abonnements-li>a,
+    #bs-cc-historique-li>a {
+        padding: 16px 0px;
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 875px){
+    #bs-cc-profil-li>a,
+    #bs-cc-catalogueG-li>a,
+    #bs-cc-catalogueP-li>a,
+    #bs-cc-abonnements-li>a,
+    #bs-cc-historique-li>a {
+        padding: 20px 0px;
+        font-size: 9px;
+    }
+}

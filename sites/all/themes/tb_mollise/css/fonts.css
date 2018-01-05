@@ -2,6 +2,45 @@
  * Font-Family Presets
  */
 
+/* Start - Load BebasNeue Fonts */
+@font-face {
+  font-family: "BebasNeue Bold";
+  src: url('../fonts/bebas_neue/BebasNeue Bold.ttf');
+  /*url('file location/filename.eot'); !* IE9 *!*/
+}
+@font-face {
+  font-family: "BebasNeue Book";
+  src: url('../fonts/bebas_neue/BebasNeue Book.ttf');
+}
+@font-face {
+  font-family: "BebasNeue Regular";
+  src: url('../fonts/bebas_neue/BebasNeue Regular.ttf');
+}
+@font-face {
+  font-family: "BebasNeue Light";
+  src: url('../fonts/bebas_neue/BebasNeue Light.ttf');
+}
+@font-face {
+  font-family: "BebasNeue Thin";
+  src: url('../fonts/bebas_neue/BebasNeue Thin.ttf');
+}
+/* End - Load BebasNeue Fonts */
+
+/* Start - Load Titillium Fonts */
+@font-face {
+  font-family: "Titillium Bold";
+  src: url('../fonts/Titillium/Titillium-Bold.otf');
+}
+@font-face {
+  font-family: "Titillium RegularUpright";
+  src: url('../fonts/Titillium/Titillium-RegularUpright.otf');
+}
+@font-face {
+  font-family: "Titillium Light";
+  src: url('../fonts/Titillium/Titillium-Light.otf');
+}
+/* End - Load Titillium Fonts */
+
 /* sans-serif small */
 body.bf-sss,
 .bf-sss .form-text,
