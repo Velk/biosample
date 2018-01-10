@@ -1,5 +1,6 @@
 div#block-bsconnexion-user-client-account-menu {
     position: absolute;
+    z-index: 9;
 }
 
 p.bs-cc-title-page {
@@ -59,6 +60,10 @@ ul#bs-cc-dropdown-historique {
 
 #bs-cc-user-connected-menu>ul>li:hover{
     background-color: #424242;
+}
+
+#bs-cc-historique-li{
+    cursor: pointer;
 }
 
 #bs-cc-dropdown-historique>li {

@@ -3,7 +3,7 @@
   display: inline;
   float: left;
   /*left: 85px;*/
-  bottom: 25px;
+  /*bottom: 25px;*/
   font-size: 1.5em;
 }
 .tb-megamenu:before,
@@ -21,18 +21,24 @@
 .tb-megamenu .nav > li {
     float: left;
     height: auto;
-    padding: 0;
-    margin: 0 40px;
+    margin: 0;
+    /* box-sizing: border-box; */
+    width: calc(33% - 50px);
+    padding: 0 25px;
+    font-family: "Roboto Condensed";
+    text-transform: uppercase;
 }
 
 .tb-megamenu .nav > li > a {
     height: 100%;
-    padding: 6px 30px;
+    padding: 6px 10px;
     border-top: 0;
+    font-size: 20px;
     color: #1e6a8e;
     font-weight: normal;
     text-shadow: none;
     box-sizing: border-box;
+    text-align: center;
 }
 
 .tb-megamenu-item .level-2 > a {
@@ -213,7 +219,7 @@
   z-index: 1000;
   display: none;
   float: left;
-  min-width: 100%;
+  /*min-width: 100%;*/
   list-style: none;
   background-color: #fff;
   border: 1px solid #ccc;
@@ -257,6 +263,12 @@
   text-shadow: none;
   white-space: nowrap;
 }
+
+.tb-megamenu-submenu.dropdown-menu.mega-dropdown-menu {
+    margin: 0 25px;
+    width: calc(100% - 50px) !important;
+}
+
 /*
 .tb-megamenu .dropdown-menu li > a:hover,
 .tb-megamenu .dropdown-menu li > a:focus,
@@ -1709,11 +1721,6 @@
     width:200px;
     height:100%;
     background-color: rgba(0,0,0,0.9);
-}
-
-.tb-megamenu{
-    font-family: "BebasNeue Regular", Sans-Serif;
-    font-size: 25px;
 }
 
 /* Place the responsive menu on the right

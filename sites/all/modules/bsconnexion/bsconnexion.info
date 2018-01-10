@@ -8,5 +8,6 @@ stylesheets[all][] = 'css/bssignup.css'
 
 dependencies[] = user
 dependencies[] = fontawesome
+dependencies[] = fontyourface
 
 scripts[] = 'js/script.js'
