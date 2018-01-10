@@ -877,16 +877,24 @@ function bsconnexion_user_register_validate($form, $form_state){
 // Email verification
     // Retrieve the values of the mail field
     $mail_value = $form_state['values']['mail'];
-    if($error = (!preg_match("/^[A-z0-9_\-\.]+@[A-z-]+\.[a-z]{2,3}$/", $mail_value))){
-        // Check if the mail value match with the Regular Expression above
-        drupal_set_message(t("L'adresse mail n'est pas valide car elle contient des symboles inappropriés !"));
-        // Display an error in the mail field
-        form_set_error('mail', $error);
-    }else if($error = (preg_match("/^[A-z0-9_\-\.]+@yopmail+\.[a-z]{2,3}$/", $mail_value))) {
-        // Check if the mail value match with the Regular Expression  above
-        drupal_set_message(t("L'adresse mail n'est pas valide. Yopmail n'est pas autorisé."));
-        // Display an error in the mail field
-        form_set_error('mail', $error);
+
+    $mailIsUsed = db_query("SELECT mail from {users} WHERE mail = :mail", array(":mail" => $mail_value))->fetchField();
+    $nameIsUsed = db_query("SELECT name from {users} WHERE name = :mail", array(":mail" => $mail_value))->fetchField();
+
+    if($mail_value == $mailIsUsed || $mail_value == $nameIsUsed){
+        drupal_set_message("Cette adresse mail est déjà utilisée.");
+    }else{
+        if($error = (!preg_match("/^[A-z0-9_\-\.]+@[A-z-]+\.[a-z]{2,3}$/", $mail_value))){
+            // Check if the mail value match with the Regular Expression above
+            drupal_set_message(t("L'adresse mail n'est pas valide car elle contient des symboles inappropriés !"));
+            // Display an error in the mail field
+            form_set_error('mail', $error);
+        }else if($error = (preg_match("/^[A-z0-9_\-\.]+@yopmail+\.[a-z]{2,3}$/", $mail_value))) {
+            // Check if the mail value match with the Regular Expression  above
+            drupal_set_message(t("L'adresse mail n'est pas valide. Yopmail n'est pas autorisé."));
+            // Display an error in the mail field
+            form_set_error('mail', $error);
+        }
     }
 
 // Affiliation Societe verification
@@ -932,7 +940,10 @@ function bsconnexion_user_register_validate($form, $form_state){
 // Contact's mail verification
     // Retrieve the values of the contact's mail field
     $mail_contact_value = $form_state['values']['mail_contact'];
-    if($error = (!preg_match("/^[A-z0-9_\-\.]+@[A-z-]+\.[a-z]{2,3}$/", $mail_contact_value))){
+
+    if(empty($mail_contact_value)){
+        drupal_set_message("Veuillez remplir l'adresse mail du contact.");
+    }else if($error = (!preg_match("/^[A-z0-9_\-\.]+@[A-z-]+\.[a-z]{2,3}$/", $mail_contact_value))){
         // Check if the contact's mail value match with the Regular Expression above
         drupal_set_message(t("L'adresse mail du contact n'est pas valide car elle contient des symboles inappropriés !"));
         // Display an error in the contact's mail field
