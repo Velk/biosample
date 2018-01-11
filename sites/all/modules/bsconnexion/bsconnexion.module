@@ -219,7 +219,7 @@ function bsconnexion_admin_datas_user_form($form, &$form_state){
     // Split the URL and retrieve the uid
     $url_uid = $global_url[5];
 
-    // Retrieve datas from the user depending of the uid
+    // Retrieve datas from the user depending on the uid
     $query = db_select('users', 'u');
     $query->join('users_extra_fields', 'uef', 'uef.username = u.name');
     $query->condition('u.uid', $url_uid, '=');
@@ -1260,14 +1260,20 @@ function bsconnexion_block_view($delta = '') {
 // BLOCK - Client account, catalogueg page
         case 'user_catalogueg':
 
-        /* Start - Retrieve the children element of the selected item */
+            /* Start - Retrieve in the table taxonomy_vocabulary the vid of the catalogue_general */
+
+            $vidCatalogueG = db_query("SELECT vid from {taxonomy_vocabulary} WHERE machine_name = :machine_name", array(":machine_name" => "catalogue_general"))->fetchField();
+
+            /* End - Retrieve in the table taxonomy_vocabulary the vid of the catalogue_general */
+
+            /* Start - Retrieve the children element of the selected item */
 
             $itemSelected = drupal_get_query_parameters();
 
             $query = db_select('taxonomy_term_data', 'd');
             $query->join('taxonomy_term_hierarchy', 'h', 'd.tid = h.tid');
             $query->fields('d', array('name', 'tid', 'description'));
-            $query->condition('d.vid', 6);
+            $query->condition('d.vid', $vidCatalogueG);
             if($itemSelected['val'] == null || empty($itemSelected['val'])){
                 $itemSelected['val'] = 0;
                 $query->condition('h.parent', $itemSelected['val']);
@@ -1286,7 +1292,7 @@ function bsconnexion_block_view($delta = '') {
             $query->join('taxonomy_term_hierarchy', 'h', 'd.tid = h.tid');
             $query->fields('d', array('name', 'tid'));
             $query->fields('h', array('parent'));
-            $query->condition('d.vid', 6);
+            $query->condition('d.vid', $vidCatalogueG);
             $query->condition('d.tid', $itemSelected['val']);
             $results = $query->execute();
 
@@ -1304,7 +1310,7 @@ function bsconnexion_block_view($delta = '') {
             $query->join('taxonomy_term_hierarchy', 'h', 'd.tid = h.tid');
             $query->fields('d', array('name', 'tid'));
             $query->fields('h', array('parent'));
-            $query->condition('d.vid', 6);
+            $query->condition('d.vid', $vidCatalogueG);
             $query->condition('d.tid', $tidParentSup);
 
             $results = $query->execute();
@@ -1323,7 +1329,7 @@ function bsconnexion_block_view($delta = '') {
             $query->join('taxonomy_term_hierarchy', 'h', 'd.tid = h.tid');
             $query->fields('d', array('name', 'tid'));
             $query->fields('h', array('parent'));
-            $query->condition('d.vid', 6);
+            $query->condition('d.vid', $vidCatalogueG);
             $query->condition('d.tid', $tidParentSupSup);
             $results = $query->execute();
 
