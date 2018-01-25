@@ -71,6 +71,35 @@
 
     /* End - Set an URL parameter depending of the element clicked */
 
+        /* Start - When the user is on a leaf (last child of a hierarchy) */
+
+            /* Add to the DOM the leaf form container */
+            $("body").prepend(
+                "<div id='bs-cc-cg-leaf'>" +
+                "<div id='bs-cc-cg-leaf-form'>" +
+                "<button id='bs-cc-cg-leaf-cancel'><i class='fa fa-times' aria-hidden='true'></i></button>" +
+                "<p id='bs-cc-cg-leaf-title'></p>" +
+                "</div>" +
+                "</div>"
+            );
+
+            /* If user is on a leaf, show the leaf form container, otherwise no */
+            if($("#leaf-true").text() === "leaf"){
+                $("#bs-cc-cg-leaf").show();
+            }else{
+                $("#bs-cc-cg-leaf").hide();
+            }
+
+            /* If user click on cancel button, hide the leaf form container */
+            $("#bs-cc-cg-leaf-cancel").click(function(){
+                $("#bs-cc-cg-leaf").hide();
+            });
+
+            /* Set the name of the leaf into the leaf form container */
+            $("#bs-cc-cg-leaf-title").text($(".bs-cg-element-active").text());
+
+        /* End - When the user is on a leaf (last child of a hierarchy) */
+
         }
     };
 }(jQuery));

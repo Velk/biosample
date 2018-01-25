@@ -1,4 +1,5 @@
 <?php
+
     if(!empty($nameParent)) {
         print '<div id="bs-cg-parent-container">';
 
@@ -37,22 +38,46 @@
 <div id="bs-cg-container">
     <?php
 
-        foreach ($result as $cpf_datas) {
-            // If description (thus the image) isn't set, it doesn't display the element
-            if(!empty($cpf_datas->description)){
-                print '<div class="bs-cg-element-container">';
-                print '<p hidden class="bs-cg-element-id">';
-                print $cpf_datas->tid;
-                print '</p>';
-                print '<p class="bs-cg-element-name">';
-                print $cpf_datas->name;
-                print '</p>';
-                print $cpf_datas->description;
-                print '<div class="bs-cg-cover"></div>';
-                print '</div>';
+    /* If the element selected IS NOT a leaf (last child of the hierarchy) */
+        if($leaf == FALSE){
+            /* Display children elements */
+            foreach ($results_cg_datas as $cg_datas) {
+                // If description (thus the image) isn't set, it doesn't display the element
+                if(!empty($cg_datas->description)){
+                    print '<div class="bs-cg-element-container">';
+                    print '<p hidden class="bs-cg-element-id">';
+                    print $cg_datas->tid;
+                    print '</p>';
+                    print '<p class="bs-cg-element-name">';
+                    print $cg_datas->name;
+                    print '</p>';
+                    print $cg_datas->description;
+                    print '<div class="bs-cg-cover"></div>';
+                    print '</div>';
+                }
             }
-        }
+    /* If the element selected IS a leaf (last child of the hierarchy) */
+        }else{
 
+            /* Display children elements (parents of the leaf) */
+            foreach ($results_cg_datas_leaf as $cg_datas_leaf) {
+                // If description (thus the image) isn't set, it doesn't display the element
+                if(!empty($cg_datas_leaf->description)){
+                    print '<div class="bs-cg-element-container">';
+                    print '<p hidden class="bs-cg-element-id">';
+                    print $cg_datas_leaf->tid;
+                    print '</p>';
+                    print '<p class="bs-cg-element-name">';
+                    print $cg_datas_leaf->name;
+                    print '</p>';
+                    print $cg_datas_leaf->description;
+                    print '<div class="bs-cg-cover"></div>';
+                    print '</div>';
+                }
+            }
+
+            print "<p id='leaf-true' hidden>leaf</p>";
+        }
     ?>
 
 </div>

@@ -301,3 +301,62 @@ span.bs-cc-headband-buttons-signup {
 }
 
 /* End - Gael | When the user is connected */
+
+/* Start - User has entered wrong informations */
+#wrong-authentication{
+	position: absolute;
+	top: 0;
+	left: 0;
+	color: #fff;
+	height: 35px;
+	width: 100%;
+	margin: 35px 0 0 0;
+	padding: 5px;
+	font-size: 15px;
+	box-sizing: border-box;
+	background-color: rgba(0,0,0,.35);
+	text-align: center;
+}
+
+#wrong-authentication-cross{
+	position: absolute;
+	top: 0;
+	left: 0;
+	color: #fff;
+	height: 35px;
+	width: auto;
+	margin: 35px 0 0 0;
+	padding: 6.5px 10px;
+	font-size: 20px;
+	box-sizing: border-box;
+	text-align: center;
+	z-index: 1;
+}
+
+#wrong-authentication-cross:hover{
+	/*color: #1e6a8e;*/
+	-webkit-transform: rotate(360deg);
+	transform: rotate(360deg);
+	-webkit-transition: -webkit-transform .8s ease-in-out;
+	transition:         transform .8s ease-in-out;
+}
+
+@media screen and (max-width : 500px){
+	#wrong-authentication,
+	#wrong-authentication-cross {
+		margin: 70px 0 0 0;
+	}
+}
+
+@media screen and (max-width: 400px){
+	#wrong-authentication,
+	#wrong-authentication-cross {
+		font-size: 12px;
+		padding: 7px 10px;
+	}
+
+	#wrong-authentication-cross {
+		padding: 11px 10px;
+	}
+}
+/* End - User has entered wrong informations */

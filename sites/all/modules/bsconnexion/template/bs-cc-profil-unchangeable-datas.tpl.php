@@ -23,3 +23,9 @@
             <?php endif; ?>
         </div>
 </div>
+
+<?php if (!empty($client_code)): ?>
+<div class="div-unchangeable-datas" id="div-unchangeable-datas-client-code">
+    <p>Code client : </p><p class="unchangeable-datas"><?php print render($client_code); ?></p>
+</div>
+<?php endif; ?>

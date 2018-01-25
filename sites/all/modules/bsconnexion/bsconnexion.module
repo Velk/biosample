@@ -154,6 +154,8 @@ function bsconnexion_admin_userlist_form($form, &$form_state){
         'uid' => array('data' => t('uid'), 'field' => 'uef.username'),
         'username' => array('data' => t('Username'), 'field' => 'uef.username'),
         'societe' => array('data' => t('Societe'), 'field' => 'uef.affiliation_societe'),
+        'biosample_contact' => array('data' => t('Contact Biosample'), 'field' => 'uef.bscontact_nom'),
+        'client_code' => array('data' => t('Code client'), 'field' => 'uef.client_code'),
         'operations' => array('data' => t('Operations')),
     );
 
@@ -167,7 +169,7 @@ function bsconnexion_admin_userlist_form($form, &$form_state){
 
     $query = $query->extend('PagerDefault')->extend('TableSort');
     $query
-        ->fields('uef', array('username', 'affiliation_societe'))
+        ->fields('uef', array('username', 'affiliation_societe', 'bscontact_nom', 'client_code'))
         ->fields('u', array('uid', 'name'))
         ->limit(50)
         ->orderByHeader($header)
@@ -182,6 +184,8 @@ function bsconnexion_admin_userlist_form($form, &$form_state){
             'uid' => $account->uid,
             'username' => $account->username,
             'societe' => $account->affiliation_societe,
+            'biosample_contact' => $account->bscontact_nom,
+            'client_code' => $account->client_code,
             'operations' => array('data' => array('#type' => 'link', '#title' => t('edit'), '#href' => "admin/BioSample/user-manager/utilisateur/$account->uid/edit", '#options' => array('query' => $destination))),
         );
     }
@@ -225,6 +229,7 @@ function bsconnexion_admin_datas_user_form($form, &$form_state){
     $query->condition('u.uid', $url_uid, '=');
     $result = $query
         ->fields('u', array('uid'))
+//        ->fields('uef', array('username', 'mail', 'affiliation_societe', 'siren', 'adresse', 'code_postal', 'ville', 'civilite', 'nom_prenom', 'poste_service', 'mail_contact', 'telephone', 'fax', 'bscontact_civilite', 'bscontact_nom', 'bscontact_prenom', 'bscontact_mail', 'bscontact_phone', 'client_code', 'payment_method'))
         ->fields('uef', array('username', 'mail', 'affiliation_societe', 'siren', 'adresse', 'code_postal', 'ville', 'civilite', 'nom_prenom', 'poste_service', 'mail_contact', 'telephone', 'fax', 'bscontact_civilite', 'bscontact_nom', 'bscontact_prenom', 'bscontact_mail', 'bscontact_phone', 'payment_method'))
         ->execute();
 
@@ -453,6 +458,24 @@ function bsconnexion_admin_datas_user_form($form, &$form_state){
             '#description' => t('Change the phone number of the Biosample\'s contact'),
             '#weight' => 5,
         );
+
+        // User Biosample's client code
+
+        $form['admin_update']['user_client_code'] = array(
+            '#type' => 'fieldset',
+            '#title' => t('Code client du contact Biosample'),
+            '#weight' => 4,
+            '#collapsible' => TRUE,
+            '#collapsed' => FALSE,
+        );
+
+        $form['admin_update']['user_client_code']['data_client_code'] = array(
+            '#type' => 'textfield',
+            '#default_value' => $account_datas->client_code,
+            '#title' => t('Client code of the Biosample\'s contact'),
+            '#description' => t('Change the client code of the Biosample\'s contact'),
+            '#weight' => 1,
+        );
     }
 
     $form['admin_update']['submit'] = array(
@@ -468,6 +491,7 @@ function bsconnexion_admin_datas_user_form($form, &$form_state){
         '#id' => 'bs-cc-admin-update-delete-user',
     );
 
+    $form['admin_update']['submit']['#validate'][] = 'bsconnexion_admin_datas_user_validate';
     $form['admin_update']['submit']['#submit'][] = 'bsconnexion_admin_datas_user_submit';
     $form['admin_update']['delete']['#submit'][] = 'bsconnexion_admin_datas_user_delete_submit';
 
@@ -492,6 +516,23 @@ function bsconnexion_admin_datas_user_delete_submit($form, &$form_state){
         ->execute();
 
     drupal_set_message("Le compte ".$match_affiliation_societe." a été supprimé.");
+}
+
+/**
+ * Implement bsconnexion_admin_datas_user_validate()
+ *
+ * @see bsconnexion_admin_datas_user_form()
+ */
+function bsconnexion_admin_datas_user_validate($form, $form_state){
+    // Code client verification
+    $client_code_value = $form_state['values']['data_client_code'];
+    if ($error = (!preg_match("/^[A-Z]{3}[0-9]{2}[A-Z]{1}$/",$client_code_value))) {
+        // Check if the client code value match with the Regular Expression above
+        // Allow alphanumeric
+        drupal_set_message(t("Le champ Code client ne respecte pas le format : XXX00X."));
+        // Display an error in the affiliation societe field
+        form_set_error('data_client_code', $error);
+    }
 }
 
 /**
@@ -541,6 +582,7 @@ function bsconnexion_admin_datas_user_submit($form, &$form_state){
             'bscontact_prenom' => $form_state['values']['data_bscontact_prenom'],
             'bscontact_mail' => $form_state['values']['data_bscontact_mail'],
             'bscontact_phone' => $form_state['values']['data_bscontact_phone'],
+            'client_code' => $form_state['values']['data_client_code'],
             'payment_method' => $form_state['values']['data_payment_method'],
         ))
         ->execute();
@@ -1165,6 +1207,7 @@ function bsconnexion_block_view($delta = '') {
             $result_adresse = db_query("SELECT adresse from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
             $result_ville = db_query("SELECT ville from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
             $payment_method = db_query("SELECT payment_method from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
+            $client_code = db_query("SELECT client_code from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
 
             // Set the retrieved datas in drupal's variables
             $data['affiliation_societe'] = $result_affiliation_societe;
@@ -1173,6 +1216,7 @@ function bsconnexion_block_view($delta = '') {
             $data['adresse'] = $result_adresse;
             $data['ville'] = $result_ville;
             $data['payment_method'] = $payment_method;
+            $data['client_code'] = $client_code;
 
             $block['subject'] = t('Informations de la société');
             // Link the template to display datas
@@ -1260,13 +1304,13 @@ function bsconnexion_block_view($delta = '') {
 // BLOCK - Client account, catalogueg page
         case 'user_catalogueg':
 
-            /* Start - Retrieve in the table taxonomy_vocabulary the vid of the catalogue_general */
+        /* Start - Retrieve in the table taxonomy_vocabulary the vid of the catalogue_general */
 
             $vidCatalogueG = db_query("SELECT vid from {taxonomy_vocabulary} WHERE machine_name = :machine_name", array(":machine_name" => "catalogue_general"))->fetchField();
 
-            /* End - Retrieve in the table taxonomy_vocabulary the vid of the catalogue_general */
+        /* End - Retrieve in the table taxonomy_vocabulary the vid of the catalogue_general */
 
-            /* Start - Retrieve the children element of the selected item */
+        /* Start - Retrieve the children element of the selected item */
 
             $itemSelected = drupal_get_query_parameters();
 
@@ -1275,16 +1319,16 @@ function bsconnexion_block_view($delta = '') {
             $query->fields('d', array('name', 'tid', 'description'));
             $query->condition('d.vid', $vidCatalogueG);
             if($itemSelected['val'] == null || empty($itemSelected['val'])){
+                // Set parent to 0 to select the first level
                 $itemSelected['val'] = 0;
                 $query->condition('h.parent', $itemSelected['val']);
             }else{
                 $query->condition('h.parent', $itemSelected['val']);
             }
 
-            $data['result'] = $query->execute();
+            $data['results_cg_datas'] = $query->execute();
 
         /* End - Retrieve the children element of the selected item */
-
 
         /* Start - Retrieve the actual selected item */
 
@@ -1340,6 +1384,55 @@ function bsconnexion_block_view($delta = '') {
             }
 
         /* End - Retrieve the parent selected item */
+
+
+        /* Start - Check if the element is a leaf */
+
+            /* Start - Test to check if the selected element is a leaf or not */
+
+                $query = db_select('taxonomy_term_hierarchy', 'h');
+                $query->join('taxonomy_term_data', 'd', 'h.tid = d.tid');
+                $query->fields('h', array('tid','parent'));
+                $query->condition('d.vid', $vidCatalogueG);
+                $query->condition('h.parent', $itemSelected['val']);
+                $leafResults = $query->execute();
+
+                foreach ($leafResults as $leafResult){
+                    $leafTid = $leafResult->tid;
+                    $leafParent = $leafResult->tid;
+                }
+
+                if(empty($leafTid) && empty($leafParent)){
+    //                drupal_set_message(" ");
+    //                drupal_set_message("C'est le dernier enfant !");
+                    $data['leaf'] = TRUE;
+                }else{
+    //                drupal_set_message(" ");
+    //                drupal_set_message("Ce n'est pas le dernier enfant !");
+                    $data['leaf'] = FALSE;
+                }
+
+            /* End - Test to check if the selected element is a leaf or not */
+
+            /* Start - Retrieve parents datas of the selected element */
+
+                $query = db_select('taxonomy_term_data', 'd');
+                $query->join('taxonomy_term_hierarchy', 'h', 'd.tid = h.tid');
+                $query->fields('d', array('name', 'tid', 'description'));
+                $query->condition('d.vid', 6);
+                if($data['tid2Parent'] == null || empty($data['tid2Parent'])){
+                    // Set tid2Parent to 0 to select the first level
+                    $data['tid2Parent'] = 0;
+                    $query->condition('h.parent', $data['tid2Parent']);
+                }else{
+                    $query->condition('h.parent', $data['tid2Parent']);
+                }
+
+                $data['results_cg_datas_leaf'] = $query->execute();
+
+            /* End - Retrieve parents datas of the selected element */
+
+        /* End - Check if the element is a leaf */
 
             // Link the template to display datas
             $block['content']['#markup'] = theme('bsconnexion_catalogueg', $data);
