@@ -97,6 +97,93 @@
                 $("#main-wrapper .container-inner").css("margin-top", "17px");
             }
 
+
+        /* Start - Custom the user/ page and remove useless form */
+            // If the page is /user/uid/edit and
+            // if the page doesn't contain the word admin
+            if(window.location.pathname.match(/^\/user\/[0-9]{0,10}\/edit$/) && window.location.href.match(/^((?!admin).)*$/)){
+                console.log("regexp");
+                $("#page-title").text("Réinitialisation du mot de passe.");
+                $("#page-title").css({
+                    "font-size" : "30px",
+                    "min-height" : "0px",
+                    "height" : "auto"
+                });
+
+                $("fieldset#edit-locale, fieldset#edit-contact, fieldset#edit-timezone, div.tabs, #edit-account > .form-item-mail").css({
+                    "display" : "none"
+                });
+
+                $("div#edit-account input").css({
+                    "border": "2px solid #1e6a8e",
+                    "border-radius": "4px",
+                    "width" : "250px",
+                    "margin-top" : "5px",
+                    "padding" : "5px 15px"
+                });
+
+                $("#edit-locale").remove();
+                $("#edit-contact").remove();
+                $("#edit-contact").remove();
+                $("#edit-timezone").remove();
+                $("div.tabs").remove();
+                $("#edit-account > .form-item-mail").remove();
+            }
+
+
+            if(window.location.pathname.match(/^\/user\/.*$/) && window.location.href.match(/^((?!admin).)*$/)){
+                $("div#edit-actions input").css({
+                    "text-shadow" : "none",
+                    "box-shadow" : "none",
+                    "width" : "auto",
+                    "height" : "40px",
+                    "background" : "#1e6a8e",
+                    "background-color" : "#1e6a8e",
+                    "box-sizing" : "border-box",
+                    "border" : "none",
+                    "border-radius" : "4px",
+                    "color" : "#fff",
+                    "padding" : "0 15px",
+                    "margin" : "0"
+                });
+
+                $("div#edit-actions input").mouseenter(function(){
+                    $(this).css("background-color", "#424242");
+                });
+
+                $("div#edit-actions input").mouseleave(function(){
+                    $(this).css("background-color", "#1e6a8e");
+                });
+            }
+
+        /* End - Custom the user/ page and remove useless form */
+
+        /* Start - Check if user has entered wrong informations */
+
+            if($("#bs-cc-headband-field-username").is(":visible") && $("#bs-cc-headband-field-password").is(":visible")){
+
+                var stringIsError = $("#bs-cc-headband-field-username").prop("class");
+                var splitString = stringIsError.split(' ');
+
+                for(i = 0 ; i < splitString.length ; i++){
+                    if(splitString[i] == "error"){
+                        console.log("La classe Error est bien présente.")
+                        $("#bs-cc-headband-field-username").parent().parent().parent().prepend(
+                            "<i class='fa fa-times' aria-hidden='true' id='wrong-authentication-cross'></i>" +
+                            "<p id='wrong-authentication'>Le nom d'utilisateur ou le mot de passe est invalide.</p>"
+                        );
+                    }
+                }
+
+                $("#wrong-authentication-cross").click(function(){
+                   $(this).remove();
+                   $("#wrong-authentication").remove();
+                });
+
+            }
+
+        /* End - Check if user has entered wrong informations */
+
         }
     };
 }(jQuery));

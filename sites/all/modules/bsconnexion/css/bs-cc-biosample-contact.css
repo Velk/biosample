@@ -13,6 +13,7 @@ div#block-bsconnexion-user-profil-biosample-contact>div>h2 {
     text-align: center;
     padding: 5px 0;
     border: 1px solid #424242;
+    min-height: auto;
 }
 
 div#bs-cc-user-profil-biosample-contact {

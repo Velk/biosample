@@ -61,7 +61,10 @@
 /*//////////////////////////////// UNCHANGEABLE DATAS /////////////////////////////////////////////*/
 /*/////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-            $("#block-bsconnexion-user-profil-unchangeable-datas").height($("#block-bsconnexion-user-profil-changeable-datas").height())
+            // $("#block-bsconnexion-user-profil-unchangeable-datas").height($("#block-bsconnexion-user-profil-changeable-datas").height())
+            $("#block-bsconnexion-user-profil-unchangeable-datas").css(
+                "min-height", $("#block-bsconnexion-user-profil-changeable-datas").height()
+            );
 
         }
     };

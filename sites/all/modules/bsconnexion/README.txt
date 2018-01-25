@@ -14,6 +14,7 @@ Changement configuration d’administration Drupal 7 :
         - Exiger la vérification de  l’adresse électronique quand un
           visiteur créé un compte : Require a verification e-mail,
           but wait for the approval e-mail to let user set their password.
+        - Personnalisation : Décocher les 2 cases.
 
 -------------------------------------------------------------------------------------------------------
 

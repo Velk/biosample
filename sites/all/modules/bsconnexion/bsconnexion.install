@@ -137,6 +137,13 @@ function bsconnexion_schema() {
         'default' => '',
         'description' => "Payment method defined by Biosample",
       ),
+      'client_code' => array(
+        'type' => 'varchar',
+        'length' => 10,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => "Client code defined by Biosample",
+      ),
       'payment_date' => array(
         'type' => 'int',
         'not null' => TRUE,
