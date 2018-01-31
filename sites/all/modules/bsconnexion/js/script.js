@@ -79,13 +79,13 @@
 
             if(
                 (window.location.pathname == "/utilisateur/profil")
-                || (window.location.pathname == "/utilisateur/catalogueg")
+                // || (window.location.pathname == "/utilisateur/catalogueg")
                 || (window.location.pathname == "/utilisateur/cataloguep")
                 || (window.location.pathname == "/utilisateur/factures")
                 || (window.location.pathname == "/utilisateur/commandes")
                 || (window.location.pathname == "/utilisateur/abonnements")
                 || (window.location.pathname == "/utilisateur/profil/")
-                || (window.location.pathname == "/utilisateur/catalogueg/")
+                // || (window.location.pathname == "/utilisateur/catalogueg/")
                 || (window.location.pathname == "/utilisateur/cataloguep/")
                 || (window.location.pathname == "/utilisateur/factures/")
                 || (window.location.pathname == "/utilisateur/commandes/")
@@ -98,11 +98,26 @@
             }
 
 
+        /* Start - Set the content at the entire window width */
+            if(
+                (window.location.pathname == "/utilisateur/catalogueg") ||
+                (window.location.pathname == "/utilisateur/catalogueg/") ||
+                (window.location.pathname.match(/^\/utilisateur\/catalogueg\/[0-9]{0,10}$/))
+            ){
+                $(".page-title-wrap").remove();
+
+                $("#main-content-wrapper").css("margin-left", -$("#main-content-wrapper").offset().left);
+                $("#main-content-wrapper").css("width", $(window).width());
+                $("#main-content-wrapper>div>div").css("padding", "0");
+                $("#main-wrapper .container-inner").css("margin-top", "17px");
+            }
+        /* End - Set the content at the entire window width */
+
         /* Start - Custom the user/ page and remove useless form */
             // If the page is /user/uid/edit and
             // if the page doesn't contain the word admin
             if(window.location.pathname.match(/^\/user\/[0-9]{0,10}\/edit$/) && window.location.href.match(/^((?!admin).)*$/)){
-                console.log("regexp");
+                // console.log("regexp");
                 $("#page-title").text("Réinitialisation du mot de passe.");
                 $("#page-title").css({
                     "font-size" : "30px",

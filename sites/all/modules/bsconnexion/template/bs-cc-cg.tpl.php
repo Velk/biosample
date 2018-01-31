@@ -39,11 +39,11 @@
     <?php
 
     /* If the element selected IS NOT a leaf (last child of the hierarchy) */
-        if($leaf == FALSE){
+        if($leaf == FALSE) {
             /* Display children elements */
             foreach ($results_cg_datas as $cg_datas) {
                 // If description (thus the image) isn't set, it doesn't display the element
-                if(!empty($cg_datas->description)){
+                if (!empty($cg_datas->description)) {
                     print '<div class="bs-cg-element-container">';
                     print '<p hidden class="bs-cg-element-id">';
                     print $cg_datas->tid;
@@ -56,7 +56,7 @@
                     print '</div>';
                 }
             }
-    /* If the element selected IS a leaf (last child of the hierarchy) */
+            /* If the element selected IS a leaf (last child of the hierarchy) */
         }else{
 
             /* Display children elements (parents of the leaf) */
@@ -81,4 +81,3 @@
     ?>
 
 </div>
-

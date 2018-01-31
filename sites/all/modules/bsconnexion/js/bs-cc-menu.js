@@ -59,9 +59,9 @@
             });
             /* End - Change li>a's active class in the user connected menu */
 
-            /* Start - If page is /utilisateur/profil , remove the headband containing the title */
+            /* Start - If page is /utilisateur/... , remove the headband containing the title */
             if((window.location.pathname == "/utilisateur/profil")
-                || (window.location.pathname == "/utilisateur/catalogueg")
+                // || (window.location.pathname == "/utilisateur/catalogueg")
                 || (window.location.pathname == "/utilisateur/cataloguep")
                 || (window.location.pathname == "/utilisateur/factures")
                 || (window.location.pathname == "/utilisateur/commandes")
