@@ -109,6 +109,7 @@
 	text-shadow: none;
 	font-size: 12px;
 	vertical-align: middle;
+	cursor: pointer;
 }
 
 span.bs-cc-headband-buttons-signup {

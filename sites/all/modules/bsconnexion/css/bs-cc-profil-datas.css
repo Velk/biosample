@@ -31,6 +31,7 @@ div#block-bsconnexion-user-profil-changeable-datas {
 #bs-cc-update-account-fax-div{
     position: relative;
     margin-top:15px;
+    height: 35px;
 }
 
 #bs-cc-update-account-civilite-div>p,
@@ -88,6 +89,7 @@ div#block-bsconnexion-user-profil-changeable-datas {
     box-sizing: border-box;
     background-color:#1e6a8e;
     color:#fff;
+    cursor: pointer;
 }
 
 #bs-cc-update-account-submit-div {
@@ -122,6 +124,16 @@ div#block-bsconnexion-user-profil-changeable-datas {
 #bsconnexion-profil-changeable-datas-form select.error:disabled {
     background-color: #EEE;
     color:#F44336;
+}
+
+.field-click-detection{
+    position: relative;
+    display: inline-block;
+    width: calc(100% - 125px);
+    transform: translateY(-35px);
+    text-align: right;
+    height: 35px;
+    cursor: pointer;
 }
 
 /*/////////////////////////////////////////////////////////////////////////////////////////////////*/

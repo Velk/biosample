@@ -15,21 +15,15 @@
             $("#bs-cc-update-account-telephone").prop( "disabled", true );
             $("#bs-cc-update-account-fax").prop( "disabled", true );
 
-            $("#bs-cc-update-account-civilite-div").append('<div class="bs-cc-update-account-update-btn"><i class="fa fa-pencil" aria-hidden="true"></i></div>');
-            $("#bs-cc-update-account-nomprenom-div").append('<div class="bs-cc-update-account-update-btn"><i class="fa fa-pencil" aria-hidden="true"></i></div>');
-            $("#bs-cc-update-account-posteservice-div").append('<div class="bs-cc-update-account-update-btn"><i class="fa fa-pencil" aria-hidden="true"></i></div>');
-            $("#bs-cc-update-account-mailcontact-div").append('<div class="bs-cc-update-account-update-btn"><i class="fa fa-pencil" aria-hidden="true"></i></div>');
-            $("#bs-cc-update-account-telephone-div").append('<div class="bs-cc-update-account-update-btn"><i class="fa fa-pencil" aria-hidden="true"></i></div>');
-            $("#bs-cc-update-account-fax-div").append('<div class="bs-cc-update-account-update-btn"><i class="fa fa-pencil" aria-hidden="true"></i></div>');
+            $("#bs-cc-update-account-civilite-div, #bs-cc-update-account-nomprenom-div, #bs-cc-update-account-posteservice-div, #bs-cc-update-account-mailcontact-div, #bs-cc-update-account-telephone-div, #bs-cc-update-account-fax-div").append(
+                '<div class="bs-cc-update-account-update-btn"><i class="fa fa-pencil" aria-hidden="true"></i></div><div class="field-click-detection"></div>'
+            );
 
-            $(".bs-cc-update-account-update-btn").click(function(){
+            $(".field-click-detection").click(function(){
                 if(fieldDisabled){
                     $(this).parent().children().children().prop( "disabled", false );
-                    fieldDisabled = false;
-                }else{
-                    $(this).parent().children().children().prop( "disabled", true );
-                    fieldDisabled = true;
-                }
+                    $(this).remove();
+                 }
             });
 
             /* Start - Display or not the button submit when the user changes a value */

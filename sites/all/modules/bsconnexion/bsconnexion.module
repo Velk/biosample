@@ -1117,7 +1117,7 @@ function bsconnexion_block_info() {
         'status' => TRUE,
         'region' => 'content',
         'visibility' => BLOCK_VISIBILITY_LISTED,
-        'pages' => "utilisateur/profil\r\nutilisateur/catalogueg\r\nutilisateur/cataloguep\r\nutilisateur/factures\r\nutilisateur/commandes\r\nutilisateur/abonnements",
+        'pages' => "utilisateur/profil\r\nutilisateur/catalogueg\r\nutilisateur/catalogueg/*\r\nutilisateur/cataloguep\r\nutilisateur/factures\r\nutilisateur/commandes\r\nutilisateur/abonnements",
         'weight' => 1,
     );
     // This example comes from node.module.
@@ -1162,7 +1162,7 @@ function bsconnexion_block_info() {
         'status' => TRUE,
         'region' => 'content',
         'visibility' => BLOCK_VISIBILITY_LISTED,
-        'pages' => 'utilisateur/catalogueg',
+        'pages' => "utilisateur/catalogueg\r\nutilisateur/catalogueg/*",
         'weight' => 2,
     );
 
@@ -1312,32 +1312,35 @@ function bsconnexion_block_view($delta = '') {
 
         /* Start - Retrieve the children element of the selected item */
 
-            $itemSelected = drupal_get_query_parameters();
+            $retrieveURI = $_SERVER['REQUEST_URI'];
+
+            $URISplit = preg_split("/\//", $retrieveURI);
+            $leafId = $URISplit[sizeof($URISplit)-1];
 
             $query = db_select('taxonomy_term_data', 'd');
             $query->join('taxonomy_term_hierarchy', 'h', 'd.tid = h.tid');
             $query->fields('d', array('name', 'tid', 'description'));
             $query->condition('d.vid', $vidCatalogueG);
-            if($itemSelected['val'] == null || empty($itemSelected['val'])){
+            if ($leafId == null || empty($leafId)) {
                 // Set parent to 0 to select the first level
-                $itemSelected['val'] = 0;
-                $query->condition('h.parent', $itemSelected['val']);
-            }else{
-                $query->condition('h.parent', $itemSelected['val']);
+                $leafId = 0;
+                $query->condition('h.parent', $leafId);
+            } else {
+                $query->condition('h.parent', $leafId);
             }
 
             $data['results_cg_datas'] = $query->execute();
 
-        /* End - Retrieve the children element of the selected item */
+            /* End - Retrieve the children element of the selected item */
 
-        /* Start - Retrieve the actual selected item */
+            /* Start - Retrieve the actual selected item */
 
             $query = db_select('taxonomy_term_data', 'd');
             $query->join('taxonomy_term_hierarchy', 'h', 'd.tid = h.tid');
             $query->fields('d', array('name', 'tid'));
             $query->fields('h', array('parent'));
             $query->condition('d.vid', $vidCatalogueG);
-            $query->condition('d.tid', $itemSelected['val']);
+            $query->condition('d.tid', $leafId);
             $results = $query->execute();
 
             foreach ($results as $result) {
@@ -1346,9 +1349,9 @@ function bsconnexion_block_view($delta = '') {
                 $tidParentSup = $result->parent;
             }
 
-        /* End - Retrieve the actual selected item */
+            /* End - Retrieve the actual selected item */
 
-        /* Start - Retrieve the parent selected item */
+            /* Start - Retrieve the parent selected item */
 
             $query = db_select('taxonomy_term_data', 'd');
             $query->join('taxonomy_term_hierarchy', 'h', 'd.tid = h.tid');
@@ -1365,9 +1368,9 @@ function bsconnexion_block_view($delta = '') {
                 $tidParentSupSup = $result->parent;
             }
 
-        /* End - Retrieve the parent selected item */
+            /* End - Retrieve the parent selected item */
 
-        /* Start - Retrieve the parent selected item */
+            /* Start - Retrieve the parent selected item */
 
             $query = db_select('taxonomy_term_data', 'd');
             $query->join('taxonomy_term_hierarchy', 'h', 'd.tid = h.tid');
@@ -1383,52 +1386,51 @@ function bsconnexion_block_view($delta = '') {
                 $tidParentSupSupSup = $result->parent;
             }
 
-        /* End - Retrieve the parent selected item */
-
+            /* End - Retrieve the parent selected item */
 
         /* Start - Check if the element is a leaf */
 
             /* Start - Test to check if the selected element is a leaf or not */
 
-                $query = db_select('taxonomy_term_hierarchy', 'h');
-                $query->join('taxonomy_term_data', 'd', 'h.tid = d.tid');
-                $query->fields('h', array('tid','parent'));
-                $query->condition('d.vid', $vidCatalogueG);
-                $query->condition('h.parent', $itemSelected['val']);
-                $leafResults = $query->execute();
+            $query = db_select('taxonomy_term_hierarchy', 'h');
+            $query->join('taxonomy_term_data', 'd', 'h.tid = d.tid');
+            $query->fields('h', array('tid', 'parent'));
+            $query->condition('d.vid', $vidCatalogueG);
+            $query->condition('h.parent', $leafId);
+            $leafResults = $query->execute();
 
-                foreach ($leafResults as $leafResult){
-                    $leafTid = $leafResult->tid;
-                    $leafParent = $leafResult->tid;
-                }
+            foreach ($leafResults as $leafResult) {
+                $leafTid = $leafResult->tid;
+                $leafParent = $leafResult->tid;
+            }
 
-                if(empty($leafTid) && empty($leafParent)){
-    //                drupal_set_message(" ");
-    //                drupal_set_message("C'est le dernier enfant !");
-                    $data['leaf'] = TRUE;
-                }else{
-    //                drupal_set_message(" ");
-    //                drupal_set_message("Ce n'est pas le dernier enfant !");
-                    $data['leaf'] = FALSE;
-                }
+            if (empty($leafTid) && empty($leafParent)) {
+                // drupal_set_message(" ");
+                // drupal_set_message("C'est le dernier enfant !");
+                $data['leaf'] = TRUE;
+            } else {
+                // drupal_set_message(" ");
+                // drupal_set_message("Ce n'est pas le dernier enfant !");
+                $data['leaf'] = FALSE;
+            }
 
             /* End - Test to check if the selected element is a leaf or not */
 
             /* Start - Retrieve parents datas of the selected element */
 
-                $query = db_select('taxonomy_term_data', 'd');
-                $query->join('taxonomy_term_hierarchy', 'h', 'd.tid = h.tid');
-                $query->fields('d', array('name', 'tid', 'description'));
-                $query->condition('d.vid', 6);
-                if($data['tid2Parent'] == null || empty($data['tid2Parent'])){
-                    // Set tid2Parent to 0 to select the first level
-                    $data['tid2Parent'] = 0;
-                    $query->condition('h.parent', $data['tid2Parent']);
-                }else{
-                    $query->condition('h.parent', $data['tid2Parent']);
-                }
+            $query = db_select('taxonomy_term_data', 'd');
+            $query->join('taxonomy_term_hierarchy', 'h', 'd.tid = h.tid');
+            $query->fields('d', array('name', 'tid', 'description'));
+            $query->condition('d.vid', 6);
+            if ($data['tid2Parent'] == null || empty($data['tid2Parent'])) {
+                // Set tid2Parent to 0 to select the first level
+                $data['tid2Parent'] = 0;
+                $query->condition('h.parent', $data['tid2Parent']);
+            } else {
+                $query->condition('h.parent', $data['tid2Parent']);
+            }
 
-                $data['results_cg_datas_leaf'] = $query->execute();
+            $data['results_cg_datas_leaf'] = $query->execute();
 
             /* End - Retrieve parents datas of the selected element */
 

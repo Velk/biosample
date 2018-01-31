@@ -20,32 +20,16 @@
 
     /* Start - Set an URL parameter depending of the element clicked */
 
-            function addQSParam(name, value) {
-                var re = new RegExp("([?&]" + name + "=)[^&]+", "");
-
-                function add(sep) {
-                    window.location.href += sep + name + "=" + encodeURIComponent(value);
-                }
-
-                function change() {
-                    window.location.href = window.location.href.replace(re, "$1" + encodeURIComponent(value));
-                }
-                if (window.location.href.indexOf("?") === -1) {
-                    add("?");
-                } else {
-                    if (re.test(window.location.href)) {
-                        change();
-                    } else {
-                        add("&");
-                    }
-                }
+            function addURL(itemSelected) {
+                window.location.replace(window.location.origin + "/utilisateur/catalogueg/" + itemSelected);
             }
 
         /* Start - Pass URL's parameters depending of the tid of the element selected */
 
             $(".bs-cg-element-container").click(function(){
-                var itemSelected = $(this).children(".bs-cg-element-id").text();
-                addQSParam("val", itemSelected);
+                var elementId = $(this).children(".bs-cg-element-id").text();
+
+                addURL(elementId);
             });
 
         /* End - Pass URL's parameters depending of the tid of the element selected */
@@ -55,7 +39,7 @@
             $(".bs-cg-parent-element-container").click(function(){
                 var parentSelected = $(this).children(".bs-cg-element-id").text();
 
-                addQSParam("val", parentSelected);
+                addURL(parentSelected);
             });
 
         /* End - Pass URL's parameters depending of the tid of the element selected */
@@ -63,40 +47,37 @@
         /* Start - Redirect to the first level of the catalogue */
 
             $('#bs-cg-parent-top').click(function(){
-                window.location.replace(window.location.origin + window.location.pathname);
+                window.location.replace(window.location.origin + "/utilisateur/catalogueg");
             });
 
         /* End - Redirect to the first level of the catalogue */
 
-
     /* End - Set an URL parameter depending of the element clicked */
+
 
         /* Start - When the user is on a leaf (last child of a hierarchy) */
 
             /* Add to the DOM the leaf form container */
-            $("body").prepend(
-                "<div id='bs-cc-cg-leaf'>" +
-                "<div id='bs-cc-cg-leaf-form'>" +
-                "<button id='bs-cc-cg-leaf-cancel'><i class='fa fa-times' aria-hidden='true'></i></button>" +
-                "<p id='bs-cc-cg-leaf-title'></p>" +
-                "</div>" +
-                "</div>"
+            $(".node-catalogue-general-feuilles > div").prepend(
+                "<button id='bs-cc-cg-leaf-cancel'><i class='fa fa-times' aria-hidden='true'></i></button>"
+                + "<p id='bs-cc-cg-leaf-title'></p>"
             );
-
-            /* If user is on a leaf, show the leaf form container, otherwise no */
-            if($("#leaf-true").text() === "leaf"){
-                $("#bs-cc-cg-leaf").show();
-            }else{
-                $("#bs-cc-cg-leaf").hide();
-            }
 
             /* If user click on cancel button, hide the leaf form container */
             $("#bs-cc-cg-leaf-cancel").click(function(){
-                $("#bs-cc-cg-leaf").hide();
+                $(this).parent().parent().hide();
+                // $("body").css("overflow-y", "scroll");
             });
 
             /* Set the name of the leaf into the leaf form container */
             $("#bs-cc-cg-leaf-title").text($(".bs-cg-element-active").text());
+
+            /* Allow or not the body scrolling */
+            // if($("#leaf-true").text() == "leaf"){
+            //     $("body").css("overflow-y", "hidden");
+            // }else{
+            //     $("body").css("overflow-y", "scroll");
+            // }
 
         /* End - When the user is on a leaf (last child of a hierarchy) */
 
