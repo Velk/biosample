@@ -15,7 +15,7 @@
             });
             // Return to the /signup page when button is clicked
             $('#bs-cc-headband-buttons-signup').click(function(){
-                window.location.href='signup';
+                window.location.href='/signup';
             });
         /* End - Gael | Modify the "S'enregister" input on the headband */
 

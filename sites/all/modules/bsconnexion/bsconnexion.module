@@ -1421,7 +1421,7 @@ function bsconnexion_block_view($delta = '') {
             $query = db_select('taxonomy_term_data', 'd');
             $query->join('taxonomy_term_hierarchy', 'h', 'd.tid = h.tid');
             $query->fields('d', array('name', 'tid', 'description'));
-            $query->condition('d.vid', 6);
+            $query->condition('d.vid', $vidCatalogueG);
             if ($data['tid2Parent'] == null || empty($data['tid2Parent'])) {
                 // Set tid2Parent to 0 to select the first level
                 $data['tid2Parent'] = 0;
