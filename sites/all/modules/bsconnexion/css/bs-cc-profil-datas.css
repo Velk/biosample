@@ -99,7 +99,7 @@ div#block-bsconnexion-user-profil-changeable-datas {
 }
 
 #bs-cc-update-account-submit{
-    display: block;
+    display: none;
     text-shadow: none;
     box-shadow: none;
     width: 100px;
