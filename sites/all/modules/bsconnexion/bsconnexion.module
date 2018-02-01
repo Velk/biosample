@@ -1308,19 +1308,14 @@ function bsconnexion_block_view($delta = '') {
 
             $vidCatalogueG = db_query("SELECT vid from {taxonomy_vocabulary} WHERE machine_name = :machine_name", array(":machine_name" => "catalogue_general"))->fetchField();
 
-            drupal_set_message(" ");
-            drupal_set_message(" ");
-            drupal_set_message("vidCatalogueG : " . $vidCatalogueG);
         /* End - Retrieve in the table taxonomy_vocabulary the vid of the catalogue_general */
 
         /* Start - Retrieve the children element of the selected item */
 
             $retrieveURI = $_SERVER['REQUEST_URI'];
-            drupal_set_message("retrieveURI : " . $retrieveURI);
 
             $URISplit = preg_split("/\//", $retrieveURI);
             $leafId = $URISplit[sizeof($URISplit)-1];
-            drupal_set_message("leafID : " . $leafId);
 
             $query = db_select('taxonomy_term_data', 'd');
             $query->join('taxonomy_term_hierarchy', 'h', 'd.tid = h.tid');
@@ -1328,13 +1323,11 @@ function bsconnexion_block_view($delta = '') {
             $query->condition('d.vid', $vidCatalogueG);
             if ($leafId == "catalogueg" || $leafId == null || empty($leafId)) {
                 // Set parent to 0 to select the first level
-                drupal_set_message("leafId == null ou leafId est vide");
+//                drupal_set_message("leafId == null ou leafId est vide");
                 $leafId = 0;
-                drupal_set_message("leafId : " . $leafId);
                 $query->condition('h.parent', $leafId);
             } else {
-                drupal_set_message("leafId n'est pas null");
-                drupal_set_message("leafId : " . $leafId);
+//                drupal_set_message("leafId n'est pas null");
                 $query->condition('h.parent', $leafId);
             }
 
@@ -1414,12 +1407,12 @@ function bsconnexion_block_view($delta = '') {
             }
 
             if (empty($leafTid) && empty($leafParent)) {
-                 drupal_set_message(" ");
-                 drupal_set_message("C'est le dernier enfant !");
+//                 drupal_set_message(" ");
+//                 drupal_set_message("C'est le dernier enfant !");
                 $data['leaf'] = TRUE;
             } else {
-                 drupal_set_message(" ");
-                 drupal_set_message("Ce n'est pas le dernier enfant !");
+//                 drupal_set_message(" ");
+//                 drupal_set_message("Ce n'est pas le dernier enfant !");
                 $data['leaf'] = FALSE;
             }
 
@@ -1482,15 +1475,6 @@ function bsconnexion_profil_changeable_datas_form($form, &$form_state){
     $result_mail_contact = db_query("SELECT mail_contact from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
     $result_telephone = db_query("SELECT telephone from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
     $result_fax = db_query("SELECT fax from {users_extra_fields} WHERE username = :username", array(":username" => $GLOBALS['user']->name))->fetchField();
-
-    drupal_set_message(" ");
-    drupal_set_message(" ");
-    drupal_set_message("civilite : " . $result_civilite);
-    drupal_set_message("nom_prenom : " . $result_nom_prenom);
-    drupal_set_message("poste_service : " . $result_poste_service);
-    drupal_set_message("mail_contact : " . $result_mail_contact);
-    drupal_set_message("telephone : " . $result_telephone);
-    drupal_set_message("fax : " . $result_fax);
 
     // Change the value of the $form_state['values']['civilite']
     // to stock either Monsieur or Madame.
