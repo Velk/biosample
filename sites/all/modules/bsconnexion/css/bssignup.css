@@ -1,264 +1,151 @@
-.block-content .form-select{
-	border: solid 5px #1e6a8e !important;
-	border-radius: 10px !important;
-	color: rgba(28, 28, 17, 0.4) !important;
-}
+@media screen and (min-width: 0px){
+    #bs-cc-register-form-name-div,
+    #bs-cc-register-form-mail-div,
+    #bs-cc-register-form-fieldset-company,
+    #bs-cc-register-form-affiliationsociete-div,
+    #bs-cc-register-form-siren-div,
+    #bs-cc-register-form-adresse-div,
+    #bs-cc-register-form-codepostal-div,
+    #bs-cc-register-form-ville-div,
+    #bs-cc-register-form-fieldset-company-contact,
+    #bs-cc-register-form-civilite-div,
+    #bs-cc-register-form-nomprenom-div,
+    #bs-cc-register-form-posteservice-div,
+    #bs-cc-register-form-mail-contact-div,
+    #bs-cc-register-form-telephone-div,
+    #bs-cc-register-form-fax-div {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: auto;
+        margin: 15px 0;
+        padding: 0;
+        box-sizing: border-box;
+        border:none;
+        font-size: 16px;
+    }
 
-.block-content .form-text{
-	border: solid 5px #1e6a8e !important;
-	border-radius: 10px;
-	color: rgba(28, 28, 17, 0.4) !important;
-}
+    #bs-cc-register-form-name,
+    #bs-cc-register-form-mail,
+    #bs-cc-register-form-affiliationsociete,
+    #bs-cc-register-form-siren,
+    #bs-cc-register-form-adresse,
+    #bs-cc-register-form-codepostal,
+    #bs-cc-register-form-ville,
+    #bs-cc-register-form-civilite,
+    #bs-cc-register-form-nomprenom,
+    #bs-cc-register-form-posteservice,
+    #bs-cc-register-form-mail-contact,
+    #bs-cc-register-form-telephone,
+    #bs-cc-register-form-fax {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 40px;
+        margin: 0;
+        padding: 5px 15px;
+        box-sizing: border-box;
+        border-radius: 4px;
+        border: 2px solid #1e6a8e !important;
+        background-color: #fff;
+        color: #424242;
+    }
 
-.block-content .form-item-name .form-text{
-	float: left;
-	margin-bottom: 10px;
-	display: inline-block;
-}
+    #bs-cc-register-form-name.error,
+    #bs-cc-register-form-mail.error,
+    #bs-cc-register-form-affiliationsociete.error,
+    #bs-cc-register-form-siren.error,
+    #bs-cc-register-form-adresse.error,
+    #bs-cc-register-form-codepostal.error,
+    #bs-cc-register-form-ville.error,
+    #bs-cc-register-form-civilite.error,
+    #bs-cc-register-form-nomprenom.error,
+    #bs-cc-register-form-posteservice.error,
+    #bs-cc-register-form-mail-contact.error,
+    #bs-cc-register-form-telephone.error,
+    #bs-cc-register-form-fax.error {
+        background-color: #ffd1d1;
+        color:#F44336;
+    }
 
-.block-content .form-type-password span.form-required{
-	position: absolute;
-	left: -9999px;
-}
+    #bs-cc-register-form-fieldset-company,
+    #bs-cc-register-form-fieldset-company-contact {
+        font-size:25px;
+        box-sizing: border-box;
+    }
 
-.block-content .form-item-mail .form-text{
-	margin-left: 30%;
-	margin-bottom: 10px;
-	float: left;
-	display: inline-block;
-}
+    #bs-cc-signup-buttons-div {
+        white-space: nowrap;
+        height: 40px;
+        margin: 50px 0;
+        text-align: center;
+    }
 
-.form-type-password{
-	width: 100%;
-}
+    .bs-cc-signup-button-cancel, .bs-cc-signup-button-signup {
+        position: relative;
+        display: inline-block;
+        width: 50%;
+        height: 40px;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
 
-.block-content .form-item-signup-utilisateur{
-	margin: 0% !important;
-	padding: 0% !important;
-}
+    #bs-cc-signup-button-signup, #bs-cc-signup-button-cancel {
+        text-shadow: none;
+        box-shadow: none;
+        width: 100px;
+        height: 40px;
+        background: #1e6a8e;
+        background-color: #1e6a8e;
+        box-sizing: border-box;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        padding: 0;
+        margin:0;
+        cursor: pointer;
+    }
 
-.block-content .password-strength{
-	margin: 0% !important;
-	padding: 0% !important;
-	margin-top: 1.5em !important;
-}
+    #bs-cc-register-form-cgu-div,
+    #bs-cc-register-form-cgv-div {
+        position: relative;
+        height: 40px;
+        margin: 15px 0;
+        padding: 0;
+        box-sizing: border-box;
+        vertical-align: middle;
+    }
 
-.block-content .form-item-signup-mdp-confirm{
-	margin: 0% !important;
-	padding: 0% !important;
-}
+    #bs-cc-register-form-cgu-div>.form-item-CGU,
+    #bs-cc-register-form-cgv-div>.form-item-CGV {
+        position: relative;
+        width: 100%;
+        height: 40px;
+        margin: 0;
+        padding: 8px 0;
+        box-sizing: border-box;
+    }
 
-.block-content .form-item-signup-mdp-confirm-pass1{
-	display: inline-block;
-	margin-bottom: 0%;
-	width: 100%;
-}
+    #bs-cc-register-form-cgu-div>.form-item-CGU>label,
+    #bs-cc-register-form-cgv-div>.form-item-CGV>label {
+        vertical-align: middle;
+    }
 
-.block-content .form-item-name label{
-	position: absolute;
-	left: -9999px;
-}
+    #bs-cc-register-form-cgu-div>.form-item-CGU>input,
+    #bs-cc-register-form-cgv-div>.form-item-CGV>input {
+        height: 17px;
+        width: 17px;
+    }
 
-.block-content .form-item-mail label{
-	position: absolute;
-	left: -9999px;
-}
+    p.email-disclaimer {
+        font-size: 12px;
+        color: #EF5350;
+        margin: 0;
+    }
 
-.block-content .form-item-signup-mdp-confirm-pass2{
-	display: inline-block;
-	margin-top: 0%;
-	margin-bottom: 0%;
-	width: 100%;
-}
-
-.block-content .form-item-signup-mdp-confirm-pass2 label{
-	position: absolute;
-	left: -9999px;
-}
-
-.block-content .form-item-signup-mdp-confirm-pass2 div.password-confirm{
-	margin: 0% !important;
-	margin-top: 1% !important;
-	padding: 0% !important;
-}
-
-.block-content .password-suggestions{
-	position: static !important;
-	left: 0px !important;
-	float: left !important;
-	margin: 0% !important;
-	padding: 0% !important;
-	border: 0 !important;
-	width: 100% !important;
-	margin-left: -20px !important;
-	margin-top: -125px !important;
-	text-align: center !important;
-}
-
-.block-content .form-item-mail .description{
-	position: absolute;
-	left: -9999px;
-}
-
-.block-content .form-item-name .description{
-	position: absolute;
-	left: -9999px;
-}
-
-.block-content .form-item-pass .description{
-	position: absolute;
-	left: -9999px;
-}
-
-
-.block-content .form-item-civilite .form-select{
-	margin-top: 20px;
-	float: left;
-	display: inline-block;
-}
-
-.block-content .form-item-nom-prenom .form-text{
-	margin-top: 20px;
-	margin-left: 53.5%;
-	float: left;
-	display: inline-block;
-}
-
-.block-content .form-item-siren .form-text{
-	margin-top: 10px;
-	float: left;
-	display: inline-block;
-}
-
-.block-content .form-item-poste-service .form-text{
-	margin-top: 10px;
-	margin-left: 30%;
-	float: left;
-	display: inline-block;
-}
-
-.block-content .form-item-code-postal .form-text{
-	margin-top: 10px;
-	float: left;
-	display: inline-block;
-}
-
-.block-content .form-item-tel .form-text{
-	margin-top: 10px;
-	margin-left: 30%;
-	float: left;
-	display: inline-block;
-}
-
-.block-content .form-item-affiliation-société .form-text{
-	margin-top: 10px;
-	float: left;
-	display: inline-block;
-}
-
-.block-content .form-item-fax .form-text{
-	margin-top: 10px;
-	margin-left: 30%;
-	float: left;
-	display: inline-block;
-}
-
-.block-content .form-item-ville .form-text{
-	margin-bottom: 10px;
-	margin-top: 10px;
-	float: left;
-	display: inline-block;
-}
-
-.block-content .form-item-adresse .form-text{
-	margin-top: 10px;
-	margin-left: 30%;
-	margin-bottom: 10px;
-	float: left;
-}
-
-.block-content .form-item-distr-fabri{
-	margin-top: 30% !important;
-}
-
-.block-content .form-item-cg-utilisation{
-	display: inline-block;
-}
-
-.block-content .form-item-cg-vente{
-	float: right;
-}
-
-.block-content .form-item-distr-fabri .option{
-	color: rgba(28, 28, 17, 0.6) !important;
-}
-
-.block-content .form-item-cg-utilisation .option{
-	color: rgba(28, 28, 17, 0.4) !important;
-}
-
-.block-content .form-item-cg-vente .option{
-	color: rgba(28, 28, 17, 0.4) !important;
-}
-
-.block-content input.form-submit{
-	background: #1e6a8e !important;
-	background-color: #1e6a8e !important;
-	border: solid 5px #1e6a8e !important;
-	border-radius: 10px !important;
-	-webkit-box-shadow: 0 0 5px #1e6a8e !important;
-	color: white !important;
-	margin-top: 1%;
-}
-
-.block-content #edit-actions{
-	text-align: center !important;
-}
-
-/* Cachons la case à cocher */
-[type="checkbox"]:not(:checked),
-[type="checkbox"]:checked {
-  position: absolute;
-  left: -9999px;
-}
- 
-/* on prépare le label */
-[type="checkbox"]:not(:checked) + label,
-[type="checkbox"]:checked + label {
-  position: relative; /* permet de positionner les pseudo-éléments */
-  padding-left: 28px; /* fait un peu d'espace pour notre case à venir */
-  padding-top: 6px;
-  cursor: pointer;    /* affiche un curseur adapté */
-}
-
-[type="checkbox"]:not(:checked) + label:before,
-[type="checkbox"]:checked + label:before {
-  content: '';
-  position: absolute;
-  left:0; top: 2px;
-  width: 17px; height: 17px; /* dim. de la case */
-  border: 3px solid #1e6a8e;
-  background: #ffffff;
-  border-radius: 2px;
-}
-
-/* Aspect général de la coche */
-[type="checkbox"]:not(:checked) + label:after,
-[type="checkbox"]:checked + label:after {
-  content: '✔';
-  position: absolute;
-  top: 2px; left: 6px;
-  font-size: 14px;
-  color: #1e6a8e;
-  transition: all .2s; /* on prévoit une animation */
-}
-/* Aspect si "pas cochée" */
-[type="checkbox"]:not(:checked) + label:after {
-  opacity: 0; /* coche invisible */
-  transform: scale(0); /* mise à l'échelle à 0 */
-}
-/* Aspect si "cochée" */
-[type="checkbox"]:checked + label:after {
-  opacity: 1; /* coche opaque */
-  transform: scale(1); /* mise à l'échelle 1:1 */
+    #bs-cc-register-form-name-div{
+        display: none;
+    }
 }

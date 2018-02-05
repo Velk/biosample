@@ -16,6 +16,10 @@
   font-size: 1.5em;
   font-weight: normal;
   margin: 0;
+  font-family: "Roboto Condensed", oswaldregular !important;
+  text-transform: uppercase;
+  min-height: 60px;
+  margin-bottom: 0px !important;
 }
 
 .block-content {

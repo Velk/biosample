@@ -100,7 +100,13 @@
 
 /*@media screen and (min-width: 1300px){ #header { padding-left: 5%; } }*/
 
-@media screen and (min-width: 1500px){ #header { padding-left: 15%; width: 85% !important;} }
+@media screen and (min-width: 1500px){
+    #header {
+        padding-left: 0;
+        width: 85% !important;
+        margin:auto;
+    }
+}
 
 #header {
 	clear: both;
@@ -168,17 +174,18 @@
 /* Region */
 .region-header {
     float: right;
-    margin-top: 4em;
-    z-index: 80;
-    position: absolute;
+    position: relative;
     display: inline;
     width: calc(100% - 84px);
+    height: auto;
+    margin: 50px 0 0 0;
+    z-index: 80;
 }
 
 @media screen and (max-width: 1050px){
     .region-header {
         display: block;
-        margin-left: 84px;
+        /*margin-left: 84px;*/
     }
 }
 
@@ -393,17 +400,26 @@ body.not-front #main-content .region-content {
 }
 
 .page-title-wrap #page-title {
-  color: #fff;
-  font-size: 2.5em;
-  margin: 0;
-  padding: 0 10px;
-  text-transform: uppercase;
-  position: relative;
-  bottom: 15px;
+    color: #fff;
+    font-size: 3em;
+    margin: 0;
+    padding: 0 10px;
+    text-transform: uppercase;
+    position: relative;
+    height: 50px;
 }
+/*.page-title-wrap #page-title {*/
+  /*color: #fff;*/
+  /*font-size: 2.5em;*/
+  /*margin: 0;*/
+  /*padding: 0 10px;*/
+  /*text-transform: uppercase;*/
+  /*position: relative;*/
+  /*bottom: 15px;*/
+/*}*/
 
 #main-wrapper .page-title-wrap .container {
-  padding: 45px 0 13px 0;
+  padding: 15px;
 }
 
 #page-title {
