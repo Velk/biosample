@@ -1,0 +1,47 @@
+div#block-bsconnexion-user-profil-biosample-contact {
+    clear: both;
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 25px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+div#block-bsconnexion-user-profil-biosample-contact>div>h2 {
+    text-align: center;
+    padding: 5px 0;
+    border: 1px solid #424242;
+    min-height: auto;
+}
+
+div#bs-cc-user-profil-biosample-contact {
+    margin-top: 20px;
+}
+
+div#biosample-contact-infos-div,
+div#biosample-contact-mail-div,
+div#biosample-contact-phone-div {
+    position: relative;
+    width: 33.33%;
+    display: inline-block;
+    text-align: center;
+}
+
+div#bs-cc-user-profil-biosample-contact>div:nth-child(1)>i,
+div#biosample-contact-mail-div>i,
+div#biosample-contact-phone-div>i {
+    margin-right: 15px;
+    font-size: 25px;
+    color: #1e6a8e;
+}
+
+p.biosample-contact {
+    display: inline-block;
+    margin: 0;
+}
+
+p#biosample-contact-disclaimer {
+    text-align: center;
+}
