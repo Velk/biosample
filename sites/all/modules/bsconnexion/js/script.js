@@ -84,12 +84,14 @@
                 || (window.location.pathname == "/utilisateur/factures")
                 || (window.location.pathname == "/utilisateur/commandes")
                 || (window.location.pathname == "/utilisateur/abonnements")
+                || (window.location.pathname == "/utilisateur/devis")
                 || (window.location.pathname == "/utilisateur/profil/")
                 // || (window.location.pathname == "/utilisateur/catalogueg/")
                 || (window.location.pathname == "/utilisateur/cataloguep/")
                 || (window.location.pathname == "/utilisateur/factures/")
                 || (window.location.pathname == "/utilisateur/commandes/")
                 || (window.location.pathname == "/utilisateur/abonnements/")
+                || (window.location.pathname == "/utilisateur/devis/")
             ){
                 $("#main-content-wrapper").css("margin-left", -$("#main-content-wrapper").offset().left);
                 $("#main-content-wrapper").css("width", $(window).width());
@@ -113,7 +115,24 @@
             }
         /* End - Set the content at the entire window width */
 
-        /* Start - Custom the user/ page and remove useless form */
+        /* Start - Set the content of submissions at the entire window width */
+            if(
+                (window.location.pathname.match(/^\/node\/[0-9]{0,5}\/submission\/[0-9]{0,10}$/)) ||
+                (window.location.pathname.match(/^\/node\/[0-9]{0,5}\/submission\/[0-9]{0,10}\/edit$/)) ||
+                (window.location.pathname.match(/^\/node\/[0-9]{0,5}\/submission\/[0-9]{0,10}\/delete$/))
+            ){
+                $(".page-title-wrap > .container").css("padding", "0");
+                $(".page-title-wrap > .container > h1").css("text-transform", "Capitalize");
+
+                $("#main-content-wrapper").css("margin-left", -$("#main-content-wrapper").offset().left);
+                $("#main-content-wrapper").css("width", $(window).width());
+                $("#main-content-wrapper>div>div").css("padding", "0");
+                $("#main-wrapper .container").css("padding", "0");
+                $("#main-wrapper .container-inner").css("margin-top", "0");
+            }
+        /* End - Set the content of submissions at the entire window width */
+
+            /* Start - Custom the user/ page and remove useless form */
             // If the page is /user/uid/edit and
             // if the page doesn't contain the word admin
             if(window.location.pathname.match(/^\/user\/[0-9]{0,10}\/edit$/) && window.location.href.match(/^((?!admin).)*$/)){
@@ -198,6 +217,28 @@
             }
 
         /* End - Check if user has entered wrong informations */
+
+        /* Start - Set a cancel to hide drupal messages */
+            if($("div.status").is(":visible")){
+                $("div.status").append(
+                    "<i class='fa fa-times' aria-hidden='true'>"
+                );
+            }
+
+            $("div.status i").click(function(){
+               $(this).parent().remove();
+            });
+        /* End - Set a cancel to hide drupal messages */
+
+        // if(
+        //     window.location.pathname.match(/^\/user\/[0-9]*\/edit$/) &&
+        //     window.location.search.match(/^\?pass-reset-token=[A-z0-9_]*$/)
+        // ){
+        //     console.log("YAYAY");
+        //     $("#edit-actions input#edit-submit").click(function(){
+        //        window.location.pathname = "/utilisateur/profil";
+        //     });
+        // }
 
         }
     };

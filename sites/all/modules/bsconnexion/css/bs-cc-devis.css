@@ -1,0 +1,607 @@
+/*div#block-bsconnexion-user-devis {*/
+    /*margin-top: 25px;*/
+/*}*/
+
+/* Start - Quote request */
+
+div#bs-cc-quote-request-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    background-color: #424242;
+    padding: 25px 0;
+    box-sizing: border-box;
+}
+
+div#bs-cc-quote-request-container>h2 {
+    text-align: center;
+    margin: auto;
+    margin-bottom: 30px;
+    font-family: "Roboto Condensed";
+    font-weight: normal;
+    width: 85%;
+    position: relative;
+    /*border: 1px solid #e9e9e9;*/
+    background-color: #fff;
+    padding: 10px 0;
+    box-sizing: border-box;
+    -moz-box-shadow: inset 0 0.25rem 0.5rem 0 rgba(0,0,0,.25);
+    -webkit-box-shadow: inset 0 0.25rem 0.5rem 0 rgba(0,0,0,.25);
+    box-shadow: inset 0 0.25rem 0.5rem 0 rgba(0,0,0,.25);
+}
+
+div.bs-cc-quote-request {
+    position: relative;
+    width: 85%;
+    height: auto;
+    padding: 14px calc(25px + 150px) 14px 25px;
+    margin: auto;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    -moz-box-shadow: inset 0 0.25rem 0.5rem 0 rgba(0,0,0,.25);
+    -webkit-box-shadow: inset 0 0.25rem 0.5rem 0 rgba(0,0,0,.25);
+    box-shadow: inset 0 0.25rem 0.5rem 0 rgba(0,0,0,.25);
+}
+
+div.bs-cc-quote-request > .bs-cc-quote-request-title,
+div.bs-cc-quote-request > .bs-cc-quote-request-data {
+    position: relative;
+    display: inline-block;
+    margin: 0;
+}
+
+#bs-cc-qr-arrow{
+    margin:0 15px;
+}
+/*p.bs-cc-quote-request-title {*/
+    /*padding-right: 20px;*/
+    /*border-right: 1px solid #424242;*/
+/*}*/
+/*p#bs-cc-quote-request-data {*/
+    /*padding-left: 20px;*/
+/*}*/
+
+.bs-cc-quote-request-actions-container {
+    position: absolute;
+    width: auto;
+    height: 100%;
+    right: 0;
+    top: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.bs-cc-quote-request-actions {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 100%;
+    text-align: center;
+    -moz-box-shadow: inset 0 0.25rem 0 0 rgba(0,0,0,.25);
+    -webkit-box-shadow: inset 0 0.25rem 0 0 rgba(0,0,0,.25);
+    box-shadow: inset 0 0.25rem 0 0 rgba(0,0,0,.25);
+}
+
+.bs-cc-quote-request-actions > a > i {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    width: 50px;
+    font-size: 18px;
+    vertical-align: unset;
+    box-sizing: border-box;
+    color: #424242;
+}
+
+.bs-cc-quote-request-actions > a > i:before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+}
+
+div#bs-cc-qra-consult {
+    background-color: #ffe4cd;
+    /* ffc693 */
+}
+div#bs-cc-qra-edit {
+    background-color: #d2ffda;
+    /* 9acea3 */
+}
+div#bs-cc-qra-delete {
+    background-color: #ffc2c2;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    /*ff8c8c*/
+}
+
+.bs-cc-quote-request-actions > a > i:hover {
+    color: #fff;
+}
+
+div#bs-cc-qra-consult:hover {
+    background-color: #ffc693;
+}
+div#bs-cc-qra-edit:hover {
+    background-color: #9acea3;
+}
+div#bs-cc-qra-delete:hover {
+    background-color: #ff8c8c;
+}
+div#bs-cc-qra-consult > a > i:hover {
+    color: #ffe4cd;
+}
+div#bs-cc-qra-edit > a > i:hover {
+    color: #d2ffda;
+}
+div#bs-cc-qra-delete > a > i:hover {
+    color: #ffc2c2;
+}
+
+#bs-cc-qr-button {
+    position: relative;
+    width: auto;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    margin-top: 25px;
+    padding: 10px 20px;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    background-color: #1e6a8e;
+    background: #1e6a8e;
+    color: #fff;
+    box-sizing: border-box;
+    box-shadow: none;
+}
+#bs-cc-qr-button:hover {
+    background-color: #636363;
+    background: #636363;
+}
+
+/* End - Quote request */
+
+/* Start - Quote request */
+
+div#bs-cc-quote-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 25px 0;
+    box-sizing: border-box;
+}
+
+div#bs-cc-quote-container>h2 {
+    text-align: center;
+    margin: auto;
+    margin-bottom: 30px;
+    font-family: "Roboto Condensed";
+    font-weight: normal;
+    width: 85%;
+    position: relative;
+    border: 1px solid #e9e9e9;
+    background-color: #fff;
+    padding: 10px 0;
+    box-sizing: border-box;
+    -moz-box-shadow: inset 0 0.25rem 0.5rem 0 rgba(0,0,0,.25);
+    -webkit-box-shadow: inset 0 0.25rem 0.5rem 0 rgba(0,0,0,.25);
+    box-shadow: inset 0 0.25rem 0.5rem 0 rgba(0,0,0,.25);
+}
+
+
+
+
+/* Start - Consult Submission form */
+.webform-submission {
+    width: 600px;
+    margin: auto;
+}
+
+.webform-submission .webform-component-display {
+    border-left: 5px solid #1e6a8e;
+    padding: 0 0 0 10px;
+    box-sizing: border-box;
+    margin: 25px 0;
+    -moz-box-shadow:    2px 3px 5px 2px #b5b5b5;
+    -webkit-box-shadow: 2px 3px 5px 2px #b5b5b5;
+    box-shadow:         2px 3px 5px 2px #b5b5b5;
+}
+
+.webform-submission .webform-component-display > label {
+    font-weight: 700;
+    background-color: #1e6a8e;
+    color: #fff;
+    margin-left: -10px;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+}
+
+.webform-submission .webform-component-fieldset {
+    border: none;
+    border-top: 10px solid #bababa;
+}
+
+.webform-submission .webform-component-fieldset > legend {
+    padding: 0 10px 0 10px;
+}
+
+.webform-submission .webform-component-display>table thead {
+    background-color: #1e6a8e;
+}
+.webform-submission .webform-component-display>table thead th {
+    background-color: transparent;
+}
+.webform-submission .webform-component-display>table tbody {
+    background-color: #fff;
+}
+.webform-submission .webform-component-display>table tbody tr {
+    border: none;
+    border-bottom: 1px solid #424242;
+    box-sizing: border-box;
+}
+.webform-submission .webform-component-display>table tr th {
+    height: auto;
+    padding: 5px 15px;
+}
+.webform-submission .webform-component-display>table tbody > tr > td {
+    padding: 5px 15px;
+    background-color: transparent;
+}
+.webform-submission .webform-component-display>table tbody > tr > td:first-child {
+    color: #000;
+}
+/* End - Consult Submission form */
+
+
+/* Start - Edit Submission form */
+
+/* Start - Leaf form */
+.webform-submission > form.webform-client-form {
+    position: relative;
+    width: 90%;
+    height: auto;
+    margin: 25px auto;
+}
+
+/* LABEL - Custom the label of fields */
+.webform-submission > form.webform-client-form label {
+    margin-bottom: 5px;
+}
+
+/* DESCRIPTION - Custom the description of fields */
+.webform-submission > form.webform-client-form .description {
+    font-style: italic;
+}
+
+/* FIELDSET - Custom the fieldset */
+.webform-submission > form.webform-client-form .webform-component-fieldset {
+    float: none;
+    clear: both;
+    border:none !important;
+    border-top:10px solid #bababa !important;
+}
+.webform-submission > form.webform-client-form .webform-component-fieldset:hover {
+    border-top:10px solid #1e6a8e !important;
+}
+.webform-submission > form.webform-client-form .webform-component-fieldset:hover .fieldset-title {
+    color: #000 !important;
+}
+/* FIELDSET DESCRIPTION - Custom fieldset description */
+.webform-submission > form.webform-client-form > div > fieldset > div > div.description{
+    position: relative;
+    width: 100%;
+    float: none;
+    clear: both;
+    margin:0;
+}
+
+/* INPUT and SELECT - Custom input and select element */
+.webform-submission > form.webform-client-form input,
+.webform-submission > form.webform-client-form .webform-component-select > select {
+    height:30px;
+    border: 2px solid #1e6a8e;
+    border-radius: 2px;
+    background-color: #fff;
+}
+/* INPUT - Custom input fields */
+.webform-submission > form.webform-client-form > div > div > input,
+.webform-submission > form.webform-client-form > div > fieldset > div > div > input{
+    position: relative;
+    width: 100%;
+}
+
+/* HOVER and FOCUS - Custom the hover and focus on fields */
+.webform-submission > form.webform-client-form .form-text:hover,
+.webform-submission > form.webform-client-form .form-text:focus,
+.webform-submission > form.webform-client-form textarea:hover,
+.webform-submission > form.webform-client-form textarea:focus {
+    border: 2px solid #1e6a8e;
+}
+
+/* FIELD CONTAINER - Custom containers of fields */
+.webform-submission > form.webform-client-form > div > div,
+.webform-submission > form.webform-client-form > div > fieldset > div > div{
+    position: relative;
+    float: left;
+    width: 50%;
+    margin:0;
+    margin-bottom: 25px;
+    padding: 0 5px;
+    box-sizing: border-box;
+}
+
+/* NUMBER CONTAINER - Custom containers of number fields */
+.webform-submission > form.webform-client-form .webform-component-number {
+    position: relative;
+    float: left;
+    width: 30%;
+    padding: 0 0 0 5px;
+    box-sizing: border-box;
+}
+/* NUMBER CONTAINER - INPUT - Custom number fields */
+.webform-submission > form.webform-client-form .webform-component-number > input{
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* SELECT CONTAINER - Custom containers of select fields */
+.webform-submission > form.webform-client-form .webform-component-select {
+    position: relative;
+    float: left;
+    width: 20%;
+    padding: 0 5px 0 0;
+    box-sizing: border-box;
+}
+/* SELECT CONTAINER - SELECT - Custom select fields */
+.webform-submission > form.webform-client-form .webform-component-select > select {
+    position: relative;
+    width: 100%;
+    padding: 0 5px;
+    border: none;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    background-color: #1e6a8e;
+    color: #fff;
+}
+
+/* TEXTAREA CONTAINER - Custom containers of textarea fields */
+.webform-submission > form.webform-client-form .webform-component-textarea {
+    position: relative;
+    float: none;
+    clear: both;
+    width: 100%;
+    padding: 0 5px;
+    box-sizing: border-box;
+}
+/* TEXTAREA CONTAINER - TEXTAREA - Custom containers of textarea fields */
+.webform-submission > form.webform-client-form .webform-component-textarea textarea {
+    border: 2px solid #1e6a8e;
+    border-radius: 2px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: none;
+    background-color: #fff;
+}
+/* TEXTAREA CONTAINER - GRIP TEXTAREA -Custom containers of textarea fields */
+.webform-submission > form.webform-client-form .webform-component-textarea .grippie {
+    background-color: #424242;
+    height: 10px;
+    border: none;
+}
+
+/* RADIO */
+.webform-submission > form.webform-client-form .webform-component-radios {
+    position: relative;
+    float: left;
+    width: 50%;
+    padding: 0 30px;
+    box-sizing: border-box;
+}
+.webform-submission > form.webform-client-form .webform-component-radios > label {
+    text-align: center;
+}
+.webform-submission > form.webform-client-form .webform-component-radios .form-type-radio {
+    display: inline-block;
+    width: 50%;
+    float: left;
+    text-align: center;
+}
+.webform-submission > form.webform-client-form .webform-component-radios .form-type-radio > input {
+    display: block;
+    margin: auto;
+    width: 15px;
+    height: 15px;
+}
+
+/* FILE */
+.webform-submission > form.webform-client-form .webform-component-managed_file {
+    margin: 0;
+}
+.webform-submission > form.webform-client-form .webform-component-managed_file .form-managed-file > input{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-bottom: none;
+    box-sizing: border-box;
+}
+.webform-submission > form.webform-client-form .webform-component-managed_file .form-managed-file .form-submit{
+    width: 100%;
+    height: auto;
+    padding: 6px 15px;
+    background-color: #424242;
+    background: #424242;
+    color: #fff;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    box-sizing: border-box;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+/* GRID */
+.webform-submission > form.webform-client-form .webform-component-webform_grid {
+    width: 100%;
+    float: none;
+    clear: both;
+}
+.webform-submission > form.webform-client-form .webform-component-webform_grid>table thead {
+    background-color: #1e6a8e;
+}
+.webform-submission > form.webform-client-form .webform-component-webform_grid>table thead th {
+    background-color: transparent;
+}
+.webform-submission > form.webform-client-form .webform-component-webform_grid>table tbody {
+    background-color: #fff;
+}
+.webform-submission > form.webform-client-form .webform-component-webform_grid>table tbody tr {
+    border: none;
+    border-bottom: 1px solid #424242;
+    box-sizing: border-box;
+}
+.webform-submission > form.webform-client-form .webform-component-webform_grid>table tr th {
+    height: auto;
+    padding: 5px 15px;
+}
+.webform-submission > form.webform-client-form .webform-component-webform_grid>table tbody > tr > td {
+    padding: 5px 15px;
+    background-color: transparent;
+}
+.webform-submission > form.webform-client-form .webform-component-webform_grid>table tbody > tr > td:first-child {
+    color: #000;
+}
+
+/* MARKUP */
+.webform-submission > form.webform-client-form .webform-component-markup{
+    width: 100%;
+    float: none;
+    clear: both;
+}
+
+/* SUBMIT BUTTON - Submit button */
+.webform-submission > form.webform-client-form div#edit-actions{
+    width: 100%;
+    float: none;
+    clear: both;
+    margin: 30px 0 25px 0;
+    text-align: center;
+}
+/* SUBMIT BUTTON - INPUT - Submit button */
+.webform-submission > form.webform-client-form div#edit-actions > span > input{
+    height: auto;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    background-color: #1e6a8e;
+    background: #1e6a8e;
+    color: #fff;
+    box-sizing: border-box;
+    box-shadow: none;
+    text-shadow: none;
+    font-size: 14px;
+}
+.webform-submission > form.webform-client-form div#edit-actions > span > input:hover{
+    background-color: #424242;
+    background: #424242;
+}
+
+/* End - Edit Submission form */
+
+/* Start - Delete Submission form */
+form#webform-submission-delete-form{
+    width: 600px;
+    margin: auto;
+    text-align: center;
+}
+
+form#webform-submission-delete-form .form-actions {
+    margin-top:50px;
+}
+
+form#webform-submission-delete-form .form-actions > span{
+    margin-right:50px;
+}
+
+form#webform-submission-delete-form .form-actions input#edit-actions-submit,
+form#webform-submission-delete-form .form-actions a {
+    height: auto;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    background-color: #1e6a8e;
+    background: #1e6a8e;
+    color: #fff;
+    box-sizing: border-box;
+    box-shadow: none;
+    text-shadow: none;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-family: "Arial";
+    vertical-align: middle;
+}
+/* End - Delete Submission form */
+
+/* Start - Custom the automatic menu into submission form */
+.tabs{
+    width: 600px;
+    margin: auto;
+    margin-bottom: 50px !important;
+    border-radius: 0 !important;
+    box-shadow: 2px 3px 5px -1px #b5b5b5;
+}
+.tabs > h2{
+    margin:0 !important;
+}
+.tabs > ul{
+    margin:0 !important;
+    padding:0 !important;
+}
+.tabs li{
+    width: calc(100% / 3);
+    margin: 0 !important;
+}
+.tabs li > a {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    color: #424242 !important;
+    border-radius: 0 !important;
+}
+.tabs li:nth-child(1) > a {
+    background-color: #ffe4cd !important;
+}
+.tabs li:nth-child(2) > a {
+    background-color: #d2ffda !important;
+}
+.tabs li:nth-child(3) > a {
+    background-color: #ffc2c2 !important;
+}
+
+.tabs li > a:hover {
+    border: none !important;
+}
+.tabs li:nth-child(1) > a:hover {
+    background-color: #ffc693 !important;
+    color: #ffe4cd;
+}
+.tabs li:nth-child(2) > a:hover {
+    background-color: #9acea3 !important;
+    color: #d2ffda;
+}
+.tabs li:nth-child(3) > a:hover {
+    background-color: #ff8c8c !important;
+    color: #ffc2c2;
+}
+
+.tabs li > a.active {
+    border: none !important;
+    border-bottom: 2px solid #424242 !important;
+    font-weight: bold;
+}
+/* End - Custom the automatic menu into submission form */

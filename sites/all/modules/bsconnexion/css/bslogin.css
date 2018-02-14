@@ -24,6 +24,7 @@
 	z-index: 90;
 	box-sizing: border-box;
 	text-align: right;
+	border-bottom: 1px solid #808080;
 }
 
 #bs-cc-headband-fields {
@@ -265,6 +266,31 @@ span.bs-cc-headband-buttons-signup {
 	border-left: 1px solid #e9e9e9;
 }
 
+a#bs-cc-devis {
+	position: relative;
+	display: inline-block;
+	float: left;
+	margin: 0;
+	padding: 0;
+	background-color: #1e6a8e;
+	padding: 0 10px;
+	box-sizing: border-box;
+	border-radius: 2px;
+	color: #fff;
+}
+
+a#bs-cc-devis > i {
+	position: relative;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	margin-right: 10px;
+}
+
+a#bs-cc-devis:hover {
+	background-color: #fff;
+	color: #1e6a8e;
+}
 
 @media screen and (max-width : 500px){
 
@@ -361,3 +387,54 @@ span.bs-cc-headband-buttons-signup {
 	}
 }
 /* End - User has entered wrong informations */
+
+/* Start - Custom drupal messages */
+/*#console {*/
+	/*position: fixed;*/
+	/*width: 100%;*/
+	/*bottom: 0;*/
+	/*left: 0;*/
+	/*z-index: 999;*/
+	/*margin: 0 !important;*/
+	/*!*padding: 10px 50px !important;*!*/
+	/*box-sizing: border-box;*/
+/*}*/
+
+/*div.messages {*/
+	/*margin: 0 !important;*/
+/*}*/
+
+/*#console i {*/
+	/*position: absolute;*/
+	/*right: 25px;*/
+	/*font-size: 20px;*/
+	/*cursor: pointer;*/
+	/*!*top: 50%;*!*/
+	/*!*transform: translateY(-50%);*!*/
+/*}*/
+/*#console i:hover {*/
+	/*color: #1e6a8e;*/
+/*}*/
+
+.status {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	z-index: 99999;
+	box-sizing: border-box;
+	margin: 0 !important;
+}
+
+.status > i {
+	position: absolute;
+	right: 15px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.status > i:hover {
+	color: #1e6a8e;
+}
+
+/* End - Custom drupal messages */
