@@ -90,13 +90,25 @@ function bsconnexion_menu(){
     );
 
     // Client Account - Factures page
-    $items['utilisateur/factures'] = array(
+    $items['utilisateur/historique'] = array(
         'page callback' => 'bsconnexion_profil_page_init',
         'access callback' => 'user_is_logged_in',
     );
 
-    // Client Account - Commandes page
-    $items['utilisateur/commandes'] = array(
+//    // Client Account - Factures page
+//    $items['utilisateur/factures'] = array(
+//        'page callback' => 'bsconnexion_profil_page_init',
+//        'access callback' => 'user_is_logged_in',
+//    );
+//
+//    // Client Account - Commandes page
+//    $items['utilisateur/commandes'] = array(
+//        'page callback' => 'bsconnexion_profil_page_init',
+//        'access callback' => 'user_is_logged_in',
+//    );
+
+    // Client Account - Devis page
+    $items['utilisateur/devis'] = array(
         'page callback' => 'bsconnexion_profil_page_init',
         'access callback' => 'user_is_logged_in',
     );
@@ -129,11 +141,17 @@ function bsconnexion_profil_page_init(){
         case "/utilisateur/cataloguep":
             $title = "Catalogue personnalisé";
             break;
-        case "/utilisateur/factures":
-            $title = "Factures";
+        case "/utilisateur/historique":
+            $title = "Historique";
             break;
-        case "/utilisateur/commandes":
-            $title = "Commandes";
+//        case "/utilisateur/factures":
+//            $title = "Factures";
+//            break;
+//        case "/utilisateur/commandes":
+//            $title = "Commandes";
+//            break;
+        case "utiliateur/devis":
+            $title = "Devis";
             break;
         case "/utilisateur/abonnements":
             $title = "Abonnements";
@@ -608,6 +626,7 @@ function bsconnexion_form_user_login_alter(&$form, $form_state, $path) {
         '#id' => 'bs-cc-headband-field-username',
         '#prefix' => '<div class="bs-cc-headband-field" id="bs-cc-headband-div-field-username">',
         '#suffix' => '</div>',
+        '#weight' => 10,
     );
 
     $form['pass'] = array(
@@ -617,12 +636,14 @@ function bsconnexion_form_user_login_alter(&$form, $form_state, $path) {
         '#id' => 'bs-cc-headband-field-password',
         '#prefix' => '<div class="bs-cc-headband-field" id="bs-cc-headband-div-field-password">',
         '#suffix' => '</div>',
+        '#weight' => 11,
     );
 
     $form['actions']['submit'] = array(
         '#type' => 'submit',
         '#value' => t('Connexion'),
         '#id' => 'bs-cc-headband-buttons-login',
+        '#weight' => 12,
     );
 
     $form['actions']['submit']['#submit'][] = 'bsconnexion_user_login_submit';
@@ -631,7 +652,7 @@ function bsconnexion_form_user_login_alter(&$form, $form_state, $path) {
         '#type' => 'button',
         '#value' => t('S\'enregistrer'),
         '#id' => 'bs-cc-headband-buttons-signup',
-        '#weight' => 100,
+        '#weight' => 200,
         '#prefix' => '<div id="bs-cc-headband-div-button-signup">',
         '#suffix' => '</div>',
         // IMPORTANT :
@@ -667,6 +688,7 @@ function bsconnexion_form_user_connected(){
 
     $var = '<div id="bs-cc-headband">';
     $var .= '<div id="bs-cc-user-connected">';
+    $var .= '<a href="/utilisateur/devis" id="bs-cc-devis"><i class="fa fa-shopping-cart"></i>DEMANDE DE DEVIS</a>';
     $var .= '<p id="bs-cc-user-connected-welcome">Bienvenue&nbsp'.$result_affiliation_societe.'</p>';
     $var .= '<a id="bs-cc-user-connected-profil" href="/utilisateur/profil"><i class="fa fa-user fa-1x" aria-hidden="true"></i></a>';
     $var .= '<a id="bs-cc-user-connected-logout" href="/user/logout"><i class="fa fa-sign-out fa-1x" aria-hidden="true"></i></a>';
@@ -1105,6 +1127,12 @@ function bsconnexion_theme($existing, $type, $theme, $path) {
             'path' => drupal_get_path('module', 'bsconnexion'),
             'variables' => array('infos' => NULL),
         ),
+
+        'bsconnexion_devis' => array(
+            'template' => 'template/bs-cc-devis',
+            'path' => drupal_get_path('module', 'bsconnexion'),
+            'variables' => array('infos' => NULL),
+        ),
     );
 }
 
@@ -1117,7 +1145,7 @@ function bsconnexion_block_info() {
         'status' => TRUE,
         'region' => 'content',
         'visibility' => BLOCK_VISIBILITY_LISTED,
-        'pages' => "utilisateur/profil\r\nutilisateur/catalogueg\r\nutilisateur/catalogueg/*\r\nutilisateur/cataloguep\r\nutilisateur/factures\r\nutilisateur/commandes\r\nutilisateur/abonnements",
+        'pages' => "utilisateur/profil\r\nutilisateur/catalogueg\r\nutilisateur/catalogueg/*\r\nutilisateur/cataloguep\r\n/utilisateur/historique\r\nutilisateur/devis\r\nutilisateur/abonnements",
         'weight' => 1,
     );
     // This example comes from node.module.
@@ -1163,6 +1191,15 @@ function bsconnexion_block_info() {
         'region' => 'content',
         'visibility' => BLOCK_VISIBILITY_LISTED,
         'pages' => "utilisateur/catalogueg\r\nutilisateur/catalogueg/*",
+        'weight' => 2,
+    );
+
+    $blocks['user_devis'] = array(
+        'info' => t('Devis'),
+        'status' => TRUE,
+        'region' => 'content',
+        'visibility' => BLOCK_VISIBILITY_LISTED,
+        'pages' => "utilisateur/devis",
         'weight' => 2,
     );
 
@@ -1455,8 +1492,232 @@ function bsconnexion_block_view($delta = '') {
 
             break;
 
+// BLOCK - Client account, devis page
+        case 'user_devis':
+
+
+
+//            $devis_client_code = db_query("SELECT client_code from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+//            $devis_affiliation_societe = db_query("SELECT affiliation_societe from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+//            $devis_nom_prenom = db_query("SELECT nom_prenom from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+//            $devis_mail = db_query("SELECT mail from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+//            $devis_mail_contact = db_query("SELECT mail_contact from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+//            $devis_code_postal = db_query("SELECT code_postal from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+//
+//            $data['devis_client_code'] = $devis_client_code;
+//            $data['devis_affiliation_societe'] = $devis_affiliation_societe;
+//            $data['devis_nom_prenom'] = $devis_nom_prenom;
+//            $data['devis_mail'] = $devis_mail;
+//            $data['devis_mail_contact'] = $devis_mail_contact;
+//            $data['devis_code_postal'] = $devis_code_postal;
+
+            /* START - Requête GROUP BY */
+//            $query = db_select('node', 'n')
+//                ->fields('n', array('title'))
+//                ->condition('n.type', 'catalogue_general_feuilles')
+//                ->condition('ws.uid', $GLOBALS['user']->uid)
+//                ->groupBy('n.title');
+//            // Add the COUNT expression
+//            $query->addExpression('COUNT(ws.sid)', 'wscount');
+//            // Add the HAVING condition
+////            $query->havingCondition('wscount', 2);
+//            $query->orderBy('wscount', 'DESC');
+//            // Add the JOIN
+//            $query->join('webform_submissions', 'ws', 'n.nid = ws.nid');
+            /* END - Requête GROUP BY */
+
+        /* Start - Query to retrieve submissions */
+            $query = db_select('webform_submitted_data', 'wsd');
+            $query->join('webform_component', 'wc', 'wc.nid = wsd.nid AND wc.cid = wsd.cid');
+            $query->join('webform_submissions', 'ws', 'ws.nid = wsd.nid AND ws.sid = wsd.sid');
+            $query->join('node', 'n', 'n.nid = wsd.nid');
+
+            $query->condition('wc.form_key', 'denomination');
+            $query->condition('ws.uid', $GLOBALS['user']->uid);
+            $query->condition('n.type', 'catalogue_general_feuilles');
+            $query->condition('ws.is_draft', '0');
+
+            $query->fields('n', array('title'));
+//            $query->fields('ws', array('uid'));
+            $query->fields('wsd', array('nid'));
+            $query->fields('wsd', array('sid'));
+//            $query->fields('wc', array('form_key'));
+//            $query->fields('wsd', array('cid'));
+            $query->fields('wsd', array('data'));
+
+            $data['results_submissions'] = $query->execute();
+        /* End - Query to retrieve submissions */
+
+        /* Start - Query to retrieve submitted submissions */
+            $query = db_select('webform_submitted_data', 'wsd');
+            $query->join('webform_component', 'wc', 'wc.nid = wsd.nid AND wc.cid = wsd.cid');
+            $query->join('webform_submissions', 'ws', 'ws.nid = wsd.nid AND ws.sid = wsd.sid');
+            $query->join('node', 'n', 'n.nid = wsd.nid');
+
+            $query->condition('wc.form_key', 'denomination');
+            $query->condition('ws.uid', $GLOBALS['user']->uid);
+            $query->condition('n.type', 'catalogue_general_feuilles');
+            $query->condition('ws.is_draft', '1');
+
+            $query->fields('n', array('title'));
+//            $query->fields('ws', array('uid'));
+            $query->fields('wsd', array('nid'));
+            $query->fields('wsd', array('sid'));
+//            $query->fields('wc', array('form_key'));
+//            $query->fields('wsd', array('cid'));
+            $query->fields('wsd', array('data'));
+            $query->fields('ws', array('submitted'));
+
+            $data['results_submissions_submitted'] = $query->execute();
+        /* End - Query to retrieve submitted submissions */
+
+            // Link the template to display datas
+            $block['content']['#markup'] = theme('bsconnexion_devis', $data);
+
+            // Link a css file for unchangeable datas in the profil page
+            $block['content']['#attached']['css'][] = array(
+                'data' => drupal_get_path('module', 'bsconnexion').'/css/bs-cc-devis.css',
+                'type' => 'file'
+            );
+            // Link a js file for unchangeable datas in the profil page
+            $block['content']['#attached']['js'][] = array(
+                'data' => drupal_get_path('module', 'bsconnexion').'/js/bs-cc-devis.js',
+                'type' => 'file'
+            );
+
+            break;
+
     }
     return $block;
+}
+
+function bsconnexion_init() {
+    /**
+     * If the page is ...
+     * Link css file : bs-cc-devis.css
+     * Link js file : bs-cc-devis.js
+     */
+    if (
+        preg_match("/^\/node\/[0-9]{0,5}\/submission\/[0-9]{0,10}$/", $_SERVER["REQUEST_URI"]) ||
+        preg_match("/^\/node\/[0-9]{0,5}\/submission\/[0-9]{0,10}\/edit$/", $_SERVER["REQUEST_URI"]) ||
+        preg_match("/^\/node\/[0-9]{0,5}\/submission\/[0-9]{0,10}\/delete$/", $_SERVER["REQUEST_URI"])
+    ){
+        drupal_add_css(drupal_get_path('module', 'bsconnexion') . '/css/bs-cc-devis.css', array('group' => CSS_DEFAULT, 'every_page' => TRUE));
+        drupal_add_js(drupal_get_path('module', 'bsconnexion') . '/js/bs-cc-devis.js');
+    }
+
+    /**
+     * Check if the user has the role 'authenticated user'
+     * and if he hasn't the role 'administrator', 'backoffice' or 'Devops'
+     */
+    if(
+        user_has_role(2) &&
+        !(user_has_role(3) || user_has_role(4) || user_has_role(5))
+    ){
+        /**
+         * If the page is /node/nid/submissions
+         * or the page is /node/nid/webform-results (when he deletes a submission)
+         * Redirect user to /utilisateur/devis
+         */
+        if(preg_match("/^\/node\/[0-9]{0,5}\/webform-results$/", $_SERVER["REQUEST_URI"])){
+            drupal_goto("/utilisateur/devis");
+        }
+
+        if(preg_match("/^\/node\/[0-9]{0,5}\/submissions$/", $_SERVER["REQUEST_URI"])){
+            drupal_goto("/utilisateur/devis");
+        }
+    }
+}
+
+/**
+ * Update status of the submission
+ *
+ * @param $primary_tab
+ * @param $i
+ */
+function bsconnexion_update_submissions_values($primary_tab, $i){
+
+    db_update('webform_submissions')
+        ->condition('uid', $GLOBALS['user']->uid, '=')
+        ->condition('nid', $primary_tab[$i][0], '=')
+        ->condition('sid', $primary_tab[$i][1], '=')
+        ->fields(array(
+            'is_draft' => 1,
+            'submitted' => time(),
+        ))
+        ->execute();
+}
+
+/**
+ * Function to send quote(s) by email.
+ * Check bs-cc-devis.tpl.php
+ *
+ * @see bsconnexion_mail()
+ *
+ * @param $url_consult_devis
+ */
+function bsconnexion_sending_mail($url_consult_devis){
+
+    // Retrieve user's datas from table users_extra_fields in the database
+    // To send informations in the mail
+    $devis_client_code = db_query("SELECT client_code from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+    $devis_affiliation_societe = db_query("SELECT affiliation_societe from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+    $devis_nom_prenom = db_query("SELECT nom_prenom from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+    $devis_mail_contact = db_query("SELECT mail_contact from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+    $devis_mail = db_query("SELECT mail from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+    $devis_code_postal = db_query("SELECT code_postal from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+
+    if(empty($devis_client_code)){
+        $devis_client_code = "Non attribué";
+    }
+
+    // Mail's parameters
+    $to = "developer.biosample@gmail.com";
+    $from = "developer.biosample@gmail.com";
+
+    $subject = $devis_affiliation_societe . " - Demande de devis";
+    $body = "Demande de devis : \n\n" .
+            "Code client : " . $devis_client_code . "\n" .
+            "Société : " . $devis_affiliation_societe . "\n" .
+            "Prénom / Nom : " . $devis_nom_prenom . "\n" .
+            "Courriel du contact : " . $devis_mail_contact . "\n" .
+            "Courriel : " . $devis_mail . "\n" .
+            "Code postal : " . $devis_code_postal . "\n" .
+            "UID : " . $GLOBALS['user']->uid . "\n\n" .
+            "Cliquez sur les liens suivants pour consulter les devis : \n\n" .
+            $url_consult_devis;
+
+    // Call mail function
+    $params = array(
+        'subject' => $subject,
+        'body' => $body,
+    );
+
+    if(drupal_mail('bsconnexion', '10', $to, "fr", $params, $from)){
+        drupal_set_message("Votre demande de devis a bien été envoyée.");
+        drupal_goto("/utilisateur/devis");
+    } else {
+        drupal_set_message("Erreur, votre demande de devis n'a pas abouti.");
+        drupal_goto("/utilisateur/devis");
+    }
+}
+
+/**
+ * Implementation of hook_mail().
+ *
+ * A very simple hook_mail() implementation, for module "bsconnexion".
+ * This implementation expects to receive a $body, $subject, and $headers
+ * inside the $params sent from drupal_mail(), rather than construct
+ * those here in the hook.
+ * @see drupal_mail()
+ */
+function bsconnexion_mail($key, &$message, $params) {
+    switch ($key) {
+        case '10':
+            $message['subject'] = $params['subject'];
+            $message['body'][] = $params['body'];
+            break;
+    }
 }
 
 /**
