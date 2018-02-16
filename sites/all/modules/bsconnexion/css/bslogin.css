@@ -424,6 +424,16 @@ a#bs-cc-devis:hover {
 	z-index: 99999;
 	box-sizing: border-box;
 	margin: 0 !important;
+	background-color: #424242 !important;
+	opacity: .85;
+	color: #fff !important;
+	border: none !important;
+}
+
+.status > ul {
+	margin: 0;
+	/*list-style-type: none;*/
+	padding: 0;
 }
 
 .status > i {
@@ -431,6 +441,7 @@ a#bs-cc-devis:hover {
 	right: 15px;
 	top: 50%;
 	transform: translateY(-50%);
+	font-size: 20px;
 }
 
 .status > i:hover {
@@ -438,3 +449,114 @@ a#bs-cc-devis:hover {
 }
 
 /* End - Custom drupal messages */
+
+
+/* Start - Site map */
+div#site-map {
+	margin: 25px 0;
+}
+
+#site-map>div {
+	padding: 15px 25px;
+	box-sizing: border-box;
+}
+
+#site-map h2 {
+	margin-top:0;
+	color: #1e6a8e;
+}
+
+#site-map .site-map-front-page{
+	border: 1px solid #e9e9e9;
+	box-shadow: inset 0px 3px 1px #e9e9e9;
+}
+
+#site-map .site-map-menus{
+	border: 1px solid #e9e9e9;
+	box-shadow: inset 0px 3px 1px #e9e9e9;
+	margin-top: 50px;
+}
+
+#site-map ul:first-child > li {
+	padding: 0;
+	margin-bottom: 20px;
+}
+
+#site-map ul:first-child > li > ul {
+	margin-top: 10px;
+}
+
+#site-map ul.site-map-menu >li:last-child {
+	margin: 0;
+}
+
+#site-map ul:first-child > li > a {
+	font-weight: 600;
+	padding-left: 10px;
+	border-left: 2px solid #424242;
+}
+
+#site-map ul.site-map-menu:first-child {
+	margin: 0;
+}
+
+#site-map ul.site-map-menu >li {
+	list-style-type: none;
+	list-style-image: none;
+}
+/* End - Site map */
+
+/* Start - Loader */
+#loader-container {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+	z-index: 99999;
+	top: 0;
+	left: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+}
+
+#loader {
+	border: 16px solid #f3f3f3;
+	border-radius: 50%;
+	border-top: 16px solid #1e6a8e;
+	width: 80px;
+	height: 80px;
+	margin: auto;
+	-webkit-animation: spin 2s linear infinite;
+	animation: spin 2s ease infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+	0% { -webkit-transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+/* End - Loader */
+
+/* Start - Autofill design */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+	border: none;
+	-webkit-text-fill-color: #424242;
+	-webkit-box-shadow: 0 0 0px 1000px #fff inset;
+	 transition: background-color 5000s ease-in-out 0s;
+}
+/* End - Autofill design */

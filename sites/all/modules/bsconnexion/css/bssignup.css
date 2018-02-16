@@ -121,7 +121,8 @@
     #bs-cc-register-form-cgu-div>.form-item-CGU,
     #bs-cc-register-form-cgv-div>.form-item-CGV {
         position: relative;
-        width: 100%;
+        width: auto;
+        display: inline-block;
         height: 40px;
         margin: 0;
         padding: 8px 0;
