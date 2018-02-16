@@ -83,6 +83,7 @@
                 || (window.location.pathname == "/utilisateur/cataloguep")
                 || (window.location.pathname == "/utilisateur/factures")
                 || (window.location.pathname == "/utilisateur/commandes")
+                || (window.location.pathname == "/utilisateur/historique")
                 || (window.location.pathname == "/utilisateur/abonnements")
                 || (window.location.pathname == "/utilisateur/devis")
                 || (window.location.pathname == "/utilisateur/profil/")
@@ -90,6 +91,7 @@
                 || (window.location.pathname == "/utilisateur/cataloguep/")
                 || (window.location.pathname == "/utilisateur/factures/")
                 || (window.location.pathname == "/utilisateur/commandes/")
+                || (window.location.pathname == "/utilisateur/historique/")
                 || (window.location.pathname == "/utilisateur/abonnements/")
                 || (window.location.pathname == "/utilisateur/devis/")
             ){
@@ -224,10 +226,7 @@
                     "<i class='fa fa-times' aria-hidden='true'>"
                 );
             }
-
-            $("div.status i").click(function(){
-               $(this).parent().remove();
-            });
+            removeDrupalMessage();
         /* End - Set a cancel to hide drupal messages */
 
         // if(
@@ -239,6 +238,91 @@
         //        window.location.pathname = "/utilisateur/profil";
         //     });
         // }
+
+            if(window.location.pathname == "/contactez-nous"){
+                console.log("OK");
+                $("#main-wrapper > .container").css("padding", "0");
+            }
+
+            if(window.location.pathname.match(/^\/user\/reset\/[0-9]{0,5}\/[0-9]{10}\/.*$/)){
+                console.log("lalal");
+                $("form#user-pass-reset > div > p").hide();
+                $("form#user-pass-reset #edit-actions").css("text-align","center");
+                $("body").append("<div id='loader-container'><div id='loader'></div></div>");
+                $("body").css("overflow", "hidden");
+                $("#edit-actions #edit-submit").click();
+            }
+            if(
+                window.location.pathname.match(/^\/user\/[0-9]{0,5}\/edit$/) &&
+                window.location.search.match(/^\?pass-reset-token.*$/)
+            ){
+                $("#page-title").text("INITIALISATION DU MOT DE PASSE.");
+            }
+
+            // var textMessage = "";
+
+            /* Start - */
+            // if(
+            //     window.location.pathname.match(/^\/user\/[0-9]{0,5}\/edit$/) &&
+            //     window.location.search.match(/^\?pass-reset-token.*$/)
+            // ){
+            //     $("#page-title").text("INITIALISATION DU MOT DE PASSE.");
+            //     $("#edit-submit").click(function(e){
+            //
+            //         if(!$("#edit-pass-pass1").val() || !$("#edit-pass-pass2").val()){
+            //             // prevent click action
+            //             e.preventDefault();
+            //
+            //             if($('.status').is(":visible")){
+            //                 isDrupalMessageVisible("Veuillez renseigner les champs.");
+            //             }else{
+            //                 appendDrupalMessage("Veuillez renseigner les champs.");
+            //             }
+            //
+            //             removeDrupalMessage();
+            //
+            //             return false;
+            //         }else if($("#edit-pass-pass1").val() != $("#edit-pass-pass2").val()){
+            //             e.preventDefault();
+            //
+            //             if($('.status').is(":visible")){
+            //                 isDrupalMessageVisible("Veuillez correctement renseigner les champs.");
+            //             }else{
+            //                 appendDrupalMessage("Veuillez correctement renseigner les champs.");
+            //             }
+            //
+            //             removeDrupalMessage();
+            //
+            //             return false;
+            //         }else{
+            //             window.location.pathname = "/utilisateur/profil";
+            //         }
+            //     });
+            //
+            // }
+            //
+            // function appendDrupalMessage(textMessage){
+            //     $("body").append(
+            //         "<div id='system-messages-wrapper' class='wrapper container-16'\n" +
+            //         "<div class='container grid-16'>\n" +
+            //         "<div class='grid-inner clearfix'> \n" +
+            //         "<div class='messages status'>\n" +
+            //         "<h2 class='element-invisible'>Message d'état</h2>\n" +
+            //         textMessage +
+            //         "<i class='fa fa-times' aria-hidden='true'></i></div></div></div></div>"
+            //     );
+            // }
+            //
+            // function isDrupalMessageVisible(textMessage) {
+            //     $(".status").text(textMessage);
+            //     $(".status").append("<i class='fa fa-times' aria-hidden='true'></i>");
+            // }
+            //
+            function removeDrupalMessage(){
+                $("div.status i").click(function(){
+                    $(this).parent().remove();
+                });
+            }
 
         }
     };
