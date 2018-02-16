@@ -72,4 +72,12 @@ Changement configuration d’administration Drupal 7 :
     Nom : Catalogue général
     Nom du système : catalogue_general
 
+    Cf les 3 procédures pour les feuilles du catalogue général.
+
 -------------------------------------------------------------------------------------------------------
+
+- Personne > Droits > Webform :
+    L'utilisateur authentifiée peut (cocher les cases) :
+        - Accéder à ses propres soumissions de formulaires
+        - Modifier ses propres soumissions de formulaires
+        - Supprimer ses propres soumissions de formulaires

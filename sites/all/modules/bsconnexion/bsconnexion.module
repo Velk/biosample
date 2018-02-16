@@ -90,13 +90,25 @@ function bsconnexion_menu(){
     );
 
     // Client Account - Factures page
-    $items['utilisateur/factures'] = array(
+    $items['utilisateur/historique'] = array(
         'page callback' => 'bsconnexion_profil_page_init',
         'access callback' => 'user_is_logged_in',
     );
 
-    // Client Account - Commandes page
-    $items['utilisateur/commandes'] = array(
+//    // Client Account - Factures page
+//    $items['utilisateur/factures'] = array(
+//        'page callback' => 'bsconnexion_profil_page_init',
+//        'access callback' => 'user_is_logged_in',
+//    );
+//
+//    // Client Account - Commandes page
+//    $items['utilisateur/commandes'] = array(
+//        'page callback' => 'bsconnexion_profil_page_init',
+//        'access callback' => 'user_is_logged_in',
+//    );
+
+    // Client Account - Devis page
+    $items['utilisateur/devis'] = array(
         'page callback' => 'bsconnexion_profil_page_init',
         'access callback' => 'user_is_logged_in',
     );
@@ -129,11 +141,17 @@ function bsconnexion_profil_page_init(){
         case "/utilisateur/cataloguep":
             $title = "Catalogue personnalisé";
             break;
-        case "/utilisateur/factures":
-            $title = "Factures";
+        case "/utilisateur/historique":
+            $title = "Historique";
             break;
-        case "/utilisateur/commandes":
-            $title = "Commandes";
+//        case "/utilisateur/factures":
+//            $title = "Factures";
+//            break;
+//        case "/utilisateur/commandes":
+//            $title = "Commandes";
+//            break;
+        case "utiliateur/devis":
+            $title = "Devis";
             break;
         case "/utilisateur/abonnements":
             $title = "Abonnements";
@@ -608,6 +626,7 @@ function bsconnexion_form_user_login_alter(&$form, $form_state, $path) {
         '#id' => 'bs-cc-headband-field-username',
         '#prefix' => '<div class="bs-cc-headband-field" id="bs-cc-headband-div-field-username">',
         '#suffix' => '</div>',
+        '#weight' => 10,
     );
 
     $form['pass'] = array(
@@ -617,12 +636,14 @@ function bsconnexion_form_user_login_alter(&$form, $form_state, $path) {
         '#id' => 'bs-cc-headband-field-password',
         '#prefix' => '<div class="bs-cc-headband-field" id="bs-cc-headband-div-field-password">',
         '#suffix' => '</div>',
+        '#weight' => 11,
     );
 
     $form['actions']['submit'] = array(
         '#type' => 'submit',
         '#value' => t('Connexion'),
         '#id' => 'bs-cc-headband-buttons-login',
+        '#weight' => 12,
     );
 
     $form['actions']['submit']['#submit'][] = 'bsconnexion_user_login_submit';
@@ -631,7 +652,7 @@ function bsconnexion_form_user_login_alter(&$form, $form_state, $path) {
         '#type' => 'button',
         '#value' => t('S\'enregistrer'),
         '#id' => 'bs-cc-headband-buttons-signup',
-        '#weight' => 100,
+        '#weight' => 200,
         '#prefix' => '<div id="bs-cc-headband-div-button-signup">',
         '#suffix' => '</div>',
         // IMPORTANT :
@@ -667,6 +688,7 @@ function bsconnexion_form_user_connected(){
 
     $var = '<div id="bs-cc-headband">';
     $var .= '<div id="bs-cc-user-connected">';
+    $var .= '<a href="/utilisateur/devis" id="bs-cc-devis"><i class="fa fa-shopping-cart"></i>DEMANDE DE DEVIS</a>';
     $var .= '<p id="bs-cc-user-connected-welcome">Bienvenue&nbsp'.$result_affiliation_societe.'</p>';
     $var .= '<a id="bs-cc-user-connected-profil" href="/utilisateur/profil"><i class="fa fa-user fa-1x" aria-hidden="true"></i></a>';
     $var .= '<a id="bs-cc-user-connected-logout" href="/user/logout"><i class="fa fa-sign-out fa-1x" aria-hidden="true"></i></a>';
@@ -786,6 +808,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
 //        '#default_value' => isset($node->active) ? $node->active : 0,
         '#required' => TRUE,
         '#id' => 'bs-cc-register-form-civilite',
+        '#empty_option' => t('* Civilité'),
         '#options' => array(
 //            0 => t('Civilité'),
             0 => t('Madame'),
@@ -855,22 +878,22 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     // 'J'accepte les Conditions Générales d'Utilisation' checkbox
     $form['account']['CGU'] = array(
         '#type' => 'checkbox',
-        '#title' => t('J\'accepte les Conditions Générales d\'Utilisation (CGU)'),
+        '#title' => t('J\'accepte les Conditions Générales d\'Utilisation'),
         '#required' => TRUE,
         '#id' => 'bs-cc-register-form-cgu',
         '#prefix' => '<div id="bs-cc-register-form-cgu-div">',
-        '#suffix' => '</div>',
+        '#suffix' => '<a href="/conditions-générales-dutilisation" target="_blank">(CGU)</a></div>',
         '#weight' => 27,
     );
 
     // 'J'accepte les Conditions Générales de Vente' checkbox
     $form['account']['CGV'] = array(
         '#type' => 'checkbox',
-        '#title' => t('J\'accepte les Conditions Générales de Vente (CGV)'),
+        '#title' => t('J\'accepte les Conditions Générales de Vente'),
         '#required' => TRUE,
         '#id' => 'bs-cc-register-form-cgv',
         '#prefix' => '<div id="bs-cc-register-form-cgv-div">',
-        '#suffix' => '</div>',
+        '#suffix' => '<a href="/condition-générale-de-vente" target="_blank">(CGV)</a></div>',
         '#weight' => 28,
     );
 
@@ -923,15 +946,15 @@ function bsconnexion_user_register_validate($form, $form_state){
     $mailIsUsed = db_query("SELECT mail from {users} WHERE mail = :mail", array(":mail" => $mail_value))->fetchField();
     $nameIsUsed = db_query("SELECT name from {users} WHERE name = :mail", array(":mail" => $mail_value))->fetchField();
 
-    if($mail_value == $mailIsUsed || $mail_value == $nameIsUsed){
+    if($mail_value == $mailIsUsed && !empty($mail_value)){
         drupal_set_message("Cette adresse mail est déjà utilisée.");
     }else{
-        if($error = (!preg_match("/^[A-z0-9_\-\.]+@[A-z-]+\.[a-z]{2,3}$/", $mail_value))){
+        if($error = (!preg_match("/^[A-z0-9_\-\.]+@[A-z-]+\.[A-z]*$/", $mail_value))){
             // Check if the mail value match with the Regular Expression above
-            drupal_set_message(t("L'adresse mail n'est pas valide car elle contient des symboles inappropriés !"));
+//            drupal_set_message(t("L'adresse mail n'est pas valide car elle contient des symboles inappropriés !"));
             // Display an error in the mail field
             form_set_error('mail', $error);
-        }else if($error = (preg_match("/^[A-z0-9_\-\.]+@yopmail+\.[a-z]{2,3}$/", $mail_value))) {
+        }else if($error = (preg_match("/^[A-z0-9_\-\.]+@yopmail+\.[A-z]*$/", $mail_value))) {
             // Check if the mail value match with the Regular Expression  above
             drupal_set_message(t("L'adresse mail n'est pas valide. Yopmail n'est pas autorisé."));
             // Display an error in the mail field
@@ -944,27 +967,27 @@ function bsconnexion_user_register_validate($form, $form_state){
     if ($error = (!preg_match("/^[A-zÀ-ÿ0-9 ]*$/",$affiliation_societe_value))) {
         // Check if the affiliation societe value match with the Regular Expression above
         // Allow alphanumeric and spaces
-        drupal_set_message(t("Le champ affiliation société n'est pas valide."));
+//        drupal_set_message(t("Le champ affiliation société n'est pas valide."));
         // Display an error in the affiliation societe field
         form_set_error('affiliation_societe', $error);
     }
 
 // SIREN verification
     $siren_value = $form_state['values']['siren'];
-    if($error = (!preg_match("/^[0-9]*$/", $siren_value))){
+    if($error = (!preg_match("/^[0-9 \-\.]*$/", $siren_value))){
         // Check if the SIREN value match with the Regular Expression above
-        // Allow digits
-        drupal_set_message(t("Le numéro de SIREN n'est pas valide."));
+        // Allow digits, spaces, dashes and dots
+//        drupal_set_message(t("Le numéro de SIREN n'est pas valide."));
         // Display an error in the siren field
         form_set_error('siren', $error);
     }
 
 // Code postal verification
     $code_postal_value = $form_state['values']['code_postal'];
-    if($error = (!preg_match("/^[0-9 ]*$/", $code_postal_value))){
+    if($error = (!preg_match("/^[0-9 \-\.]*$/", $code_postal_value))){
         // Check if the code postal value match with the Regular Expression above
-        // Allow digits, spaces
-        drupal_set_message(t("Le code postal n'est pas valide."));
+        // Allow digits, spaces, dashes and dots
+//        drupal_set_message(t("Le code postal n'est pas valide."));
         // Display an error in the code postal field
         form_set_error('code_postal', $error);
     }
@@ -974,7 +997,7 @@ function bsconnexion_user_register_validate($form, $form_state){
     if($error = (!preg_match("/^[A-zÀ-ÿ ]*$/", $nom_prenom_value))){
         // Check if the nom prenom value match with the Regular Expression above
         // Allow alphabetic, spaces
-        drupal_set_message(t("Le champ nom, prénom n'est pas valide."));
+//        drupal_set_message(t("Le champ nom, prénom n'est pas valide."));
         // Display an error in the nom prenom field
         form_set_error('nom_prenom', $error);
     }
@@ -983,14 +1006,12 @@ function bsconnexion_user_register_validate($form, $form_state){
     // Retrieve the values of the contact's mail field
     $mail_contact_value = $form_state['values']['mail_contact'];
 
-    if(empty($mail_contact_value)){
-        drupal_set_message("Veuillez remplir l'adresse mail du contact.");
-    }else if($error = (!preg_match("/^[A-z0-9_\-\.]+@[A-z-]+\.[a-z]{2,3}$/", $mail_contact_value))){
+    if($error = (!preg_match("/^[A-z0-9_\-\.]+@[A-z-]+\.[A-z]*$/", $mail_contact_value))){
         // Check if the contact's mail value match with the Regular Expression above
-        drupal_set_message(t("L'adresse mail du contact n'est pas valide car elle contient des symboles inappropriés !"));
+//        drupal_set_message(t("L'adresse mail du contact n'est pas valide car elle contient des symboles inappropriés !"));
         // Display an error in the contact's mail field
         form_set_error('mail_contact', $error);
-    }else if($error = (preg_match("/^[A-z0-9_\-\.]+@yopmail+\.[a-z]{2,3}$/", $mail_contact_value))) {
+    }else if($error = (preg_match("/^[A-z0-9_\-\.]+@yopmail+\.[A-z]*$/", $mail_contact_value))) {
         // Check if the contact's mail value match with the Regular Expression  above
         drupal_set_message(t("L'adresse mail du contact n'est pas valide. Yopmail n'est pas autorisé."));
         // Display an error in the contact's mail field
@@ -1003,7 +1024,7 @@ function bsconnexion_user_register_validate($form, $form_state){
     if($error = (!preg_match("/^[0-9 \(\)\+\-\.]*$/", $telephone_value))){
         // Check if the phone value match with the Regular Expression above
         // Allow digits, space, parenthesis, plus symbol, hyphen, dot
-        drupal_set_message(t("Le numéro de téléphone n'est pas valide."));
+//        drupal_set_message(t("Le numéro de téléphone n'est pas valide."));
         // Display an error in the phone field
         form_set_error('telephone', $error);
     }
@@ -1011,14 +1032,33 @@ function bsconnexion_user_register_validate($form, $form_state){
 // CGU verification
     $cgu_value = $form_state['values']['CGU'];
     if($cgu_value == 0){
-        drupal_set_message("Le CGU doit être approuvé.");
+        drupal_set_message("Les CGU doivent être approuvées.");
     }
 
 // CGV verification
     $cgv_value = $form_state['values']['CGV'];
     if($cgv_value == 0){
-        drupal_set_message("Le CGV doit être approuvé.");
+        drupal_set_message("Les CGV doivent être approuvées.");
     }
+
+    if(
+        empty($form_state['values']['mail']) ||
+        empty($form_state['values']['affiliation_societe']) ||
+        empty($form_state['values']['siren']) ||
+        empty($form_state['values']['adresse']) ||
+        empty($form_state['values']['code_postal']) ||
+        empty($form_state['values']['ville']) ||
+        empty($form_state['values']['civilite']) ||
+        empty($form_state['values']['nom_prenom']) ||
+        empty($form_state['values']['poste_service']) ||
+        empty($form_state['values']['mail_contact']) ||
+        empty($form_state['values']['telephone']) ||
+        empty($form_state['values']['CGU']) ||
+        empty($form_state['values']['CGV'])
+    ){
+        drupal_set_message("Il manque des informations obligatoires. Merci de vérifier votre demande.");
+    }
+
 }
 
 /**
@@ -1060,9 +1100,6 @@ function bsconnexion_user_register_submit($form, $form_state){
         )
     )
         ->execute();
-
-    // Display a message saying that datas are set in database.
-    drupal_set_message(t('Les données renseignées ont été enregistrées.'));
 }
 
 /**
@@ -1105,6 +1142,12 @@ function bsconnexion_theme($existing, $type, $theme, $path) {
             'path' => drupal_get_path('module', 'bsconnexion'),
             'variables' => array('infos' => NULL),
         ),
+
+        'bsconnexion_devis' => array(
+            'template' => 'template/bs-cc-devis',
+            'path' => drupal_get_path('module', 'bsconnexion'),
+            'variables' => array('infos' => NULL),
+        ),
     );
 }
 
@@ -1117,7 +1160,7 @@ function bsconnexion_block_info() {
         'status' => TRUE,
         'region' => 'content',
         'visibility' => BLOCK_VISIBILITY_LISTED,
-        'pages' => "utilisateur/profil\r\nutilisateur/catalogueg\r\nutilisateur/catalogueg/*\r\nutilisateur/cataloguep\r\nutilisateur/factures\r\nutilisateur/commandes\r\nutilisateur/abonnements",
+        'pages' => "utilisateur/profil\r\nutilisateur/catalogueg\r\nutilisateur/catalogueg/*\r\nutilisateur/cataloguep\r\nutilisateur/historique\r\nutilisateur/devis\r\nutilisateur/abonnements",
         'weight' => 1,
     );
     // This example comes from node.module.
@@ -1163,6 +1206,15 @@ function bsconnexion_block_info() {
         'region' => 'content',
         'visibility' => BLOCK_VISIBILITY_LISTED,
         'pages' => "utilisateur/catalogueg\r\nutilisateur/catalogueg/*",
+        'weight' => 2,
+    );
+
+    $blocks['user_devis'] = array(
+        'info' => t('Devis'),
+        'status' => TRUE,
+        'region' => 'content',
+        'visibility' => BLOCK_VISIBILITY_LISTED,
+        'pages' => "utilisateur/devis",
         'weight' => 2,
     );
 
@@ -1455,8 +1507,347 @@ function bsconnexion_block_view($delta = '') {
 
             break;
 
+// BLOCK - Client account, devis page
+        case 'user_devis':
+
+
+
+//            $devis_client_code = db_query("SELECT client_code from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+//            $devis_affiliation_societe = db_query("SELECT affiliation_societe from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+//            $devis_nom_prenom = db_query("SELECT nom_prenom from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+//            $devis_mail = db_query("SELECT mail from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+//            $devis_mail_contact = db_query("SELECT mail_contact from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+//            $devis_code_postal = db_query("SELECT code_postal from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+//
+//            $data['devis_client_code'] = $devis_client_code;
+//            $data['devis_affiliation_societe'] = $devis_affiliation_societe;
+//            $data['devis_nom_prenom'] = $devis_nom_prenom;
+//            $data['devis_mail'] = $devis_mail;
+//            $data['devis_mail_contact'] = $devis_mail_contact;
+//            $data['devis_code_postal'] = $devis_code_postal;
+
+            /* START - Requête GROUP BY */
+//            $query = db_select('node', 'n')
+//                ->fields('n', array('title'))
+//                ->condition('n.type', 'catalogue_general_feuilles')
+//                ->condition('ws.uid', $GLOBALS['user']->uid)
+//                ->groupBy('n.title');
+//            // Add the COUNT expression
+//            $query->addExpression('COUNT(ws.sid)', 'wscount');
+//            // Add the HAVING condition
+////            $query->havingCondition('wscount', 2);
+//            $query->orderBy('wscount', 'DESC');
+//            // Add the JOIN
+//            $query->join('webform_submissions', 'ws', 'n.nid = ws.nid');
+            /* END - Requête GROUP BY */
+
+        /* Start - Query to retrieve submissions */
+            $query = db_select('webform_submitted_data', 'wsd');
+            $query->join('webform_component', 'wc', 'wc.nid = wsd.nid AND wc.cid = wsd.cid');
+            $query->join('webform_submissions', 'ws', 'ws.nid = wsd.nid AND ws.sid = wsd.sid');
+            $query->join('node', 'n', 'n.nid = wsd.nid');
+
+            $query->condition('wc.form_key', 'denomination');
+            $query->condition('ws.uid', $GLOBALS['user']->uid);
+            $query->condition('n.type', 'catalogue_general_feuilles');
+            $query->condition('ws.is_draft', '0');
+
+            $query->fields('n', array('title'));
+//            $query->fields('ws', array('uid'));
+            $query->fields('wsd', array('nid'));
+            $query->fields('wsd', array('sid'));
+//            $query->fields('wc', array('form_key'));
+//            $query->fields('wsd', array('cid'));
+            $query->fields('wsd', array('data'));
+
+            $data['results_submissions'] = $query->execute();
+        /* End - Query to retrieve submissions */
+
+        /* Start - Query to retrieve submitted submissions */
+            $query = db_select('webform_submitted_data', 'wsd');
+            $query->join('webform_component', 'wc', 'wc.nid = wsd.nid AND wc.cid = wsd.cid');
+            $query->join('webform_submissions', 'ws', 'ws.nid = wsd.nid AND ws.sid = wsd.sid');
+            $query->join('node', 'n', 'n.nid = wsd.nid');
+
+            $query->condition('wc.form_key', 'denomination');
+            $query->condition('ws.uid', $GLOBALS['user']->uid);
+            $query->condition('n.type', 'catalogue_general_feuilles');
+            $query->condition('ws.is_draft', '1');
+
+            $query->fields('n', array('title'));
+//            $query->fields('ws', array('uid'));
+            $query->fields('wsd', array('nid'));
+            $query->fields('wsd', array('sid'));
+//            $query->fields('wc', array('form_key'));
+//            $query->fields('wsd', array('cid'));
+            $query->fields('wsd', array('data'));
+            $query->fields('ws', array('submitted'));
+
+            $data['results_submissions_submitted'] = $query->execute();
+        /* End - Query to retrieve submitted submissions */
+
+            // Link the template to display datas
+            $block['content']['#markup'] = theme('bsconnexion_devis', $data);
+
+            // Link a css file for unchangeable datas in the profil page
+            $block['content']['#attached']['css'][] = array(
+                'data' => drupal_get_path('module', 'bsconnexion').'/css/bs-cc-devis.css',
+                'type' => 'file'
+            );
+            // Link a js file for unchangeable datas in the profil page
+            $block['content']['#attached']['js'][] = array(
+                'data' => drupal_get_path('module', 'bsconnexion').'/js/bs-cc-devis.js',
+                'type' => 'file'
+            );
+
+            break;
+
     }
     return $block;
+}
+
+function bsconnexion_init() {
+    /**
+     * If the page is ...
+     * Link css file : bs-cc-devis.css
+     * Link js file : bs-cc-devis.js
+     */
+    if (
+        preg_match("/^\/node\/[0-9]{0,5}\/submission\/[0-9]{0,10}$/", $_SERVER["REQUEST_URI"]) ||
+        preg_match("/^\/node\/[0-9]{0,5}\/submission\/[0-9]{0,10}\/edit$/", $_SERVER["REQUEST_URI"]) ||
+        preg_match("/^\/node\/[0-9]{0,5}\/submission\/[0-9]{0,10}\/delete$/", $_SERVER["REQUEST_URI"])
+    ){
+        drupal_add_css(drupal_get_path('module', 'bsconnexion') . '/css/bs-cc-devis.css', array('group' => CSS_DEFAULT, 'every_page' => TRUE));
+        drupal_add_js(drupal_get_path('module', 'bsconnexion') . '/js/bs-cc-devis.js');
+    }
+
+
+
+//    drupal_set_message($_SERVER['REQUEST_URI']);
+//    if (
+//        preg_match("/^\/user\/reset\/[0-9]{0,5}\/[0-9]{10}\/.*$/", $_SERVER["REQUEST_URI"])
+//    ){
+//        // Retrieve the URL
+//        $url_password_init = preg_split("/\//", $_SERVER['REQUEST_URI']);
+//        // Split the URL and retrieve the uid
+//        $uid_password_init = $url_password_init[3];
+//
+////        drupal_set_message($uid_password_init);
+//
+////        drupal_goto("user/". $uid_password_init ."/edit");
+//    }
+//    if(
+//        preg_match("/^\/user\/[0-9]{0,5}\/edit\?pass-reset-token.*$/", $_SERVER["REQUEST_URI"])
+//    ){
+//            drupal_set_message("vdibknfop");
+//    }
+
+    /**
+     * Check if the user has the role 'authenticated user'
+     * and if he hasn't the role 'administrator', 'backoffice' or 'Devops'
+     */
+    if(
+        user_has_role(2) &&
+        !(user_has_role(3) || user_has_role(4) || user_has_role(5))
+    ){
+        /**
+         * If the page is /node/nid/submissions
+         * or the page is /node/nid/webform-results (when he deletes a submission)
+         * Redirect user to /utilisateur/devis
+         */
+        if(preg_match("/^\/node\/[0-9]{0,5}\/webform-results$/", $_SERVER["REQUEST_URI"])){
+            drupal_goto("/utilisateur/devis");
+        }
+
+        if(preg_match("/^\/node\/[0-9]{0,5}\/submissions$/", $_SERVER["REQUEST_URI"])){
+            drupal_goto("/utilisateur/devis");
+        }
+    }
+}
+
+function bsconnexion_form_webform_client_form_110_alter(&$form,$form_state,$form_id){
+    $form['#validate'][] = 'bsconnexion_form_webform_client_form_110_alter_validate';
+}
+
+function bsconnexion_form_webform_client_form_110_alter_validate($form, &$form_state){
+
+// ADRESSE_MAIL verification
+    if(!empty($form_state['values']['submitted']['adresse_mail'])){
+        if($error = (!preg_match("/^[A-z0-9_\-\.]+@[A-z-]+\.[A-z]*$/", $form_state['values']['submitted']['adresse_mail']))){
+            // Check if the mail value match with the Regular Expression above
+            drupal_set_message(t("L'adresse mail n'est pas valide !"));
+            // Display an error in the mail field
+            form_set_error('submitted][adresse_mail', $error);
+        }else if($error = (preg_match("/^[A-z0-9_\-\.]+@yopmail+\.[A-z]*$/", $form_state['values']['submitted']['adresse_mail']))) {
+            // Check if the mail value match with the Regular Expression  above
+            drupal_set_message(t("L'adresse mail n'est pas valide. Yopmail n'est pas autorisé."));
+            // Display an error in the mail field
+            form_set_error('submitted][adresse_mail', $error);
+        }
+    }
+
+// SIREN verification
+    if($error = (!preg_match("/^[0-9 \-\.]*$/", $form_state['values']['submitted']['ndegsiren___siret']))){
+        // Check if the SIREN value match with the Regular Expression above
+        // Allow digits, spaces, dashes and dots
+        drupal_set_message(t("Le numéro de SIREN n'est pas valide. Seuls les chiffres sont autorisés."));
+        // Display an error in the siren field
+        form_set_error('submitted][ndegsiren___siret', $error);
+    }
+
+// Code postal verification
+    if($error = (!preg_match("/^[0-9 \-\.]*$/", $form_state['values']['submitted']['code_postal']))){
+        // Check if the code postal value match with the Regular Expression above
+        // Allow digits, spaces, dashes and dots
+        drupal_set_message(t("Le code postal n'est pas valide. Seuls les chiffres sont autorisés."));
+        // Display an error in the code postal field
+        form_set_error('submitted][code_postal', $error);
+    }
+
+// Empty fields verification
+    if(
+        empty($form_state['values']['submitted']['civilite']) ||
+        empty($form_state['values']['submitted']['nom']) ||
+        empty($form_state['values']['submitted']['poste___service']) ||
+        empty($form_state['values']['submitted']['adresse_mail']) ||
+        empty($form_state['values']['submitted']['ndegsiren___siret']) ||
+        empty($form_state['values']['submitted']['affiliation___societe']) ||
+        empty($form_state['values']['submitted']['code_postal']) ||
+        empty($form_state['values']['submitted']['message'])
+    ){
+        drupal_set_message("Il manque des informations obligatoires. Merci de vérifier votre demande de contact.");
+    }
+}
+
+function bsconnexion_form_user_profile_form_alter(&$form,$form_state,$form_id){
+
+    if(
+        preg_match("/^\/user\/[0-9]{0,5}\/edit\?pass-reset-token.*$/", $_SERVER["REQUEST_URI"])
+    ){
+        $form['actions']['submit']['#value'] = t('Initialiser le mot de passe'); //change the submit button text
+    }
+
+    $form['#validate'][] = 'bsconnexion_form_user_profile_form_alter_validate';
+
+    $form['#submit'][] = 'bsconnexion_form_user_profile_form_alter_submit';
+
+}
+
+function bsconnexion_form_user_profile_form_alter_validate($form, &$form_state){
+
+    if($error = (empty($form_state['values']['pass']) ) ) {
+        // Check if the nom prenom value match with the Regular Expression above
+        // Allow alphabetic, spaces
+        drupal_set_message(t("Veuillez renseigner les champs."));
+        // Display an error in the nom prenom field
+        form_set_error('pass', $error);
+    }
+
+    if($error = (
+        (!preg_match("/^(?=.*[a-zà-ÿ])(?=.*[A-ZÀ-Ÿ])(?=.*\d)[A-zà-ÿÀ-Ÿ\d]{6,}$/", $form_state['values']['pass']))
+        && (!empty($form_state['values']['pass']))
+    )) {
+        // Check if the nom prenom value match with the Regular Expression above
+        // Allow alphabetic, spaces
+        drupal_set_message(t("Le mot de passe doit contenir au minimum 6 caractères, 1 majuscule, 1 minuscule et 1 chiffre."));
+        // Display an error in the nom prenom field
+        form_set_error('pass', $error);
+    }
+}
+
+function bsconnexion_form_user_profile_form_alter_submit($form, &$form_state){
+    drupal_goto("/utilisateur/profil");
+}
+
+/**
+ * Update status of the submission
+ *
+ * @param $primary_tab
+ * @param $i
+ */
+function bsconnexion_update_submissions_values($primary_tab, $i){
+
+    db_update('webform_submissions')
+        ->condition('uid', $GLOBALS['user']->uid, '=')
+        ->condition('nid', $primary_tab[$i][0], '=')
+        ->condition('sid', $primary_tab[$i][1], '=')
+        ->fields(array(
+            'is_draft' => 1,
+            'submitted' => time(),
+        ))
+        ->execute();
+}
+
+/**
+ * Function to send quote(s) by email.
+ * Check bs-cc-devis.tpl.php
+ *
+ * @see bsconnexion_mail()
+ *
+ * @param $url_consult_devis
+ */
+function bsconnexion_sending_mail($url_consult_devis){
+
+    // Retrieve user's datas from table users_extra_fields in the database
+    // To send informations in the mail
+    $devis_client_code = db_query("SELECT client_code from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+    $devis_affiliation_societe = db_query("SELECT affiliation_societe from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+    $devis_nom_prenom = db_query("SELECT nom_prenom from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+    $devis_mail_contact = db_query("SELECT mail_contact from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+    $devis_mail = db_query("SELECT mail from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+    $devis_code_postal = db_query("SELECT code_postal from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
+
+    if(empty($devis_client_code)){
+        $devis_client_code = "Non attribué";
+    }
+
+    // Mail's parameters
+    $to = "developer.biosample@gmail.com";
+    $from = "developer.biosample@gmail.com";
+
+    $subject = $devis_affiliation_societe . " - Demande de devis";
+    $body = "Demande de devis : \n\n" .
+            "Code client : " . $devis_client_code . "\n" .
+            "Société : " . $devis_affiliation_societe . "\n" .
+            "Prénom / Nom : " . $devis_nom_prenom . "\n" .
+            "Courriel du contact : " . $devis_mail_contact . "\n" .
+            "Courriel : " . $devis_mail . "\n" .
+            "Code postal : " . $devis_code_postal . "\n" .
+            "UID : " . $GLOBALS['user']->uid . "\n\n" .
+            "Cliquez sur les liens suivants pour consulter les devis : \n\n" .
+            $url_consult_devis;
+
+    // Call mail function
+    $params = array(
+        'subject' => $subject,
+        'body' => $body,
+    );
+
+    if(drupal_mail('bsconnexion', '10', $to, "fr", $params, $from)){
+        drupal_set_message("Votre demande de devis a bien été envoyée.");
+        drupal_goto("/utilisateur/devis");
+    } else {
+        drupal_set_message("Erreur, votre demande de devis n'a pas abouti.");
+        drupal_goto("/utilisateur/devis");
+    }
+}
+
+/**
+ * Implementation of hook_mail().
+ *
+ * A very simple hook_mail() implementation, for module "bsconnexion".
+ * This implementation expects to receive a $body, $subject, and $headers
+ * inside the $params sent from drupal_mail(), rather than construct
+ * those here in the hook.
+ * @see drupal_mail()
+ */
+function bsconnexion_mail($key, &$message, $params) {
+    switch ($key) {
+        case '10':
+            $message['subject'] = $params['subject'];
+            $message['body'][] = $params['body'];
+            break;
+    }
 }
 
 /**
@@ -1510,7 +1901,7 @@ function bsconnexion_profil_changeable_datas_form($form, &$form_state){
         '#attributes' => array('placeholder' => $result_nom_prenom),
         '#id' => 'bs-cc-update-account-nomprenom',
         '#weight' => 2,
-        '#prefix' => '<div id="bs-cc-update-account-nomprenom-div"><p>Prénom nom : </p>',
+        '#prefix' => '<div id="bs-cc-update-account-nomprenom-div"><p>Prénom, Nom : </p>',
         '#suffix' => '</div>',
     );
 
@@ -1591,12 +1982,12 @@ function bsconnexion_profil_changeable_datas_validate($form, $form_state){
 // Contact's mail verification
     // Retrieve the values of the contact's mail field
     $update_mail_contact_value = $form_state['values']['update_mail_contact'];
-    if(($error = (!preg_match("/^[A-z0-9_\-\.]+@[A-z-]+\.[a-z]{2,3}$/", $update_mail_contact_value))) && $update_mail_contact_value != ""){
+    if(($error = (!preg_match("/^[A-z0-9_\-\.]+@[A-z-]+\.[A-z]*$/", $update_mail_contact_value))) && $update_mail_contact_value != ""){
         // Check if the contact's mail value match with the Regular Expression above
         drupal_set_message(t("L'adresse mail du contact n'est pas valide car elle contient des symboles inappropriés !"));
         // Display an error in the contact's mail field
         form_set_error('update_mail_contact', $error);
-    }else if($error = (preg_match("/^[A-z0-9_\-\.]+@yopmail+\.[a-z]{2,3}$/", $update_mail_contact_value))) {
+    }else if($error = (preg_match("/^[A-z0-9_\-\.]+@yopmail+\.[A-z]*$/", $update_mail_contact_value))) {
         // Check if the contact's mail value match with the Regular Expression  above
         drupal_set_message(t("L'adresse mail du contact n'est pas valide. Yopmail n'est pas autorisé."));
         // Display an error in the contact's mail field
