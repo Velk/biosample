@@ -53,6 +53,15 @@ function bsconnexion_menu(){
         'type' => MENU_NORMAL_ITEM,
     );
 
+//    $items['admin/BioSample/cataloguep'] = array(
+//        'title' => t('BS - Catalogue personnalisé'),
+//        'description' => t('BS Catalogue personnalisé'),
+//        'page callback' => 'drupal_get_form',
+//        'page arguments' => array('bsconnexion_admin_cataloguep_form'),
+//        'access arguments' => array('administer site configuration'),
+//        'type' => MENU_NORMAL_ITEM,
+//    );
+
     $items['admin/BioSample/user-manager/utilisateur/%user/edit'] = array(
         'title' => t('BS - User datas manager'),
         'description' => t('BS User datas manager page'),
@@ -94,18 +103,6 @@ function bsconnexion_menu(){
         'page callback' => 'bsconnexion_profil_page_init',
         'access callback' => 'user_is_logged_in',
     );
-
-//    // Client Account - Factures page
-//    $items['utilisateur/factures'] = array(
-//        'page callback' => 'bsconnexion_profil_page_init',
-//        'access callback' => 'user_is_logged_in',
-//    );
-//
-//    // Client Account - Commandes page
-//    $items['utilisateur/commandes'] = array(
-//        'page callback' => 'bsconnexion_profil_page_init',
-//        'access callback' => 'user_is_logged_in',
-//    );
 
     // Client Account - Devis page
     $items['utilisateur/devis'] = array(
@@ -159,6 +156,35 @@ function bsconnexion_profil_page_init(){
     }
 
     return "<p hidden class='bs-cc-title-page'>" . $title . "</p>";
+}
+
+/**
+ * Implement bsconnexion_admin_cataloguep_form()
+ *
+ * @see bsconnexion_admin_datas_user_form()
+ */
+function bsconnexion_admin_cataloguep_form($form, &$form_state){
+
+//    $form['upload'] = array(
+////        '#name' => 'files[' . implode('_', $element['#parents']) . ']',
+//        '#name' => 'test',
+//        '#type' => 'file',
+//        '#title' => t('Choose a file'),
+//        '#title_display' => 'invisible',
+//        '#size' => 22,
+//        '#theme_wrappers' => array(),
+//        '#weight' => 1,
+//    );
+
+
+    $form['test'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Username'),
+        '#attributes' => array('disabled' => 'disabled'),
+        '#weight' => 1,
+    );
+
+    return $form;
 }
 
 /**
@@ -1148,6 +1174,12 @@ function bsconnexion_theme($existing, $type, $theme, $path) {
             'path' => drupal_get_path('module', 'bsconnexion'),
             'variables' => array('infos' => NULL),
         ),
+
+        'bsconnexion_cataloguep' => array(
+            'template' => 'template/bs-cc-cp',
+            'path' => drupal_get_path('module', 'bsconnexion'),
+            'variables' => array('infos' => NULL),
+        ),
     );
 }
 
@@ -1215,6 +1247,15 @@ function bsconnexion_block_info() {
         'region' => 'content',
         'visibility' => BLOCK_VISIBILITY_LISTED,
         'pages' => "utilisateur/devis",
+        'weight' => 2,
+    );
+
+    $blocks['user_cataloguep'] = array(
+        'info' => t('Catalogue personnalisé'),
+        'status' => TRUE,
+        'region' => 'content',
+        'visibility' => BLOCK_VISIBILITY_LISTED,
+        'pages' => "utilisateur/cataloguep\r\nutilisateur/cataloguep/*",
         'weight' => 2,
     );
 
@@ -1510,37 +1551,6 @@ function bsconnexion_block_view($delta = '') {
 // BLOCK - Client account, devis page
         case 'user_devis':
 
-
-
-//            $devis_client_code = db_query("SELECT client_code from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
-//            $devis_affiliation_societe = db_query("SELECT affiliation_societe from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
-//            $devis_nom_prenom = db_query("SELECT nom_prenom from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
-//            $devis_mail = db_query("SELECT mail from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
-//            $devis_mail_contact = db_query("SELECT mail_contact from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
-//            $devis_code_postal = db_query("SELECT code_postal from {users_extra_fields} WHERE username = :mail", array(":mail" => $GLOBALS['user']->mail))->fetchField();
-//
-//            $data['devis_client_code'] = $devis_client_code;
-//            $data['devis_affiliation_societe'] = $devis_affiliation_societe;
-//            $data['devis_nom_prenom'] = $devis_nom_prenom;
-//            $data['devis_mail'] = $devis_mail;
-//            $data['devis_mail_contact'] = $devis_mail_contact;
-//            $data['devis_code_postal'] = $devis_code_postal;
-
-            /* START - Requête GROUP BY */
-//            $query = db_select('node', 'n')
-//                ->fields('n', array('title'))
-//                ->condition('n.type', 'catalogue_general_feuilles')
-//                ->condition('ws.uid', $GLOBALS['user']->uid)
-//                ->groupBy('n.title');
-//            // Add the COUNT expression
-//            $query->addExpression('COUNT(ws.sid)', 'wscount');
-//            // Add the HAVING condition
-////            $query->havingCondition('wscount', 2);
-//            $query->orderBy('wscount', 'DESC');
-//            // Add the JOIN
-//            $query->join('webform_submissions', 'ws', 'n.nid = ws.nid');
-            /* END - Requête GROUP BY */
-
         /* Start - Query to retrieve submissions */
             $query = db_select('webform_submitted_data', 'wsd');
             $query->join('webform_component', 'wc', 'wc.nid = wsd.nid AND wc.cid = wsd.cid');
@@ -1575,11 +1585,8 @@ function bsconnexion_block_view($delta = '') {
             $query->condition('ws.is_draft', '1');
 
             $query->fields('n', array('title'));
-//            $query->fields('ws', array('uid'));
             $query->fields('wsd', array('nid'));
             $query->fields('wsd', array('sid'));
-//            $query->fields('wc', array('form_key'));
-//            $query->fields('wsd', array('cid'));
             $query->fields('wsd', array('data'));
             $query->fields('ws', array('submitted'));
 
@@ -1602,6 +1609,39 @@ function bsconnexion_block_view($delta = '') {
 
             break;
 
+// BLOCK - Client account, catalogueg page
+        case 'user_cataloguep':
+
+            $row = 1;
+            if (($handle = fopen("/home/biosample/FCCRA69A2.csv", "r")) !== FALSE) {
+                while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+                    $num = count($data);
+                    echo "<p style='background-color: #424242; color:#fff;' > $num champs à la ligne $row : <br /></p>\n";
+                    $row++;
+                    for ($c=0; $c < $num; $c++) {
+                        echo $data[$c] . "<br />\n";
+                    }
+                }
+                fclose($handle);
+            }
+
+            // Link the template to display datas
+            $block['content']['#markup'] = theme('bsconnexion_cataloguep');
+
+            // Link a css file for cataloguep page
+            $block['content']['#attached']['css'][] = array(
+                'data' => drupal_get_path('module', 'bsconnexion').'/css/bs-cc-cataloguep.css',
+                'type' => 'file'
+            );
+
+//            // Link a js file for cataloguep page
+//            $block['content']['#attached']['js'][] = array(
+//                'data' => drupal_get_path('module', 'bsconnexion').'/js/bs-cc-cataloguep.js',
+//                'type' => 'file'
+//            );
+
+            break;
+
     }
     return $block;
 }
@@ -1620,27 +1660,6 @@ function bsconnexion_init() {
         drupal_add_css(drupal_get_path('module', 'bsconnexion') . '/css/bs-cc-devis.css', array('group' => CSS_DEFAULT, 'every_page' => TRUE));
         drupal_add_js(drupal_get_path('module', 'bsconnexion') . '/js/bs-cc-devis.js');
     }
-
-
-
-//    drupal_set_message($_SERVER['REQUEST_URI']);
-//    if (
-//        preg_match("/^\/user\/reset\/[0-9]{0,5}\/[0-9]{10}\/.*$/", $_SERVER["REQUEST_URI"])
-//    ){
-//        // Retrieve the URL
-//        $url_password_init = preg_split("/\//", $_SERVER['REQUEST_URI']);
-//        // Split the URL and retrieve the uid
-//        $uid_password_init = $url_password_init[3];
-//
-////        drupal_set_message($uid_password_init);
-//
-////        drupal_goto("user/". $uid_password_init ."/edit");
-//    }
-//    if(
-//        preg_match("/^\/user\/[0-9]{0,5}\/edit\?pass-reset-token.*$/", $_SERVER["REQUEST_URI"])
-//    ){
-//            drupal_set_message("vdibknfop");
-//    }
 
     /**
      * Check if the user has the role 'authenticated user'
