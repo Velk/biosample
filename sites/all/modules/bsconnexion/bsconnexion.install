@@ -163,6 +163,70 @@ function bsconnexion_install() {
 
 function bsconnexion_uninstall() {
     db_drop_table('users_extra_fields');
+    db_drop_table('bs_cc_catalogue_perso');
+}
+
+function bsconnexion_update_7001(){
+
+    $schema['bs_cc_catalogue_perso'] = array(
+        'fields' => array(
+            'id_product' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+                'description' => "Product's ID.",
+            ),
+            'reference' => array(
+                'type' => 'varchar',
+                'length' => 10,
+                'not null' => TRUE,
+                'description' => "Product's reference.",
+            ),
+            'name' => array(
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => TRUE,
+                'description' => "Product's name.",
+            ),
+            'packaging' => array(
+                'type' => 'varchar',
+                'length' => 50,
+                'not null' => TRUE,
+                'description' => "Biosample packaging product.",
+            ),
+            'price' => array(
+                'type' => 'varchar',
+                'length' => 25,
+                'not null' => TRUE,
+                'description' => "Product's price.",
+            ),
+            'stock_quantity' => array(
+                'type' => 'varchar',
+                'length' => 25,
+                'not null' => TRUE,
+                'description' => "Product stock quantity.",
+            ),
+            'id_client' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+                'description' => "Client's ID. Reference to table {users} column uid.",
+            ),
+        ),
+        'unique keys' => array(
+          'reference' => array('reference'),
+          'id_client' => array('id_client'),
+        ),
+        'primary key' => array('id_product'),
+        'foreign keys' => array(
+          'id_client' => array(
+            'table' => 'users',
+            'columns' => array('id_client' => 'uid'),
+          ),
+        ),
+    );
+
+  db_create_table('bs_cc_catalogue_perso', $schema['bs_cc_catalogue_perso']);
 }
 
 ?>
