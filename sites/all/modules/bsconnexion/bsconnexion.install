@@ -163,6 +163,85 @@ function bsconnexion_install() {
 
 function bsconnexion_uninstall() {
     db_drop_table('users_extra_fields');
+    db_drop_table('bs_cc_catalogue_perso');
+}
+
+function bsconnexion_update_7001(){
+
+    $schema['bs_cc_catalogue_perso'] = array(
+        'fields' => array(
+            'cp_id_product' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+                'description' => "Product's ID.",
+            ),
+            'cp_uid' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => FALSE,
+                'description' => "Client's ID. Reference to table {users} column uid.",
+            ),
+            'cp_client_code' => array(
+                'type' => 'varchar',
+                'length' => 10,
+                'not null' => FALSE,
+                'default' => '',
+                'description' => "Client code defined by Biosample",
+            ),
+            'cp_reference' => array(
+                'type' => 'varchar',
+                'length' => 10,
+                'not null' => FALSE,
+                'description' => "Product's reference.",
+            ),
+            'cp_name' => array(
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => FALSE,
+                'description' => "Product's name.",
+            ),
+            'cp_packaging' => array(
+                'type' => 'varchar',
+                'length' => 50,
+                'not null' => FALSE,
+                'description' => "Biosample packaging product.",
+            ),
+            'cp_price' => array(
+                'type' => 'varchar',
+                'length' => 25,
+                'not null' => FALSE,
+                'description' => "Product's price.",
+            ),
+            'cp_unit_price' => array(
+                'type' => 'varchar',
+                'length' => 25,
+                'not null' => FALSE,
+                'description' => "Product's unit price.",
+            ),
+            'cp_stock' => array(
+                'type' => 'varchar',
+                'length' => 25,
+                'not null' => FALSE,
+                'description' => "Product stock quantity.",
+            ),
+            'cp_image' => array(
+                'type' => 'varchar',
+                'length' => 50,
+                'not null' => FALSE,
+                'description' => "Product image name.",
+            ),
+        ),
+        'primary key' => array('cp_id_product'),
+        'foreign keys' => array(
+          'cp_uid' => array(
+            'table' => 'users',
+            'columns' => array('cp_uid' => 'uid'),
+          ),
+        ),
+    );
+
+  db_create_table('bs_cc_catalogue_perso', $schema['bs_cc_catalogue_perso']);
 }
 
 ?>
