@@ -1825,7 +1825,7 @@ function bsconnexion_sending_mail($url_consult_devis){
     }
 
     // Mail's parameters
-    $to = $devis_mail_contact;
+    $to = "contact@biosample.fr";
     $from = "contact@biosample.fr";
 
     $subject = $devis_affiliation_societe . " - Demande de devis";
