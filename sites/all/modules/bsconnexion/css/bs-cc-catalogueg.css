@@ -90,6 +90,13 @@ div#bs-cg-parent-container {
     cursor: pointer;
 }
 
+#bs-cg-parent-top:hover{
+    color:#1e6a8e;
+    background-color: #fff;
+    border-radius:50px;
+    width:23px;
+}
+
 .bs-cg-element-active{
     background-color: #fff;
     color: #1e6a8e;
