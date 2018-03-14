@@ -44,6 +44,13 @@ function bsconnexion_menu(){
         'type' => MENU_NORMAL_ITEM,
     );
 
+    $items['admin/BioSample'] =  array(
+        'title' => t('BioSample') ,
+        'description' => t('Outils BioSample') ,
+        'page callback' => 'system_admin_menu_block_page',
+        'access arguments' => array('access administration pages'),
+    );
+
     $items['admin/BioSample/user-manager'] = array(
         'title' => t('BS - User manager'),
         'description' => t('BS User manager'),
@@ -761,6 +768,12 @@ function bsconnexion_form_user_connected(){
  * @see bsconnexion_user_register_submit()
  */
 function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
+
+
+    $form['account']['contact_information'] = array(
+        '#markup' => '<p id="bs-cc-information">Toutes données collectées sur le site internet www.biosample.fr ne sont ni divulguées ni vendues ni cédées à des tiers.</p>',
+        '#weight' => 0,
+    );
 
     // Nom d'utilisateur field
     $form['account']['name']['#attributes'] = array('placeholder' => t('* Nom d\'utilisateur'));

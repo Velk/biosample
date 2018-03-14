@@ -1,4 +1,9 @@
 @media screen and (min-width: 0px){
+    #bs-cc-information{
+        margin-bottom: 50px !important;
+        font-style: italic !important;
+    }
+
     #bs-cc-register-form-name-div,
     #bs-cc-register-form-mail-div,
     #bs-cc-register-form-fieldset-company,

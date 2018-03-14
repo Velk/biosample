@@ -4,6 +4,14 @@
 
 /* Start - Quote request */
 
+p#bs-cc-noquote-request-message > a{
+    color:#fff;
+    font-style:italic;
+}
+p#bs-cc-noquote-request-message > a:hover{
+    color:#000;
+}
+
 div#bs-cc-quote-request-container {
     position: relative;
     width: 100%;
