@@ -1,0 +1,4 @@
+name = BS Ressources Biologiques
+description = Module de gestion des ressources biologiques
+core = 7.x
+package = BIOSAMPLE
