@@ -143,3 +143,37 @@ div#rsb-map-marker-datas .rsb-datas-value {
     display: inline-flex;
     margin: 0;
 }
+
+#bs-rsb-popup{
+    position: fixed;
+    width: 430px;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    background-color: #fff;
+    padding: 25px 50px;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 9px #8c8c8c;
+    z-index: 99999;
+}
+
+#bs-rsb-popup p{
+    margin-bottom:15px;
+}
+
+#bs-rsb-popup > p:first-child{
+    text-align: center;
+    font-weight:600;
+}
+
+#bs-rsb-popup > p:last-child{
+    margin:0;
+}
+
+#bs-rsb-popup a {
+    color: #1e6a8e;
+}
+
+#bs-rsb-popup a:hover {
+    color: #424242;
+}
