@@ -1,0 +1,162 @@
+<?php
+
+/**
+ * Implement hook_help()
+ *
+ * @param $path
+ * @param $arg
+ * @return string
+ */
+function bs_rsb_help($path, $arg) {
+    switch ($path) {
+        case 'admin/help#bs_rsb':
+            return '<p>' . t('Module BioSample for the Ressources Biologiques project.') . '</p>';
+    }
+}
+
+/**
+ * Implement hook_menu()
+ *
+ * @return array
+ */
+function bs_rsb_menu(){
+    $items = array();
+
+    $items['ressources-biologiques/home'] = array(
+        'title' => t('Ressources biologiques - Cartographie'),
+        'description' => t('Cartographie des ressources biologiques'),
+        'page callback' => 'bs_rsb_block_view',
+//        'page callback' => 'bs_rsb_init',
+//        'page arguments' => array('bs_forms_admin_form'),
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    return $items;
+}
+
+
+/**
+ * Implement hook_init()
+ */
+function bs_rsb_init(){
+
+//    if(preg_match("/^\/ressources-biologiques\/home$/", $_SERVER["REQUEST_URI"])){
+//        drupal_add_js('https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js', 'external');
+////        drupal_add_js('https://maps.googleapis.com/maps/api/js?key=AIzaSyCFRfsQ8c9bNGM0SJxYiskW3gT03l1X7TA&callback=initMap', 'external');
+//        drupal_add_js('https://maps.googleapis.com/maps/api/js?key=AIzaSyCFRfsQ8c9bNGM0SJxYiskW3gT03l1X7TA&callback=initMap', array(
+//            'type' => 'external',
+//            'defer' => TRUE,
+//            'scope' => 'header',
+////            'group' => JS_THEME,
+////            'every_page' => TRUE,
+//            'weight' => -1,
+//        ));
+//    }
+//    return 'Test';
+}
+
+/**
+ * Implement hook_theme()
+ *
+ * @param $existing
+ * @param $type
+ * @param $theme
+ * @param $path
+ * @return array
+ */
+function bs_rsb_theme($existing, $type, $theme, $path) {
+    return array(
+        'tpl_rsb_map' => array(
+            'template' => 'template/bs-rsb-map',
+            'path' => drupal_get_path('module', 'bs_rsb'),
+            'variables' => array('infos' => NULL),
+        ),
+        'tpl_rsb_collections' => array(
+            'template' => 'template/bs-rsb-collections',
+            'path' => drupal_get_path('module', 'bs_rsb'),
+            'variables' => array('infos' => NULL),
+        ),
+    );
+}
+
+/**
+ * Implement hook_block_info()
+ *
+ * @return array
+ */
+function bs_rsb_block_info() {
+    $blocks = array();
+
+    $blocks['ressource_bio_map'] = array(
+        'info' => t('Ressources biologiques - Map'),
+        'status' => TRUE,
+        'region' => 'content',
+        'visibility' => BLOCK_VISIBILITY_LISTED,
+        'pages' => "ressources-biologiques/home",
+        'weight' => 1,
+    );
+
+    $blocks['ressource_bio_collections'] = array(
+        'info' => t('Ressources biologiques - Collections'),
+        'status' => TRUE,
+        'region' => 'content',
+        'visibility' => BLOCK_VISIBILITY_LISTED,
+        'pages' => "ressources-biologiques/home",
+        'weight' => 2,
+    );
+
+    return $blocks;
+}
+
+/**
+ * Implement hook_block_view()
+ *
+ * @see hook_block_info()
+ */
+function bs_rsb_block_view($delta = '') {
+    $block = array();
+
+    switch ($delta) {
+        case 'ressource_bio_map':
+
+            // Link the template for the rsb map
+            $block['content']['#markup'] = theme('tpl_rsb_map');
+
+            // Link a css file for the rsb map
+            $block['content']['#attached']['css'][] = array(
+                'data' => drupal_get_path('module', 'bs_rsb') . '/css/bs-rsb-map.css',
+                'type' => 'file'
+            );
+
+            // Link a js file for the rsb map
+            $block['content']['#attached']['js'][] = array(
+                'data' => drupal_get_path('module', 'bs_rsb') . '/js/bs-rsb-map.js',
+                'type' => 'file'
+            );
+
+            break;
+
+        case 'ressource_bio_collections':
+
+            // Link the template for the rsb map
+            $block['content']['#markup'] = theme('tpl_rsb_collections');
+
+            // Link a css file for the rsb map
+            $block['content']['#attached']['css'][] = array(
+                'data' => drupal_get_path('module', 'bs_rsb') . '/css/bs-rsb-collections.css',
+                'type' => 'file'
+            );
+
+            // Link a js file for the rsb map
+            $block['content']['#attached']['js'][] = array(
+                'data' => drupal_get_path('module', 'bs_rsb') . '/js/bs-rsb-collections.js',
+                'type' => 'file'
+            );
+
+            break;
+    }
+
+    return $block;
+}
+
