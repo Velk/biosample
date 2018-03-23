@@ -19,7 +19,7 @@
             //If there isn't quote requests, hide the button
                 $("#bs-cc-qr-button").hide();
 
-                $("#bs-cc-quote-request-container").append("<p id='bs-cc-noquote-request-message'>Veuillez demander des devis à l'aide du Catalogue Général.</p>")
+                $("#bs-cc-quote-request-container").append("<p id='bs-cc-noquote-request-message'>Veuillez demander des devis à l'aide du <a href='/utilisateur/catalogueg'>Catalogue Général.</a></p>")
                 $("#bs-cc-noquote-request-message").css({
                     "text-align": "center",
                     "color": "#fff",

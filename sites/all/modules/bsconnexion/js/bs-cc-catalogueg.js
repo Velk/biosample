@@ -58,10 +58,18 @@
         /* Start - When the user is on a leaf (last child of a hierarchy) */
 
             /* Add to the DOM the leaf form container */
-            $(".node-catalogue-general-feuilles > div").prepend(
-                "<button id='bs-cc-cg-leaf-cancel'><i class='fa fa-times' aria-hidden='true'></i></button>"
-                + "<p id='bs-cc-cg-leaf-title'></p>"
-            );
+            if(!($("#bs-cc-cg-leaf-cancel").is(":visible"))){
+                $(".node-catalogue-general-feuilles > div").prepend(
+                    "<button id='bs-cc-cg-leaf-cancel'><i class='fa fa-times' aria-hidden='true'></i></button>"
+                    + "<p id='bs-cc-cg-leaf-title'></p>"
+                );
+            }
+
+            if(!($("#bs-cc-cg-leaf-instructions").is(":visible"))){
+                $(".node-catalogue-general-feuilles > div > form").prepend(
+                    "<p id='bs-cc-cg-leaf-instructions'>Merci de remplir un maximum de champs afin que nous vous proposions le produit le plus adapté.</p>"
+                );
+            }
 
             /* If user click on cancel button, hide the leaf form container */
             $("#bs-cc-cg-leaf-cancel").click(function(){
@@ -72,6 +80,8 @@
             /* Set the name of the leaf into the leaf form container */
             $("#bs-cc-cg-leaf-title").text($(".bs-cg-element-active").text());
 
+
+
             /* Allow or not the body scrolling */
             // if($("#leaf-true").text() == "leaf"){
             //     $("body").css("overflow-y", "hidden");
@@ -80,6 +90,74 @@
             // }
 
         /* End - When the user is on a leaf (last child of a hierarchy) */
+
+        /* Start - Webform 'feuille', textfield "Autre(s) ..." */
+
+            /*
+              Click on a select field & click on
+              "autre" or "autres" or "Autre" or "Autres" value
+              Display the textfield "Autre(s) ..." otherwise no
+            */
+            $(".webform-component-select > select").click(function(){
+
+                // Retrieve the label text
+                var labelText = $(this).parent().children("label").text();
+
+                // Remove the ' *' for obligatories labels
+                labelText = labelText.split(" *")[0];
+
+                // Remove accent
+                labelText = labelText.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+
+                // Set to lower case
+                labelText = labelText.normalize('NFD').toLowerCase();
+
+                // Stock in an array the allowed values
+                var tabTest = ["autre", "autres", "Autre", "Autres"];
+
+                // If the value selected is : "autre" or "autres" or "Autre" or "Autres"
+                if(
+                    $(this).val() == "autre" ||
+                    $(this).val() == "autres" ||
+                    $(this).val() == "Autre" ||
+                    $(this).val() == "Autres"
+                ){
+
+                    // Display the "Autre(s) ..." textfield
+                    for(var i=0; i<tabTest.length ; i++){
+                        $("#webform-component-" + tabTest[i] + "-" + labelText).css("display", "block");
+                    }
+
+                }else{
+
+                    // Hide the "Autre(s) ..." textfield
+                    for(var i=0; i<tabTest.length ; i++) {
+                        $("#webform-component-" + tabTest[i] + "-" + labelText.toLowerCase()).css("display", "none");
+                    }
+                }
+            });
+
+            // Change appearance of the textfield with the label "Autre(s) ..."
+            $(".webform-component-textfield").each(function(){
+                // For each textfield with the following id
+                if(
+                    $(this).attr("id").split("webform-component-autre")[0] == "" ||
+                    $(this).attr("id").split("webform-component-autres")[0] == ""
+                ){
+                    // retrieve the id
+                    var thisId = $(this).attr("id")
+
+                    // Change the appearance of the "Autre(s) ..." textfield
+                    $("#" + thisId).css({
+                        "display" : "none"
+                    });
+                }
+            });
+
+        /* End - Webform 'feuille', textfield "Autre(s) ..." */
+
+            // $(".webform-component-managed_file").parent().parent().css("width", "100%");
+            // $(".webform-component-managed_file").parent("#edit-submitted-image-ajax-wrapper").css("width", "100%");
 
         }
     };
