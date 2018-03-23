@@ -145,8 +145,9 @@
 }
 .bs-rsb-filter-datas-checkbox > input{
     width: 10%;
-    transform: translateY(75%);
     cursor: pointer;
+    height: 16px;
+    margin-top: 7px;
 }
 .bs-rsb-filter-datas-checkbox > p{
     width: 90%;
