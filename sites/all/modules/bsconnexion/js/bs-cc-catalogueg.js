@@ -99,12 +99,11 @@
               Display the textfield "Autre(s) ..." otherwise no
             */
             $(".webform-component-select > select").click(function(){
-
                 // Retrieve the label text
                 var labelText = $(this).parent().children("label").text();
 
                 // Remove the ' *' for obligatories labels
-                labelText = labelText.split(" *")[0];
+                labelText = labelText.split("*")[0];
 
                 // Remove accent
                 labelText = labelText.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
@@ -112,46 +111,52 @@
                 // Set to lower case
                 labelText = labelText.normalize('NFD').toLowerCase();
 
-                // Stock in an array the allowed values
-                var tabTest = ["autre", "autres", "Autre", "Autres"];
+                // Retrieve the selected option of the select field clicked
+                var optionSelected = $(this).children("option:selected").text();
 
-                // If the value selected is : "autre" or "autres" or "Autre" or "Autres"
-                if(
-                    $(this).val() == "autre" ||
-                    $(this).val() == "autres" ||
-                    $(this).val() == "Autre" ||
-                    $(this).val() == "Autres"
-                ){
+                // Concatenate both to create the label of the field to display
+                var labelToMatch = optionSelected + " " + labelText;
 
-                    // Display the "Autre(s) ..." textfield
-                    for(var i=0; i<tabTest.length ; i++){
-                        $("#webform-component-" + tabTest[i] + "-" + labelText).css("display", "block");
-                    }
 
+                // If the optionSelected is 'Autre' or 'Autres'
+                if(optionSelected == "Autre" || optionSelected == "Autres"){
+
+                    // Browse fields in the form
+                    $(".node-catalogue-general-feuilles .form-item").each(function(){
+
+                        // If the label of a field match with the labelToMatch
+                        if($(this).children("label").text().normalize('NFD').replace(/[\u0300-\u036f]/g, "") == labelToMatch){
+
+                            // Show this field
+                            $(this).show();
+                        }
+                    });
                 }else{
+                // If the optionSelected isn't 'Autre' or 'Autres'
 
-                    // Hide the "Autre(s) ..." textfield
-                    for(var i=0; i<tabTest.length ; i++) {
-                        $("#webform-component-" + tabTest[i] + "-" + labelText.toLowerCase()).css("display", "none");
-                    }
+                    // Browse fields in the form
+                    $(".node-catalogue-general-feuilles .form-item").each(function(){
+
+                        // If the label of the field match with
+                        // 'Autre' + the labeltext or 'Autres' + the labeltext
+                        if(
+                            $(this).children("label").text().normalize('NFD').replace(/[\u0300-\u036f]/g, "") == ("Autre " + labelText) ||
+                            $(this).children("label").text().normalize('NFD').replace(/[\u0300-\u036f]/g, "") == ("Autres " + labelText)
+                        ){
+
+                            // Hide this field
+                            $(this).hide();
+                        }
+                    });
                 }
             });
 
             // Change appearance of the textfield with the label "Autre(s) ..."
-            $(".webform-component-textfield").each(function(){
-                // For each textfield with the following id
-                if(
-                    $(this).attr("id").split("webform-component-autre")[0] == "" ||
-                    $(this).attr("id").split("webform-component-autres")[0] == ""
-                ){
-                    // retrieve the id
-                    var thisId = $(this).attr("id")
+            $(".node-catalogue-general-feuilles .form-item").each(function(){
 
-                    // Change the appearance of the "Autre(s) ..." textfield
-                    $("#" + thisId).css({
-                        "display" : "none"
-                    });
-                }
+                // If the label (étiquette) of the field contains 'Autre', so hide it
+                $(this).children("label:contains('Autre')").parent().hide();
+
             });
 
         /* End - Webform 'feuille', textfield "Autre(s) ..." */
@@ -159,6 +164,17 @@
             // $(".webform-component-managed_file").parent().parent().css("width", "100%");
             // $(".webform-component-managed_file").parent("#edit-submitted-image-ajax-wrapper").css("width", "100%");
 
-        }
-    };
+
+        /* Start - Click the legend of a fieldset, simulate a click on the <a> to extend fieldset content */
+
+            $(".node-catalogue-general-feuilles .webform-component-fieldset").each(function(){
+                $(this).children("legend").click(function(){
+                    $(this).children("span").children("a").click();
+                });
+            });
+
+        /* End - Click the legend of a fieldset, simulate a click on the <a> to extend fieldset content */
+
+}
+};
 }(jQuery));
