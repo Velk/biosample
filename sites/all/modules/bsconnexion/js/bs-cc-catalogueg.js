@@ -175,6 +175,63 @@
 
         /* End - Click the legend of a fieldset, simulate a click on the <a> to extend fieldset content */
 
+        /* Start - Existing provider fields */
+
+            // Default : Hide fields
+            showExistingProviderFields("none");
+
+            // Custom the field containing the label with the text :
+            // 'Lien web vers la page du produit'
+            $(".node-catalogue-general-feuilles .form-item > label:contains('Lien web vers la page du produit')").parent().css({
+                "float":"none",
+                "clear":"both",
+                "width" : "100%"
+            });
+            $(".node-catalogue-general-feuilles .form-type-radio").each(function(){
+                console.log("blablabla");
+                $(this).append("<span class='checkmark'></span>");
+            });
+            // Retrieve the div containing the label :
+            // "Les caractéristiques techniques sont-elles disponibles chez un autre fournisseur"
+            $(".node-catalogue-general-feuilles .form-item > label:contains('Les caractéristiques techniques sont-elles disponibles chez un autre fournisseur')").parent().each(function(){
+
+                // $(this).children("div").children("div").each(function(){
+                //    console.log("blablabla");
+                // });
+
+                // Browse the div until inputs and when input is clicked
+                $(this).children("div").children("div").children("input").click(function(){
+
+                    // Check if the checkbox is checked and the value is "oui"
+                    if($(this).is(':checked') && $(this).val() == "oui"){
+
+                        // Show 3 others fields
+                        showExistingProviderFields("block");
+                    }else{
+
+                        // Hide 3 others fields
+                        showExistingProviderFields("none");
+                    }
+                });
+            });
+
+            // Select three fields containing a specific String
+            // Hide or Show them depending on the checkbox value
+            function showExistingProviderFields(displayValue){
+                $(
+                    ".node-catalogue-general-feuilles .form-item > label:contains('Nom du fournisseur')," +
+                    ".node-catalogue-general-feuilles .form-item > label:contains('Référence du produit')," +
+                    ".node-catalogue-general-feuilles .form-item > label:contains('Lien web vers la page du produit')"
+                ).parent().css({
+                    "display" : displayValue
+                });
+            };
+
+        /* End - Existing provider fields */
+
+        /* Start - Custom radio button */
+
+        /* End - Custom radio button */
 }
 };
 }(jQuery));
