@@ -297,6 +297,9 @@ button#bs-cc-cg-leaf-cancel:hover {
     position: relative;
     height: 25px;
 }
+.node-catalogue-general-feuilles .webform-component-fieldset > legend:hover{
+    border-top: 10px solid #424242;
+}
 .node-catalogue-general-feuilles .webform-component-fieldset > legend > span {
     transform: translateX(0%) translateY(calc(-50% - 6px));
     background-color: #fff !important;
@@ -431,13 +434,14 @@ button#bs-cc-cg-leaf-cancel:hover {
 /* RADIO */
 .node-catalogue-general-feuilles .webform-component-radios {
     position: relative;
-    float: left;
-    width: 50%;
-    padding: 0 30px;
+    float: none;
+    clear: both;
+    width: 100%;
     box-sizing: border-box;
 }
 .node-catalogue-general-feuilles .webform-component-radios > label {
     text-align: center;
+    margin-bottom: 25px;
 }
 .node-catalogue-general-feuilles .webform-component-radios .form-type-radio {
     display: inline-block;
@@ -445,25 +449,23 @@ button#bs-cc-cg-leaf-cancel:hover {
     float: left;
     text-align: center;
 }
-.node-catalogue-general-feuilles .webform-component-radios .form-type-radio > input {
-    display: block;
-    margin: auto;
-    width: 15px;
-    height: 15px;
-}
 
 /* FILE */
-.node-catalogue-general-feuilles .webform-component-managed_file {
-    margin: 0;
+.node-catalogue-general-feuilles .webform-component-file {
+    position: relative;
+    display: block;
+    width: 100% !important;
+    margin: 0 !important;
 }
-.node-catalogue-general-feuilles .webform-component-managed_file .form-managed-file > input{
+
+.node-catalogue-general-feuilles .webform-component-file .form-managed-file > input{
     position: relative;
     width: 100%;
     height: 100%;
     border-bottom: none;
     box-sizing: border-box;
 }
-.node-catalogue-general-feuilles .webform-component-managed_file .form-managed-file .form-submit{
+.node-catalogue-general-feuilles .webform-component-file .form-managed-file .form-submit{
     width: 100%;
     height: auto;
     padding: 6px 15px;
@@ -481,44 +483,41 @@ button#bs-cc-cg-leaf-cancel:hover {
 }
 
 /* GRID */
-.node-catalogue-general-feuilles .webform-component-webform_grid {
+.node-catalogue-general-feuilles .webform-component-grid {
     width: 100%;
     float: none;
     clear: both;
 }
-.node-catalogue-general-feuilles .webform-component-webform_grid>table thead {
+.node-catalogue-general-feuilles .webform-component-grid>table thead {
     background-color: #1e6a8e;
 }
-.node-catalogue-general-feuilles .webform-component-webform_grid>table thead th {
+.node-catalogue-general-feuilles .webform-component-grid>table thead th {
     background-color: transparent;
 }
-.node-catalogue-general-feuilles .webform-component-webform_grid>table tbody {
+.node-catalogue-general-feuilles .webform-component-grid>table tbody {
     background-color: #fff;
 }
-.node-catalogue-general-feuilles .webform-component-webform_grid>table tbody tr {
+.node-catalogue-general-feuilles .webform-component-grid>table tbody tr {
     border: none;
     border-bottom: 1px solid #424242;
     box-sizing: border-box;
 }
-.node-catalogue-general-feuilles .webform-component-webform_grid>table tr th {
+.node-catalogue-general-feuilles .webform-component-grid>table tr th {
     height: auto;
     padding: 5px 15px;
 }
-.node-catalogue-general-feuilles .webform-component-webform_grid>table tbody > tr > td {
+.node-catalogue-general-feuilles .webform-component-grid>table tbody > tr > td {
     padding: 5px 15px;
     background-color: transparent;
 }
-.node-catalogue-general-feuilles .webform-component-webform_grid>table tbody > tr > td:first-child {
+.node-catalogue-general-feuilles .webform-component-grid>table tbody > tr > td:first-child {
     color: #000;
 }
-.node-catalogue-general-feuilles .webform-component-webform_grid .form-type-radio {
+.node-catalogue-general-feuilles .webform-component-grid .form-type-radio {
     width:100%;
 }
-.node-catalogue-general-feuilles .webform-component-webform_grid .form-type-radio input{
-    width:auto;
-}
 
-    /* MARKUP */
+/* MARKUP */
 .node-catalogue-general-feuilles .webform-component-markup{
     width: 100%;
     float: none;
@@ -535,22 +534,14 @@ button#bs-cc-cg-leaf-cancel:hover {
 }
 
 /* SUBMIT BUTTON - Submit button */
-/*.node-catalogue-general-feuilles div#edit-actions{*/
-    /*width: 100%;*/
-    /*float: none;*/
-    /*clear: both;*/
-    /*margin: 30px 0 25px 0;*/
-    /*text-align: center;*/
-/*}*/
-
-.node-catalogue-general-feuilles div#edit-actions{
+.node-catalogue-general-feuilles div.form-actions{
     width: 100%;
     clear: both;
     margin: 40px 0 25px 0;
     text-align: center;
 }
 /* SUBMIT BUTTON - INPUT - Submit button */
-.node-catalogue-general-feuilles div#edit-actions > span > input{
+.node-catalogue-general-feuilles div.form-actions > span > input{
     height: auto;
     width: auto;
     border: none;
@@ -564,13 +555,84 @@ button#bs-cc-cg-leaf-cancel:hover {
     text-shadow: none;
     font-size: 14px;
 }
-.node-catalogue-general-feuilles div#edit-actions > span > input:hover{
+.node-catalogue-general-feuilles div.form-actions > span > input:hover{
     background-color: #424242;
     background: #424242;
 }
 
-#webform-component-denomination{
-    width:100%;
+.node-catalogue-general-feuilles .webform-component--denomination{
+    width:100% !important;
 }
 
 /* End - Leaf form */
+
+/* Custom radio */
+.node-catalogue-general-feuilles input[type="radio"] {
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin:0 auto 5px auto;
+    /*opacity: 0;*/
+}
+.node-catalogue-general-feuilles .form-type-radio label {
+    display: block;
+    margin-top: 15px;
+}
+
+/* Custom the checkmark by default */
+span.checkmark{
+    position: absolute;
+    top:0;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px #737373;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 8px;
+    top: 3px;
+    width: 3px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.form-type-radio input[type="radio"] {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    opacity: 0;
+    margin: 0;
+    cursor: pointer;
+    z-index: 1;
+}
+
+input[type="radio"]:hover {
+    cursor: pointer;
+}
+
+/* On mouse-over, add a grey background color */
+.form-type-radio input[type="radio"]:hover ~ .checkmark{
+    background-color: #ccc;
+}
+
+/* When the checkbox is checked, change background-color */
+.form-type-radio input[type="radio"]:checked ~ .checkmark {
+    background-color: #1e6a8e;
+}
+
+/* Show the checkmark when checked */
+.form-type-radio input[type="radio"]:checked ~ .checkmark:after {
+    display: block;
+}

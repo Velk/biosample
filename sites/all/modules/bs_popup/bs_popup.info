@@ -1,0 +1,4 @@
+name = BioSample Popup
+description = BioSample Popup : all popup
+core = 7.x
+package = BIOSAMPLE
