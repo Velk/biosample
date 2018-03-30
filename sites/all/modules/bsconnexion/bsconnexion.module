@@ -770,8 +770,10 @@ function bsconnexion_form_user_connected(){
 function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
 
 
-    $form['account']['contact_information'] = array(
-        '#markup' => '<p id="bs-cc-information">Toutes données collectées sur le site internet www.biosample.fr ne sont ni divulguées ni vendues ni cédées à des tiers.</p>',
+    $form['account']['information'] = array(
+        '#markup' =>
+            '<p class="bs-cc-information">L\'ouverture d\'un compte BioSample est gratuite ! Profitez-en.</p>
+            <p class="bs-cc-information">Toutes données collectées sur le site internet www.biosample.fr ne sont ni divulguées ni vendues ni cédées à des tiers.</p>',
         '#weight' => 0,
     );
 
