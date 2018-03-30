@@ -40,6 +40,62 @@
                 });
             }
 
+        /* Start - Existing provider fields */
+
+            // If "Oui" is checked, show fields otherwise hide them
+            if($(".webform-submission > form.webform-client-form .form-item > label:contains('Les caractéristiques techniques sont-elles disponibles chez un autre fournisseur')").parent().children("div").children("div").children("label:contains('Oui')").parent().children("input").is(":checked")){
+
+                showExistingProviderFields("block");
+            }else{
+
+                showExistingProviderFields("none");
+            }
+
+            // Custom the field containing the label with the text :
+            // 'Lien web vers la page du produit'
+            $(".webform-submission > form.webform-client-form .form-item > label:contains('Lien web vers la page du produit')").parent().css({
+                "float":"none",
+                "clear":"both",
+                "width" : "100%"
+            });
+            $(".webform-submission > form.webform-client-form .form-type-radio").each(function(){
+
+                $(this).append("<span class='checkmark'></span>");
+            });
+            // Retrieve the div containing the label :
+            // "Les caractéristiques techniques sont-elles disponibles chez un autre fournisseur"
+            $(".webform-submission > form.webform-client-form .form-item > label:contains('Les caractéristiques techniques sont-elles disponibles chez un autre fournisseur')").parent().each(function(){
+
+                // Browse the div until inputs and when input is clicked
+                $(this).children("div").children("div").children("input").click(function(){
+
+                    // Check if the checkbox is checked and the value is "oui"
+                    if($(this).is(':checked') && $(this).val() == "oui"){
+
+                        // Show 3 others fields
+                        showExistingProviderFields("block");
+                    }else{
+
+                        // Hide 3 others fields
+                        showExistingProviderFields("none");
+                    }
+                });
+            });
+
+            // Select three fields containing a specific String
+            // Hide or Show them depending on the checkbox value
+            function showExistingProviderFields(displayValue){
+                $(
+                    ".webform-submission > form.webform-client-form .form-item > label:contains('Nom du fournisseur')," +
+                    ".webform-submission > form.webform-client-form .form-item > label:contains('Référence du produit')," +
+                    ".webform-submission > form.webform-client-form .form-item > label:contains('Lien web vers la page du produit')"
+                ).parent().css({
+                    "display" : displayValue
+                });
+            };
+
+        /* End - Existing provider fields */
+
         }
     };
 }(jQuery));

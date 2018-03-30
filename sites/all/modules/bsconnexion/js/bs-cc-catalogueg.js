@@ -65,11 +65,11 @@
                 );
             }
 
-            if(!($("#bs-cc-cg-leaf-instructions").is(":visible"))){
-                $(".node-catalogue-general-feuilles > div > form").prepend(
-                    "<p id='bs-cc-cg-leaf-instructions'>Merci de remplir un maximum de champs afin que nous vous proposions le produit le plus adapté.</p>"
-                );
-            }
+            // if(!($("#bs-cc-cg-leaf-instructions").is(":visible"))){
+            //     $(".node-catalogue-general-feuilles > div > form").prepend(
+            //         "<p id='bs-cc-cg-leaf-instructions'>Merci de remplir un maximum de champs afin que nous vous proposions le produit le plus adapté.</p>"
+            //     );
+            // }
 
             /* If user click on cancel button, hide the leaf form container */
             $("#bs-cc-cg-leaf-cancel").click(function(){
@@ -188,7 +188,7 @@
                 "width" : "100%"
             });
             $(".node-catalogue-general-feuilles .form-type-radio").each(function(){
-                console.log("blablabla");
+
                 $(this).append("<span class='checkmark'></span>");
             });
             // Retrieve the div containing the label :
@@ -229,9 +229,6 @@
 
         /* End - Existing provider fields */
 
-        /* Start - Custom radio button */
-
-        /* End - Custom radio button */
 }
 };
 }(jQuery));
