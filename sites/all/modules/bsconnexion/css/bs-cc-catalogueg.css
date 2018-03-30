@@ -125,18 +125,6 @@ div#bs-cg-parent-container {
     z-index: 99;
 }
 
-/*.node-catalogue-general-feuilles > div{*/
-    /*position: relative;*/
-    /*width: 600px;*/
-    /*height: 80%;*/
-    /*margin: auto;*/
-    /*background-color: #fff;*/
-    /*margin-top: 50vh;*/
-    /*transform: translateY(-50%);*/
-    /*overflow-y: scroll;*/
-    /*overflow-x: hidden;*/
-/*}*/
-
 .node-catalogue-general-feuilles > div {
     position: relative;
     width: 600px;
@@ -149,22 +137,10 @@ div#bs-cg-parent-container {
     overflow-x: hidden;
 }
 
-/*p#bs-cc-cg-leaf-title {*/
-    /*position: relative;*/
-    /*width: 100%;*/
-    /*height: auto;*/
-    /*margin: 0;*/
-    /*padding: 10px 0;*/
-    /*box-sizing: border-box;*/
-    /*font-size: 25px;*/
-    /*font-family: "Roboto Condensed", oswaldregular;*/
-    /*text-align: center;*/
-/*}*/
-
 p#bs-cc-cg-leaf-title {
     position: fixed;
     width: 100%;
-    height: auto;
+    height: 57px;
     margin: 0;
     padding: 10px 0;
     box-sizing: border-box;
@@ -172,6 +148,8 @@ p#bs-cc-cg-leaf-title {
     font-family: "Roboto Condensed", oswaldregular;
     text-align: center;
     background-color: #fff;
+    box-shadow: 0px 2px 5px #dedede;
+    z-index: 98;
 }
 
 button#bs-cc-cg-leaf-cancel {
@@ -189,22 +167,6 @@ button#bs-cc-cg-leaf-cancel {
     cursor: pointer;
     z-index: 99;
 }
-
-/*button#bs-cc-cg-leaf-cancel {*/
-    /*position: absolute;*/
-    /*top: 0;*/
-    /*left: 0;*/
-    /*height: 25px;*/
-    /*width: 25px;*/
-    /*margin: 5px;*/
-    /*padding: 0;*/
-    /*border: none;*/
-    /*border-radius: 25px;*/
-    /*color: #FFF;*/
-    /*background-color: #1a6e8a;*/
-    /*cursor: pointer;*/
-    /*z-index: 99;*/
-/*}*/
 
 button#bs-cc-cg-leaf-cancel:hover {
     color: #1a6e8a;
@@ -224,19 +186,13 @@ button#bs-cc-cg-leaf-cancel:hover {
     font-size:13px;
     margin-bottom: 25px;
 }
-/*.node-catalogue-general-feuilles > div > form {*/
-    /*position: relative;*/
-    /*width: 90%;*/
-    /*height: auto;*/
-    /*margin: 25px auto;*/
-/*}*/
 
 .node-catalogue-general-feuilles > div > form {
     position: relative;
     width: 100%;
-    height: calc(100% - 75px);
-    margin: 75px 0 25px 0;
-    padding: 0 25px;
+    height: calc(100% - 57px);
+    margin: 57px 0 25px 0;
+    padding: 25px;
     box-sizing: border-box;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -253,14 +209,6 @@ button#bs-cc-cg-leaf-cancel:hover {
 }
 
 /* FIELDSET - Custom the fieldset */
-/*.node-catalogue-general-feuilles .webform-component-fieldset {*/
-    /*float: none;*/
-    /*clear: both;*/
-    /*border:none !important;*/
-    /*border-top:10px solid #bababa !important;*/
-    /*border-bottom: 2px solid #bababa !important;*/
-    /*margin: 50px 0;*/
-/*}*/
 .node-catalogue-general-feuilles .webform-component-fieldset {
     float: none;
     clear: both;
@@ -273,17 +221,7 @@ button#bs-cc-cg-leaf-cancel:hover {
     width: 90%;
     margin: auto;
 }
-/*.node-catalogue-general-feuilles .webform-component-fieldset:hover {*/
-    /*border-top:10px solid #1e6a8e !important;*/
-    /*border-bottom:2px solid #1e6a8e !important;*/
-/*}*/
-/*.node-catalogue-general-feuilles .webform-component-fieldset > legend {*/
-    /*display: block;*/
-    /*font-weight: 400;*/
-    /*padding: 0 10px 0 0;*/
-    /*margin: auto;*/
-    /*font-size: 18px;*/
-/*}*/
+
 .node-catalogue-general-feuilles .webform-component-fieldset > legend {
     display: block;
     font-weight: 400;
@@ -332,7 +270,6 @@ button#bs-cc-cg-leaf-cancel:hover {
 .node-catalogue-general-feuilles .webform-component-select > select {
     height:30px;
     border: 2px solid #1e6a8e;
-    /*border-radius: 2px;*/
     background-color: #fff;
     width:100%;
 }
@@ -352,17 +289,6 @@ button#bs-cc-cg-leaf-cancel:hover {
 }
 
 /* FIELD CONTAINER - Custom containers of fields */
-/*.node-catalogue-general-feuilles > div > form > div > div,*/
-/*.node-catalogue-general-feuilles > div > form > div > fieldset > div > div{*/
-    /*position: relative;*/
-    /*float: left;*/
-    /*width: 50%;*/
-    /*margin:0 0 25px 0;*/
-    /*!*margin-bottom: 25px;*!*/
-    /*padding: 0 5px;*/
-    /*!*padding: 0 5px;*!*/
-    /*box-sizing: border-box;*/
-/*}*/
 .node-catalogue-general-feuilles .form-item {
     position: relative;
     float: left;
@@ -445,6 +371,7 @@ button#bs-cc-cg-leaf-cancel:hover {
 }
 .node-catalogue-general-feuilles .webform-component-radios .form-type-radio {
     display: inline-block;
+    position: relative;
     width: 50%;
     float: left;
     text-align: center;
@@ -457,7 +384,6 @@ button#bs-cc-cg-leaf-cancel:hover {
     width: 100% !important;
     margin: 0 !important;
 }
-
 .node-catalogue-general-feuilles .webform-component-file .form-managed-file > input{
     position: relative;
     width: 100%;
@@ -514,6 +440,7 @@ button#bs-cc-cg-leaf-cancel:hover {
     color: #000;
 }
 .node-catalogue-general-feuilles .webform-component-grid .form-type-radio {
+    position: relative;
     width:100%;
 }
 
@@ -523,12 +450,10 @@ button#bs-cc-cg-leaf-cancel:hover {
     float: none;
     clear: both;
 }
-
 .webform-component-markup {
     margin: 0 !important;
     padding: 0 !important;
 }
-
 .webform-component-markup * {
     margin: 0;
 }
@@ -536,6 +461,7 @@ button#bs-cc-cg-leaf-cancel:hover {
 /* SUBMIT BUTTON - Submit button */
 .node-catalogue-general-feuilles div.form-actions{
     width: 100%;
+    float: none;
     clear: both;
     margin: 40px 0 25px 0;
     text-align: center;

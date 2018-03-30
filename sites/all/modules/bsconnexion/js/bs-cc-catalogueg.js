@@ -188,7 +188,7 @@
                 "width" : "100%"
             });
             $(".node-catalogue-general-feuilles .form-type-radio").each(function(){
-                console.log("blablabla");
+
                 $(this).append("<span class='checkmark'></span>");
             });
             // Retrieve the div containing the label :
