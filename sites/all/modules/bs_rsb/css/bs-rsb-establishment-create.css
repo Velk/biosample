@@ -1,0 +1,111 @@
+#main-wrapper > .container {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+#main-wrapper > .container > .container-inner,
+#main-wrapper > .container > .container-inner > #main-content-wrapper,
+#main-wrapper > .container > .container-inner > #main-content-wrapper  > #main-content,
+#main-wrapper > .container > .container-inner > #main-content-wrapper  > #main-content > .grid-inner {
+    float: none;
+    width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Start - Custom WYSIWYG */
+.cke_skin_kama *, .cke_skin_kama a:hover, .cke_skin_kama a:link, .cke_skin_kama a:visited, .cke_skin_kama a:active {
+    white-space: initial !important;
+}
+
+.cke_skin_kama .cke_toolgroup {
+    height: auto !important;
+    background-color: #fff !important;
+}
+
+/* Hide the possibility of choose the text format */
+fieldset.filter-wrapper {
+    display: none;
+}
+/* End - Custom WYSIWYG */
+
+#block-bs-rsb-rb-establishment-sheet {
+    position: relative;
+    width: 600px;
+    margin: 100px auto;
+    padding: 25px;
+    box-shadow: 1px 1px 5px #9e9e9e;
+}
+
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-creation-establishment-form > div > h2 {
+    margin: 0 0 40px 0;
+    text-align: center;
+    font-size: 25px;
+    color: #1e6a8e;
+    border: 1px solid #1e6a8e;
+    padding: 5px 15px;
+}
+
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-creation-establishment-form label {
+    display: inline-block;
+    width: 200px;
+    height: 35px;
+    padding: 4px 5px 4px 0;
+    box-sizing: border-box;
+    font-size: 16px;
+    color: #1e6a8e;
+}
+
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-creation-establishment-form > div > div > input,
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-creation-establishment-form > div >  div >select {
+    width: calc(100% - 225px) !important;
+    float: right;
+    border: 1px solid #f1f1f1;
+    border-bottom: 2px solid #1e6a8e;
+    padding: 7px 10px;
+    font-size: 14px;
+    background-color: #fff;
+}
+
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-creation-establishment-form > div > div > div.description {
+    margin-top: 25px;
+    position: relative;
+}
+
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-creation-establishment-form > div > .form-item,
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-creation-establishment-form > div > .text-format-wrapper {
+    margin:30px 0;
+}
+
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-creation-establishment-form > div > .form-item {
+    height:35px;
+}
+
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-creation-establishment-form > div > span > .form-submit {
+    float: none;
+    position: relative;
+    width: 200px !important;
+    left: 50%;
+    transform: translateX(-50%);
+    background: none;
+    background-color: #1e6a8e;
+    color: #fff;
+    box-shadow: none;
+    border: none;
+    border-radius: 2px;
+    margin-top: 75px;
+    padding: 8px;
+}
+
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-creation-establishment-form > div > span > .form-submit:hover {
+    background-color: #424242;
+}
+
+/* Fields errors */
+
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-creation-establishment-form > div > div > input.error,
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-creation-establishment-form > div > div >select.error {
+    background-color: #ffd1d1;
+    color: #F44336;
+}
