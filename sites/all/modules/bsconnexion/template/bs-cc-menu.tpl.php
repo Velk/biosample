@@ -19,6 +19,19 @@
 <!--            </ul>-->
         </li><li id="bs-cc-abonnements-li">
             <a href="/utilisateur/abonnements">ABONNEMENTS</a>
+        </li><li id="bs-cc-rb-li">
+            <a>RESSOURCES BIOLOGIQUES</a>
+            <ul id="bs-cc-dropdown-rb">
+                <li id="bs-cc-etablissement-li">
+                    <a href="/utilisateur/ress_bio/etablissement">Mon établissement</a>
+                </li>
+                <li id="bs-cc-annonces-li">
+                    <a href="/utilisateur/ress_bio/annonces">Annonces</a>
+                </li>
+                <li id="bs-cc-favoris-li">
+                    <a href="/utilisateur/ress_bio/favoris">Favoris</a>
+                </li>
+            </ul>
         </li>
     </ul>
 </div>
