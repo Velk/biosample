@@ -1,0 +1,412 @@
+/* Start - Set the main content to the entire width of the screen */
+div#main-wrapper {
+    margin-top:50px;
+}
+
+div#main-wrapper > div.container,
+div#main-wrapper > div.container > div.container-inner,
+div#main-wrapper > div.container > div.container-inner > div#main-content-wrapper,
+div#main-wrapper > div.container > div.container-inner > div#main-content-wrapper > div#main-content,
+div#main-wrapper > div.container > div.container-inner > div#main-content-wrapper > div#main-content > div.grid-inner {
+    width: 100% !important;
+    padding: 0 !important;
+    margin:0 !important;
+}
+/* End - Set the main content to the entire width of the screen */
+
+div#block-bs-rsb-ressources-bio-annonces-manager {
+    position: relative;
+    margin: 0;
+}
+
+/* Start - Add annonce */
+div#bs-rsb-add-annonce {
+    position: relative;
+    width: 100%;
+    background-color: #424242;
+    padding:15px 15px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    text-align: center;
+    border-top: 1px solid #fff;
+}
+
+div#bs-rsb-add-annonce > a {
+    border: 1px solid #fff;
+    padding: 5px 15px;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+div#bs-rsb-add-annonce > a > i {
+    padding-right: 10px;
+}
+
+div#bs-rsb-add-annonce > a:hover {
+    /*border: none;*/
+    background-color: #1e6a8e;
+    color: #fff;
+}
+/* End - Add annonce */
+
+.bs-rsb-annonces {
+    position: relative;
+    display: inline-block;
+    float: left;
+    width: calc(25% - 50px);
+    height: 200px;
+    margin: 25px;
+    box-shadow: 1px 1px 5px #c7c7c7;
+}
+
+.bs-rsb-annonces > div.bs-rsba-nom-projet {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 40px);
+    background: linear-gradient(-135deg, rgba(136,14,79,.75), rgba(30,106,142,.75));
+}
+
+.bs-rsb-annonces > div.bs-rsba-nom-projet > p {
+    position: absolute;
+    top: 50%;
+    width: 90%;
+    margin: 0 5%;
+    transform: translateY(-50%);
+    padding: 5px 15px;
+    text-align: center;
+    font-size: 20px;
+    box-sizing: border-box;
+    border: 1px solid #b1b1b1;
+    color: #b1b1b1;
+}
+
+.bs-rsb-annonces > div.bs-rsba-nom-collection {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    height: 40px;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+.bs-rsb-annonces > div.bs-rsba-nom-collection > a{
+    position: absolute;
+    font-size: 18px;
+    text-transform: uppercase;
+    color: #424242 !important;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding: 6px 15px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.bs-rsb-annonces:hover > div.bs-rsba-nom-projet > p {
+    border: 1px solid #fff;
+    color: #fff;
+}
+.bs-rsb-annonces:hover > div.bs-rsba-nom-collection > a {
+    color: #fff !important;
+    padding: 6px 45px 6px 15px;
+}
+
+.bs-rsb-annonces:hover .bs-rsba-nom-collection {
+    background-color: #424242 !important;
+}
+
+.bs-rsb-annonces:hover .bs-rsba-nom-collection > a:after {
+    position: absolute;
+    top: 6px;
+    right: 15px;
+    content: ' \f06e';
+    font-family: FontAwesome;
+}
+
+
+/*************************************************************************/
+/*************************** MENU - ANNONCES *****************************/
+/*************************************************************************/
+
+/* Start - Custom the automatic menu into submission form */
+.tabs{
+    width: 600px;
+    margin: auto;
+    margin-bottom: 50px !important;
+    border-radius: 0 !important;
+    box-shadow: 2px 3px 5px -1px #b5b5b5;
+}
+.tabs > h2{
+    margin:0 !important;
+}
+.tabs > ul{
+    margin:0 !important;
+    padding:0 !important;
+}
+.tabs li{
+    width: calc(100% / 2);
+    margin: 0 !important;
+}
+.tabs li > a {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    color: #424242 !important;
+    border-radius: 0 !important;
+}
+.tabs li:nth-child(1) > a {
+    background-color: #ffe4cd !important;
+}
+.tabs li:nth-child(2) > a {
+    background-color: #d2ffda !important;
+}
+.tabs li:nth-child(3) > a {
+    background-color: #ffc2c2 !important;
+}
+
+.tabs li > a:hover {
+    border: none !important;
+}
+.tabs li:nth-child(1) > a:hover {
+    background-color: #ffc693 !important;
+    color: #ffe4cd;
+}
+.tabs li:nth-child(2) > a:hover {
+    background-color: #9acea3 !important;
+    color: #d2ffda;
+}
+.tabs li:nth-child(3) > a:hover {
+    background-color: #ff8c8c !important;
+    color: #ffc2c2;
+}
+
+.tabs li > a.active {
+    border: none !important;
+    border-bottom: 2px solid #424242 !important;
+    font-weight: bold;
+}
+/* End - Custom the automatic menu into submission form */
+
+
+/*************************************************************************/
+/*************************** EDIT - ANNONCES *****************************/
+/*************************************************************************/
+
+#rb-collections-node-form{
+    position: relative;
+    width: 600px;
+    margin: auto;
+}
+
+#rb-collections-node-form input:not(.form-submit) {
+    width: 100%;
+    margin: 7px 0 15px 0;
+    padding: 7px 10px;
+    border: 2px solid #1e6a8e;
+    border-radius: 2px;
+}
+
+#rb-collections-node-form select {
+    width: 100%;
+    margin: 7px 0 15px 0;
+    padding: 7px 10px;
+    background-color: #1e6a8e;
+    border: none;
+    border-radius: 2px;
+    color: #fff;
+}
+
+#rb-collections-node-form .form-type-textarea textarea {
+    border: 2px solid #1e6a8e;
+    border-top-right-radius: 2px;
+    border-top-left-radius: 2px;
+    border-bottom: none;
+    margin-top: 7px;
+}
+
+#rb-collections-node-form .form-type-textarea .grippie {
+    background: #424242;
+    border: none;
+}
+
+#rb-collections-node-form .field-type-text-long fieldset.filter-wrapper {
+    border: none;
+    background-color: #fdfdfd;
+    box-shadow: 0px 0px 5px #d6d6d6;
+}
+
+/* Submit button : Enregistrer (Save), Aperçu (Preview), Supprimer (Delete) */
+
+#rb-collections-node-form #edit-actions {
+    margin-top: 50px;
+}
+
+#rb-collections-node-form #edit-actions > span:first-of-type {
+    margin: 0;
+    float: left;
+}
+#rb-collections-node-form #edit-actions > span:last-of-type {
+    margin: 0;
+    float: right;
+}
+
+#rb-collections-node-form #edit-actions > span:last-of-type {
+    margin: 0;
+}
+
+#rb-collections-node-form #edit-actions > span > input{
+    width: 190px;
+    border: none;
+    box-shadow: none;
+    background: #1e6a8e;
+    color: #fff;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    border-radius: 2px;
+}
+
+#rb-collections-node-form #edit-actions > span > input:hover{
+    background: #424242;
+}
+
+
+/*************************************************************************/
+/************************** CONSULT - ANNONCES ***************************/
+/*************************************************************************/
+
+#bs-rsb-establishment-link {
+    width: 100%;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: rgb(199, 199, 199) 1px 1px 5px;
+    background-color: #424242;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+#bs-rsb-establishment-link > a {
+    color: #fff !important;
+    padding: 3px 15px;
+    border: 1px solid #fff;
+}
+
+#bs-rsb-establishment-link > a > i {
+    margin-right: 10px;
+}
+
+#bs-rsb-establishment-link > a:hover {
+    background-color: #1e6a8e;
+}
+
+.node-rb-collections{
+    position: relative;
+    width: 600px;
+    margin: 50px auto !important;
+}
+
+.node-rb-collections div.field:first-of-type {
+    margin-bottom: 50px;
+}
+
+.node-rb-collections div.field:first-of-type .field-items {
+    border-left:1px solid #1e6a8e;
+    padding-left:15px;
+    margin-top: 20px;
+    text-align: justify;
+}
+
+.node-rb-collections h3.field-label{
+    font-family: "Roboto Condensed", oswaldregular !important;
+    font-weight: 500;
+    font-size: 20px;
+    text-transform: uppercase;
+    color: #1e6a8e;
+}
+
+.node-rb-collections div.field:not(:first-of-type) {
+    margin-bottom: 20px;
+}
+
+/*************************************************************************/
+/************************** CONSULT - ANNONCES ***************************/
+/*************************************************************************/
+
+/*span.cke_wrapper.cke_ltr {*/
+    /*overflow-x: scroll;*/
+/*}*/
+
+/* Start - Custom WYSIWYG */
+.cke_skin_kama *, .cke_skin_kama a:hover, .cke_skin_kama a:link, .cke_skin_kama a:visited, .cke_skin_kama a:active {
+    white-space: initial !important;
+}
+
+.cke_skin_kama .cke_toolgroup {
+    height: auto !important;
+    background-color: #fff !important;
+}
+
+/* Hide the possibility of choose the text format */
+fieldset.filter-wrapper {
+    display: none;
+}
+/* End - Custom WYSIWYG */
+
+
+/* DELETE ANNONCE */
+#node-delete-confirm{
+    width: 600px;
+    margin: auto;
+    text-align: center;
+}
+
+#node-delete-confirm .form-actions{
+    margin:50px;
+}
+
+#node-delete-confirm .form-actions input.form-submit {
+    width: 190px;
+    border: none;
+    box-shadow: none;
+    background: #1e6a8e;
+    color: #fff;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    border-radius: 2px;
+}
+
+#node-delete-confirm .form-actions input.form-submit:hover{
+    background: #424242;
+}
+
+#node-delete-confirm .form-actions > span {
+    float: left;
+}
+
+#node-delete-confirm .form-actions > a#edit-cancel {
+    float: right;
+}
+
+/* Case when user didn't create an establishment sheet */
+#bs-rsb-es-notcreated {
+    width: 500px;
+    margin: 50px auto;
+    padding: 25px;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 5px #b9b9b9;
+    text-align: center;
+}
+
+#bs-rsb-es-notcreated > p {
+    text-align: justify;
+    margin: 0 0 50px 0;
+}
+
+#bs-rsb-es-notcreated > a {
+    color: #1e6a8e !important;
+    border: 1px solid #1e6a8e;
+    padding: 5px 10px;
+}
