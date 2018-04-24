@@ -1,0 +1,17 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the custom module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+ function custom_install() {
+   // Increase the module weight.
+   db_update('system')
+   ->fields(array('weight' => 1))
+   ->condition('type', 'module')
+   ->condition('name', 'bs_popup')
+   ->execute();
+ }

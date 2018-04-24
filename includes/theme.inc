@@ -2636,24 +2636,6 @@ function template_preprocess_html(&$variables) {
  * @see page.tpl.php
  */
 function template_preprocess_page(&$variables) {
-
-  //AJOUT CSS COOKIE 
-  if (current_path() == "node/94") {
-    drupal_add_css(drupal_get_path('theme', 'tb_mollise')."/css/cookie.css");
-  }
-  //AJOUT CSS SIGNUP
-  if (current_path() == "signup") {
-    drupal_add_css(drupal_get_path('module', 'bsconnexion')."/css/bssignup.css");
-  }
-  //AJOUT CSS PROFIL
-  if (current_path() == "profil") {
-    drupal_add_css(drupal_get_path('module', 'bsconnexion')."/css/bsprofil.css");
-  }
-  //AJOUT CSS BANDEAU CONNEXION
-  if (drupal_is_front_page()) {
-    drupal_add_css(drupal_get_path('module', 'bsconnexion')."/css/bslogin.css");
-  }
-
   // Move some variables to the top level for themer convenience and template cleanliness.
   $variables['show_messages'] = $variables['page']['#show_messages'];
 
