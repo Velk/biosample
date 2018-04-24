@@ -23,7 +23,7 @@ stylesheets[all][] = 'css/fonts.css'
 
 ;Javascripts
 scripts[] = 'js/jquery.matchHeights.min.js'
-
+scripts[] = 'script.js'
 ; Seperate CSS3 to css3.css
 stylesheets[all][] = 'css/css3.css'
 
