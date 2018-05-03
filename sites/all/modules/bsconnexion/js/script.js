@@ -43,6 +43,8 @@
 
             // Captcha legend
             $("fieldset.captcha>legend").css('font-size', '20px');
+            $("fieldset.captcha>legend").css('margin-left', '10px');
+            $("fieldset.captcha>legend").css('padding-left', '10px');
 
             // Captcha response container
             $("fieldset.captcha>div>div.form-item-captcha-response").css('margin', '0');
@@ -50,18 +52,29 @@
 
             // Captcha label solution
             $("fieldset.captcha>div>div>label").css('margin-bottom', '8px');
+            $("fieldset.captcha>div>div>label").css('font-size', '14px');
 
             // Captcha input solution
             $("fieldset.captcha>div>div>input").css('width', '120px');
-            $("fieldset.captcha>div>div>input").css('border', '2px solid #1e6a8e');
-            $("fieldset.captcha>div>div>input").css('border-radius', '4px');
+            $("fieldset.captcha>div>div>input").css('border', 'none');
+            $("fieldset.captcha>div>div>input").css('border-bottom', '1px solid #b0c8d4');
 
             // Captcha description of the use
             $("fieldset.captcha>div>div>div.description").text("Trouvez la solution.");
-            $("fieldset.captcha>div>div>div.description").css('margin-top', '15px');
+            $("fieldset.captcha>div>div>div.description").css('margin-top', '10px');
+            $("fieldset.captcha>div>div>div.description").css('font-size', '14px');
 
             // Remove the Captcha global description
             $("fieldset.captcha>div>div.description").remove();
+
+
+            $("div.gm-style > div:first-of-type > div:first-of-type").css("transform", "translate(25vw, 0px) !important");
+            $("div.gm-style > div:first-of-type > div:nth-child(3) > div:last-of-type").css("transform", "translate(250px, 0px) !important");
+
+            /*div.gm-style > div:first-of-type > div:first-of-type,*/
+            /*div.gm-style > div:first-of-type > div:nth-child(3) > div:last-of-type {*/
+            /*transform: translate(25vw, 0px) !important;*/
+            /*}*/
         /* End - Gael | Custom captcha style */
 
         /* Start - Gael | Actualize the username field with the value of the mail field */
@@ -240,12 +253,10 @@
         // }
 
             if(window.location.pathname == "/contactez-nous"){
-                console.log("OK");
                 $("#main-wrapper > .container").css("padding", "0");
             }
 
             if(window.location.pathname.match(/^\/user\/reset\/[0-9]{0,5}\/[0-9]{10}\/.*$/)){
-                console.log("lalal");
                 $("form#user-pass-reset > div > p").hide();
                 $("form#user-pass-reset #edit-actions").css("text-align","center");
                 $("body").append("<div id='loader-container'><div id='loader'></div></div>");

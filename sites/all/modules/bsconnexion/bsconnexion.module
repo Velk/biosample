@@ -795,7 +795,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     unset($form['account']['name']['#description']);
 
     // Mail field
-    $form['account']['mail']['#attributes'] = array('placeholder' => t('* Adresse mail'));
+    $form['account']['mail']['#attributes'] = array('placeholder' => t('* Adresse e-mail'));
     $form['account']['mail']['#id'] = 'bs-cc-register-form-mail';
     $form['account']['mail']['#prefix'] = '<div id="bs-cc-register-form-mail-div">';
     $form['account']['mail']['#suffix'] = '<p class="email-disclaimer">Attention : cette adresse sera utilisée pour la connexion.</p></div>';
@@ -828,8 +828,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     // N° SIREN field
     $form['account']['siren'] = array(
         '#type' => 'textfield',
-        '#attributes' => array('placeholder' => t('* N° SIREN (9 chiffres)')),
-        '#required' => TRUE,
+        '#attributes' => array('placeholder' => t('N° SIREN (9 chiffres)')),
         '#id' => 'bs-cc-register-form-siren',
         '#prefix' => '<div id="bs-cc-register-form-siren-div">',
         '#suffix' => '</div>',
@@ -839,8 +838,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     // Adresse field
     $form['account']['adresse'] = array(
         '#type' => 'textfield',
-        '#attributes' => array('placeholder' => t('* Adresse')),
-        '#required' => TRUE,
+        '#attributes' => array('placeholder' => t('Adresse')),
         '#id' => 'bs-cc-register-form-adresse',
         '#prefix' => '<div id="bs-cc-register-form-adresse-div">',
         '#suffix' => '</div>',
@@ -855,18 +853,17 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
         '#id' => 'bs-cc-register-form-codepostal',
         '#prefix' => '<div id="bs-cc-register-form-codepostal-div">',
         '#suffix' => '</div>',
-        '#weight' => 13,
+        '#weight' => 14,
     );
 
     // Ville field
     $form['account']['ville'] = array(
         '#type' => 'textfield',
-        '#attributes' => array('placeholder' => t('* Ville')),
-        '#required' => TRUE,
+        '#attributes' => array('placeholder' => t('Ville')),
         '#id' => 'bs-cc-register-form-ville',
         '#prefix' => '<div id="bs-cc-register-form-ville-div">',
         '#suffix' => '</div>',
-        '#weight' => 14,
+        '#weight' => 15,
     );
 
 //////////////////////////////////////////COMPANY'S CONTACT///////////////////////////////////////////
@@ -922,7 +919,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     // Contact's mail field
     $form['account']['mail_contact'] = array(
         '#type' => 'textfield',
-        '#attributes' => array('placeholder' => t('* Adresse mail du contact')),
+        '#attributes' => array('placeholder' => t('* Adresse e-mail du contact')),
         '#required' => TRUE,
         '#id' => 'bs-cc-register-form-mail-contact',
         '#prefix' => '<div id="bs-cc-register-form-mail-contact-div">',
@@ -974,17 +971,6 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
         '#suffix' => '<a href="/condition-générale-de-vente" target="_blank">(CGV)</a></div>',
         '#weight' => 28,
     );
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//    // 'Je suis un fournisseur' checkbox
-//    $form['account']['im_fournisseur'] = array(
-//        '#type' => 'checkbox',
-//        '#title' => t('Je suis un fournisseur'),
-//        '#id' => 'bs-cc-register-form-imfournisseur',
-//        '#prefix' => '<div id="bs-cc-register-form-imfournisseur-div">',
-//        '#suffix' => '</div>',
-//    );
 
 //////////////////////////////////////////////BUTTONS/////////////////////////////////////////////////
 
