@@ -49,6 +49,18 @@ function bsconnexion_menu(){
         'description' => t('Outils BioSample') ,
         'page callback' => 'system_admin_menu_block_page',
         'access arguments' => array('access administration pages'),
+<<<<<<< HEAD
+=======
+    );
+
+    $items['admin/BioSample/user-manager'] = array(
+        'title' => t('BS - User manager'),
+        'description' => t('BS User manager'),
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('bsconnexion_admin_userlist_form'),
+        'access arguments' => array('administer site configuration'),
+        'type' => MENU_NORMAL_ITEM,
+>>>>>>> ff9f630936f54abe8b540078e882fad3a8b2d711
     );
 
     $items['admin/BioSample/cataloguep-manager'] = array(
@@ -768,6 +780,14 @@ function bsconnexion_form_user_connected(){
  * @see bsconnexion_user_register_submit()
  */
 function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
+
+
+    $form['account']['information'] = array(
+        '#markup' =>
+            '<p class="bs-cc-information">L\'ouverture d\'un compte BioSample est gratuite ! Profitez-en.</p>
+            <p class="bs-cc-information">Toutes données collectées sur le site internet www.biosample.fr ne sont ni divulguées ni vendues ni cédées à des tiers.</p>',
+        '#weight' => 0,
+    );
 
     // Nom d'utilisateur field
     $form['account']['name']['#attributes'] = array('placeholder' => t('* Nom d\'utilisateur'));

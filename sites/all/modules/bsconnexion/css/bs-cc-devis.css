@@ -4,6 +4,14 @@
 
 /* Start - Quote request */
 
+p#bs-cc-noquote-request-message > a{
+    color:#fff;
+    font-style:italic;
+}
+p#bs-cc-noquote-request-message > a:hover{
+    color:#000;
+}
+
 div#bs-cc-quote-request-container {
     position: relative;
     width: 100%;
@@ -197,8 +205,12 @@ div#bs-cc-quote-container>h2 {
 
 /* Start - Consult Submission form */
 .webform-submission {
-    width: 600px;
-    margin: auto;
+    width: 700px;
+    margin: 0 auto 50px auto;
+    padding: 25px 50px;
+    box-sizing: border-box;
+    border: 1px solid #e6e6e6;
+    box-shadow: 2px 2px 3px #c6c6c6;
 }
 
 .webform-submission .webform-component-display {
@@ -262,10 +274,15 @@ div#bs-cc-quote-container>h2 {
 /* Start - Leaf form */
 .webform-submission > form.webform-client-form {
     position: relative;
-    width: 90%;
+    width: auto;
     height: auto;
-    margin: 25px auto;
+    margin: auto;
 }
+
+.webform-submission > form.webform-client-form .webform-component--denomination{
+    width:100% !important;
+}
+
 
 /* LABEL - Custom the label of fields */
 .webform-submission > form.webform-client-form label {
@@ -281,15 +298,50 @@ div#bs-cc-quote-container>h2 {
 .webform-submission > form.webform-client-form .webform-component-fieldset {
     float: none;
     clear: both;
-    border:none !important;
-    border-top:10px solid #bababa !important;
+    border: none !important;
+    padding: 5px 0;
+    border-bottom: 2px solid #bababa !important;
+    margin: 50px 0;
 }
-.webform-submission > form.webform-client-form .webform-component-fieldset:hover {
-    border-top:10px solid #1e6a8e !important;
+.webform-submission > form.webform-client-form .webform-component-fieldset .webform-component-fieldset {
+    width: 90%;
+    margin: auto;
+}
+
+.webform-submission > form.webform-client-form .webform-component-fieldset > legend {
+    display: block;
+    font-weight: 400;
+    padding: 0;
+    margin: auto;
+    font-size: 18px;
+    width: 100%;
+    border-top: 10px solid #1e6a8e;
+    box-sizing: border-box;
+    cursor: pointer;
+    position: relative;
+    height: 25px;
+}
+.webform-submission > form.webform-client-form .webform-component-fieldset > legend:hover{
+    border-top: 10px solid #424242;
+}
+.webform-submission > form.webform-client-form .webform-component-fieldset > legend > span {
+    transform: translateX(0%) translateY(calc(-50% - 6px));
+    background-color: #fff !important;
+    position: absolute;
+    width: auto;
+    left: 25px;
+    padding: 0 15px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.webform-submission > form.webform-client-form .webform-component-fieldset .fieldset-content {
+    margin: 25px 0;
 }
 .webform-submission > form.webform-client-form .webform-component-fieldset:hover .fieldset-title {
     color: #000 !important;
 }
+
 /* FIELDSET DESCRIPTION - Custom fieldset description */
 .webform-submission > form.webform-client-form > div > fieldset > div > div.description{
     position: relative;
@@ -304,8 +356,8 @@ div#bs-cc-quote-container>h2 {
 .webform-submission > form.webform-client-form .webform-component-select > select {
     height:30px;
     border: 2px solid #1e6a8e;
-    border-radius: 2px;
     background-color: #fff;
+    width:100%;
 }
 /* INPUT - Custom input fields */
 .webform-submission > form.webform-client-form > div > div > input,
@@ -338,7 +390,7 @@ div#bs-cc-quote-container>h2 {
 .webform-submission > form.webform-client-form .webform-component-number {
     position: relative;
     float: left;
-    width: 30%;
+    width: 50%;
     padding: 0 0 0 5px;
     box-sizing: border-box;
 }
@@ -352,8 +404,8 @@ div#bs-cc-quote-container>h2 {
 .webform-submission > form.webform-client-form .webform-component-select {
     position: relative;
     float: left;
-    width: 20%;
-    padding: 0 5px 0 0;
+    width: 50%;
+    padding: 0 5px;
     box-sizing: border-box;
 }
 /* SELECT CONTAINER - SELECT - Custom select fields */
@@ -396,39 +448,38 @@ div#bs-cc-quote-container>h2 {
 /* RADIO */
 .webform-submission > form.webform-client-form .webform-component-radios {
     position: relative;
-    float: left;
-    width: 50%;
-    padding: 0 30px;
+    float: none;
+    clear: both;
+    width: 100%;
     box-sizing: border-box;
 }
 .webform-submission > form.webform-client-form .webform-component-radios > label {
     text-align: center;
+    margin-bottom: 25px;
 }
 .webform-submission > form.webform-client-form .webform-component-radios .form-type-radio {
     display: inline-block;
+    position: relative;
     width: 50%;
     float: left;
     text-align: center;
 }
-.webform-submission > form.webform-client-form .webform-component-radios .form-type-radio > input {
-    display: block;
-    margin: auto;
-    width: 15px;
-    height: 15px;
-}
 
 /* FILE */
-.webform-submission > form.webform-client-form .webform-component-managed_file {
-    margin: 0;
+.webform-submission > form.webform-client-form .webform-component-file {
+    position: relative;
+    display: block;
+    width: 100% !important;
+    margin: 0 !important;
 }
-.webform-submission > form.webform-client-form .webform-component-managed_file .form-managed-file > input{
+.webform-submission > form.webform-client-form .webform-component-file .form-managed-file > input{
     position: relative;
     width: 100%;
     height: 100%;
     border-bottom: none;
     box-sizing: border-box;
 }
-.webform-submission > form.webform-client-form .webform-component-managed_file .form-managed-file .form-submit{
+.webform-submission > form.webform-client-form .webform-component-file .form-managed-file .form-submit{
     width: 100%;
     height: auto;
     padding: 6px 15px;
@@ -446,35 +497,39 @@ div#bs-cc-quote-container>h2 {
 }
 
 /* GRID */
-.webform-submission > form.webform-client-form .webform-component-webform_grid {
+.webform-submission > form.webform-client-form .webform-component-grid {
     width: 100%;
     float: none;
     clear: both;
 }
-.webform-submission > form.webform-client-form .webform-component-webform_grid>table thead {
+.webform-submission > form.webform-client-form .webform-component-grid>table thead {
     background-color: #1e6a8e;
 }
-.webform-submission > form.webform-client-form .webform-component-webform_grid>table thead th {
+.webform-submission > form.webform-client-form .webform-component-grid>table thead th {
     background-color: transparent;
 }
-.webform-submission > form.webform-client-form .webform-component-webform_grid>table tbody {
+.webform-submission > form.webform-client-form .webform-component-grid>table tbody {
     background-color: #fff;
 }
-.webform-submission > form.webform-client-form .webform-component-webform_grid>table tbody tr {
+.webform-submission > form.webform-client-form .webform-component-grid>table tbody tr {
     border: none;
     border-bottom: 1px solid #424242;
     box-sizing: border-box;
 }
-.webform-submission > form.webform-client-form .webform-component-webform_grid>table tr th {
+.webform-submission > form.webform-client-form .webform-component-grid>table tr th {
     height: auto;
     padding: 5px 15px;
 }
-.webform-submission > form.webform-client-form .webform-component-webform_grid>table tbody > tr > td {
+.webform-submission > form.webform-client-form .webform-component-grid>table tbody > tr > td {
     padding: 5px 15px;
     background-color: transparent;
 }
-.webform-submission > form.webform-client-form .webform-component-webform_grid>table tbody > tr > td:first-child {
+.webform-submission > form.webform-client-form .webform-component-grid>table tbody > tr > td:first-child {
     color: #000;
+}
+.webform-submission > form.webform-client-form .webform-component-grid .form-type-radio {
+    position: relative;
+    width:100%;
 }
 
 /* MARKUP */
@@ -483,18 +538,26 @@ div#bs-cc-quote-container>h2 {
     float: none;
     clear: both;
 }
+.webform-component-markup {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.webform-component-markup * {
+    margin: 0;
+}
 
 /* SUBMIT BUTTON - Submit button */
-.webform-submission > form.webform-client-form div#edit-actions{
+.webform-submission > form.webform-client-form div.form-actions{
     width: 100%;
     float: none;
     clear: both;
-    margin: 30px 0 25px 0;
+    margin: 40px 0 25px 0;
     text-align: center;
 }
 /* SUBMIT BUTTON - INPUT - Submit button */
-.webform-submission > form.webform-client-form div#edit-actions > span > input{
+.webform-submission > form.webform-client-form div.form-actions > span > input{
     height: auto;
+    width: auto;
     border: none;
     border-radius: 4px;
     padding: 10px 15px;
@@ -506,9 +569,80 @@ div#bs-cc-quote-container>h2 {
     text-shadow: none;
     font-size: 14px;
 }
-.webform-submission > form.webform-client-form div#edit-actions > span > input:hover{
+.webform-submission > form.webform-client-form div.form-actions > span > input:hover{
     background-color: #424242;
     background: #424242;
+}
+
+/* Custom radio */
+.webform-submission > form.webform-client-form input[type="radio"] {
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin:0 auto 5px auto;
+    /*opacity: 0;*/
+}
+.webform-submission > form.webform-client-form .form-type-radio label {
+    display: block;
+    margin-top: 15px;
+}
+
+/* Custom the checkmark by default */
+span.checkmark{
+    position: absolute;
+    top:0;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px #737373;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 8px;
+    top: 3px;
+    width: 3px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.form-type-radio input[type="radio"] {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    opacity: 0;
+    margin: 0;
+    cursor: pointer;
+    z-index: 1;
+}
+
+input[type="radio"]:hover {
+    cursor: pointer;
+}
+
+/* On mouse-over, add a grey background color */
+.form-type-radio input[type="radio"]:hover ~ .checkmark{
+    background-color: #ccc;
+}
+
+/* When the checkbox is checked, change background-color */
+.form-type-radio input[type="radio"]:checked ~ .checkmark {
+    background-color: #1e6a8e;
+}
+
+/* Show the checkmark when checked */
+.form-type-radio input[type="radio"]:checked ~ .checkmark:after {
+    display: block;
 }
 
 /* End - Edit Submission form */
