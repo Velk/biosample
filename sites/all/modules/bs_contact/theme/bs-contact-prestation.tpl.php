@@ -14,14 +14,26 @@
         <h1 class="contact-title"><?php echo render($title); ?></h1>
         <i class="fa fa-paper-plane"></i>
     </div><div>
-        <div class="contact-address">
-            <p><?php echo render($adress); ?></p>
-            <p><?php echo render($city); ?></p>
-        </div>
-        <p class='contact-tel'>
-            <?php echo render($telfax); ?>
-        </p><p class='contact-email'>
-            <?php echo render($mail); ?>
-        </p>
+    <?php
+        // If the description isn't set, display BioSample's contact information
+        if(empty($description)) {
+    ?>
+            <div class="contact-address">
+                <p><?php echo render($adress); ?></p>
+                <p><?php echo render($city); ?></p>
+            </div>
+            <p class='contact-tel'>
+                <?php echo render($telfax); ?>
+            </p><p class='contact-email'>
+                <?php echo render($mail); ?>
+            </p>
+    <?php
+        }else{
+    ?>
+            <p><?php echo render($description); ?></p>
+    <?php
+        }
+    ?>
+
     </div>
 </div>

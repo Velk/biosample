@@ -270,69 +270,30 @@
                 $("#page-title").text("INITIALISATION DU MOT DE PASSE.");
             }
 
-            // var textMessage = "";
-
-            /* Start - */
-            // if(
-            //     window.location.pathname.match(/^\/user\/[0-9]{0,5}\/edit$/) &&
-            //     window.location.search.match(/^\?pass-reset-token.*$/)
-            // ){
-            //     $("#page-title").text("INITIALISATION DU MOT DE PASSE.");
-            //     $("#edit-submit").click(function(e){
-            //
-            //         if(!$("#edit-pass-pass1").val() || !$("#edit-pass-pass2").val()){
-            //             // prevent click action
-            //             e.preventDefault();
-            //
-            //             if($('.status').is(":visible")){
-            //                 isDrupalMessageVisible("Veuillez renseigner les champs.");
-            //             }else{
-            //                 appendDrupalMessage("Veuillez renseigner les champs.");
-            //             }
-            //
-            //             removeDrupalMessage();
-            //
-            //             return false;
-            //         }else if($("#edit-pass-pass1").val() != $("#edit-pass-pass2").val()){
-            //             e.preventDefault();
-            //
-            //             if($('.status').is(":visible")){
-            //                 isDrupalMessageVisible("Veuillez correctement renseigner les champs.");
-            //             }else{
-            //                 appendDrupalMessage("Veuillez correctement renseigner les champs.");
-            //             }
-            //
-            //             removeDrupalMessage();
-            //
-            //             return false;
-            //         }else{
-            //             window.location.pathname = "/utilisateur/profil";
-            //         }
-            //     });
-            //
-            // }
-            //
-            // function appendDrupalMessage(textMessage){
-            //     $("body").append(
-            //         "<div id='system-messages-wrapper' class='wrapper container-16'\n" +
-            //         "<div class='container grid-16'>\n" +
-            //         "<div class='grid-inner clearfix'> \n" +
-            //         "<div class='messages status'>\n" +
-            //         "<h2 class='element-invisible'>Message d'état</h2>\n" +
-            //         textMessage +
-            //         "<i class='fa fa-times' aria-hidden='true'></i></div></div></div></div>"
-            //     );
-            // }
-            //
-            // function isDrupalMessageVisible(textMessage) {
-            //     $(".status").text(textMessage);
-            //     $(".status").append("<i class='fa fa-times' aria-hidden='true'></i>");
-            // }
-            //
             function removeDrupalMessage(){
                 $("div.status i").click(function(){
                     $(this).parent().remove();
                 });
+            }
+
+            /*
+             * If the page is /signup
+             */
+            if( window.location.pathname.match(/^\/signup$/) ) {
+
+                // Smooth auto scroll directly to the signup form
+                window.scroll({
+                    top: 140,
+                    left: 0,
+                    behavior: 'smooth'
+                });
+
+                // Custom Captcha when error occured
+                if($("#edit-captcha-response").hasClass( "error" )){
+
+                    // Change color of the captcha
+                    $("#edit-captcha-response").parent().children("span").css("color", "#f9a0a0");
+                }
             }
 
         }
