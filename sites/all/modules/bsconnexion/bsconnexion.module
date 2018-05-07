@@ -163,7 +163,7 @@ function bsconnexion_profil_page_init(){
  * Implement hook_init()
  */
 function bsconnexion_init() {
-    /**
+    /*
      * If the page is ...
      * Link css file : bs-cc-devis.css
      * Link js file : bs-cc-devis.js
@@ -177,7 +177,15 @@ function bsconnexion_init() {
         drupal_add_js(drupal_get_path('module', 'bsconnexion') . '/js/bs-cc-devis.js');
     }
 
-    /**
+    /*
+     * When the current page is /signup
+     * Link the css page : bssignup.css
+     */
+    if ( preg_match("/^\/signup$/", $_SERVER["REQUEST_URI"]) ){
+        drupal_add_css(drupal_get_path('module', 'bsconnexion') . '/css/bssignup.css', array('group' => CSS_DEFAULT, 'every_page' => TRUE));
+    }
+
+    /*
      * Check if the user has the role 'authenticated user'
      * and if he hasn't the role 'administrator', 'backoffice' or 'Devops'
      */
@@ -185,7 +193,7 @@ function bsconnexion_init() {
         user_has_role(2) &&
         !(user_has_role(3) || user_has_role(4) || user_has_role(5))
     ){
-        /**
+        /*
          * If the page is /node/nid/submissions
          * or the page is /node/nid/webform-results (when he deletes a submission)
          * Redirect user to /utilisateur/devis
@@ -199,7 +207,7 @@ function bsconnexion_init() {
         }
     }
 
-    /**
+    /*
      * If the page is /utilisateur or /utilisateur/
      * Redirect to the page /utilisateur/profil
      */
@@ -210,16 +218,18 @@ function bsconnexion_init() {
         drupal_goto("/utilisateur/profil");
     }
 
-    /**
-     * If the page is /utilisateur or /utilisateur/
-     * Redirect to the page /utilisateur/profil
+    /*
+     * If the page is /utilisateur/signup or /user/signup or /signup/
+     * Redirect to the page /signup
      */
     if (
         preg_match("/^\/utilisateur\/signup$/", $_SERVER["REQUEST_URI"]) ||
-        preg_match("/^\/user\/signup$/", $_SERVER["REQUEST_URI"])
+        preg_match("/^\/user\/signup$/", $_SERVER["REQUEST_URI"]) ||
+        preg_match("/^\/signup\/$/", $_SERVER["REQUEST_URI"])
     ){
         drupal_goto("/signup");
     }
+
 }
 
 /**
@@ -772,8 +782,13 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
 
     $form['account']['information'] = array(
         '#markup' =>
-            '<p class="bs-cc-information">L\'ouverture d\'un compte BioSample est gratuite ! Profitez-en.</p>
-            <p class="bs-cc-information">Toutes données collectées sur le site internet www.biosample.fr ne sont ni divulguées ni vendues ni cédées à des tiers.</p>',
+            '<div class="bs-cc-informations">
+                <i class="fa fa-info-circle"></i>
+                <div>
+                    <p>L\'ouverture d\'un compte BioSample est gratuite ! Profitez-en.</p>
+                    <p>Toutes données collectées sur le site internet www.biosample.fr ne sont ni divulguées ni vendues ni cédées à des tiers.</p>
+                </div>
+            </div>',
         '#weight' => 0,
     );
 
@@ -806,7 +821,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Affiliation / Société field
-    $form['account']['affiliation_societe'] = array(
+    $form['account']['label_company']['affiliation_societe'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('* Affiliation / Société')),
         '#required' => TRUE,
@@ -817,7 +832,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // N° SIREN field
-    $form['account']['siren'] = array(
+    $form['account']['label_company']['siren'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('N° SIREN (9 chiffres)')),
         '#id' => 'bs-cc-register-form-siren',
@@ -827,7 +842,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Adresse field
-    $form['account']['adresse'] = array(
+    $form['account']['label_company']['adresse'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('Adresse')),
         '#id' => 'bs-cc-register-form-adresse',
@@ -837,7 +852,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Code postal field
-    $form['account']['code_postal'] = array(
+    $form['account']['label_company']['code_postal'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('* Code postal')),
         '#required' => TRUE,
@@ -848,7 +863,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Ville field
-    $form['account']['ville'] = array(
+    $form['account']['label_company']['ville'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('Ville')),
         '#id' => 'bs-cc-register-form-ville',
@@ -869,7 +884,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Civilité select field
-    $form['account']['civilite'] = array(
+    $form['account']['label_company_contact']['civilite'] = array(
         '#type' => 'select',
 //        '#default_value' => isset($node->active) ? $node->active : 0,
         '#required' => TRUE,
@@ -886,7 +901,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Nom / Prénom field
-    $form['account']['nom_prenom'] = array(
+    $form['account']['label_company_contact']['nom_prenom'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('* Prénom / Nom')),
         '#required' => TRUE,
@@ -897,7 +912,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Poste / Service field
-    $form['account']['poste_service'] = array(
+    $form['account']['label_company_contact']['poste_service'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('* Poste / Service')),
         '#required' => TRUE,
@@ -908,7 +923,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Contact's mail field
-    $form['account']['mail_contact'] = array(
+    $form['account']['label_company_contact']['mail_contact'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('* Adresse e-mail du contact')),
         '#required' => TRUE,
@@ -919,7 +934,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Téléphone field
-    $form['account']['telephone'] = array(
+    $form['account']['label_company_contact']['telephone'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('* Téléphone')),
         '#required' => TRUE,
@@ -930,7 +945,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Fax field
-    $form['account']['fax'] = array(
+    $form['account']['label_company_contact']['fax'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('Fax')),
         '#id' => 'bs-cc-register-form-fax',

@@ -1,228 +1,11 @@
-/*!* CSS LARGEUR DE PAGE *!*/
-
-/*#main-wrapper .grid-16{*/
-	/*width: 100% !important;*/
-/*}*/
-
-/*#main-wrapper .grid-16 .grid-14{*/
-	/*width: 100% !important;*/
-/*}*/
-
-/*#main-wrapper .grid-16 .grid-14 .grid-12{*/
-	/*width: 100% !important;*/
-/*}*/
-
-
-/*!* CSS COORDONNES + MAP *!*/
-
-/*#All_coords_map{*/
-	/*!*background-image: linear-gradient(#165c72, #1e6a8e);*!*/
-	/*position:relative;*/
-	/*background-image: linear-gradient(#424242, #9E9E9E);*/
-	/*display: inline-block;*/
-	/*width: 100%;*/
-	/*!*max-height: 650px;*/
-	/*min-height: 650px;*!*/
-	/*height : 650px;*/
-
-/*}*/
-
-/*#All_coords{*/
-	/*!*background-color: #1e6a8e;*!*/
-	/*background-color: #424242;*/
-	/*width: 50%;*/
-	/*display: inline-block;*/
-	/*text-align: center;*/
-	/*height: 100% !important;*/
-	/*!*position: absolute;*!*/
-/*}*/
-
-
-/*!* CSS COORDONNES *!*/
-
-
-	/*!* CSS TITRE + CORPS *!*/
-
-
-/*#cood_title{*/
-	/*background-color: #1e6a8e;*/
-	/*color: white;*/
-	/*text-align: center;*/
-	/*font-family: Arial, Helvetica, sans-serif;*/
-	/*display: inline-block;*/
-	/*float: left;*/
-	/*width: 50%;*/
-/*}*/
-
-
-	/*!* CSS TITRE *!*/
-
-
-/*#Title_Cood{*/
-	/*color: white;*/
-	/*text-align: center;*/
-	/*font-family: Arial, Helvetica, sans-serif;*/
-	/*font-size: 25px;*/
-	/*font-weight: bold;*/
-/*}*/
-
-/*.Title_Content_Cood{*/
-	/*padding-top: 100px;*/
-/*}*/
-
-
-	/*!* CSS CORPS *!*/
-
-
-/*@media screen and (max-width: 1280px)*/
-/*{*/
-
-	/*!*#All_coords{*/
-		/*background-color: #1e6a8e;*/
-		/*width: 50%;*/
-		/*display: inline-block;*/
-		/*text-align: center;*/
-		/*height: 100% !important;*/
-		/*position: absolute;*/
-	/*}*!*/
-	   /**/
-	/*h1.contact-title{*/
-		/*color: white;*/
-		/*text-align: center;*/
-		/*font-family: Arial, Helvetica, sans-serif;*/
-		/*font-weight: bold;*/
-		/*padding-top: 15%;*/
-	/*}*/
-
-	/*h2.contact-subtitle{*/
-		/*color: white;*/
-		/*text-align: left;*/
-		/*font-family: Arial, Helvetica, sans-serif;*/
-		/*font-weight: bold;*/
-		/*display: inline-block;*/
-		/*padding: 0 5% 0 25%;*/
-		/*margin: 20px 0 0 0;*/
-	/*}*/
-
-	/*p.contact-content{*/
-		/*color: white;*/
-		/*font-family: Arial, Helvetica, sans-serif;*/
-		/*margin: 0 0 15px 0 !important;*/
-		/*display: inline-block;*/
-	/*}*/
-
-	/*p.contact-adress{*/
-		/*position: relative;*/
-		/*top: 18px;*/
-	/*}*/
-/*}*/
-
-/*@media screen and (min-width: 1281px) and (max-width: 1550px)*/
-/*{*/
-
-	/*!*#All_coords{*/
-		/*background-color: #1e6a8e;*/
-		/*width: 50%;*/
-		/*display: inline-block;*/
-		/*height: 100% !important;*/
-		/*position: absolute;*/
-	/*}*!*/
-	   /**/
-	/*h1.contact-title{*/
-		/*color: white;*/
-		/*text-align: center;*/
-		/*font-family: Arial, Helvetica, sans-serif;*/
-		/*font-weight: bold;*/
-		/*padding-top: 15%;*/
-	/*}*/
-
-	/*h2.contact-subtitle{*/
-		/*color: white;*/
-		/*text-align: left;*/
-		/*font-family: Arial, Helvetica, sans-serif;*/
-		/*padding: 0 5% 0 25%;*/
-		/*font-weight: bold;*/
-		/*margin: 20px 0 0 0;*/
-		/*display: inline-block;*/
-	/*}*/
-
-	/*p.contact-content{*/
-		/*color: white;*/
-		/*font-family: Arial, Helvetica, sans-serif;*/
-		/*margin: 0 0 15px 0 !important;*/
-		/*display: inline-block;*/
-	/*}*/
-
-	/*p.contact-adress{*/
-		/*position: relative;*/
-		/*top: 18px;*/
-	/*}*/
-/*}*/
-
-/*@media screen and (min-width: 1551px)*/
-/*{*/
-
-	/*!*#All_coords{*/
-		/*background-color: #1e6a8e;*/
-		/*width: 50%;*/
-		/*display: inline-block;*/
-	/*}*!*/
-	   /**/
-	/*h1.contact-title{*/
-		/*color: white;*/
-		/*text-align: center;*/
-		/*font-family: Arial, Helvetica, sans-serif;*/
-		/*font-weight: bold;*/
-		/*padding-top: 15%;*/
-		/*font-size: 50px;*/
-	/*}*/
-
-	/*h2.contact-subtitle{*/
-		/*color: white;*/
-		/*text-align: left;*/
-		/*font-family: Arial, Helvetica, sans-serif;*/
-		/*padding: 0 5% 0 25%;*/
-		/*margin: 20px 0 0 0;*/
-		/*font-weight: bold;*/
-		/*display: inline-block;*/
-		/*font-size: 30px;*/
-	/*}*/
-
-	/*p.contact-content{*/
-		/*color: white;*/
-		/*font-family: Arial, Helvetica, sans-serif;*/
-		/*margin: 0 0 15px 0 !important;*/
-		/*display: inline-block;*/
-		/*font-size: 22px;*/
-	/*}*/
-
-	/*p.contact-adress{*/
-		/*position: relative;*/
-		/*top: 18px;*/
-	/*}*/
-/*}*/
-
-
-/* CSS MAP */
-
-/*#gmap_canvas{*/
-	/*filter: opacity(75%);*/
-/*}*/
-
-/*#gmap_canvas:hover{*/
-	/*filter: opacity(100%);*/
-/*}*/
-
-/*#bscontact_gmap{*/
-	/*float: right;*/
-	/*width: 50% !important;*/
-	/*height: 100%;*/
-/*}*/
-
-/*#lien-map{*/
-	/*position: absolute;*/
-	/*left: -9999px;*/
-/*}*/
+#main-wrapper .container,
+#main-wrapper .container-inner,
+#main-wrapper #main-content-wrapper,
+#main-wrapper .grid-inner {
+	width: 100% !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
 
 /* Hide the title page bar */
 #main-wrapper > div.page-title-wrap{
@@ -247,7 +30,6 @@
 	box-sizing: border-box;
 	margin-top: 50px;
 }
-
 
 /* Map */
 #gmap_canvas > div > .gm-style > div:first-of-type{
@@ -334,9 +116,8 @@ p.contact-tel {
 p.contact-email {
 	margin: 0;
 	font-size: 16px;
-	color: #B0BEC5;
+	color: #d1dade;
 }
-
 
 /* Start - Contact form */
 #main-wrapper .grid-inner {
@@ -367,19 +148,9 @@ p.label-form {
 	margin-bottom: 35px;
 }
 
-/*form#webform-client-form-110 > div > div:last-of-type{*/
-	/*margin-bottom: 0;*/
-	/*margin-top: 25px;*/
-	/*text-align: center;*/
-/*}*/
-
 form#webform-client-form-110 > div > div:last-of-type{
-	text-align: center;
-	position: absolute;
-	bottom: 35px;
-	right: 0;
-	margin: 0;
-	width: 50%;
+	margin: 35px 0 0 0;
+	float: right;
 }
 
 form#webform-client-form-110 > div div.form-item input,
@@ -389,18 +160,56 @@ form#webform-client-form-110 > div div.form-item select {
 	font-size: 14px;
 	border-bottom: 1px solid #ffffff;
 	background-color: #37474f;
-	color: #ffffff;
+	color: #d1dade;
 }
 
+/* Placeholder - Default */
 form#webform-client-form-110 > div div.form-item input::placeholder,
-form#webform-client-form-110 > div div.form-item select::placeholder,
-form#webform-client-form-110 > div div.form-item textarea::placeholder{
-	color: #ffffff;
+form#webform-client-form-110 > div div.form-item textarea::placeholder {
+	color: #d1dade;
+	opacity: 1;
+}
+/* Placeholder - Firefox 19+ */
+form#webform-client-form-110 > div div.form-item input::-moz-placeholder,
+form#webform-client-form-110 > div div.form-item textarea::-moz-placeholder {
+	color: #d1dade;
+	opacity: 1;
+}
+/* Placeholder - Chrome, Opera, Safari */
+form#webform-client-form-110 > div div.form-item input::-webkit-input-placeholder,
+form#webform-client-form-110 > div div.form-item textarea::-webkit-input-placeholder {
+	color: #d1dade;
+	opacity: 1;
+}
+
+/* Autofill */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+	-webkit-text-fill-color: #d1dade !important;
+	-webkit-box-shadow: 0 0 0px 1000px #37474f inset !important;
+}
+
+/* Required fields */
+form#webform-client-form-110 > div div.form-item input:required,
+form#webform-client-form-110 > div div.form-item select:required,
+form#webform-client-form-110 > div div.form-item textarea:required {
+	box-shadow: none;
 }
 
 form#webform-client-form-110 > div div.form-item input:focus,
 form#webform-client-form-110 > div div.form-item select:focus {
-	border-bottom: 1px solid #1e6a8e;
+	background-color: #435056;
+	padding-left:10px;
+	padding-right:10px;
+	box-sizing: border-box;
 }
 
 form#webform-client-form-110 > div div.form-item {
@@ -516,7 +325,7 @@ textarea#edit-submitted-message {
 	border: none;
 	padding: 10px;
 	background-color: #435056;
-	color:#fff;
+	color:#d1dade;
 	font-size: 14px;
 }
 form#webform-client-form-110 .resizable-textarea .grippie {
@@ -537,7 +346,8 @@ form#webform-client-form-110 > div > div:last-of-type input.form-submit {
 }
 
 form#webform-client-form-110 > div > div:last-of-type input.form-submit:hover {
-	background: #424242;
+	background: #d1dade;
+	color: #37474f;
 }
 
 /* Captcha */
@@ -551,12 +361,13 @@ fieldset.captcha {
 fieldset.captcha > div > div.form-item {
 	width: 100% !important;
 	margin: 0 !important;
-	color: #fff;
+	color: #d1dade;
 	font-size: 14px;
 }
 fieldset.captcha > div > div.form-item input#edit-captcha-response {
 	margin-left: 10px;
 	width: 25% !important;
+	text-align: center;
 }
 
 fieldset.captcha>div>div>label,

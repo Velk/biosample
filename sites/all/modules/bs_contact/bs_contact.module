@@ -10,7 +10,7 @@
 function bs_contact_help($path, $arg) {
   switch ($path) {
     case 'admin/help#bs_contact':
-      return '<p>' . t('Get the adress and gmap block for contact webform page') . '</p>';
+      return '<p>' . t('Get the address and gmap block for contact webform page') . '</p>';
   }
 }
 
@@ -87,6 +87,13 @@ function bs_contact_admin_settings(){
     '#default_value' => variable_get('bs_contact_mail','contact@biosample.fr'),
   );
 
+  $form['bs_contact_description'] = array(
+      '#type' => 'textarea',
+      '#title' => t('Description'),
+      '#description' => t('Change the description'),
+      '#default_value' => variable_get('bs_contact_description'),
+  );
+
   return system_settings_form($form);
 }
 
@@ -124,6 +131,7 @@ function bs_contact_block_view($delta = '') {
       $data['city'] = variable_get('bs_contact_city');
       $data['telfax'] = variable_get('bs_contact_tel_fax');
       $data['mail'] = variable_get('bs_contact_mail');
+      $data['description'] = variable_get('bs_contact_description');
 
       $data['map_script1'] = "<script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyB_dBiSyZnQAcf70ca81iR6Dx7c9l4jt7c'></script>";
       $data['map_script2'] = "<script type='text/javascript' src='https://embedmaps.com/google-maps-authorization/script.js?id=ed3fff63c6cbefe079ad45f602efc6007bf27145'></script>";
