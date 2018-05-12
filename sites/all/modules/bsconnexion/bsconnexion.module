@@ -1912,8 +1912,8 @@ function bsconnexion_cataloguep_form_submit($form, &$form_state){
     }
 
     // Mail's parameters
-    $to = "developer.biosample@gmail.com";
-    $from = "developer.biosample@gmail.com";
+    $to = "contact@biosample.fr";
+    $from = "contact@biosample.fr";
 
     // Subject of the mail
     $subject = "Utilisateur " . $GLOBALS['user']->uid . " - Commande via le catalogue personnel";
