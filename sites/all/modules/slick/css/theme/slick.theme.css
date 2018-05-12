@@ -104,38 +104,38 @@ img {
 /* Overrides problematic hidden arrows at core slick.css */
 .slick-prev {
   left: 0;
-  background: url(http://biosample.fr/sites/default/files/field/image/pfs.png) center no-repeat;
+  background: url(images/pfs.png) center no-repeat;
   height: 140px;
   width: 60px;
 }
 
 .slick-prev:hover {
   left: 0;
-  background: url(http://biosample.fr/sites/default/files/field/image/pfsh.png) center no-repeat;
+  background: url(images/pfsh.png) center no-repeat;
   height: 140px;
   width: 60px;
 }
 
 .slick-prev::before {
-  content: url(http://biosample.fr/sites/default/files/field/image/pfs.png)
+  content: url(images/pfs.png)
 }
 
 .slick-next {
   right: 0;
-  background: url(http://biosample.fr/sites/default/files/field/image/nfs.png) center no-repeat;
+  background: url(images/nfs.png) center no-repeat;
   height: 140px;
   width: 60px;
 }
 
 .slick-next:hover {
   right: 0;
-  background: url(http://biosample.fr/sites/default/files/field/image/nfsh.png) center no-repeat;
+  background: url(images/nfsh.png) center no-repeat;
   height: 140px;
   width: 60px;
 }
 
 .slick-next::before {
-  content: url(http://biosample.fr/sites/default/files/field/image/nfs.png)
+  content: url(images/nfs.png)
 }
 
 .slick-arrow::before {
