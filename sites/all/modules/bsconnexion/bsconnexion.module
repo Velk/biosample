@@ -83,7 +83,7 @@ function bsconnexion_menu(){
         'description' => t('BS User datas manager page'),
         'page callback' => 'drupal_get_form',
         'page arguments' => array('bsconnexion_admin_datas_user_form'),
-        'access arguments' => array('administer site configuration'),
+        'access arguments' => array('access administration pages'),
         'type' => MENU_NORMAL_ITEM,
     );
 
@@ -172,7 +172,7 @@ function bsconnexion_profil_page_init(){
  * Implement hook_init()
  */
 function bsconnexion_init() {
-    /*
+    /**
      * If the page is ...
      * Link css file : bs-cc-devis.css
      * Link js file : bs-cc-devis.js
@@ -202,7 +202,7 @@ function bsconnexion_init() {
         user_has_role(2) &&
         !(user_has_role(3) || user_has_role(4) || user_has_role(5))
     ){
-        /*
+        /**
          * If the page is /node/nid/submissions
          * or the page is /node/nid/webform-results (when he deletes a submission)
          * Redirect user to /utilisateur/devis
@@ -216,7 +216,7 @@ function bsconnexion_init() {
         }
     }
 
-    /*
+    /**
      * If the page is /utilisateur or /utilisateur/
      * Redirect to the page /utilisateur/profil
      */
@@ -227,9 +227,9 @@ function bsconnexion_init() {
         drupal_goto("/utilisateur/profil");
     }
 
-    /*
-     * If the page is /utilisateur/signup or /user/signup or /signup/
-     * Redirect to the page /signup
+    /**
+     * If the page is /utilisateur or /utilisateur/
+     * Redirect to the page /utilisateur/profil
      */
     if (
         preg_match("/^\/utilisateur\/signup$/", $_SERVER["REQUEST_URI"]) ||
@@ -238,7 +238,6 @@ function bsconnexion_init() {
     ){
         drupal_goto("/signup");
     }
-
 }
 
 /**
@@ -791,13 +790,8 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
 
     $form['account']['information'] = array(
         '#markup' =>
-            '<div class="bs-cc-informations">
-                <i class="fa fa-info-circle"></i>
-                <div>
-                    <p>L\'ouverture d\'un compte BioSample est gratuite ! Profitez-en.</p>
-                    <p>Toutes données collectées sur le site internet www.biosample.fr ne sont ni divulguées ni vendues ni cédées à des tiers.</p>
-                </div>
-            </div>',
+            '<p class="bs-cc-information">L\'ouverture d\'un compte BioSample est gratuite ! Profitez-en.</p>
+            <p class="bs-cc-information">Toutes données collectées sur le site internet www.biosample.fr ne sont ni divulguées ni vendues ni cédées à des tiers.</p>',
         '#weight' => 0,
     );
 
@@ -810,7 +804,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     unset($form['account']['name']['#description']);
 
     // Mail field
-    $form['account']['mail']['#attributes'] = array('placeholder' => t('* Adresse e-mail'));
+    $form['account']['mail']['#attributes'] = array('placeholder' => t('* Adresse mail'));
     $form['account']['mail']['#id'] = 'bs-cc-register-form-mail';
     $form['account']['mail']['#prefix'] = '<div id="bs-cc-register-form-mail-div">';
     $form['account']['mail']['#suffix'] = '<p class="email-disclaimer">Attention : cette adresse sera utilisée pour la connexion.</p></div>';
@@ -830,7 +824,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Affiliation / Société field
-    $form['account']['label_company']['affiliation_societe'] = array(
+    $form['account']['affiliation_societe'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('* Affiliation / Société')),
         '#required' => TRUE,
@@ -841,9 +835,10 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // N° SIREN field
-    $form['account']['label_company']['siren'] = array(
+    $form['account']['siren'] = array(
         '#type' => 'textfield',
-        '#attributes' => array('placeholder' => t('N° SIREN (9 chiffres)')),
+        '#attributes' => array('placeholder' => t('* N° SIREN (9 chiffres)')),
+        '#required' => TRUE,
         '#id' => 'bs-cc-register-form-siren',
         '#prefix' => '<div id="bs-cc-register-form-siren-div">',
         '#suffix' => '</div>',
@@ -851,9 +846,10 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Adresse field
-    $form['account']['label_company']['adresse'] = array(
+    $form['account']['adresse'] = array(
         '#type' => 'textfield',
-        '#attributes' => array('placeholder' => t('Adresse')),
+        '#attributes' => array('placeholder' => t('* Adresse')),
+        '#required' => TRUE,
         '#id' => 'bs-cc-register-form-adresse',
         '#prefix' => '<div id="bs-cc-register-form-adresse-div">',
         '#suffix' => '</div>',
@@ -861,24 +857,25 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Code postal field
-    $form['account']['label_company']['code_postal'] = array(
+    $form['account']['code_postal'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('* Code postal')),
         '#required' => TRUE,
         '#id' => 'bs-cc-register-form-codepostal',
         '#prefix' => '<div id="bs-cc-register-form-codepostal-div">',
         '#suffix' => '</div>',
-        '#weight' => 14,
+        '#weight' => 13,
     );
 
     // Ville field
-    $form['account']['label_company']['ville'] = array(
+    $form['account']['ville'] = array(
         '#type' => 'textfield',
-        '#attributes' => array('placeholder' => t('Ville')),
+        '#attributes' => array('placeholder' => t('* Ville')),
+        '#required' => TRUE,
         '#id' => 'bs-cc-register-form-ville',
         '#prefix' => '<div id="bs-cc-register-form-ville-div">',
         '#suffix' => '</div>',
-        '#weight' => 15,
+        '#weight' => 14,
     );
 
 //////////////////////////////////////////COMPANY'S CONTACT///////////////////////////////////////////
@@ -893,7 +890,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Civilité select field
-    $form['account']['label_company_contact']['civilite'] = array(
+    $form['account']['civilite'] = array(
         '#type' => 'select',
 //        '#default_value' => isset($node->active) ? $node->active : 0,
         '#required' => TRUE,
@@ -910,7 +907,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Nom / Prénom field
-    $form['account']['label_company_contact']['nom_prenom'] = array(
+    $form['account']['nom_prenom'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('* Prénom / Nom')),
         '#required' => TRUE,
@@ -921,7 +918,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Poste / Service field
-    $form['account']['label_company_contact']['poste_service'] = array(
+    $form['account']['poste_service'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('* Poste / Service')),
         '#required' => TRUE,
@@ -932,9 +929,9 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Contact's mail field
-    $form['account']['label_company_contact']['mail_contact'] = array(
+    $form['account']['mail_contact'] = array(
         '#type' => 'textfield',
-        '#attributes' => array('placeholder' => t('* Adresse e-mail du contact')),
+        '#attributes' => array('placeholder' => t('* Adresse mail du contact')),
         '#required' => TRUE,
         '#id' => 'bs-cc-register-form-mail-contact',
         '#prefix' => '<div id="bs-cc-register-form-mail-contact-div">',
@@ -943,7 +940,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Téléphone field
-    $form['account']['label_company_contact']['telephone'] = array(
+    $form['account']['telephone'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('* Téléphone')),
         '#required' => TRUE,
@@ -954,7 +951,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Fax field
-    $form['account']['label_company_contact']['fax'] = array(
+    $form['account']['fax'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('Fax')),
         '#id' => 'bs-cc-register-form-fax',
@@ -986,6 +983,17 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
         '#suffix' => '<a href="/condition-générale-de-vente" target="_blank">(CGV)</a></div>',
         '#weight' => 28,
     );
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//    // 'Je suis un fournisseur' checkbox
+//    $form['account']['im_fournisseur'] = array(
+//        '#type' => 'checkbox',
+//        '#title' => t('Je suis un fournisseur'),
+//        '#id' => 'bs-cc-register-form-imfournisseur',
+//        '#prefix' => '<div id="bs-cc-register-form-imfournisseur-div">',
+//        '#suffix' => '</div>',
+//    );
 
 //////////////////////////////////////////////BUTTONS/////////////////////////////////////////////////
 
@@ -1667,21 +1675,11 @@ function bsconnexion_block_view($delta = '') {
 
             // Count the number of row (result) to know if there is or not result
             $query = db_select('bs_cc_catalogue_perso', 'cp');
-            $query->fields('cp', array('cp_reference'));
+            $query->fields('cp', array('cp_reference', 'cp_name', 'cp_packaging', 'cp_price', 'cp_unit_price', 'cp_stock', 'cp_image'));
             $query->condition('cp.cp_uid', $GLOBALS['user']->uid);
             $is_row_result = $query->execute()->rowCount();
 
-            // If there isn't result
-            if($is_row_result == 0){
-                // Set a variable to false, to hide the entire form and hide the empty message
-                $data['is_row_result'] = false;
-            }else{
-                // Set a variable to true, to show the entire form and hide the empty message
-                $data['is_row_result'] = true;
-            }
-
-            // Pass in variable the form
-            $data['form_cataloguep'] = drupal_render(drupal_get_form('bsconnexion_cataloguep_form'));
+            $data['results_cataloguep'] = $query->execute();
 
             // Link the template to display datas
             $block['content']['#markup'] = theme('bsconnexion_cataloguep', $data);
