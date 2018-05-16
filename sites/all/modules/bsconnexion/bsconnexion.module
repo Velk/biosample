@@ -49,11 +49,6 @@ function bsconnexion_menu(){
         'description' => t('Outils BioSample') ,
         'page callback' => 'system_admin_menu_block_page',
         'access arguments' => array('access administration pages'),
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> prj-rb
     );
 
     $items['admin/BioSample/user-manager'] = array(
@@ -63,10 +58,6 @@ function bsconnexion_menu(){
         'page arguments' => array('bsconnexion_admin_userlist_form'),
         'access arguments' => array('administer site configuration'),
         'type' => MENU_NORMAL_ITEM,
-<<<<<<< HEAD
-=======
->>>>>>> ff9f630936f54abe8b540078e882fad3a8b2d711
->>>>>>> prj-rb
     );
 
     $items['admin/BioSample/cataloguep-manager'] = array(
