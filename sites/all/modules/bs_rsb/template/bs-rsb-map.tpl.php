@@ -510,7 +510,7 @@
             départements
         </li>
         <div id="rsb-map-bottom">
-            <a href="#block-bs-rsb-ressources-bio-collections">
+            <a href="#block-bs-rsb-ressource-bio-collections">
                 <i class="fa fa-chevron-circle-down"></i>
                 Accédez aux collections de <br> ressources biologiques
             </a>
