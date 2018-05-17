@@ -183,16 +183,16 @@ form#webform-client-form-110 > div div.form-item textarea::-webkit-input-placeho
 }
 
 /* Autofill */
+form#webform-client-form-110 input:-webkit-autofill,
+form#webform-client-form-110 input:-webkit-autofill:hover,
+form#webform-client-form-110 input:-webkit-autofill:focus
 input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus
-input:-webkit-autofill,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover
+form#webform-client-form-110 textarea:-webkit-autofill,
+form#webform-client-form-110 textarea:-webkit-autofill:hover
 textarea:-webkit-autofill:focus,
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus {
+form#webform-client-form-110 select:-webkit-autofill,
+form#webform-client-form-110 select:-webkit-autofill:hover,
+form#webform-client-form-110 select:-webkit-autofill:focus {
 	-webkit-text-fill-color: #d1dade !important;
 	-webkit-box-shadow: 0 0 0px 1000px #37474f inset !important;
 }
