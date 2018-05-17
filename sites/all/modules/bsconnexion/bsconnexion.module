@@ -163,7 +163,7 @@ function bsconnexion_profil_page_init(){
  * Implement hook_init()
  */
 function bsconnexion_init() {
-    /**
+    /*
      * If the page is ...
      * Link css file : bs-cc-devis.css
      * Link js file : bs-cc-devis.js
@@ -177,7 +177,15 @@ function bsconnexion_init() {
         drupal_add_js(drupal_get_path('module', 'bsconnexion') . '/js/bs-cc-devis.js');
     }
 
-    /**
+    /*
+     * When the current page is /signup
+     * Link the css page : bssignup.css
+     */
+    if ( preg_match("/^\/signup$/", $_SERVER["REQUEST_URI"]) ){
+        drupal_add_css(drupal_get_path('module', 'bsconnexion') . '/css/bssignup.css', array('group' => CSS_DEFAULT, 'every_page' => TRUE));
+    }
+
+    /*
      * Check if the user has the role 'authenticated user'
      * and if he hasn't the role 'administrator', 'backoffice' or 'Devops'
      */
@@ -185,7 +193,7 @@ function bsconnexion_init() {
         user_has_role(2) &&
         !(user_has_role(3) || user_has_role(4) || user_has_role(5))
     ){
-        /**
+        /*
          * If the page is /node/nid/submissions
          * or the page is /node/nid/webform-results (when he deletes a submission)
          * Redirect user to /utilisateur/devis
@@ -199,7 +207,7 @@ function bsconnexion_init() {
         }
     }
 
-    /**
+    /*
      * If the page is /utilisateur or /utilisateur/
      * Redirect to the page /utilisateur/profil
      */
@@ -210,16 +218,18 @@ function bsconnexion_init() {
         drupal_goto("/utilisateur/profil");
     }
 
-    /**
-     * If the page is /utilisateur or /utilisateur/
-     * Redirect to the page /utilisateur/profil
+    /*
+     * If the page is /utilisateur/signup or /user/signup or /signup/
+     * Redirect to the page /signup
      */
     if (
         preg_match("/^\/utilisateur\/signup$/", $_SERVER["REQUEST_URI"]) ||
-        preg_match("/^\/user\/signup$/", $_SERVER["REQUEST_URI"])
+        preg_match("/^\/user\/signup$/", $_SERVER["REQUEST_URI"]) ||
+        preg_match("/^\/signup\/$/", $_SERVER["REQUEST_URI"])
     ){
         drupal_goto("/signup");
     }
+
 }
 
 /**
@@ -772,8 +782,13 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
 
     $form['account']['information'] = array(
         '#markup' =>
-            '<p class="bs-cc-information">L\'ouverture d\'un compte BioSample est gratuite ! Profitez-en.</p>
-            <p class="bs-cc-information">Toutes données collectées sur le site internet www.biosample.fr ne sont ni divulguées ni vendues ni cédées à des tiers.</p>',
+            '<div class="bs-cc-informations">
+                <i class="fa fa-info-circle"></i>
+                <div>
+                    <p>L\'ouverture d\'un compte BioSample est gratuite ! Profitez-en.</p>
+                    <p>Toutes données collectées sur le site internet www.biosample.fr ne sont ni divulguées ni vendues ni cédées à des tiers.</p>
+                </div>
+            </div>',
         '#weight' => 0,
     );
 
@@ -786,7 +801,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     unset($form['account']['name']['#description']);
 
     // Mail field
-    $form['account']['mail']['#attributes'] = array('placeholder' => t('* Adresse mail'));
+    $form['account']['mail']['#attributes'] = array('placeholder' => t('* Adresse e-mail'));
     $form['account']['mail']['#id'] = 'bs-cc-register-form-mail';
     $form['account']['mail']['#prefix'] = '<div id="bs-cc-register-form-mail-div">';
     $form['account']['mail']['#suffix'] = '<p class="email-disclaimer">Attention : cette adresse sera utilisée pour la connexion.</p></div>';
@@ -806,7 +821,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Affiliation / Société field
-    $form['account']['affiliation_societe'] = array(
+    $form['account']['label_company']['affiliation_societe'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('* Affiliation / Société')),
         '#required' => TRUE,
@@ -817,10 +832,9 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // N° SIREN field
-    $form['account']['siren'] = array(
+    $form['account']['label_company']['siren'] = array(
         '#type' => 'textfield',
-        '#attributes' => array('placeholder' => t('* N° SIREN (9 chiffres)')),
-        '#required' => TRUE,
+        '#attributes' => array('placeholder' => t('N° SIREN (9 chiffres)')),
         '#id' => 'bs-cc-register-form-siren',
         '#prefix' => '<div id="bs-cc-register-form-siren-div">',
         '#suffix' => '</div>',
@@ -828,10 +842,9 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Adresse field
-    $form['account']['adresse'] = array(
+    $form['account']['label_company']['adresse'] = array(
         '#type' => 'textfield',
-        '#attributes' => array('placeholder' => t('* Adresse')),
-        '#required' => TRUE,
+        '#attributes' => array('placeholder' => t('Adresse')),
         '#id' => 'bs-cc-register-form-adresse',
         '#prefix' => '<div id="bs-cc-register-form-adresse-div">',
         '#suffix' => '</div>',
@@ -839,25 +852,24 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Code postal field
-    $form['account']['code_postal'] = array(
+    $form['account']['label_company']['code_postal'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('* Code postal')),
         '#required' => TRUE,
         '#id' => 'bs-cc-register-form-codepostal',
         '#prefix' => '<div id="bs-cc-register-form-codepostal-div">',
         '#suffix' => '</div>',
-        '#weight' => 13,
+        '#weight' => 14,
     );
 
     // Ville field
-    $form['account']['ville'] = array(
+    $form['account']['label_company']['ville'] = array(
         '#type' => 'textfield',
-        '#attributes' => array('placeholder' => t('* Ville')),
-        '#required' => TRUE,
+        '#attributes' => array('placeholder' => t('Ville')),
         '#id' => 'bs-cc-register-form-ville',
         '#prefix' => '<div id="bs-cc-register-form-ville-div">',
         '#suffix' => '</div>',
-        '#weight' => 14,
+        '#weight' => 15,
     );
 
 //////////////////////////////////////////COMPANY'S CONTACT///////////////////////////////////////////
@@ -872,7 +884,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Civilité select field
-    $form['account']['civilite'] = array(
+    $form['account']['label_company_contact']['civilite'] = array(
         '#type' => 'select',
 //        '#default_value' => isset($node->active) ? $node->active : 0,
         '#required' => TRUE,
@@ -889,7 +901,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Nom / Prénom field
-    $form['account']['nom_prenom'] = array(
+    $form['account']['label_company_contact']['nom_prenom'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('* Prénom / Nom')),
         '#required' => TRUE,
@@ -900,7 +912,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Poste / Service field
-    $form['account']['poste_service'] = array(
+    $form['account']['label_company_contact']['poste_service'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('* Poste / Service')),
         '#required' => TRUE,
@@ -911,9 +923,9 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Contact's mail field
-    $form['account']['mail_contact'] = array(
+    $form['account']['label_company_contact']['mail_contact'] = array(
         '#type' => 'textfield',
-        '#attributes' => array('placeholder' => t('* Adresse mail du contact')),
+        '#attributes' => array('placeholder' => t('* Adresse e-mail du contact')),
         '#required' => TRUE,
         '#id' => 'bs-cc-register-form-mail-contact',
         '#prefix' => '<div id="bs-cc-register-form-mail-contact-div">',
@@ -922,7 +934,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Téléphone field
-    $form['account']['telephone'] = array(
+    $form['account']['label_company_contact']['telephone'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('* Téléphone')),
         '#required' => TRUE,
@@ -933,7 +945,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
     );
 
     // Fax field
-    $form['account']['fax'] = array(
+    $form['account']['label_company_contact']['fax'] = array(
         '#type' => 'textfield',
         '#attributes' => array('placeholder' => t('Fax')),
         '#id' => 'bs-cc-register-form-fax',
@@ -965,17 +977,6 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
         '#suffix' => '<a href="/condition-générale-de-vente" target="_blank">(CGV)</a></div>',
         '#weight' => 28,
     );
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//    // 'Je suis un fournisseur' checkbox
-//    $form['account']['im_fournisseur'] = array(
-//        '#type' => 'checkbox',
-//        '#title' => t('Je suis un fournisseur'),
-//        '#id' => 'bs-cc-register-form-imfournisseur',
-//        '#prefix' => '<div id="bs-cc-register-form-imfournisseur-div">',
-//        '#suffix' => '</div>',
-//    );
 
 //////////////////////////////////////////////BUTTONS/////////////////////////////////////////////////
 
@@ -1655,11 +1656,23 @@ function bsconnexion_block_view($delta = '') {
 // BLOCK - Client account, catalogueg page
         case 'user_cataloguep':
 
+            // Count the number of row (result) to know if there is or not result
             $query = db_select('bs_cc_catalogue_perso', 'cp');
-            $query->fields('cp', array('cp_reference', 'cp_name', 'cp_packaging', 'cp_price', 'cp_unit_price', 'cp_stock', 'cp_image'));
+            $query->fields('cp', array('cp_reference'));
             $query->condition('cp.cp_uid', $GLOBALS['user']->uid);
+            $is_row_result = $query->execute()->rowCount();
 
-            $data['results_cataloguep'] = $query->execute();
+            // If there isn't result
+            if($is_row_result == 0){
+                // Set a variable to false, to hide the entire form and hide the empty message
+                $data['is_row_result'] = false;
+            }else{
+                // Set a variable to true, to show the entire form and hide the empty message
+                $data['is_row_result'] = true;
+            }
+
+            // Pass in variable the form
+            $data['form_cataloguep'] = drupal_render(drupal_get_form('bsconnexion_cataloguep_form'));
 
             // Link the template to display datas
             $block['content']['#markup'] = theme('bsconnexion_cataloguep', $data);
@@ -1681,6 +1694,236 @@ function bsconnexion_block_view($delta = '') {
     }
     return $block;
 }
+
+
+function bsconnexion_cataloguep_form($form, $form_state){
+
+    // Initialize the foreach counter
+    $i = 0;
+
+    // Retrieve datas stocked in db
+    $query = db_select('bs_cc_catalogue_perso', 'cp');
+    $query->fields('cp', array('cp_reference', 'cp_name', 'cp_packaging', 'cp_price', 'cp_unit_price', 'cp_stock', 'cp_image'));
+    $query->condition('cp.cp_uid', $GLOBALS['user']->uid);
+
+    $results = $query->execute();
+
+    foreach ($results as $result){
+
+        //Increase i
+        $i++;
+
+        $form['cataloguep']['container_begin' . $i] = array(
+            '#type' => 'markup',
+            '#markup' => '<div class="cp-row">',
+        );
+
+        $form['cataloguep']['cp_reference' . $i] = array(
+            '#type' => 'textfield',
+            '#value' => $result->cp_reference,
+            '#disabled' => TRUE,
+            '#attributes' => array(
+                'class' => array('cp-reference'),
+            ),
+            '#prefix' => '<div class="cp-reference">',
+            '#suffix' => '</div>',
+        );
+
+        $form['cataloguep']['cp_name' . $i] = array(
+            '#type' => 'markup',
+            '#markup' => '<p class="cp-name">' . $result->cp_name . '</p>',
+        );
+
+        $form['cataloguep']['cp_packaging' . $i] = array(
+            '#type' => 'markup',
+            '#markup' => '<p class="cp-packaging">' . $result->cp_packaging . '</p>',
+        );
+
+        $form['cataloguep']['cp_price' . $i] = array(
+            '#type' => 'markup',
+            '#markup' => '<p class="cp-price">' . $result->cp_price . '</p>',
+        );
+
+        $form['cataloguep']['cp_unit_price' . $i] = array(
+            '#type' => 'markup',
+            '#markup' => '<p class="cp-unit-price">' . $result->cp_unit_price . '</p>',
+        );
+
+        $form['cataloguep']['cp_stock' . $i] = array(
+            '#type' => 'markup',
+            '#markup' => '<p class="cp-stock">' . $result->cp_stock . '</p>',
+        );
+
+        $form['cataloguep']['cp_quantity' . $i] = array(
+            '#type' => 'textfield',
+            '#attributes' => array(
+                ' type' => 'number',
+                'class' => array('cp-quantity'),
+                'min' => '1',
+            ),
+            '#prefix' => '<div class="cp_quantity_container">',
+            '#suffix' => '</div>',
+        );
+
+        $form['cataloguep']['cp_checkbox' . $i] = array(
+            '#type' => 'checkbox',
+            '#attributes' => array(
+                'class' => array('cp-checkbox'),
+            ),
+            '#prefix' => '<div class="cp_checkbox_container">',
+            '#suffix' => '</div>',
+        );
+
+        $form['cataloguep']['container_end' . $i] = array(
+            '#markup' => '</div>',
+        );
+    }
+
+    $form['cataloguep']['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Commander'),
+        '#id' => 'bs-cc-cp-submit',
+        '#weight' => 10,
+    );
+
+    $form['cataloguep']['submit']['#validate'][] = 'bsconnexion_cataloguep_form_validate';
+    $form['cataloguep']['submit']['#submit'][] = 'bsconnexion_cataloguep_form_submit';
+
+    return $form;
+}
+
+function bsconnexion_cataloguep_form_validate($form, $form_state){
+
+    // Count if at least 1 row is checked to submit something
+    $no_checkbox = 0;
+
+    // Retrieve the row number
+    $query = db_select('bs_cc_catalogue_perso', 'cp');
+    $query->fields('cp', array('cp_reference'));
+    $query->condition('cp.cp_uid', $GLOBALS['user']->uid);
+    $row_number = $query->execute()->rowCount();
+
+    // Loop on the number of row
+    for($i = 1 ; $i <= $row_number ; $i++) {
+
+        // Row is checked but quantity isn't set
+        if($error = ( $form_state['values']['cp_checkbox' . $i] == 1 && empty($form_state['values']['cp_quantity' . $i]) )){
+            drupal_set_message("Produit référence : " . $form_state['values']['cp_reference' . $i] . " - Vous n'avez pas rempli la quantité.");
+            form_set_error('cp_reference' . $i, $error);
+        }
+
+        // Quantity is set but row isn't check
+        if ( $error = ($form_state['values']['cp_checkbox' . $i] == 0 && !empty($form_state['values']['cp_quantity' . $i]) )){
+            drupal_set_message("Produit référence : " . $form_state['values']['cp_reference' . $i] . " - Vous n'avez pas sélectionné le produit.");
+            form_set_error('cp_reference' . $i, $error);
+        }
+
+        // Count if there is no checkbox checked
+        if( $form_state['values']['cp_checkbox' . $i] == 0 ){
+            // Increment $j
+            $no_checkbox++;
+
+            // If $j equals the row number that's to say no checkboxes is checked
+            if( $error = ($no_checkbox == $row_number) ){
+                drupal_set_message("Veuillez sélectionner au moins un produit pour commander.");
+                for($j = 1 ; $j <= $row_number ; $j++) {
+                    form_set_error('cp_reference' . $j, $error);
+                }
+            }
+        }
+
+    }
+}
+
+function bsconnexion_cataloguep_form_submit($form, &$form_state){
+
+    // Retrieve user's datas from table users_extra_fields in the database
+    // To send informations in the mail
+    $query = db_select('users_extra_fields', 'uef');
+    $query->join('users', 'u', 'u.name = uef.username');
+    $query->fields('uef', array('client_code', 'affiliation_societe', 'nom_prenom', 'mail_contact', 'mail', 'code_postal'));
+    $query->condition('u.uid',$GLOBALS['user']->uid,'=');
+    $user_datas = $query->execute();
+
+    foreach ($user_datas as $user_data){
+
+        // If the user doesn't have his client code yet
+        if(empty($user_data->client_code)){
+            $user_data->client_code = "Non attribué";
+        }
+
+        // Initialize body of the mail
+        $body = "Commande : \n\n" .
+            "Informations de l'utilisateur : " . "\n" .
+            "Code client : " . $user_data->client_code . "\n" .
+            "Société : " . $user_data->affiliation_societe . "\n" .
+            "Prénom / Nom : " . $user_data->nom_prenom . "\n" .
+            "Courriel du contact : " . $user_data->mail_contact . "\n" .
+            "Courriel : " . $user_data->mail . "\n" .
+            "Code postal : " . $user_data->code_postal . "\n" .
+            "UID : " . $GLOBALS['user']->uid . "\n\n";
+    }
+
+    // Retrieve the row number
+    $query = db_select('bs_cc_catalogue_perso', 'cp');
+    $query->fields('cp', array('cp_reference'));
+    $query->condition('cp.cp_uid', $GLOBALS['user']->uid);
+    $row_number = $query->execute()->rowCount();
+
+    // Loop on the number of row
+    for($i = 1 ; $i <= $row_number ; $i++){
+
+        // Check if the checkbox is checked and get the row number
+        if( $form_state['values']['cp_checkbox' . $i] == 1 && !empty($form_state['values']['cp_quantity' . $i])){
+
+            // Retrieve datas stocked in db for the reference of the selected row by user
+            $query = db_select('bs_cc_catalogue_perso', 'cp');
+            $query->fields('cp', array('cp_reference', 'cp_name', 'cp_packaging', 'cp_price', 'cp_unit_price', 'cp_stock', 'cp_image'));
+            $query->condition('cp.cp_uid', $GLOBALS['user']->uid);
+            $query->condition('cp.cp_reference', $form_state['values']['cp_reference' . $i]);
+
+            // Retrieve the row number
+            $results = $query->execute();
+
+            // Foreach on the row datas
+            foreach ($results as $result){
+
+                // Add the product datas to the current body of the mail
+                $body = $body .
+                    "-- Produit : \n" .
+                    "Reference produit : " . $result->cp_reference . "\n" .
+                    "Nom : " . $result->cp_name . "\n" .
+                    "Conditionnement : " . $result->cp_packaging . "\n" .
+                    "Prix : " . $result->cp_price . "\n" .
+                    "Prix unitaire : " . $result->cp_unit_price . "\n" .
+                    "Stock : " . $result->cp_stock . "\n" .
+                    "Quantité commandée : " . $form_state['values']['cp_quantity' . $i] . "\n\n";
+            }
+        }
+    }
+
+    // Mail's parameters
+    $to = "contact@biosample.fr";
+    $from = "contact@biosample.fr";
+
+    // Subject of the mail
+    $subject = "Utilisateur " . $GLOBALS['user']->uid . " - Commande via le catalogue personnel";
+
+    // Call mail function
+    $params = array(
+        'subject' => $subject,
+        'body' => $body,
+    );
+
+    if(drupal_mail('bsconnexion', '20', $to, "fr", $params, $from)){
+        drupal_set_message("Votre commande a bien été envoyée.");
+        drupal_goto("/utilisateur/cataloguep");
+    } else {
+        drupal_set_message("Erreur, votre commande n'a pas abouti.");
+        drupal_goto("/utilisateur/cataloguep");
+    }
+}
+
 
 function bsconnexion_form_webform_client_form_110_alter(&$form,$form_state,$form_id){
     $form['#validate'][] = 'bsconnexion_form_webform_client_form_110_alter_validate';
@@ -1882,6 +2125,10 @@ function bsconnexion_sending_mail($url_consult_devis){
 function bsconnexion_mail($key, &$message, $params) {
     switch ($key) {
         case '10':
+            $message['subject'] = $params['subject'];
+            $message['body'][] = $params['body'];
+            break;
+        case '20':
             $message['subject'] = $params['subject'];
             $message['body'][] = $params['body'];
             break;
