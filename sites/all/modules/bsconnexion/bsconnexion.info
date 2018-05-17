@@ -4,6 +4,7 @@ core = 7.x
 package = BIOSAMPLE
 
 stylesheets[all][] = 'css/bslogin.css'
+stylesheets[all][] = 'css/bssignup.css'
 
 dependencies[] = user
 dependencies[] = fontawesome
