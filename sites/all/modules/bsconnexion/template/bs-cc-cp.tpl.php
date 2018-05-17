@@ -1,4 +1,5 @@
 <?php
+// Check if there are results
 if( $is_row_result ) {
 ?>
     <div class="cp-row" id="cp-header">
@@ -20,5 +21,3 @@ if( $is_row_result ) {
 <?php
 }
 ?>
-
-
