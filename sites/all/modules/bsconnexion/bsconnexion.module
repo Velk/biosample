@@ -65,7 +65,16 @@ function bsconnexion_menu(){
         'description' => t('BS Catalogue personnalisé'),
         'page callback' => 'drupal_get_form',
         'page arguments' => array('bsconnexion_admin_cataloguep_form'),
-        'access arguments' => array('administer site configuration'),
+        'access arguments' => array('access administration pages'),
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    $items['admin/BioSample/user-manager'] = array(
+        'title' => t('BS - User manager'),
+        'description' => t('BS User manager'),
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('bsconnexion_admin_userlist_form'),
+        'access arguments' => array('access administration pages'),
         'type' => MENU_NORMAL_ITEM,
     );
 
@@ -1236,7 +1245,7 @@ function bsconnexion_block_info() {
         'status' => TRUE,
         'region' => 'content',
         'visibility' => BLOCK_VISIBILITY_LISTED,
-        'pages' => "utilisateur/profil\r\nutilisateur/catalogueg\r\nutilisateur/catalogueg/*\r\nutilisateur/cataloguep\r\nutilisateur/historique\r\nutilisateur/devis\r\nutilisateur/abonnements",
+        'pages' => "utilisateur/profil\r\nutilisateur/catalogueg\r\nutilisateur/catalogueg/*\r\nutilisateur/cataloguep\r\nutilisateur/historique\r\nutilisateur/devis\r\nutilisateur/abonnements\r\nutilisateur/ress_bio/etablissement\r\nutilisateur/ress_bio/annonces\r\nutilisateur/ress_bio/favoris",
         'weight' => 1,
     );
     // This example comes from node.module.
