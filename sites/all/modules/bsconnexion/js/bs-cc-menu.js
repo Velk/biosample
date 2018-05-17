@@ -29,19 +29,19 @@
             setTimeout(setMenu,200);
 
             // When click on the historique tab, display the historique submenu
-            // $("#bs-cc-historique-li").click(function () {
-            //     $("#bs-cc-dropdown-historique").toggle();
-            // });
-            // $("#bs-cc-historique-li").mouseleave(function () {
-            //     $("#bs-cc-dropdown-historique").hide();
-            // });
+            $("#bs-cc-historique-li").click(function () {
+                $("#bs-cc-dropdown-historique").toggle();
+            });
+            $("#bs-cc-historique-li").mouseleave(function () {
+                $("#bs-cc-dropdown-historique").hide();
+            });
 
             // Place and design the submenu
-            $("#bs-cc-dropdown-rb").css("position", "absolute");
-            $("#bs-cc-dropdown-rb").css("background-color", "#e9e9e9");
-            var liHistoriqueHeight = $("#bs-cc-rb-li").height();
-            $("#bs-cc-dropdown-rb").css("top", liHistoriqueHeight);
-            $("#bs-cc-dropdown-rb").css("width", "100%");
+            $("#bs-cc-dropdown-historique").css("position", "absolute");
+            $("#bs-cc-dropdown-historique").css("background-color", "#e9e9e9");
+            var liHistoriqueHeight = $("#bs-cc-historique-li").height();
+            $("#bs-cc-dropdown-historique").css("top", liHistoriqueHeight);
+            $("#bs-cc-dropdown-historique").css("width", "100%");
 
             /* End - Gael | Set the menu on the entire width when the user is connected*/
 

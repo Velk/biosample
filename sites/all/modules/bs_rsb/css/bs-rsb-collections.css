@@ -1,10 +1,193 @@
-div#block-bs-rsb-ressources-bio-collections {
+#bs-rsb-container{
     position: relative;
-    width: 65%;
-    margin-left: auto;
-    margin-right: 5%;
-    padding-top: 50px;
-    z-index:0;
+    width: 90%;
+    display: inline-flex;
+    margin:50px 5%;
+}
+
+/* -----------------------------------------------------------------------------------------------*/
+/* -------------------------------------START - FILTERS-------------------------------------------*/
+/* -----------------------------------------------------------------------------------------------*/
+
+#bs-rsb-filters-container {
+    position: relative;
+    width: 20%;
+    margin: 0 auto;
+}
+
+#bs-rsb-filters-container > h2 {
+    text-align: center;
+    margin:0;
+}
+
+#bs-rsb-filters-container > button {
+    background-color: #1e6a8e;
+    color: #fff;
+    padding: 7px 15px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: none;
+    margin: 25px 0 25px 50%;
+    transform: translateX(-50%);
+}
+
+#bs-rsb-filters {
+    position: relative;
+    width:100%;
+}
+
+/*.bs-rsb-filter {*/
+    /*position: relative;*/
+    /*width: 100%;*/
+    /*!*display: inline-flex;*!*/
+    /*!*padding: 10px 0;*!*/
+    /*-webkit-box-sizing: border-box;*/
+    /*-moz-box-sizing: border-box;*/
+    /*box-sizing: border-box;*/
+    /*background-color: #EDEFEF;*/
+    /*border-bottom: 1px solid #fff;*/
+    /*cursor: pointer;*/
+/*}*/
+
+.bs-rsb-filter {
+    position: relative;
+    width: 100%;
+    /*display: inline-flex;*/
+    /*padding: 10px 0;*/
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background-color: #EDEFEF;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.bs-rsb-filter-title {
+    display: inline-flex;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.bs-rsb-filter * {
+    position: relative;
+    margin:0;
+}
+.bs-rsb-filter-title > p {
+    width: 80%;
+    font-size:16px;
+    padding-left:15%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.bs-rsb-filter-title > i {
+    width: 20%;
+    font-size:25px;
+    text-align: center;
+}
+
+.bs-rsb-filter-datas {
+    display: none;
+    width: 100%;
+}
+
+.bs-rsb-filter-datas-search{
+    width:100%;
+    background-color: #fff;
+    border: 2px solid #dadada;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+.bs-rsb-filter-datas-search > *{
+    color: #717171;
+}
+.bs-rsb-filter-datas-search > input {
+    width: 80%;
+    background-color: transparent;
+    border: none;
+    padding: 5px 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.bs-rsb-filter-datas-search > input::-webkit-search-cancel-button{
+    -webkit-appearance:none;
+}
+.bs-rsb-filter-datas-search > i {
+    width: 20%;
+    text-align: center;
+}
+
+.bs-rsb-filter-datas-checkboxes {
+    width: 100%;
+    padding: 5px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.bs-rsb-filter-datas-checkbox {
+    display: inline-flex;
+    width: 100%;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-bottom: 1px solid #edefef;
+    background-color: #fff;
+}
+.bs-rsb-filter-datas-checkbox:last-of-type {
+    border-bottom: none;
+}
+.bs-rsb-filter-datas-checkbox > input{
+    width: 10%;
+    cursor: pointer;
+    height: 16px;
+    margin-top: 7px;
+}
+.bs-rsb-filter-datas-checkbox > p{
+    width: 90%;
+    padding: 5px 10px 5px 5px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.bs-rsb-filter-datas-checkboxes > button {
+    width: 100%;
+    padding: 5px 10px;
+    border: none;
+    border-top: 1px solid #edefef;
+    background-color: #1e6a8e;
+    color: #fff;
+    cursor: pointer;
+}
+/*.bs-rsb-filter-datas-checkboxes > button {*/
+    /*width: 100%;*/
+    /*padding: 5px 10px;*/
+    /*border: none;*/
+    /*color: #1e6a8e;*/
+    /*background-color: #fff;*/
+    /*cursor: pointer;*/
+    /*text-decoration: underline;*/
+/*}*/
+
+/* -----------------------------------------------------------------------------------------------*/
+/* --------------------------------------END - FILTERS--------------------------------------------*/
+/* -----------------------------------------------------------------------------------------------*/
+
+/* -----------------------------------------------------------------------------------------------*/
+/* -----------------------------------START - COLLECTIONS-----------------------------------------*/
+/* -----------------------------------------------------------------------------------------------*/
+
+#bs-rsb-collections-container {
+    position: relative;
+    width: 70%;
 }
 
 #bs-rsb-collections-container > h2 {
@@ -30,6 +213,7 @@ div#bs-rsb-families {
     width: 100%;
     margin: 0;
     list-style-type: none;
+    /*border-top: 2px solid #424242;*/
 }
 
 #bs-rsb-families li {
@@ -90,12 +274,10 @@ li.bs-rsb-family-selected {
     box-sizing: border-box;
 }
 
-/*******************************/
 
-div#block-views-rb-collections-block {
+div#bs-rsb-collections {
     position: relative;
-    display: inline-block;
-    width: 65%;
+    width: 100%;
     padding: 25px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -104,10 +286,9 @@ div#block-views-rb-collections-block {
     -moz-box-shadow: inset 0 0.25rem 0.5rem 0 rgba(0,0,0,.25);
     -webkit-box-shadow: inset 0 0.25rem 0.5rem 0 rgba(0,0,0,.25);
     box-shadow: inset 0 0.25rem 0.5rem 0 rgba(0,0,0,.25);
-    z-index: 0;
 }
 
-div#block-views-rb-collections-block .views-row {
+#bs-rsb-collections > div {
     position: relative;
     width: 100%;
     margin-bottom: 25px;
@@ -119,87 +300,39 @@ div#block-views-rb-collections-block .views-row {
     box-shadow: 0 0.1rem 0.5rem 0 rgba(0,0,0,.25);
 }
 
-div#block-views-rb-collections-block .views-row:last-of-type {
-    margin-bottom:0;
-}
-
-div#block-views-rb-collections-block .views-row > .article {
+#bs-rsb-collections > div > div {
     position: relative;
-    padding: 0;
-    margin: 0;
-    border: none;
+    margin: 10px 0;
 }
 
-div#block-views-rb-collections-block .views-row h2.node-title > a {
+p.col-biobank {
     font-size: 20px;
     color: #1e6a8e;
     font-weight: 600;
-    margin: 0;
+    margin:0;
 }
 
-div#block-views-rb-collections-block .views-row .node-content > div.field:first-of-type {
+p.col-project-name {
+    font-size: 16px;
     color: #1e6a8e;
     margin: 10px 0 25px 0;
 }
 
-div#block-views-rb-collections-block .views-row .node-content > div.field:first-of-type > h3.field-label,
-div#block-views-rb-collections-block .views-row .node-content > div.field:first-of-type > div.field-items {
+p.col-datas-name {
+    font-size: 12px;
     display: inline-block;
-    width: auto;
-    font-size: 16px;
-    font-weight:500;
-    vertical-align: baseline;
-}
-
-div#block-views-rb-collections-block .views-row .node-content > div.field {
-    position: relative;
-    margin: 15px 0;
-}
-
-div#block-views-rb-collections-block .views-row .node-content > div.field:nth-last-child(2) {
-    margin-bottom:0;
-}
-
-div#block-views-rb-collections-block .views-row .node-content > div.field:last-of-type {
-    display: none;
-}
-
-div#block-views-rb-collections-block .views-row .node-content > div.field > h3.field-label {
-    font-size: 14px;
-    display: inline-block;
-    width: 200px;
+    width: 150px;
     font-weight: 600;
     margin: 0;
     vertical-align: top;
 }
 
-div#block-views-rb-collections-block .views-row .node-content > div.field > div.field-items {
-    font-size: 14px;
+p.col-datas-values {
+    font-size: 12px;
     margin: 0;
     display: inline-block;
-    width: calc(100% - 200px);
+    width: calc(100% - 150px);
 }
-
-div#block-views-rb-collections-block .views-row .node-links {
-    position: absolute;
-    top: 0;
-    margin: 0;
-    right: 0;
-}
-
-div#block-views-rb-collections-block .views-row .node-links .node-readmore > a {
-    padding: 7px 20px;
-    color: #fff;
-    box-sizing: border-box;
-    border-radius: 2px;
-    background: #1e6a8e;
-    border: none;
-    font-size: 12px;
-    box-shadow: none;
-    font-weight: 600;
-    margin: 0;
-}
-
-div#block-views-rb-collections-block .views-row .node-links .node-readmore > a:hover {
-    background-color: #424242;
-}
+/* -----------------------------------------------------------------------------------------------*/
+/* ------------------------------------END - COLLECTIONS------------------------------------------*/
+/* -----------------------------------------------------------------------------------------------*/
