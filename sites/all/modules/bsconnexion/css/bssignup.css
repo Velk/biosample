@@ -73,7 +73,7 @@ form#user-register-form div.form-item > select:focus {
     box-sizing: border-box !important;
 }
 
-/* Autofill */
+/* Autofill for the form */
 form#user-register-form input:-webkit-autofill,
 form#user-register-form input:-webkit-autofill:hover,
 form#user-register-form input:-webkit-autofill:focus

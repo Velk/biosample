@@ -1674,6 +1674,7 @@ function bsconnexion_block_view($delta = '') {
             $query = db_select('bs_cc_catalogue_perso', 'cp');
             $query->fields('cp', array('cp_reference'));
             $query->condition('cp.cp_uid', $GLOBALS['user']->uid);
+            //Count the number of row returned
             $is_row_result = $query->execute()->rowCount();
 
             $data['results_cataloguep'] = $query->execute();

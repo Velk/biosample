@@ -182,7 +182,7 @@ form#webform-client-form-110 > div div.form-item textarea::-webkit-input-placeho
 	opacity: 1;
 }
 
-/* Autofill */
+/* Autofill for the form */
 form#webform-client-form-110 input:-webkit-autofill,
 form#webform-client-form-110 input:-webkit-autofill:hover,
 form#webform-client-form-110 input:-webkit-autofill:focus
