@@ -172,7 +172,7 @@ function bsconnexion_profil_page_init(){
  * Implement hook_init()
  */
 function bsconnexion_init() {
-    /**
+    /*
      * If the page is ...
      * Link css file : bs-cc-devis.css
      * Link js file : bs-cc-devis.js
@@ -186,7 +186,7 @@ function bsconnexion_init() {
         drupal_add_js(drupal_get_path('module', 'bsconnexion') . '/js/bs-cc-devis.js');
     }
 
-    /**
+    /*
      * Check if the user has the role 'authenticated user'
      * and if he hasn't the role 'administrator', 'backoffice' or 'Devops'
      */
@@ -194,7 +194,7 @@ function bsconnexion_init() {
         user_has_role(2) &&
         !(user_has_role(3) || user_has_role(4) || user_has_role(5))
     ){
-        /**
+        /*
          * If the page is /node/nid/submissions
          * or the page is /node/nid/webform-results (when he deletes a submission)
          * Redirect user to /utilisateur/devis
@@ -208,7 +208,7 @@ function bsconnexion_init() {
         }
     }
 
-    /**
+    /*
      * If the page is /utilisateur or /utilisateur/
      * Redirect to the page /utilisateur/profil
      */
@@ -219,13 +219,14 @@ function bsconnexion_init() {
         drupal_goto("/utilisateur/profil");
     }
 
-    /**
-     * If the page is /utilisateur or /utilisateur/
-     * Redirect to the page /utilisateur/profil
+    /*
+     * If the page is /utilisateur/signup or /user/signup or /signup
+     * Redirect to the page /signup
      */
     if (
         preg_match("/^\/utilisateur\/signup$/", $_SERVER["REQUEST_URI"]) ||
-        preg_match("/^\/user\/signup$/", $_SERVER["REQUEST_URI"])
+        preg_match("/^\/user\/signup$/", $_SERVER["REQUEST_URI"]) ||
+        preg_match("/^\/signup\/$/", $_SERVER["REQUEST_URI"])
     ){
         drupal_goto("/signup");
     }
@@ -781,8 +782,13 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
 
     $form['account']['information'] = array(
         '#markup' =>
-            '<p class="bs-cc-information">L\'ouverture d\'un compte BioSample est gratuite ! Profitez-en.</p>
-            <p class="bs-cc-information">Toutes données collectées sur le site internet www.biosample.fr ne sont ni divulguées ni vendues ni cédées à des tiers.</p>',
+            '<div class="bs-cc-informations">
+                <i class="fa fa-info-circle"></i>
+                <div>
+                    <p>L\'ouverture d\'un compte BioSample est gratuite ! Profitez-en.</p>
+                    <p>Toutes données collectées sur le site internet www.biosample.fr ne sont ni divulguées ni vendues ni cédées à des tiers.</p>
+                </div>
+            </div>',
         '#weight' => 0,
     );
 
@@ -855,7 +861,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
         '#id' => 'bs-cc-register-form-codepostal',
         '#prefix' => '<div id="bs-cc-register-form-codepostal-div">',
         '#suffix' => '</div>',
-        '#weight' => 13,
+        '#weight' => 14,
     );
 
     // Ville field
@@ -866,7 +872,7 @@ function bsconnexion_form_user_register_form_alter(&$form, &$form_state) {
         '#id' => 'bs-cc-register-form-ville',
         '#prefix' => '<div id="bs-cc-register-form-ville-div">',
         '#suffix' => '</div>',
-        '#weight' => 14,
+        '#weight' => 15,
     );
 
 //////////////////////////////////////////COMPANY'S CONTACT///////////////////////////////////////////
@@ -1666,7 +1672,7 @@ function bsconnexion_block_view($delta = '') {
 
             // Count the number of row (result) to know if there is or not result
             $query = db_select('bs_cc_catalogue_perso', 'cp');
-            $query->fields('cp', array('cp_reference', 'cp_name', 'cp_packaging', 'cp_price', 'cp_unit_price', 'cp_stock', 'cp_image'));
+            $query->fields('cp', array('cp_reference'));
             $query->condition('cp.cp_uid', $GLOBALS['user']->uid);
             $is_row_result = $query->execute()->rowCount();
 
