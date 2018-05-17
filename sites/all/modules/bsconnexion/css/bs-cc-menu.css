@@ -20,6 +20,10 @@ p.bs-cc-title-page {
     box-sizing: border-box;
 }
 
+ul#bs-cc-dropdown-historique {
+    display: none;
+}
+
 #bs-cc-user-connected-menu *{
     color: #FFFFFF !important;
 }
@@ -28,8 +32,7 @@ p.bs-cc-title-page {
 #bs-cc-catalogueG-li>a,
 #bs-cc-catalogueP-li>a,
 #bs-cc-abonnements-li>a,
-#bs-cc-historique-li>a,
-#bs-cc-rb-li>a {
+#bs-cc-historique-li>a {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -50,7 +53,7 @@ p.bs-cc-title-page {
 #bs-cc-user-connected-menu>ul>li{
     position: relative;
     display: inline-block;
-    width:16.6666%;
+    width:20%;
     background-color: #1e6a8e;
     height: 50px;
     margin: 0;
@@ -58,6 +61,34 @@ p.bs-cc-title-page {
 
 #bs-cc-user-connected-menu>ul>li:hover{
     background-color: #424242;
+}
+
+#bs-cc-historique-li{
+    cursor: pointer;
+}
+
+#bs-cc-dropdown-historique>li {
+    position: relative;
+    width: 100%;
+    background-color: #1e6a8e;
+    opacity: .75;
+    height: 40px;
+    margin: 0;
+}
+
+#bs-cc-dropdown-historique>li:hover {
+    background-color: #424242;
+    opacity: .75;
+}
+
+#bs-cc-dropdown-historique>li>a {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 9px 20px;
 }
 
 #bs-cc-historique-button{
@@ -68,44 +99,8 @@ p.bs-cc-title-page {
     height: 50px;
 }
 
-ul#bs-cc-dropdown-rb {
-    display: none;
-}
-
-#bs-cc-dropdown-rb:hover{
-    display: block;
-}
-
-#bs-cc-rb-li>a:hover ~ #bs-cc-dropdown-rb{
-    display: block;
-}
-
-#bs-cc-rb-li{
-    cursor: pointer;
-}
-
-#bs-cc-dropdown-rb>li {
-    position: relative;
-    width: 100%;
-    background-color: #1e6a8e;
-    opacity: .75;
-    height: 40px;
-    margin: 0;
-}
-
-#bs-cc-dropdown-rb>li:hover {
-    background-color: #424242;
-    opacity: .75;
-}
-
-#bs-cc-dropdown-rb>li>a {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    padding: 9px 20px;
+#bs-cc-historique-dropdown-content{
+    display:none;
 }
 
 @media screen and (max-width: 1075px){
@@ -113,8 +108,7 @@ ul#bs-cc-dropdown-rb {
     #bs-cc-catalogueG-li>a,
     #bs-cc-catalogueP-li>a,
     #bs-cc-abonnements-li>a,
-    #bs-cc-historique-li>a,
-    #bs-cc-rb-li>a {
+    #bs-cc-historique-li>a {
         padding: 16px 0px;
         font-size: 12px;
     }
@@ -125,10 +119,8 @@ ul#bs-cc-dropdown-rb {
     #bs-cc-catalogueG-li>a,
     #bs-cc-catalogueP-li>a,
     #bs-cc-abonnements-li>a,
-    #bs-cc-historique-li>a,
-    #bs-cc-rb-li>a {
+    #bs-cc-historique-li>a {
         padding: 20px 0px;
         font-size: 9px;
     }
 }
-
