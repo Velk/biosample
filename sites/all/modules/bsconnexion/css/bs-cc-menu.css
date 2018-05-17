@@ -1,6 +1,7 @@
 div#block-bsconnexion-user-client-account-menu {
     position: absolute;
     z-index: 9;
+    border-bottom: 1px solid #fff;
 }
 
 p.bs-cc-title-page {
