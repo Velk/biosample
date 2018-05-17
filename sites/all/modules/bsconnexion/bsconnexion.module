@@ -1680,7 +1680,7 @@ function bsconnexion_block_view($delta = '') {
                 $data['is_row_result'] = true;
             }
 
-            // Pass in variable the form
+            // Pass in variable the form and render it
             $data['form_cataloguep'] = drupal_render(drupal_get_form('bsconnexion_cataloguep_form'));
 
             // Link the template to display datas
