@@ -232,20 +232,20 @@
                 }
             });
 
-            // Blur the block after a delay
-            setTimeout(blurRsb, 10000);
-
-            function blurRsb(){
-                $( "#block-bs-rsb-ressource-bio-map" ).css("filter", "blur(5px)");
-                $( "#block-bs-rsb-ressource-bio-collections" ).css("filter", "blur(5px)");
-
-                $("body").append("<div id='bs-rsb-popup'>" +
-                    "<p>Nous travaillons actuellement sur cette plateforme.</p>" +
-                    "<p>N'hésitez pas à nous suivre sur " +
-                    "<a href='https://www.facebook.com/BioSample/' target='_blank'>Facebook</a>" +
-                    " pour rester informé des évolutions !</p>" +
-                    "</div>");
-            }
+            // // Blur the block after a delay
+            // setTimeout(blurRsb, 10000);
+            //
+            // function blurRsb(){
+            //     $( "#block-bs-rsb-ressource-bio-map" ).css("filter", "blur(5px)");
+            //     $( "#block-bs-rsb-ressource-bio-collections" ).css("filter", "blur(5px)");
+            //
+            //     $("body").append("<div id='bs-rsb-popup'>" +
+            //         "<p>Nous travaillons actuellement sur cette plateforme.</p>" +
+            //         "<p>N'hésitez pas à nous suivre sur " +
+            //         "<a href='https://www.facebook.com/BioSample/' target='_blank'>Facebook</a>" +
+            //         " pour rester informé des évolutions !</p>" +
+            //         "</div>");
+            // }
         }
     };
 }(jQuery));

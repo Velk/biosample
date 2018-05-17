@@ -1,0 +1,164 @@
+#bs-rsb-container {
+    position: relative;
+    width: 60%;
+    display: inline-flex;
+    margin: 0 20%;
+}
+
+/* -----------------------------------------------------------------------------------------------*/
+/* -------------------------------------START - FILTERS-------------------------------------------*/
+/* -----------------------------------------------------------------------------------------------*/
+
+#bs-rsb-filters-container {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+}
+
+#bs-rsb-filters-container > h2 {
+    text-align: center;
+    margin:0;
+}
+
+#bs-rsb-filters-container > button {
+    background-color: #1e6a8e;
+    color: #fff;
+    padding: 7px 15px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: none;
+    margin: 25px 0 25px 50%;
+    transform: translateX(-50%);
+}
+
+#bs-rsb-filters {
+    position: relative;
+    width:100%;
+}
+
+.bs-rsb-filter {
+    position: relative;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background-color: #EDEFEF;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.bs-rsb-filter-title {
+    display: inline-flex;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.bs-rsb-filter * {
+    position: relative;
+    margin:0;
+}
+.bs-rsb-filter-title > p {
+    width: 80%;
+    font-size:16px;
+    padding-left:10%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.bs-rsb-filter-title > i {
+    width: 20%;
+    font-size:25px;
+    text-align: center;
+}
+
+.bs-rsb-filter-datas {
+    display: none;
+    width: 100%;
+}
+
+.bs-rsb-filter-datas-search{
+    width:100%;
+    background-color: #fff;
+    border: 2px solid #dadada;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+.bs-rsb-filter-datas-search > *{
+    color: #717171;
+}
+.bs-rsb-filter-datas-search > input {
+    width: 80%;
+    background-color: transparent;
+    border: none;
+    padding: 5px 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.bs-rsb-filter-datas-search > input::-webkit-search-cancel-button{
+    -webkit-appearance:none;
+}
+.bs-rsb-filter-datas-search > i {
+    width: 20%;
+    text-align: center;
+}
+
+.bs-rsb-filter-datas-checkboxes {
+    width: 100%;
+    padding: 5px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.bs-rsb-filter-datas-checkbox {
+    display: inline-flex;
+    width: 100%;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-bottom: 1px solid #edefef;
+    background-color: #fff;
+}
+.bs-rsb-filter-datas-checkbox:last-of-type {
+    border-bottom: none;
+}
+.bs-rsb-filter-datas-checkbox > input{
+    width: 10%;
+    cursor: pointer;
+    height: 16px;
+    margin-top: 7px;
+}
+.bs-rsb-filter-datas-checkbox > p{
+    width: 90%;
+    padding: 5px 10px 5px 5px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.bs-rsb-filter-datas-checkboxes > button {
+    width: 100%;
+    padding: 5px 10px;
+    border: none;
+    border-top: 1px solid #edefef;
+    background-color: #1e6a8e;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* -----------------------------------------------------------------------------------------------*/
+/* --------------------------------------END - FILTERS--------------------------------------------*/
+/* -----------------------------------------------------------------------------------------------*/
+
+
+div#block-bs-rsb-ressources-bio-filtres {
+    float: left;
+    width: 30%;
+}
