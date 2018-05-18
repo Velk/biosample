@@ -59,7 +59,7 @@
                 // Loop to add each quotes
                 // Refer to the multidimensional tab : $primary_tab
                 for($i = 0 ; $i < sizeof($primary_tab) ; $i++){
-                    $url_consult_devis = $url_consult_devis . "http://" . $_SERVER['SERVER_NAME'] . "/node/" . $primary_tab[$i][0] . "/submission/" . $primary_tab[$i][1] . "\n\n";
+                    $url_consult_devis = $url_consult_devis . $_SERVER['SERVER_NAME'] . "/node/" . $primary_tab[$i][0] . "/submission/" . $primary_tab[$i][1] . "\n\n";
 
                     // Refer to bsconnexion_update_submissions_values() function
                     // Contains queries to update status of the submission
