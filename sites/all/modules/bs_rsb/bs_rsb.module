@@ -343,7 +343,13 @@ function bs_rsb_block_view($delta = '') {
             // Else load the form for create an establishment form.
             if($result->rowCount() > 0){
 
-                $data['test'] = drupal_render(drupal_get_form('bs_rsb_updating_establishment_form'));
+                // Retrieve BioSample contact datas
+                $query = db_select('establishment_sheet', 'es');
+                $query->fields('es', array('bs_contact_civility', 'bs_contact_firstname', 'bs_contact_lastname', 'bs_contact_mail', 'bs_contact_phone'));
+                $query->condition('es.eid', $GLOBALS['user']->uid, '=');
+                $data['results_bs_contact'] = $query->execute();
+
+                $data['update_establishment_sheet'] = drupal_render(drupal_get_form('bs_rsb_updating_establishment_form'));
 
                 // Link the template for the rsb establishments sheet
                 $block['content']['#markup'] = theme('tpl_establishment_sheet', $data);
@@ -750,7 +756,7 @@ function bs_rsb_updating_establishment_submit($form, &$form_state){
     /* ------------------------------------------------------------------------------ */
 
     /*
-     * Allow .csv extension
+     * Allow .jpg extension
      * Create a path as uploading csv file
      */
     $validators = [
@@ -876,6 +882,15 @@ function bs_rsb_admin_manager_form($form, &$form_state){
     return $form;
 }
 
+/**
+ * Implement bs_rsb_admin_datas_establishment_form()
+ *
+ * @see bs_rsb_admin_datas_establishment_form_submit()
+ *
+ * @param $form
+ * @param $form_state
+ * @return mixed
+ */
 function bs_rsb_admin_datas_establishment_form($form, $form_state){
 
     // Split the URI to retrieve user id : UID
@@ -1009,9 +1024,26 @@ function bs_rsb_admin_datas_establishment_form($form, $form_state){
         );
 
         // BioSample contact civility's
+        switch($result->bs_contact_civility){
+            case "" :
+                $result->bs_contact_civility = 0;
+                break;
+            case "Madame" :
+                $result->bs_contact_civility = 1;
+                break;
+            case "Monsieur" :
+                $result->bs_contact_civility = 2;
+                break;
+        }
+
         $form['establishment']['bs_contact']['bs_contact_civility'] = array(
-            '#type' => 'textfield',
+            '#type' => 'select',
             '#title' => t('Civilité du contact BioSample'),
+            '#options' => array(
+                0 => t('N/A'),
+                1 => t('Madame'),
+                2 => t('Monsieur'),
+            ),
             '#default_value' => $result->bs_contact_civility,
             '#weight' => 11,
         );
@@ -1062,7 +1094,115 @@ function bs_rsb_admin_datas_establishment_form($form, $form_state){
     return $form;
 }
 
+
 function bs_rsb_admin_datas_establishment_form_submit($form, &$form_state){
+
+    // Split the URI to retrieve user id : UID
+    $splitted_uri = preg_split("/\//",$_SERVER['REQUEST_URI']);
+    // Retrieve the UID
+    $url_uid = $splitted_uri[4];
+
+    /* ------------------------------------------------------------------- */
+    /* ------------------------------ STATUS ----------------------------- */
+    /* ------------------------------------------------------------------- */
+
+    // Change the value stocked for the selected status
+    switch($form_state['values']['status']){
+        case '0' :
+            $form_state['values']['status'] = 'Public';
+            break;
+        case '1' :
+            $form_state['values']['status'] = 'Privé';
+            break;
+        case '2' :
+            $form_state['values']['status'] = 'Mixte';
+            break;
+    }
+
+    /* ------------------------------------------------------------------- */
+    /* ------------------------ BS Contact Civility ---------------------- */
+    /* ------------------------------------------------------------------- */
+
+    // Change the value stocked for the selected bs contact civility
+    switch($form_state['values']['bs_contact_civility']){
+        case '0' :
+            $form_state['values']['bs_contact_civility'] = '';
+            break;
+        case '1' :
+            $form_state['values']['bs_contact_civility'] = 'Madame';
+            break;
+        case '2' :
+            $form_state['values']['bs_contact_civility'] = 'Monsieur';
+            break;
+    }
+
+    db_update('establishment_sheet')
+        ->condition('eid', $url_uid, '=')
+        ->fields(array(
+            'name' => $form_state['values']['name'],
+            'address' => $form_state['values']['address'],
+            'city' => $form_state['values']['city'],
+            'postal_code' => $form_state['values']['postal_code'],
+            'status' => $form_state['values']['status'],
+            'presentation' => $form_state['values']['presentation']['value'],
+            'bs_contact_civility' => $form_state['values']['bs_contact_civility'],
+            'bs_contact_firstname' => $form_state['values']['bs_contact_firstname'],
+            'bs_contact_lastname' => $form_state['values']['bs_contact_lastname'],
+            'bs_contact_mail' => $form_state['values']['bs_contact_mail'],
+            'bs_contact_phone' => $form_state['values']['bs_contact_phone'],
+        ))
+        ->execute();
+
+    /* ------------------------------------------------------------------- */
+    /* ------------------------------ IMAGE ------------------------------ */
+    /* ------------------------------------------------------------------- */
+
+    /*
+     * Allow .jpg extension
+     * Create a path as uploading jpg file
+     */
+    $validators = [
+        'file_validate_extensions' => ['jpg'],
+    ];
+    if ($file = file_save_upload('image', $validators, file_default_scheme() . '://')) {
+        // The file was saved using file_save_upload() and was added to
+        // the files table as a temporary file. We'll make a copy and let
+        // the garbage collector delete the original upload.
+        $path = 'public://img_etablissements/' . $url_uid;
+        //we check if the we can create the directory
+        if (file_prepare_directory($path, FILE_CREATE_DIRECTORY)) {
+            $destination = $path . '/' . $file->filename;
+            if ($file = file_copy($file, $destination, FILE_EXISTS_REPLACE)) {
+                $file->status = FILE_STATUS_PERMANENT;
+                file_save($file);
+                $form_state['values']['image'] = $destination;
+            }
+            else {
+                form_set_error('image', t('Unable to copy upload file to !dest', ['!dest' => $destination]));
+            }
+        }
+    }
+
+    // If a new image is intended to be set
+    if(!empty($form_state['values']['image'])){
+
+        // Retrieve the path of the image stocked in db
+        $query = db_select('establishment_sheet', 'es');
+        $query->fields('es', array('image'));
+        $query->condition('es.eid', $url_uid);
+        $result = $query->execute()->fetchAssoc();
+
+        // Delete the path of the image stock in db
+        file_unmanaged_delete($result['image']);
+
+        // Insert in db the path of the new image
+        db_update('establishment_sheet')
+            ->condition('eid', $url_uid, '=')
+            ->fields(array(
+                'image' => $form_state['values']['image'],
+            ))
+            ->execute();
+    }
 
 }
 
