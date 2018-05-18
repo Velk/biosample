@@ -145,7 +145,7 @@ p.label-form {
 	border: 1px solid #fff;
 	box-sizing: border-box;
 	margin: 0;
-	margin-bottom: 35px;
+	margin-bottom: 35px !important;
 }
 
 form#webform-client-form-110 > div > div:last-of-type{
