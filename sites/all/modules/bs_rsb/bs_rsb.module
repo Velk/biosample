@@ -22,6 +22,24 @@ function bs_rsb_help($path, $arg) {
 function bs_rsb_menu(){
     $items = array();
 
+    $items['admin/BioSample/rb-manager'] = array(
+        'title' => t('BS - RB manager'),
+        'description' => t('BS RB manager'),
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('bs_rsb_admin_manager_form'),
+        'access arguments' => array('access administration pages'),
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    $items['admin/BioSample/rb-manager/%user/edit'] = array(
+        'title' => t('BS - Establishment datas manager'),
+        'description' => t('BS Establishment datas manager page'),
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('bs_rsb_admin_datas_establishment_form'),
+        'access arguments' => array('administer site configuration'),
+        'type' => MENU_NORMAL_ITEM,
+    );
+
     $items['ressources-biologiques/home'] = array(
         'title' => t('Ressources biologiques - Cartographie'),
         'description' => t('Cartographie des ressources biologiques'),
@@ -797,6 +815,254 @@ function bs_rsb_updating_establishment_submit($form, &$form_state){
     }
 
     drupal_set_message("Les changements ont bien été pris en compte.");
+
+}
+
+/**
+ * Implement bs_rsb_admin_manager_form()
+ *
+ * @see ()
+ */
+function bs_rsb_admin_manager_form($form, &$form_state){
+
+    $header = array(
+        'uid' => array('data' => t('uid'), 'field' => 'es.eid'),
+        'affiliation_societe' => array('data' => t('Affiliation / Société'), 'field' => 'uef.affiliation_societe'),
+        'user_mail' => array('data' => t('Mail de l\'utilisateur contact'), 'field' => 'uef.mail_contact'),
+        'establishment_name' => array('data' => t('Nom de l\'établissement'), 'field' => 'es.name'),
+        'bs_contact' => array('data' => t('Contact BioSample'), 'field' => 'es.bs_contact_lastname'),
+        'operations' => array('data' => t('Operations')),
+    );
+
+    $query = db_select('establishment_sheet', 'es');
+    $query->join('users', 'u', 'u.uid = es.eid');
+    $query->join('users_extra_fields', 'uef', 'uef.username = u.name');
+//    $query->condition('es.eid', 0, '>');
+    user_build_filter_query($query);
+
+    $count_query = clone $query;
+    $count_query->addExpression('COUNT(es.eid)');
+
+    $query = $query->extend('PagerDefault')->extend('TableSort');
+    $query
+        ->fields('es', array('eid', 'name', 'address', 'bs_contact_firstname', 'bs_contact_lastname'))
+        ->fields('uef', array('affiliation_societe', 'mail_contact'))
+        ->limit(50)
+        ->orderByHeader($header)
+        ->setCountQuery($count_query);
+    $result = $query->execute();
+
+    $destination = drupal_get_destination();
+
+    foreach ($result as $establishment) {
+
+        $options[$establishment->eid] = array(
+            'uid' => $establishment->eid,
+            'affiliation_societe' => $establishment->affiliation_societe,
+            'user_mail' => $establishment->mail_contact,
+            'establishment_name' => $establishment->name,
+            'bs_contact' => $establishment->bs_contact_firstname . " " . $establishment->bs_contact_lastname,
+            'operations' => array('data' => array('#type' => 'link', '#title' => t('edit'), '#href' => "admin/BioSample/rb-manager/$establishment->eid/edit", '#options' => array('query' => $destination))),
+        );
+    }
+
+    $form['accounts'] = array(
+        '#type' => 'tableselect',
+        '#header' => $header,
+        '#options' => $options,
+        '#empty' => t('No people available.'),
+    );
+
+    return $form;
+}
+
+function bs_rsb_admin_datas_establishment_form($form, $form_state){
+
+    // Split the URI to retrieve user id : UID
+    $splitted_uri = preg_split("/\//",$_SERVER['REQUEST_URI']);
+    // Retrieve the UID
+    $url_uid = $splitted_uri[4];
+
+    $query = db_select("establishment_sheet", "es");
+    $query->fields("es", array("name", "address", "city", "postal_code", "status", "presentation", "image", "bs_contact_civility", "bs_contact_firstname", "bs_contact_lastname", "bs_contact_mail", "bs_contact_phone"));
+    $query->condition("es.eid", $url_uid,"=");
+    $results = $query->execute();
+
+    foreach($results as $result){
+
+    /* Establishment - Datas */
+
+        // Fieldset : Establishment datas
+        $form['establishment']['datas'] = array(
+            '#type' => 'fieldset',
+            '#title' => t('Données de l\'établissement'),
+            '#collapsible' => TRUE,
+            '#collapsed' => FALSE,
+            '#weight' => 1,
+        );
+
+        // Establishment name
+        $form['establishment']['datas']['name'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Nom de l\'établissement'),
+            '#default_value' => $result->name,
+            '#weight' => 2,
+        );
+
+        // Establishment address
+        $form['establishment']['datas']['address'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Adresse de l\'établissement'),
+            '#default_value' => $result->address,
+            '#weight' => 3,
+        );
+
+        // Establishment city
+        $form['establishment']['datas']['city'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Ville de l\'établissement'),
+            '#default_value' => $result->city,
+            '#weight' => 4,
+        );
+
+        // Establishment postal code
+        $form['establishment']['datas']['postal_code'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Code postal de l\'établissement'),
+            '#default_value' => $result->postal_code,
+            '#weight' => 5,
+        );
+
+        // Establishment status
+        switch($result->status){
+            case "Public" :
+                $result->status = 0;
+                break;
+            case "Privé" :
+                $result->status = 1;
+                break;
+            case "Mixte" :
+                $result->status = 2;
+                break;
+        }
+
+        $form['establishment']['datas']['status'] = array(
+            '#type' => 'select',
+            '#title' => t('Status de l\'établissement'),
+            '#options' => array(
+                0 => t('Public'),
+                1 => t('Privé'),
+                2 => t('Mixte'),
+            ),
+            '#default_value' => $result->status,
+            '#weight' => 6,
+        );
+
+        // Establishment presentation
+        $form['establishment']['datas']['presentation'] = array(
+            '#type' => 'text_format',
+            '#title' => t('Présentation de l\'entreprise'),
+            '#format' => 'wysiwyg',
+            '#default_value' => $result->presentation,
+            '#weight' => 7,
+        );
+
+        // Establishment image
+        $form['establishment']['datas']['image'] = array(
+            '#type' => 'file',
+            '#title' => t('Image de l\'établissement'),
+            '#weight' => 8,
+        );
+
+        // Establishment image preview
+            // Fieldset : Image preview
+            $form['establishment']['datas']['image_preview'] = array(
+                '#type' => 'fieldset',
+                '#title' => t('Preview de l\'image actuelle de l\'établissement'),
+                '#collapsible' => TRUE,
+                '#collapsed' => TRUE,
+                '#weight' => 9,
+            );
+
+            // Check if there is path of an image stocked in database
+            if(!empty($result->image)){
+
+                // Split the url stock in db
+                $image_uri = preg_split("/public:\/\//",$result->image)[1];
+
+                // Establishment sheet : Image preview
+                $form['establishment']['datas']['image_preview']['image'] = array(
+                    '#markup' => '<img src="/sites/default/files/' . $image_uri . '" width="500px" height="auto" alt="Image de l\'établissement">',
+                    '#weight' => 1,
+                );
+            }
+
+    /* Establishment - Contact datas */
+
+        // Fieldset : BioSample Contact
+        $form['establishment']['bs_contact'] = array(
+            '#type' => 'fieldset',
+            '#title' => 'Contact BioSample',
+            '#collapsible' => TRUE,
+            '#collapsed' => FALSE,
+            '#weight' => 10,
+        );
+
+        // BioSample contact civility's
+        $form['establishment']['bs_contact']['bs_contact_civility'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Civilité du contact BioSample'),
+            '#default_value' => $result->bs_contact_civility,
+            '#weight' => 11,
+        );
+
+        // BioSample contact firstname's
+        $form['establishment']['bs_contact']['bs_contact_firstname'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Prénom du contact BioSample'),
+            '#default_value' => $result->bs_contact_firstname,
+            '#weight' => 12,
+        );
+
+        // BioSample contact lastname's
+        $form['establishment']['bs_contact']['bs_contact_lastname'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Nom du contact BioSample'),
+            '#default_value' => $result->bs_contact_lastname,
+            '#weight' => 13,
+        );
+
+        // BioSample contact e-mail's
+        $form['establishment']['bs_contact']['bs_contact_mail'] = array(
+            '#type' => 'textfield',
+            '#title' => t('E-mail du contact BioSample'),
+            '#default_value' => $result->bs_contact_mail,
+            '#weight' => 14,
+        );
+
+        // BioSample contact phone number's
+        $form['establishment']['bs_contact']['bs_contact_phone'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Téléphone du contact BioSample'),
+            '#default_value' => $result->bs_contact_phone,
+            '#weight' => 15,
+        );
+
+    }
+
+    // Submit button
+    $form['establishment']['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Modifier'),
+        '#weight' => 20,
+    );
+
+    $form['establishment']['submit']['#submit'][] = 'bs_rsb_admin_datas_establishment_form_submit';
+
+    return $form;
+}
+
+function bs_rsb_admin_datas_establishment_form_submit($form, &$form_state){
 
 }
 

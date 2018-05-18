@@ -50,7 +50,7 @@
     <?php
         // Check if URL parameters is send=true
         // that's to say when user clicked on the button above
-        if($_SERVER['QUERY_STRING'] == "send=true"){
+        if($_GET['send'] == "true"){
 
             if(!empty($primary_tab)){
                 // Declare a string to store url of client quotes
