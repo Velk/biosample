@@ -168,6 +168,7 @@ div#bs-cc-qra-delete > a > i:hover {
 #bs-cc-qr-button:hover {
     background-color: #636363;
     background: #636363;
+    cursor: pointer;
 }
 
 /* End - Quote request */
