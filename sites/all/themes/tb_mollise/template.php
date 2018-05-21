@@ -24,4 +24,21 @@ function tb_mollise_preprocess_html(&$vars) {
         ),
     );
     drupal_add_html_head($viewport, 'viewport');
+
+    foreach (array('head', 'styles', 'scripts') as $replace) {
+        if (!isset($vars[$replace])) {
+            continue;
+        }
+        $vars[$replace] = preg_replace('/(src|href|@import )(url\(|=)(")http(s?):/', '$1$2$3', $vars[$replace]);
+    }
+  $vars['scripts'] = str_replace("http://dev.biosample.fr/", "/", $vars['scripts']);
+  $vas['styles'] = str_replace("http://dev.biosample.fr/", "/", $vars['styles']);
+  $vas['page'] = str_replace("http://dev.biosample.fr/", "/", $vars['page']);
+
+  drupal_add_library('system', 'ui');
+
+  $options = array(
+    'group' => JS_THEME,
+  );
+  drupal_add_js(drupal_get_path('theme', 'tb_mollise'). '/script.js', $options);
 }

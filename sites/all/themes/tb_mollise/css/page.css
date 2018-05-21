@@ -189,64 +189,64 @@
     }
 }
 
-/* Gael - Rectification */
-#All_coords > .contact-title {
-    margin: 165px 0 25px 0;
-    padding: 0;
-}
-#article-110 > div > div > div > div > p {
-    text-align: center;
-    width: 80%;
-    margin: 0 auto;
-}
+/*!* Gael - Rectification *!*/
+/*#All_coords > .contact-title {*/
+    /*margin: 165px 0 25px 0;*/
+    /*padding: 0;*/
+/*}*/
+/*#article-110 > div > div > div > div > p {*/
+    /*text-align: center;*/
+    /*width: 80%;*/
+    /*margin: 0 auto;*/
+/*}*/
 
-/* Gael - Responsive < 800 px */
-@media screen and (max-width : 800px){
-    #All_coords_map {
-        display: block;
-        position: relative;
-        width: 100%;
-        max-height: none;
-        min-height: none;
-        height:600px;
-    }
-    #All_coords {
-        display: block;
-        width: 100%;
-        height: 50% !important;
-        position: relative;
-    }
-    #bscontact_gmap {
-        position: relative;
-        display: block;
-        width: 100% !important;
-        height: 50% !important;
-    }
-    #gmap_canvas{
-        height: 100% !important;
-    }
-    #All_coords > .contact-title {
-        padding: 35px 0 30px 0 !important;
-        margin: 0;
-    }
-    #All_coords > .contact-subtitle {
-        margin: 0 !important;
-    }
-    #All_coords > .contact-content {
-        margin: 0 0 30px 0 !important;
-        top:0;
-    }
-    #webform-client-form-110 {
-        font-size: 14px;
-    }
-}
+/*!* Gael - Responsive < 800 px *!*/
+/*@media screen and (max-width : 800px){*/
+    /*!*#All_coords_map {*!*/
+        /*!*display: block;*!*/
+        /*!*position: relative;*!*/
+        /*!*width: 100%;*!*/
+        /*!*max-height: none;*!*/
+        /*!*min-height: none;*!*/
+        /*!*height:600px;*!*/
+    /*!*}*!*/
+    /*!*#All_coords {*!*/
+        /*!*display: block;*!*/
+        /*!*width: 100%;*!*/
+        /*!*height: 50% !important;*!*/
+        /*!*position: relative;*!*/
+    /*!*}*!*/
+    /*!*#bscontact_gmap {*!*/
+        /*!*position: relative;*!*/
+        /*!*display: block;*!*/
+        /*!*width: 100% !important;*!*/
+        /*!*height: 50% !important;*!*/
+    /*!*}*!*/
+    /*!*#gmap_canvas{*!*/
+        /*!*height: 100% !important;*!*/
+    /*!*}*!*/
+    /*!*#All_coords > .contact-title {*!*/
+        /*!*padding: 35px 0 30px 0 !important;*!*/
+        /*!*margin: 0;*!*/
+    /*!*}*!*/
+    /*!*#All_coords > .contact-subtitle {*!*/
+        /*!*margin: 0 !important;*!*/
+    /*!*}*!*/
+    /*!*#All_coords > .contact-content {*!*/
+        /*!*margin: 0 0 30px 0 !important;*!*/
+        /*!*top:0;*!*/
+    /*!*}*!*/
+    /*#webform-client-form-110 {*/
+        /*font-size: 14px;*/
+    /*}*/
+/*}*/
 
 /* Gael - Responsive < 550 px */
-@media screen and (max-width : 550px){
-    #webform-client-form-110 {
-        font-size: 12px;
-    }
-}
+/*@media screen and (max-width : 550px){*/
+    /*#webform-client-form-110 {*/
+        /*font-size: 12px;*/
+    /*}*/
+/*}*/
 
 /* Gael - Responsive < 500 px */
 @media screen and (max-width : 500px){
@@ -311,19 +311,19 @@
 }
 
 /* Gael - Responsive < 400 px */
-@media screen and (max-width : 400px){
-    #All_coords > .contact-subtitle {
-        font-size: 18px;
-    }
-    #All_coords > .contact-content {
-        font-size: 12px;
-    }
-    /*#webform-component-poste---service, #webform-component-civilite, #webform-component-nom, #webform-component-code-postal, #webform-component-telephone, #webform-component-fax, #webform-component-ndegsiren---siret, #webform-component-affiliation---societe {*/
+/*@media screen and (max-width : 400px){*/
+    /*#All_coords > .contact-subtitle {*/
+        /*font-size: 18px;*/
+    /*}*/
+    /*#All_coords > .contact-content {*/
+        /*font-size: 12px;*/
+    /*}*/
+    /*!*#webform-component-poste---service, #webform-component-civilite, #webform-component-nom, #webform-component-code-postal, #webform-component-telephone, #webform-component-fax, #webform-component-ndegsiren---siret, #webform-component-affiliation---societe {*!*/
 
-    #article-110 > div > div > div > div > p > span, #All_coords > h1 {
-        font-size:32px !important;
-    }
-}
+    /*#article-110 > div > div > div > div > p > span, #All_coords > h1 {*/
+        /*font-size:32px !important;*/
+    /*}*/
+/*}*/
 
 
 /**

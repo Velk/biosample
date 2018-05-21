@@ -1,163 +1,583 @@
-@media screen and (min-width: 0px){
-    .bs-cc-information{
-        margin-bottom: 50px !important;
-        font-style: italic !important;
+#main-wrapper .container,
+#main-wrapper .container-inner,
+#main-wrapper #main-content-wrapper,
+#main-wrapper .grid-inner {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Remove page title */
+#main-wrapper > .page-title-wrap{
+    display: none;
+}
+
+form#user-register-form {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    /*position: relative;*/
+    /*width: 600px;*/
+    /*margin: 50px auto;*/
+}
+
+#bs-cc-register-form-name-div {
+    display: none;
+}
+
+/* Informations */
+div.bs-cc-informations {
+    background-color: #20313a;
+    padding: 20px 50px;
+    box-sizing: border-box;
+}
+div.bs-cc-informations > i {
+    color: #d1dade;
+    font-size: 50px;
+    margin-right: 25px;
+}
+div.bs-cc-informations > div {
+    display: inline-block;
+    width: calc(100% - 75px);
+}
+div.bs-cc-informations > div > p:first-of-type {
+    font-size: 16px;
+    margin: 0;
+    color: #fff;
+}
+div.bs-cc-informations > div > p:last-of-type {
+    font-size: 14px;
+    margin-top: 5px;
+    color: #d1dade;
+    margin-bottom: 0;
+}
+
+/* Every fields */
+form#user-register-form .form-item {
+    margin:25px 0 0 0;
+    width:100%;
+}
+
+/* Required fields */
+form#user-register-form div.form-item > input:required,
+form#user-register-form div.form-item > select:required {
+    box-shadow: none;
+}
+
+/* Onfocus fields */
+form#user-register-form div.form-item > input:focus,
+form#user-register-form div.form-item > select:focus {
+    background-color: #435056 !important;
+    padding-left:10px !important;
+    padding-right:10px !important;
+    box-sizing: border-box !important;
+}
+
+/* Autofill */
+form#user-register-form input:-webkit-autofill,
+form#user-register-form input:-webkit-autofill:hover,
+form#user-register-form input:-webkit-autofill:focus
+input:-webkit-autofill,
+form#user-register-form textarea:-webkit-autofill,
+form#user-register-form textarea:-webkit-autofill:hover
+textarea:-webkit-autofill:focus,
+form#user-register-form select:-webkit-autofill,
+form#user-register-form select:-webkit-autofill:hover,
+form#user-register-form select:-webkit-autofill:focus {
+    -webkit-text-fill-color: #d1dade !important;
+    -webkit-box-shadow: 0 0 0px 1000px #37474f inset !important;
+}
+
+/* Errors */
+#bs-cc-register-form-cgu[class*=error] ~ label,
+#bs-cc-register-form-cgu[class*=error] ~ label > span,
+#bs-cc-register-form-cgv[class*=error] ~ label,
+#bs-cc-register-form-cgv[class*=error] ~ label > span {
+    /*color: #9a2121 !important;*/
+    color: #f9a0a0 !important;
+}
+
+/* Mail */
+div#bs-cc-register-form-mail-div {
+    position: relative;
+    width: 100%;
+    padding: 25px;
+    box-sizing: border-box;
+}
+
+div#bs-cc-register-form-mail-div > div {
+    width: 35vw !important;
+    margin: 0 auto !important;
+}
+
+input#bs-cc-register-form-mail {
+    width: 100%;
+    background-color: #fff;
+    color: #424242;
+    border: none;
+    border-bottom: 1px solid #1e6a8e;
+    padding: 7px 0;
+}
+input#bs-cc-register-form-mail::placeholder {
+    color: #424242;
+}
+input#bs-cc-register-form-mail::-moz-placeholder {
+    color: #424242;
+    opacity: 1;
+}
+input#bs-cc-register-form-mail::-webkit-input-placeholder {
+    color: #424242;
+}
+
+p.email-disclaimer {
+    font-size: 12px;
+    color: #D32F2F;
+    width: 35vw;
+    margin: 10px auto 0 auto;
+}
+
+form#user-register-form div.form-item > input#bs-cc-register-form-mail:focus {
+    background-color: #fff !important;
+    padding : 7px 0 !important;
+}
+
+/* Autofill */
+form#user-register-form div.form-item > input#bs-cc-register-form-mail:-webkit-autofill,
+form#user-register-form div.form-item > input#bs-cc-register-form-mail:-webkit-autofill:hover,
+form#user-register-form div.form-item > input#bs-cc-register-form-mail:-webkit-autofill:focus
+form#user-register-form div.form-item > input#bs-cc-register-form-mail:-webkit-autofill {
+    -webkit-text-fill-color: #424242 !important;
+    -webkit-box-shadow: 0 0 0px 1000px #fff inset !important;
+}
+
+/* ------------------------------------------------------ */
+/* Fieldsets - Entreprise & Contact dans votre entreprise */
+/* ------------------------------------------------------ */
+form#user-register-form fieldset#bs-cc-register-form-fieldset-company,
+form#user-register-form fieldset#bs-cc-register-form-fieldset-company-contact {
+    border: none;
+    font-size: 18px;
+    margin: 0;
+    padding: 60px 25px;
+    box-sizing: border-box;
+    background-color: #37474f;
+    border-bottom: 1px solid #fff;
+}
+
+form#user-register-form fieldset#bs-cc-register-form-fieldset-company > legend,
+form#user-register-form fieldset#bs-cc-register-form-fieldset-company-contact > legend{
+    transform: translateY(100%);
+    font-size: 20px;
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 2px 10px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/* Form */
+form#user-register-form fieldset#bs-cc-register-form-fieldset-company div.form-item > input,
+form#user-register-form fieldset#bs-cc-register-form-fieldset-company div.form-item > select,
+form#user-register-form fieldset#bs-cc-register-form-fieldset-company-contact div.form-item > input,
+form#user-register-form fieldset#bs-cc-register-form-fieldset-company-contact div.form-item > select {
+    border: none;
+    padding: 7px 0;
+    font-size: 14px;
+    border-bottom: 1px solid #fff;
+    background-color: #37474f;
+    color: #d1dade;
+    height:31px;
+    font-size: 14px;
+}
+
+/* Placeholder */
+form#user-register-form fieldset#bs-cc-register-form-fieldset-company div.form-item > input::placeholder,
+form#user-register-form fieldset#bs-cc-register-form-fieldset-company-contact div.form-item > input::placeholder {
+    color: #d1dade;
+}
+form#user-register-form fieldset#bs-cc-register-form-fieldset-company div.form-item > input::-moz-placeholder,
+form#user-register-form fieldset#bs-cc-register-form-fieldset-company-contact div.form-item > input::-moz-placeholder {
+    color: #d1dade;
+    opacity: 1;
+}
+form#user-register-form fieldset#bs-cc-register-form-fieldset-company div.form-item > input::-webkit-input-placeholder,
+form#user-register-form fieldset#bs-cc-register-form-fieldset-company-contact div.form-item > input::-webkit-input-placeholder {
+    color: #d1dade;
+}
+
+/* Fieldset - Entreprise */
+fieldset#bs-cc-register-form-fieldset-company {
+    display: inline-block;
+    width: 50%;
+}
+
+/* Fieldset - Contact dans votre entreprise */
+fieldset#bs-cc-register-form-fieldset-company-contact{
+    display: inline-block;
+    float: right;
+    width: 50%;
+    border-left: 1px solid #fff !important;
+}
+
+/* Entreprise - Affiliation société */
+#bs-cc-register-form-affiliationsociete-div,
+#bs-cc-register-form-affiliationsociete-div > .form-item {
+    display: inline-block;
+    width: calc(50% - 10px);
+    margin : 0 10px 0 0;
+}
+
+input#bs-cc-register-form-affiliationsociete {
+    width: 100%;
+}
+
+/* Entreprise - N°SIREN */
+#bs-cc-register-form-siren-div,
+#bs-cc-register-form-siren-div > .form-item {
+    display: inline-block;
+    float: right;
+    width: calc(50% - 10px);
+    margin : 0 0 0 10px;
+}
+
+input#bs-cc-register-form-siren {
+    width: 100%;
+}
+
+/* Entreprise - Adresse */
+#bs-cc-register-form-adresse-div,
+#bs-cc-register-form-adresse-div > .form-item {
+    display: inline-block;
+    width: calc(100%);
+    margin : 0;
+}
+
+input#bs-cc-register-form-adresse {
+    width: 100%;
+}
+
+/* Entreprise - Code postal */
+#bs-cc-register-form-codepostal-div,
+#bs-cc-register-form-codepostal-div > .form-item {
+    display: inline-block;
+    width: calc(50% - 10px);
+    margin : 0 10px 0 0;
+}
+
+input#bs-cc-register-form-codepostal {
+    width: 100%;
+}
+
+/* Entreprise - Ville */
+#bs-cc-register-form-ville-div,
+#bs-cc-register-form-ville-div > .form-item {
+    display: inline-block;
+    float: right;
+    width: calc(50% - 10px);
+    margin : 0 0 0 10px;
+}
+
+input#bs-cc-register-form-ville {
+    width: 100%;
+}
+
+/* Contact dans votre entreprise - Civilité */
+#bs-cc-register-form-civilite-div,
+#bs-cc-register-form-civilite-div > .form-item {
+    display: inline-block;
+    width: calc(100% / 3 - 10px);
+    margin : 0 10px 0 0;
+}
+
+select#bs-cc-register-form-civilite {
+    width: 100%;
+}
+
+/* Contact dans votre entreprise - Prénom / Nom */
+#bs-cc-register-form-nomprenom-div,
+#bs-cc-register-form-nomprenom-div > .form-item {
+    display: inline-block;
+    float: right;
+    width: calc((100% / 3) * 2 - 10px);
+    margin : 0 0 0 10px;
+}
+
+input#bs-cc-register-form-nomprenom {
+    width: 100%;
+}
+
+/* Contact dans votre entreprise - Poste / Service */
+#bs-cc-register-form-posteservice-div,
+#bs-cc-register-form-posteservice-div > .form-item {
+    display: inline-block;
+    width: calc(100%);
+    margin : 0;
+}
+
+input#bs-cc-register-form-posteservice {
+    width: 100%;
+}
+
+/* Contact dans votre entreprise - Adresse email du contact */
+#bs-cc-register-form-mail-contact-div,
+#bs-cc-register-form-mail-contact-div > .form-item {
+    display: inline-block;
+    float: left;
+    width: calc(50% - 10px);
+    margin : 0 10px 0 0;
+}
+
+input#bs-cc-register-form-mail-contact {
+    width: 100%;
+}
+
+/* Contact dans votre entreprise - Téléphone */
+#bs-cc-register-form-telephone-div,
+#bs-cc-register-form-telephone-div > .form-item {
+    display: inline-block;
+    width: calc(25% - 10px);
+    margin : 0 0 0 10px;
+}
+
+input#bs-cc-register-form-telephone {
+    width: 100%;
+}
+
+/* Contact dans votre entreprise - Fax */
+#bs-cc-register-form-fax-div,
+#bs-cc-register-form-fax-div > .form-item {
+    display: inline-block;
+    float: right;
+    width: calc(25% - 10px);
+    margin : 0 0 0 10px;
+}
+
+input#bs-cc-register-form-fax {
+    width: 100%;
+}
+
+/* CGU & CGV */
+#bs-cc-register-form-cgu-div,
+#bs-cc-register-form-cgv-div {
+    position: relative;
+    height: auto;
+    width: 100%;
+    margin: 0;
+    padding: 10px 5vw;
+    box-sizing: border-box;
+    vertical-align: middle;
+    font-size: 14px;
+    background-color: #6b7275;
+}
+
+div#bs-cc-register-form-cgu-div {
+    padding-top: 25px;
+}
+div#bs-cc-register-form-cgv-div {
+    padding-bottom: 25px;
+}
+
+#bs-cc-register-form-cgu-div *, #bs-cc-register-form-cgv-div * {
+    color: #fff;
+}
+
+div#bs-cc-register-form-cgu-div > a,
+div#bs-cc-register-form-cgv-div > a {
+    font-style: italic;
+    color: #fff;
+}
+div#bs-cc-register-form-cgu-div > a:hover,
+div#bs-cc-register-form-cgv-div > a:hover {
+    color:#20313a !important;
+}
+
+#bs-cc-register-form-cgu-div > div.form-item,
+#bs-cc-register-form-cgv-div > div.form-item {
+    position: relative;
+    width: auto;
+    display: inline-block;
+    height: auto;
+    margin: 0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+#bs-cc-register-form-cgu-div>.form-item-CGU>label,
+#bs-cc-register-form-cgv-div>.form-item-CGV>label {
+    vertical-align: middle;
+}
+
+#bs-cc-register-form-cgu-div>.form-item-CGU>input,
+#bs-cc-register-form-cgv-div>.form-item-CGV>input {
+    height: 17px;
+    width: 17px;
+    margin-right: 10px;
+}
+
+/* Captcha */
+fieldset.captcha {
+    position: absolute;
+    display: inline-block;
+    width: 50%;
+    height: 116px;
+    bottom: 0;
+    right: 0;
+    transform: translateY(calc(-30px - 75px));
+    margin: 0 !important;
+    border: none !important;
+    text-align: center;
+    padding: 25px !important;
+    box-sizing: border-box;
+}
+
+fieldset.captcha > div > div.form-item {
+    width: 100% !important;
+    margin: 0 !important;
+    color: #fff;
+    font-size: 16px;
+}
+fieldset.captcha > div > div.form-item input#edit-captcha-response {
+    margin-left: 10px;
+    width: 50px !important;
+    text-align: center;
+    border-bottom: 1px solid #fff !important;
+    background-color: #6b7275;
+    color: #fff;
+    font-size: 16px;
+}
+
+/*fieldset.captcha>div>div>label,*/
+fieldset.captcha>legend,
+fieldset.captcha>div>div>div.description {
+    display: none;
+}
+
+fieldset.captcha>div>div>label {
+    font-size: 14px !important;
+    color: #fff;
+    margin-bottom: 15px !important;
+}
+fieldset.captcha>div>div>label * {
+    color: #fff;
+}
+
+/* Submit button */
+div#bs-cc-signup-buttons-div {
+    margin: 0;
+    padding: 50px 25vw 25px 25vw;
+}
+
+form#user-register-form input#bs-cc-signup-button-signup,
+form#user-register-form input#bs-cc-signup-button-cancel {
+    border: none;
+    box-shadow: none;
+    padding: 8px 15px;
+    background: #1e6a8e;
+    color: #fff;
+    border-radius: 2px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+form#user-register-form input#bs-cc-signup-button-signup {
+    float: right;
+}
+
+form#user-register-form input#bs-cc-signup-button-signup:hover,
+form#user-register-form input#bs-cc-signup-button-cancel:hover {
+    background: #424242;
+}
+
+/* Error */
+
+#bs-cc-register-form-name.error,
+#bs-cc-register-form-mail.error,
+#bs-cc-register-form-affiliationsociete.error,
+#bs-cc-register-form-codepostal.error,
+#bs-cc-register-form-civilite.error,
+#bs-cc-register-form-nomprenom.error,
+#bs-cc-register-form-posteservice.error,
+#bs-cc-register-form-mail-contact.error,
+#bs-cc-register-form-telephone.error,
+fieldset.captcha input.error {
+    border-bottom: 1px solid #E57373 !important;
+    color: #E57373 !important;
+}
+#bs-cc-register-form-name.error::placeholder,
+#bs-cc-register-form-mail.error::placeholder,
+#bs-cc-register-form-affiliationsociete.error::placeholder,
+#bs-cc-register-form-codepostal.error::placeholder,
+#bs-cc-register-form-civilite.error::placeholder,
+#bs-cc-register-form-nomprenom.error::placeholder,
+#bs-cc-register-form-posteservice.error::placeholder,
+#bs-cc-register-form-mail-contact.error::placeholder,
+#bs-cc-register-form-telephone.error::placeholder {
+    color: #E57373 !important;
+}
+
+
+/* Responsive */
+
+@media screen and (min-width: 1401px){
+
+    div.bs-cc-informations {
+        padding: 25px 50px;
     }
 
-    .bs-cc-information:first-of-type {
-        font-size: 18px;
-        font-style: normal !important;
-        margin-bottom: 25px !important;
+    form#user-register-form fieldset#bs-cc-register-form-fieldset-company > legend,
+    form#user-register-form fieldset#bs-cc-register-form-fieldset-company-contact > legend {
+        transform: translateY(150%);
     }
 
-    #bs-cc-register-form-name-div,
-    #bs-cc-register-form-mail-div,
-    #bs-cc-register-form-fieldset-company,
-    #bs-cc-register-form-affiliationsociete-div,
-    #bs-cc-register-form-siren-div,
-    #bs-cc-register-form-adresse-div,
-    #bs-cc-register-form-codepostal-div,
-    #bs-cc-register-form-ville-div,
-    #bs-cc-register-form-fieldset-company-contact,
-    #bs-cc-register-form-civilite-div,
-    #bs-cc-register-form-nomprenom-div,
-    #bs-cc-register-form-posteservice-div,
-    #bs-cc-register-form-mail-contact-div,
-    #bs-cc-register-form-telephone-div,
-    #bs-cc-register-form-fax-div {
-        position: relative;
-        display: block;
-        width: 100%;
-        height: auto;
-        margin: 15px 0;
-        padding: 0;
-        box-sizing: border-box;
-        border:none;
-        font-size: 16px;
+    form#user-register-form fieldset#bs-cc-register-form-fieldset-company,
+    form#user-register-form fieldset#bs-cc-register-form-fieldset-company-contact {
+        padding: 75px 25px;
     }
 
-    #bs-cc-register-form-name,
-    #bs-cc-register-form-mail,
-    #bs-cc-register-form-affiliationsociete,
-    #bs-cc-register-form-siren,
-    #bs-cc-register-form-adresse,
-    #bs-cc-register-form-codepostal,
-    #bs-cc-register-form-ville,
-    #bs-cc-register-form-civilite,
-    #bs-cc-register-form-nomprenom,
-    #bs-cc-register-form-posteservice,
-    #bs-cc-register-form-mail-contact,
-    #bs-cc-register-form-telephone,
-    #bs-cc-register-form-fax {
-        position: relative;
-        display: block;
-        width: 100%;
-        height: 40px;
+    form#user-register-form .form-item {
+        margin: 40px 0 0 0;
+    }
+
+    #bs-cc-register-form-cgu-div > div.form-item,
+    #bs-cc-register-form-cgv-div > div.form-item {
         margin: 0;
-        padding: 5px 15px;
-        box-sizing: border-box;
-        border-radius: 4px;
-        border: 2px solid #1e6a8e !important;
-        background-color: #fff;
-        color: #424242;
+    }
+}
+
+@media screen and (max-width : 1400px){
+
+    div#bs-cc-register-form-mail-div {
+        padding: 15px;
     }
 
-    #bs-cc-register-form-name.error,
-    #bs-cc-register-form-mail.error,
-    #bs-cc-register-form-affiliationsociete.error,
-    #bs-cc-register-form-siren.error,
-    #bs-cc-register-form-adresse.error,
-    #bs-cc-register-form-codepostal.error,
-    #bs-cc-register-form-ville.error,
-    #bs-cc-register-form-civilite.error,
-    #bs-cc-register-form-nomprenom.error,
-    #bs-cc-register-form-posteservice.error,
-    #bs-cc-register-form-mail-contact.error,
-    #bs-cc-register-form-telephone.error,
-    #bs-cc-register-form-fax.error {
-        background-color: #ffd1d1;
-        color:#F44336;
+    form#user-register-form fieldset#bs-cc-register-form-fieldset-company,
+    form#user-register-form fieldset#bs-cc-register-form-fieldset-company-contact {
+        padding: 40px 25px;
     }
 
-    #bs-cc-register-form-fieldset-company,
-    #bs-cc-register-form-fieldset-company-contact {
-        font-size:25px;
-        box-sizing: border-box;
+    div#bs-cc-register-form-cgu-div {
+        padding-top: 15px;
+    }
+    div#bs-cc-register-form-cgv-div {
+        padding-bottom: 15px;
     }
 
-    #bs-cc-signup-buttons-div {
-        white-space: nowrap;
-        height: 40px;
-        margin: 50px 0;
-        text-align: center;
+    div#bs-cc-signup-buttons-div {
+        padding: 30px 25vw 25px 25vw;
     }
 
-    .bs-cc-signup-button-cancel, .bs-cc-signup-button-signup {
-        position: relative;
-        display: inline-block;
-        width: 50%;
-        height: 40px;
-        margin: 0 !important;
-        padding: 0 !important;
-        box-sizing: border-box;
-        font-size: 14px;
+    fieldset.captcha {
+        height: 96px;
+        transform: translateY(calc(-30px - 55px));
+        padding: 15px !important;
     }
+}
 
-    #bs-cc-signup-button-signup, #bs-cc-signup-button-cancel {
-        text-shadow: none;
-        box-shadow: none;
-        width: 100px;
-        height: 40px;
-        background: #1e6a8e;
-        background-color: #1e6a8e;
-        box-sizing: border-box;
-        border: none;
-        border-radius: 4px;
-        color: #fff;
-        padding: 0;
-        margin:0;
-        cursor: pointer;
-    }
+@media screen and (max-width : 1200px){
 
-    #bs-cc-register-form-cgu-div,
-    #bs-cc-register-form-cgv-div {
-        position: relative;
-        height: 40px;
-        margin: 15px 0;
-        padding: 0;
-        box-sizing: border-box;
-        vertical-align: middle;
-    }
+}
 
-    #bs-cc-register-form-cgu-div>.form-item-CGU,
-    #bs-cc-register-form-cgv-div>.form-item-CGV {
-        position: relative;
-        width: auto;
-        display: inline-block;
-        height: 40px;
-        margin: 0;
-        padding: 8px 0;
-        box-sizing: border-box;
-    }
+@media screen and (max-width : 992px){
 
-    #bs-cc-register-form-cgu-div>.form-item-CGU>label,
-    #bs-cc-register-form-cgv-div>.form-item-CGV>label {
-        vertical-align: middle;
-    }
-
-    #bs-cc-register-form-cgu-div>.form-item-CGU>input,
-    #bs-cc-register-form-cgv-div>.form-item-CGV>input {
-        height: 17px;
-        width: 17px;
-    }
-
-    p.email-disclaimer {
-        font-size: 12px;
-        color: #EF5350;
-        margin: 0;
-    }
-
-    #bs-cc-register-form-name-div{
-        display: none;
-    }
 }
