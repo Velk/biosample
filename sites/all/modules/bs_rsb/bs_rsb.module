@@ -22,6 +22,24 @@ function bs_rsb_help($path, $arg) {
 function bs_rsb_menu(){
     $items = array();
 
+    $items['admin/BioSample/rb-manager'] = array(
+        'title' => t('BS - RB manager'),
+        'description' => t('BS RB manager'),
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('bs_rsb_admin_manager_form'),
+        'access arguments' => array('access administration pages'),
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    $items['admin/BioSample/rb-manager/%user/edit'] = array(
+        'title' => t('BS - Establishment datas manager'),
+        'description' => t('BS Establishment datas manager page'),
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('bs_rsb_admin_datas_establishment_form'),
+        'access arguments' => array('administer site configuration'),
+        'type' => MENU_NORMAL_ITEM,
+    );
+
     $items['ressources-biologiques/home'] = array(
         'title' => t('Ressources biologiques - Cartographie'),
         'description' => t('Cartographie des ressources biologiques'),
@@ -32,28 +50,62 @@ function bs_rsb_menu(){
         'type' => MENU_NORMAL_ITEM,
     );
 
+    $items['utilisateur/ress_bio/etablissement'] = array(
+        'title' => t('Ressources biologiques - Mon établissement'),
+        'description' => t('Page profil permettant de gérer un établissement spécialisé dans les ressources biologiques.'),
+        'page callback' => 'bs_rsb_block_view',
+        'access callback' => 'user_is_logged_in',
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    $items['ressources-biologiques/home/etablissement/*'] = array(
+        'title' => t('Ressources biologiques - Etablissement'),
+        'description' => t('Page affichant l\'établissement proposant la fiche.'),
+        'page callback' => 'bs_rsb_block_view',
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    $items['utilisateur/ress_bio/annonces'] = array(
+        'title' => t('Ressources biologiques - Annonces Manager'),
+        'description' => t('Manager des annonces des ressources biologiques'),
+        'page callback' => 'bs_rsb_block_view',
+        'access callback' => 'user_is_logged_in',
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    $items['utilisateur/ress_bio/favoris'] = array(
+        'title' => t('Ressources biologiques - Favoris manager'),
+        'description' => t('Manager des annonces favorites des ressources biologiques'),
+        'page callback' => 'bs_rsb_block_view',
+        'access callback' => 'user_is_logged_in',
+        'type' => MENU_NORMAL_ITEM,
+    );
+
     return $items;
 }
-
 
 /**
  * Implement hook_init()
  */
 function bs_rsb_init(){
+    if (
+        preg_match("/^\/node\/[0-9]{0,5}\/edit$/", $_SERVER["REQUEST_URI"]) ||
+        preg_match("/^\/ressources-biologiques\/home\/.*$/", $_SERVER["REQUEST_URI"]) ||
+        preg_match("/^\/node\/add\/rb-collections$/", $_SERVER["REQUEST_URI"]) ||
+        preg_match("/^\/node\/[0-9]{0,5}\/delete$/", $_SERVER["REQUEST_URI"])
+    ){
+        drupal_add_css(drupal_get_path('module', 'bs_rsb') . '/css/bs-rsb-annonces-manager.css', array('group' => CSS_DEFAULT, 'every_page' => TRUE));
+        drupal_add_js(drupal_get_path('module', 'bs_rsb') . '/js/bs-rsb-annonces-manager.js', array('group' => JS_DEFAULT, 'every_page' => TRUE));
+    }
 
-//    if(preg_match("/^\/ressources-biologiques\/home$/", $_SERVER["REQUEST_URI"])){
-//        drupal_add_js('https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js', 'external');
-////        drupal_add_js('https://maps.googleapis.com/maps/api/js?key=AIzaSyCFRfsQ8c9bNGM0SJxYiskW3gT03l1X7TA&callback=initMap', 'external');
-//        drupal_add_js('https://maps.googleapis.com/maps/api/js?key=AIzaSyCFRfsQ8c9bNGM0SJxYiskW3gT03l1X7TA&callback=initMap', array(
-//            'type' => 'external',
-//            'defer' => TRUE,
-//            'scope' => 'header',
-////            'group' => JS_THEME,
-////            'every_page' => TRUE,
-//            'weight' => -1,
-//        ));
-//    }
-//    return 'Test';
+    /* Load js file to hide page title */
+    if (
+        preg_match("/^\/utilisateur\/ress_bio\/etablissement$/", $_SERVER["REQUEST_URI"]) ||
+        preg_match("/^\/utilisateur\/ress_bio\/favoris$/", $_SERVER["REQUEST_URI"])
+    ){
+        drupal_add_js(drupal_get_path('module', 'bs_rsb') . '/js/bs-rsb-annonces-manager.js', array('group' => JS_DEFAULT, 'every_page' => TRUE));
+    }
 }
 
 /**
@@ -77,6 +129,26 @@ function bs_rsb_theme($existing, $type, $theme, $path) {
             'path' => drupal_get_path('module', 'bs_rsb'),
             'variables' => array('infos' => NULL),
         ),
+        'tpl_rsb_filtres' => array(
+            'template' => 'template/bs-rsb-filtres',
+            'path' => drupal_get_path('module', 'bs_rsb'),
+            'variables' => array('infos' => NULL),
+        ),
+        'tpl_rsb_annonces_manager' => array(
+            'template' => 'template/bs-rsb-annonces-manager',
+            'path' => drupal_get_path('module', 'bs_rsb'),
+            'variables' => array('infos' => NULL),
+        ),
+        'tpl_establishment_sheet' => array(
+            'template' => 'template/bs-rsb-establishment-sheet',
+            'path' => drupal_get_path('module', 'bs_rsb'),
+            'variables' => array('infos' => NULL),
+        ),
+        'tpl_rsb_establishments' => array(
+            'template' => 'template/bs-rsb-establishments',
+            'path' => drupal_get_path('module', 'bs_rsb'),
+            'variables' => array('infos' => NULL),
+        ),
     );
 }
 
@@ -88,7 +160,7 @@ function bs_rsb_theme($existing, $type, $theme, $path) {
 function bs_rsb_block_info() {
     $blocks = array();
 
-    $blocks['ressource_bio_map'] = array(
+    $blocks['ressources_bio_map'] = array(
         'info' => t('Ressources biologiques - Map'),
         'status' => TRUE,
         'region' => 'content',
@@ -97,13 +169,49 @@ function bs_rsb_block_info() {
         'weight' => 1,
     );
 
-    $blocks['ressource_bio_collections'] = array(
+    $blocks['ressources_bio_collections'] = array(
         'info' => t('Ressources biologiques - Collections'),
         'status' => TRUE,
         'region' => 'content',
         'visibility' => BLOCK_VISIBILITY_LISTED,
         'pages' => "ressources-biologiques/home",
         'weight' => 2,
+    );
+
+    $blocks['ressources_bio_filtres'] = array(
+        'info' => t('Ressources biologiques - Filtres'),
+        'status' => TRUE,
+        'region' => 'content',
+        'visibility' => BLOCK_VISIBILITY_LISTED,
+        'pages' => "ressources-biologiques/home",
+        'weight' => 3,
+    );
+
+    $blocks['ressources_bio_annonces_manager'] = array(
+        'info' => t('Ressources biologiques - Annonces Manager'),
+        'status' => TRUE,
+        'region' => 'content',
+        'visibility' => BLOCK_VISIBILITY_LISTED,
+        'pages' => "utilisateur/ress_bio/annonces",
+        'weight' => 1,
+    );
+
+    $blocks['rb_establishment_sheet'] = array(
+        'info' => t('Ressources biologiques - Fiche d\'établissement'),
+        'status' => TRUE,
+        'region' => 'content',
+        'visibility' => BLOCK_VISIBILITY_LISTED,
+        'pages' => "utilisateur/ress_bio/etablissement",
+        'weight' => 1,
+    );
+
+    $blocks['rb_establishments'] = array(
+        'info' => t('Ressources biologiques - Etablissements'),
+        'status' => TRUE,
+        'region' => 'content',
+        'visibility' => BLOCK_VISIBILITY_LISTED,
+        'pages' => "ressources-biologiques/home/etablissement/*",
+        'weight' => 1,
     );
 
     return $blocks;
@@ -118,7 +226,7 @@ function bs_rsb_block_view($delta = '') {
     $block = array();
 
     switch ($delta) {
-        case 'ressource_bio_map':
+        case 'ressources_bio_map':
 
             // Link the template for the rsb map
             $block['content']['#markup'] = theme('tpl_rsb_map');
@@ -137,20 +245,176 @@ function bs_rsb_block_view($delta = '') {
 
             break;
 
-        case 'ressource_bio_collections':
+        case 'ressources_bio_collections':
 
-            // Link the template for the rsb map
+            // Link the template for the rsb collections
             $block['content']['#markup'] = theme('tpl_rsb_collections');
 
-            // Link a css file for the rsb map
+            // Link a css file for the rsb collections
             $block['content']['#attached']['css'][] = array(
                 'data' => drupal_get_path('module', 'bs_rsb') . '/css/bs-rsb-collections.css',
                 'type' => 'file'
             );
 
-            // Link a js file for the rsb map
+            // Link a js file for the rsb collections
             $block['content']['#attached']['js'][] = array(
                 'data' => drupal_get_path('module', 'bs_rsb') . '/js/bs-rsb-collections.js',
+                'type' => 'file'
+            );
+
+            break;
+
+        case 'ressources_bio_filtres':
+
+            // Link the template for the rsb filtres
+            $block['content']['#markup'] = theme('tpl_rsb_filtres');
+
+            // Link a css file for the rsb filtres
+            $block['content']['#attached']['css'][] = array(
+                'data' => drupal_get_path('module', 'bs_rsb') . '/css/bs-rsb-filtres.css',
+                'type' => 'file'
+            );
+
+            // Link a js file for the rsb filtres
+            $block['content']['#attached']['js'][] = array(
+                'data' => drupal_get_path('module', 'bs_rsb') . '/js/bs-rsb-filtres.js',
+                'type' => 'file'
+            );
+
+            break;
+
+        case 'ressources_bio_annonces_manager':
+
+            // Check if user has created an establishment sheet
+            $query = db_select('establishment_sheet', 'es');
+            $query->fields('es', array('eid'));
+            $query->condition('es.eid', $GLOBALS['user']->uid,'=');
+            $result = $query->execute();
+
+            if($result->rowCount() != 0){
+                $data['created'] = TRUE;
+            }else{
+                $data['created'] = FALSE;
+            }
+
+            /* Start - Query to retrieve the node list of rb collections */
+            $query = db_select('node', 'n');
+            $query->join('node_revision', 'nr', 'nr.nid = n.nid');
+            $query->join('field_revision_field_nom_collection', 'frfnc', 'frfnc.revision_id = n.nid');
+
+
+            $query->condition('n.type', 'rb_collections');
+            $query->condition('n.uid', $GLOBALS['user']->uid);
+
+            $query->fields('n', array('nid'));
+            $query->fields('nr', array('title'));
+            $query->fields('frfnc', array('field_nom_collection_value'));
+
+            $data['results_node_list'] = $query->execute();
+            /* End - Query to retrieve the node list of rb collections */
+
+            // Link the template for the rsb filtres
+            $block['content']['#markup'] = theme('tpl_rsb_annonces_manager', $data);
+
+            // Link a css file for the rsb filtres
+            $block['content']['#attached']['css'][] = array(
+                'data' => drupal_get_path('module', 'bs_rsb') . '/css/bs-rsb-annonces-manager.css',
+                'type' => 'file'
+            );
+
+            // Link a js file for the rsb filtres
+            $block['content']['#attached']['js'][] = array(
+                'data' => drupal_get_path('module', 'bs_rsb') . '/js/bs-rsb-annonces-manager.js',
+                'type' => 'file'
+            );
+
+            break;
+
+        case 'rb_establishment_sheet':
+
+
+            // Check if user has ever created an establishment sheet
+            $query = db_select('establishment_sheet', 'es');
+            $query->fields('es', array('eid'));
+            $query->condition('es.eid', $GLOBALS['user']->uid, '=');
+            $result = $query->execute();
+
+            // If user has, load the template.
+            // Else load the form for create an establishment form.
+            if($result->rowCount() > 0){
+
+                // Retrieve BioSample contact datas
+                $query = db_select('establishment_sheet', 'es');
+                $query->fields('es', array('bs_contact_civility', 'bs_contact_firstname', 'bs_contact_lastname', 'bs_contact_mail', 'bs_contact_phone'));
+                $query->condition('es.eid', $GLOBALS['user']->uid, '=');
+                $data['results_bs_contact'] = $query->execute();
+
+                $data['update_establishment_sheet'] = drupal_render(drupal_get_form('bs_rsb_updating_establishment_form'));
+
+                // Link the template for the rsb establishments sheet
+                $block['content']['#markup'] = theme('tpl_establishment_sheet', $data);
+
+                // Link a css file for the rsb establishments sheet
+                $block['content']['#attached']['css'][] = array(
+                    'data' => drupal_get_path('module', 'bs_rsb') . '/css/bs-rsb-establishment-update.css',
+                    'type' => 'file'
+                );
+
+                // Link a js file for the rsb establishments sheet
+                $block['content']['#attached']['js'][] = array(
+                    'data' => drupal_get_path('module', 'bs_rsb') . '/js/bs-rsb-establishment-update.js',
+                    'type' => 'file'
+                );
+
+            }else{
+
+                $block['content'] = drupal_get_form('bs_rsb_creation_establishment_form');
+
+                // Link a css file for the rsb establishments sheet
+                $block['content']['#attached']['css'][] = array(
+                    'data' => drupal_get_path('module', 'bs_rsb') . '/css/bs-rsb-establishment-create.css',
+                    'type' => 'file'
+                );
+            }
+
+            break;
+
+        case 'rb_establishments':
+
+            // Retrieve the uid to load establishment sheet datas
+            $url = $_SERVER['REQUEST_URI'];
+            $url_split = preg_split('/\//', $url);
+            $url_uid = $url_split[4];
+
+            // Load every establishment datas concerning the author of the collection sheet
+            $query = db_select('establishment_sheet', 'es');
+            $query->fields('es', array('name', 'address', 'city', 'postal_code', 'status', 'presentation'));
+            $query->condition('es.eid', $url_uid);
+            $data['results'] = $query->execute();
+
+            // Load every establishment datas concerning the author of the collection sheet
+            $query = db_select('establishment_sheet', 'es');
+            $query->fields('es', array('image'));
+            $query->condition('es.eid', $url_uid);
+            $result_image = $query->execute();
+            $result_image = $result_image->fetchAssoc();
+
+            // Split the path stocked in database to retrieve
+            // a relative path necessary to load the image
+            $split_result = preg_split('/public:\/\//', $result_image['image']);
+            $data['image'] = $split_result[1];
+
+            $block['content']['#markup'] = theme('tpl_rsb_establishments', $data);
+
+            // Link a css file for the rsb establishments
+            $block['content']['#attached']['css'][] = array(
+                'data' => drupal_get_path('module', 'bs_rsb') . '/css/bs-rsb-establishments.css',
+                'type' => 'file'
+            );
+
+            // Link a js file for the rsb establishments
+            $block['content']['#attached']['js'][] = array(
+                'data' => drupal_get_path('module', 'bs_rsb') . '/js/bs-rsb-establishments.js',
                 'type' => 'file'
             );
 
@@ -160,3 +424,1524 @@ function bs_rsb_block_view($delta = '') {
     return $block;
 }
 
+/**
+ * Implement bs_rsb_establishment_form()
+ *
+ * @see bs_rsb_creation_establishment_submit()
+ */
+function bs_rsb_creation_establishment_form($form, &$form_state){
+
+    $form['establishment_sheet']['head_title'] = array(
+        '#markup' => '<h2>Votre établissement biologique</h2>',
+        '#weight' => 0,
+    );
+
+    // Establishment sheet : Name
+    $form['establishment_sheet']['name'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Nom de l\'établissement'),
+        '#weight' => 1,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Address
+    $form['establishment_sheet']['address'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Adresse'),
+        '#weight' => 2,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : City
+    $form['establishment_sheet']['city'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Ville'),
+        '#weight' => 3,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Postal code
+    $form['establishment_sheet']['postal_code'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Code postal'),
+        '#weight' => 4,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Status
+    $form['establishment_sheet']['status'] = array(
+        '#type' => 'select',
+        '#title' => t('Status'),
+        '#options' => array(
+            0 => t('Public'),
+            1 => t('Privé'),
+            2 => t('Mixte'),
+        ),
+        '#weight' => 5,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Presentation
+    $form['establishment_sheet']['presentation'] = array(
+        '#type' => 'text_format',
+        '#title' => t('Présentation'),
+        '#format' => 'wysiwyg',
+        '#weight' => 6,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Image
+    $form['establishment_sheet']['image'] = array(
+        '#type' => 'file',
+        '#title' => t('Image'),
+        '#description' => t('Cette image sera utilisé dans la présentation de votre établissement.
+        Vous pouvez par exemple choisir votre logo ou une photographie de votre établissement.'),
+        '#weight' => 7,
+    );
+
+    // Establishment sheet : Submit button
+    $form['establishment_sheet']['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Valider'),
+        '#weight' => 8,
+    );
+
+    $form['establishment_sheet']['submit']['#submit'][] = 'bs_rsb_creation_establishment_submit';
+
+    return $form;
+}
+
+/**
+ * Implement bs_rsb_creation_establishment_submit()
+ *
+ * @see bs_rsb_establishment_form()
+ */
+function bs_rsb_creation_establishment_submit($form, &$form_state){
+
+    $query = db_select('establishment_sheet', 'es');
+    $query->fields('es', array('eid'));
+    $query->condition('es.eid', $GLOBALS['user']->uid, '=');
+    $result = $query->execute();
+
+    // Check if an establishment sheet has ever been created
+    if($result->rowCount() > 0){
+
+        // If it is, display an error message
+        drupal_set_message("Vous possédez déjà une fiche d'établissement.");
+    }else{
+
+        /* ------------------------------------------------------------------------------ */
+        /* ----------------------- Change the select value stocked ---------------------- */
+        /* ------------------------------------------------------------------------------ */
+
+        // Change the value stocked for the selected status
+        switch($form_state['values']['status']){
+            case '0' :
+                $form_state['values']['status'] = 'Public';
+                break;
+            case '1' :
+                $form_state['values']['status'] = 'Privé';
+                break;
+            case '2' :
+                $form_state['values']['status'] = 'Mixte';
+                break;
+        }
+
+        /* ------------------------------------------------------------------------------ */
+        /* ----------------------- Add the image to the file system --------------------- */
+        /* ------------------------------------------------------------------------------ */
+
+        /*
+         * Allow .csv extension
+         * Create a path as uploading csv file
+         */
+        $validators = [
+            'file_validate_extensions' => ['jpg'],
+        ];
+        if ($file = file_save_upload('image', $validators, file_default_scheme() . '://')) {
+            // The file was saved using file_save_upload() and was added to
+            // the files table as a temporary file. We'll make a copy and let
+            // the garbage collector delete the original upload.
+            $path = 'public://img_etablissements/' . $GLOBALS['user']->uid;
+            //we check if the we can create the directory
+            if (file_prepare_directory($path, FILE_CREATE_DIRECTORY)) {
+                $destination = $path . '/' . $file->filename;
+                if ($file = file_copy($file, $destination, FILE_EXISTS_REPLACE)) {
+                    $file->status = FILE_STATUS_PERMANENT;
+                    file_save($file);
+                    $form_state['values']['image'] = $destination;
+                }
+                else {
+                    form_set_error('image', t('Unable to copy upload file to !dest', ['!dest' => $destination]));
+                }
+            }
+        }
+
+        /* ------------------------------------------------------------------------------ */
+        /* -------------------------- Insert datas in database -------------------------- */
+        /* ------------------------------------------------------------------------------ */
+
+        // If it isn't, insert datas in Database
+        db_insert('establishment_sheet')
+            ->fields(array(
+                'eid' => $GLOBALS['user']->uid,
+                'name' => $form_state['values']['name'],
+                'address' => $form_state['values']['address'],
+                'city' => $form_state['values']['city'],
+                'postal_code' => $form_state['values']['postal_code'],
+                'status' => $form_state['values']['status'],
+                'presentation' => $form_state['values']['presentation']['value'],
+                'image' => $form_state['values']['image'],
+            ))
+            ->execute();
+
+        drupal_set_message("La fiches d'établissement a été créée.");
+    }
+}
+
+/**
+ * Implement bs_rsb_updating_establishment_form()
+ *
+ * @see bs_rsb_updating_establishment_submit()
+ */
+function bs_rsb_updating_establishment_form($form, &$form_state){
+
+    // Retrieve every datas stocked in database that user can change
+    $query = db_select('establishment_sheet', 'es');
+    $query->fields('es', array('eid', 'name', 'address', 'city', 'postal_code', 'status', 'presentation', 'image'));
+    $query->condition('es.eid', $GLOBALS['user']->uid);
+    $results = $query->execute();
+    $result = $results->fetchAssoc();
+
+    // Translate the status value stocked in database to make
+    // the correspondence with the key of the select field
+    switch($result['status']){
+        case 'Public' :
+            $result['status'] = 0;
+            break;
+        case 'Privé' :
+            $result['status'] = 1;
+            break;
+        case 'Mixte' :
+            $result['status'] = 2;
+            break;
+    }
+
+    // Split the path stocked in database to retrieve
+    // a relative path necessary to load the previewed image
+    $split_result = preg_split('/public:\/\//', $result['image']);
+    $result['image'] = $split_result[1];
+
+    // Establishment sheet : Name
+    $form['update_establishment']['name'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Nom de l\'établissement'),
+        '#default_value' => $result['name'],
+        '#weight' => 1,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Address
+    $form['update_establishment']['address'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Adresse'),
+        '#default_value' => $result['address'],
+        '#weight' => 2,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : City
+    $form['update_establishment']['city'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Ville'),
+        '#default_value' => $result['city'],
+        '#weight' => 3,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Postal code
+    $form['update_establishment']['postal_code'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Code postal'),
+        '#default_value' => $result['postal_code'],
+        '#weight' => 4,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Status
+    $form['update_establishment']['status'] = array(
+        '#type' => 'select',
+        '#default_value' => $result['status'],
+        '#title' => t('Status'),
+        '#options' => array(
+            0 => t('Public'),
+            1 => t('Privé'),
+            2 => t('Mixte'),
+        ),
+        '#weight' => 5,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Presentation
+    $form['update_establishment']['presentation'] = array(
+        '#type' => 'text_format',
+        '#title' => t('Présentation'),
+        '#format' => 'wysiwyg',
+        '#default_value' => $result['presentation'],
+        '#weight' => 6,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Image
+    $form['update_establishment']['image'] = array(
+        '#type' => 'file',
+        '#title' => t('Image'),
+        '#description' => t('Cette image sera utilisé dans la présentation de votre établissement.
+        Vous pouvez par exemple choisir votre logo ou une photographie de votre établissement.'),
+        '#weight' => 7,
+    );
+
+    // Check if there is path of an image stocked in database
+    if(!empty($result['image'])){
+
+        // Establishment sheet : Image preview
+        $form['update_establishment']['imagePreview'] = array(
+            '#markup' =>
+                '<div id="bs-rsb-preview-img">
+                    <p>Image actuelle : </p><span>VOIR</span>
+                    <img src="/sites/default/files/' . $result['image'] . '" width="500px" height="auto" alt="Image de l\'établissement">
+                 </div>',
+            '#weight' => 8,
+        );
+    }
+
+    // Establishment sheet : Submit button
+    $form['update_establishment']['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Modifier'),
+        '#weight' => 10,
+    );
+
+    $form['update_establishment']['submit']['#submit'][] = 'bs_rsb_updating_establishment_submit';
+
+    return $form;
+}
+
+/**
+ * Implement bs_rsb_updating_establishment_submit()
+ *
+ * @see bs_rsb_updating_establishment_form()
+ */
+function bs_rsb_updating_establishment_submit($form, &$form_state){
+
+    /* ------------------------------------------------------------------------------ */
+    /* ----------------------- Change the select value stocked ---------------------- */
+    /* ------------------------------------------------------------------------------ */
+
+    // Change the value stocked for the selected status
+    switch($form_state['values']['status']){
+        case '0' :
+            $form_state['values']['status'] = 'Public';
+            break;
+        case '1' :
+            $form_state['values']['status'] = 'Privé';
+            break;
+        case '2' :
+            $form_state['values']['status'] = 'Mixte';
+            break;
+    }
+
+    /* ------------------------------------------------------------------------------ */
+    /* ----------------------- Add the image to the file system --------------------- */
+    /* ------------------------------------------------------------------------------ */
+
+    /*
+     * Allow .jpg extension
+     * Create a path as uploading csv file
+     */
+    $validators = [
+        'file_validate_extensions' => ['jpg'],
+    ];
+    if ($file = file_save_upload('image', $validators, file_default_scheme() . '://')) {
+        // The file was saved using file_save_upload() and was added to
+        // the files table as a temporary file. We'll make a copy and let
+        // the garbage collector delete the original upload.
+        $path = 'public://img_etablissements/' . $GLOBALS['user']->uid;
+        //we check if the we can create the directory
+        if (file_prepare_directory($path, FILE_CREATE_DIRECTORY)) {
+            $destination = $path . '/' . $file->filename;
+            if ($file = file_copy($file, $destination, FILE_EXISTS_REPLACE)) {
+                $file->status = FILE_STATUS_PERMANENT;
+                file_save($file);
+                $form_state['values']['image'] = $destination;
+            }
+            else {
+                form_set_error('image', t('Unable to copy upload file to !dest', ['!dest' => $destination]));
+            }
+        }
+    }
+
+    /* ------------------------------------------------------------------------------ */
+    /* -------------------------- Update datas in database -------------------------- */
+    /* ------------------------------------------------------------------------------ */
+
+    // Update establishment sheet datas with the new values.
+    db_update('establishment_sheet')
+        ->condition('eid', $GLOBALS['user']->uid, '=')
+        ->fields(array(
+            'name' => $form_state['values']['name'],
+            'address' => $form_state['values']['address'],
+            'city' => $form_state['values']['city'],
+            'postal_code' => $form_state['values']['postal_code'],
+            'status' => $form_state['values']['status'],
+            'presentation' => $form_state['values']['presentation']['value'],
+        ))
+        ->execute();
+
+    // Important : Check if user would change his image
+    if(!empty($form_state['values']['image'])){
+
+        // Retrieve the path of the image already stocked in database
+        $query = db_select('establishment_sheet', 'es');
+        $query->fields('es', array('image'));
+        $query->condition('es.eid', $GLOBALS['user']->uid);
+        $results = $query->execute();
+        $result = $results->fetchAssoc();
+
+        // Delete de image stocked
+        file_unmanaged_delete($result['image']);
+
+        // Insert the path of the new image in database
+        db_update('establishment_sheet')
+            ->condition('eid', $GLOBALS['user']->uid, '=')
+            ->fields(array(
+                'image' => $form_state['values']['image'],
+            ))
+            ->execute();
+    }
+
+    drupal_set_message("Les changements ont bien été pris en compte.");
+
+}
+
+/**
+ * Implement bs_rsb_admin_manager_form()
+ *
+ * @see ()
+ */
+function bs_rsb_admin_manager_form($form, &$form_state){
+
+    $header = array(
+        'uid' => array('data' => t('uid'), 'field' => 'es.eid'),
+        'affiliation_societe' => array('data' => t('Affiliation / Société'), 'field' => 'uef.affiliation_societe'),
+        'user_mail' => array('data' => t('Mail de l\'utilisateur contact'), 'field' => 'uef.mail_contact'),
+        'establishment_name' => array('data' => t('Nom de l\'établissement'), 'field' => 'es.name'),
+        'bs_contact' => array('data' => t('Contact BioSample'), 'field' => 'es.bs_contact_lastname'),
+        'operations' => array('data' => t('Operations')),
+    );
+
+    $query = db_select('establishment_sheet', 'es');
+    $query->join('users', 'u', 'u.uid = es.eid');
+    $query->join('users_extra_fields', 'uef', 'uef.username = u.name');
+//    $query->condition('es.eid', 0, '>');
+    user_build_filter_query($query);
+
+    $count_query = clone $query;
+    $count_query->addExpression('COUNT(es.eid)');
+
+    $query = $query->extend('PagerDefault')->extend('TableSort');
+    $query
+        ->fields('es', array('eid', 'name', 'address', 'bs_contact_firstname', 'bs_contact_lastname'))
+        ->fields('uef', array('affiliation_societe', 'mail_contact'))
+        ->limit(50)
+        ->orderByHeader($header)
+        ->setCountQuery($count_query);
+    $result = $query->execute();
+
+    $destination = drupal_get_destination();
+
+    foreach ($result as $establishment) {
+
+        $options[$establishment->eid] = array(
+            'uid' => $establishment->eid,
+            'affiliation_societe' => $establishment->affiliation_societe,
+            'user_mail' => $establishment->mail_contact,
+            'establishment_name' => $establishment->name,
+            'bs_contact' => $establishment->bs_contact_firstname . " " . $establishment->bs_contact_lastname,
+            'operations' => array('data' => array('#type' => 'link', '#title' => t('edit'), '#href' => "admin/BioSample/rb-manager/$establishment->eid/edit", '#options' => array('query' => $destination))),
+        );
+    }
+
+    $form['accounts'] = array(
+        '#type' => 'tableselect',
+        '#header' => $header,
+        '#options' => $options,
+        '#empty' => t('No people available.'),
+    );
+
+    return $form;
+}
+
+/**
+ * Implement bs_rsb_admin_datas_establishment_form()
+ *
+ * @see bs_rsb_admin_datas_establishment_form_submit()
+ *
+ * @param $form
+ * @param $form_state
+ * @return mixed
+ */
+function bs_rsb_admin_datas_establishment_form($form, $form_state){
+
+    // Split the URI to retrieve user id : UID
+    $splitted_uri = preg_split("/\//",$_SERVER['REQUEST_URI']);
+    // Retrieve the UID
+    $url_uid = $splitted_uri[4];
+
+    $query = db_select("establishment_sheet", "es");
+    $query->fields("es", array("name", "address", "city", "postal_code", "status", "presentation", "image", "bs_contact_civility", "bs_contact_firstname", "bs_contact_lastname", "bs_contact_mail", "bs_contact_phone"));
+    $query->condition("es.eid", $url_uid,"=");
+    $results = $query->execute();
+
+    foreach($results as $result){
+
+    /* Establishment - Datas */
+
+        // Fieldset : Establishment datas
+        $form['establishment']['datas'] = array(
+            '#type' => 'fieldset',
+            '#title' => t('Données de l\'établissement'),
+            '#collapsible' => TRUE,
+            '#collapsed' => FALSE,
+            '#weight' => 1,
+        );
+
+        // Establishment name
+        $form['establishment']['datas']['name'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Nom de l\'établissement'),
+            '#default_value' => $result->name,
+            '#weight' => 2,
+        );
+
+        // Establishment address
+        $form['establishment']['datas']['address'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Adresse de l\'établissement'),
+            '#default_value' => $result->address,
+            '#weight' => 3,
+        );
+
+        // Establishment city
+        $form['establishment']['datas']['city'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Ville de l\'établissement'),
+            '#default_value' => $result->city,
+            '#weight' => 4,
+        );
+
+        // Establishment postal code
+        $form['establishment']['datas']['postal_code'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Code postal de l\'établissement'),
+            '#default_value' => $result->postal_code,
+            '#weight' => 5,
+        );
+
+        // Establishment status
+        switch($result->status){
+            case "Public" :
+                $result->status = 0;
+                break;
+            case "Privé" :
+                $result->status = 1;
+                break;
+            case "Mixte" :
+                $result->status = 2;
+                break;
+        }
+
+        $form['establishment']['datas']['status'] = array(
+            '#type' => 'select',
+            '#title' => t('Status de l\'établissement'),
+            '#options' => array(
+                0 => t('Public'),
+                1 => t('Privé'),
+                2 => t('Mixte'),
+            ),
+            '#default_value' => $result->status,
+            '#weight' => 6,
+        );
+
+        // Establishment presentation
+        $form['establishment']['datas']['presentation'] = array(
+            '#type' => 'text_format',
+            '#title' => t('Présentation de l\'entreprise'),
+            '#format' => 'wysiwyg',
+            '#default_value' => $result->presentation,
+            '#weight' => 7,
+        );
+
+        // Establishment image
+        $form['establishment']['datas']['image'] = array(
+            '#type' => 'file',
+            '#title' => t('Image de l\'établissement'),
+            '#weight' => 8,
+        );
+
+        // Establishment image preview
+            // Fieldset : Image preview
+            $form['establishment']['datas']['image_preview'] = array(
+                '#type' => 'fieldset',
+                '#title' => t('Preview de l\'image actuelle de l\'établissement'),
+                '#collapsible' => TRUE,
+                '#collapsed' => TRUE,
+                '#weight' => 9,
+            );
+
+            // Check if there is path of an image stocked in database
+            if(!empty($result->image)){
+
+                // Split the url stock in db
+                $image_uri = preg_split("/public:\/\//",$result->image)[1];
+
+                // Establishment sheet : Image preview
+                $form['establishment']['datas']['image_preview']['image'] = array(
+                    '#markup' => '<img src="/sites/default/files/' . $image_uri . '" width="500px" height="auto" alt="Image de l\'établissement">',
+                    '#weight' => 1,
+                );
+            }
+
+    /* Establishment - Contact datas */
+
+        // Fieldset : BioSample Contact
+        $form['establishment']['bs_contact'] = array(
+            '#type' => 'fieldset',
+            '#title' => 'Contact BioSample',
+            '#collapsible' => TRUE,
+            '#collapsed' => FALSE,
+            '#weight' => 10,
+        );
+
+        // BioSample contact civility's
+        switch($result->bs_contact_civility){
+            case "" :
+                $result->bs_contact_civility = 0;
+                break;
+            case "Madame" :
+                $result->bs_contact_civility = 1;
+                break;
+            case "Monsieur" :
+                $result->bs_contact_civility = 2;
+                break;
+        }
+
+        $form['establishment']['bs_contact']['bs_contact_civility'] = array(
+            '#type' => 'select',
+            '#title' => t('Civilité du contact BioSample'),
+            '#options' => array(
+                0 => t('N/A'),
+                1 => t('Madame'),
+                2 => t('Monsieur'),
+            ),
+            '#default_value' => $result->bs_contact_civility,
+            '#weight' => 11,
+        );
+
+        // BioSample contact firstname's
+        $form['establishment']['bs_contact']['bs_contact_firstname'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Prénom du contact BioSample'),
+            '#default_value' => $result->bs_contact_firstname,
+            '#weight' => 12,
+        );
+
+        // BioSample contact lastname's
+        $form['establishment']['bs_contact']['bs_contact_lastname'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Nom du contact BioSample'),
+            '#default_value' => $result->bs_contact_lastname,
+            '#weight' => 13,
+        );
+
+        // BioSample contact e-mail's
+        $form['establishment']['bs_contact']['bs_contact_mail'] = array(
+            '#type' => 'textfield',
+            '#title' => t('E-mail du contact BioSample'),
+            '#default_value' => $result->bs_contact_mail,
+            '#weight' => 14,
+        );
+
+        // BioSample contact phone number's
+        $form['establishment']['bs_contact']['bs_contact_phone'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Téléphone du contact BioSample'),
+            '#default_value' => $result->bs_contact_phone,
+            '#weight' => 15,
+        );
+
+    }
+
+    // Submit button
+    $form['establishment']['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Modifier'),
+        '#weight' => 20,
+    );
+
+    $form['establishment']['submit']['#submit'][] = 'bs_rsb_admin_datas_establishment_form_submit';
+
+    return $form;
+}
+
+
+function bs_rsb_admin_datas_establishment_form_submit($form, &$form_state){
+
+    // Split the URI to retrieve user id : UID
+    $splitted_uri = preg_split("/\//",$_SERVER['REQUEST_URI']);
+    // Retrieve the UID
+    $url_uid = $splitted_uri[4];
+
+    /* ------------------------------------------------------------------- */
+    /* ------------------------------ STATUS ----------------------------- */
+    /* ------------------------------------------------------------------- */
+
+    // Change the value stocked for the selected status
+    switch($form_state['values']['status']){
+        case '0' :
+            $form_state['values']['status'] = 'Public';
+            break;
+        case '1' :
+            $form_state['values']['status'] = 'Privé';
+            break;
+        case '2' :
+            $form_state['values']['status'] = 'Mixte';
+            break;
+    }
+
+    /* ------------------------------------------------------------------- */
+    /* ------------------------ BS Contact Civility ---------------------- */
+    /* ------------------------------------------------------------------- */
+
+    // Change the value stocked for the selected bs contact civility
+    switch($form_state['values']['bs_contact_civility']){
+        case '0' :
+            $form_state['values']['bs_contact_civility'] = '';
+            break;
+        case '1' :
+            $form_state['values']['bs_contact_civility'] = 'Madame';
+            break;
+        case '2' :
+            $form_state['values']['bs_contact_civility'] = 'Monsieur';
+            break;
+    }
+
+    db_update('establishment_sheet')
+        ->condition('eid', $url_uid, '=')
+        ->fields(array(
+            'name' => $form_state['values']['name'],
+            'address' => $form_state['values']['address'],
+            'city' => $form_state['values']['city'],
+            'postal_code' => $form_state['values']['postal_code'],
+            'status' => $form_state['values']['status'],
+            'presentation' => $form_state['values']['presentation']['value'],
+            'bs_contact_civility' => $form_state['values']['bs_contact_civility'],
+            'bs_contact_firstname' => $form_state['values']['bs_contact_firstname'],
+            'bs_contact_lastname' => $form_state['values']['bs_contact_lastname'],
+            'bs_contact_mail' => $form_state['values']['bs_contact_mail'],
+            'bs_contact_phone' => $form_state['values']['bs_contact_phone'],
+        ))
+        ->execute();
+
+    /* ------------------------------------------------------------------- */
+    /* ------------------------------ IMAGE ------------------------------ */
+    /* ------------------------------------------------------------------- */
+
+    /*
+     * Allow .jpg extension
+     * Create a path as uploading jpg file
+     */
+    $validators = [
+        'file_validate_extensions' => ['jpg'],
+    ];
+    if ($file = file_save_upload('image', $validators, file_default_scheme() . '://')) {
+        // The file was saved using file_save_upload() and was added to
+        // the files table as a temporary file. We'll make a copy and let
+        // the garbage collector delete the original upload.
+        $path = 'public://img_etablissements/' . $url_uid;
+        //we check if the we can create the directory
+        if (file_prepare_directory($path, FILE_CREATE_DIRECTORY)) {
+            $destination = $path . '/' . $file->filename;
+            if ($file = file_copy($file, $destination, FILE_EXISTS_REPLACE)) {
+                $file->status = FILE_STATUS_PERMANENT;
+                file_save($file);
+                $form_state['values']['image'] = $destination;
+            }
+            else {
+                form_set_error('image', t('Unable to copy upload file to !dest', ['!dest' => $destination]));
+            }
+        }
+    }
+
+    // If a new image is intended to be set
+    if(!empty($form_state['values']['image'])){
+
+        // Retrieve the path of the image stocked in db
+        $query = db_select('establishment_sheet', 'es');
+        $query->fields('es', array('image'));
+        $query->condition('es.eid', $url_uid);
+        $result = $query->execute()->fetchAssoc();
+
+        // Delete the path of the image stock in db
+        file_unmanaged_delete($result['image']);
+
+        // Insert in db the path of the new image
+        db_update('establishment_sheet')
+            ->condition('eid', $url_uid, '=')
+            ->fields(array(
+                'image' => $form_state['values']['image'],
+            ))
+            ->execute();
+    }
+
+}
+
+///**
+// * Implements hook_node_info()
+// * Used to create : content type
+// */
+//function bs_rsb_node_info() {
+//    $items = array(
+//        'rb_collections' => array(
+//            'name' => t('RB collections'),
+//            'base' => 'node_content',
+//            'description' => t('Type de contenu relatif à la création de collections pour les Ressources biologiques.'),
+//            'has_title' => '1',
+//            'title_label' => t('Nom de la collection'),
+//            'help' => '',
+//        ),
+//    );
+//    drupal_alter('node_info', $items);
+//    return $items;
+////    return array(
+////        'rb_collections' => array(
+////            'name' => t('RB collections'),
+////            'base' => 'rb_collections',
+////            'description' => t('Type de contenu relatif à la création de collections pour les Ressources biologiques.')
+////        )
+////    );
+//}
+
+///**
+// * Implements hook_field_default_field_bases().
+// * Used to create fields
+// */
+//function bs_rsb_field_default_field_bases() {
+//    $field_bases = array();
+//
+//    // Exported field_base: 'field_collecte_echantillons_supp'.
+//    $field_bases['field_collecte_echantillons_supp'] = array(
+//        'active' => 1,
+//        'cardinality' => 1,
+//        'deleted' => 0,
+//        'entity_types' => array(),
+//        'field_name' => 'field_collecte_echantillons_supp',
+//        'indexes' => array(
+//            'value' => array(
+//                0 => 'value',
+//            ),
+//        ),
+//        'locked' => 0,
+//        'module' => 'list',
+//        'settings' => array(
+//            'allowed_values' => array(
+//                'oui' => 'Oui',
+//                'non' => 'Non',
+//            ),
+//            'allowed_values_function' => '',
+//            'allowed_values_php' => '',
+//            'entity_translation_sync' => FALSE,
+//        ),
+//        'translatable' => 0,
+//        'type' => 'list_text',
+//    );
+//
+//    // Exported field_base: 'field_disponibilite'.
+//    $field_bases['field_disponibilite'] = array(
+//        'active' => 1,
+//        'cardinality' => 1,
+//        'deleted' => 0,
+//        'entity_types' => array(),
+//        'field_name' => 'field_disponibilite',
+//        'indexes' => array(
+//            'format' => array(
+//                0 => 'format',
+//            ),
+//        ),
+//        'locked' => 0,
+//        'module' => 'text',
+//        'settings' => array(
+//            'entity_translation_sync' => FALSE,
+//            'max_length' => 255,
+//        ),
+//        'translatable' => 0,
+//        'type' => 'text',
+//    );
+//
+//    // Exported field_base: 'field_nom_projet'.
+//    $field_bases['field_nom_projet'] = array(
+//        'active' => 1,
+//        'cardinality' => 1,
+//        'deleted' => 0,
+//        'entity_types' => array(),
+//        'field_name' => 'field_nom_projet',
+//        'indexes' => array(
+//            'format' => array(
+//                0 => 'format',
+//            ),
+//        ),
+//        'locked' => 0,
+//        'module' => 'text',
+//        'settings' => array(
+//            'entity_translation_sync' => FALSE,
+//            'max_length' => 255,
+//        ),
+//        'translatable' => 0,
+//        'type' => 'text',
+//    );
+//
+//    // Exported field_base: 'field_nombre_donneurs'.
+//    $field_bases['field_nombre_donneurs'] = array(
+//        'active' => 1,
+//        'cardinality' => 1,
+//        'deleted' => 0,
+//        'entity_types' => array(),
+//        'field_name' => 'field_nombre_donneurs',
+//        'indexes' => array(
+//            'format' => array(
+//                0 => 'format',
+//            ),
+//        ),
+//        'locked' => 0,
+//        'module' => 'text',
+//        'settings' => array(
+//            'entity_translation_sync' => FALSE,
+//            'max_length' => 255,
+//        ),
+//        'translatable' => 0,
+//        'type' => 'text',
+//    );
+//
+//    // Exported field_base: 'field_nombre_echantillons'.
+//    $field_bases['field_nombre_echantillons'] = array(
+//        'active' => 1,
+//        'cardinality' => 1,
+//        'deleted' => 0,
+//        'entity_types' => array(),
+//        'field_name' => 'field_nombre_echantillons',
+//        'indexes' => array(
+//            'format' => array(
+//                0 => 'format',
+//            ),
+//        ),
+//        'locked' => 0,
+//        'module' => 'text',
+//        'settings' => array(
+//            'entity_translation_sync' => FALSE,
+//            'max_length' => 255,
+//        ),
+//        'translatable' => 0,
+//        'type' => 'text',
+//    );
+//
+//    // Exported field_base: 'field_presentation'.
+//    $field_bases['field_presentation'] = array(
+//        'active' => 1,
+//        'cardinality' => 1,
+//        'deleted' => 0,
+//        'entity_types' => array(),
+//        'field_name' => 'field_presentation',
+//        'indexes' => array(
+//            'format' => array(
+//                0 => 'format',
+//            ),
+//        ),
+//        'locked' => 0,
+//        'module' => 'text',
+//        'settings' => array(
+//            'entity_translation_sync' => FALSE,
+//        ),
+//        'translatable' => 0,
+//        'type' => 'text_long',
+//    );
+//
+//    // Exported field_base: 'field_regne'.
+//    $field_bases['field_regne'] = array(
+//        'active' => 1,
+//        'cardinality' => 1,
+//        'deleted' => 0,
+//        'entity_types' => array(),
+//        'field_name' => 'field_regne',
+//        'indexes' => array(
+//            'value' => array(
+//                0 => 'value',
+//            ),
+//        ),
+//        'locked' => 0,
+//        'module' => 'list',
+//        'settings' => array(
+//            'allowed_values' => array(
+//                'humain' => 'humain',
+//                'animal' => 'animal',
+//                'vegetal' => 'vegetal',
+//                'microbiologie' => 'microbiologie',
+//            ),
+//            'allowed_values_function' => '',
+//            'allowed_values_php' => '',
+//            'entity_translation_sync' => FALSE,
+//        ),
+//        'translatable' => 0,
+//        'type' => 'list_text',
+//    );
+//
+//    // Exported field_base: 'field_type_de_collection'.
+//    $field_bases['field_type_de_collection'] = array(
+//        'active' => 1,
+//        'cardinality' => 1,
+//        'deleted' => 0,
+//        'entity_types' => array(),
+//        'field_name' => 'field_type_de_collection',
+//        'indexes' => array(
+//            'value' => array(
+//                0 => 'value',
+//            ),
+//        ),
+//        'locked' => 0,
+//        'module' => 'list',
+//        'settings' => array(
+//            'allowed_values' => array(
+//                'donnees_seulement' => 'Données seulement',
+//                'materiel_bio_et_donnees' => 'Matériel biologique et données',
+//                'cohortes' => 'Cohortes',
+//            ),
+//            'allowed_values_function' => '',
+//            'allowed_values_php' => '',
+//            'entity_translation_sync' => FALSE,
+//        ),
+//        'translatable' => 0,
+//        'type' => 'list_text',
+//    );
+//
+//    return $field_bases;
+//}
+
+///**
+// * Implements hook_field_default_field_instances().
+// * Set fields created previously to the content type : br_collections
+// */
+//function bs_rsb_field_default_field_instances() {
+//    $field_instances = array();
+//
+//    // Exported field_instance:
+//    // 'node-rb_collections-field_collecte_echantillons_supp'.
+//    $field_instances['node-rb_collections-field_collecte_echantillons_supp'] = array(
+//        'bundle' => 'rb_collections',
+//        'default_value' => NULL,
+//        'default_value_function' => '',
+//        'default_value_php' => '',
+//        'deleted' => 0,
+//        'description' => '',
+//        'display' => array(
+//            'default' => array(
+//                'label' => 'above',
+//                'module' => 'list',
+//                'settings' => array(),
+//                'type' => 'list_default',
+//                'weight' => 5,
+//            ),
+//            'teaser' => array(
+//                'label' => 'above',
+//                'module' => 'i18n_field',
+//                'settings' => array(),
+//                'type' => 'i18n_list_default',
+//                'weight' => 5,
+//            ),
+//        ),
+//        'entity_type' => 'node',
+//        'field_name' => 'field_collecte_echantillons_supp',
+//        'label' => 'Collecte d\'échantillons supplémentaire possible',
+//        'required' => 0,
+//        'settings' => array(
+//            'entity_translation_sync' => FALSE,
+//            'user_register_form' => FALSE,
+//        ),
+//        'widget' => array(
+//            'active' => 1,
+//            'module' => 'options',
+//            'settings' => array(),
+//            'type' => 'options_select',
+//            'weight' => 9,
+//        ),
+//    );
+//
+//    // Exported field_instance: 'node-rb_collections-field_disponibilite'.
+//    $field_instances['node-rb_collections-field_disponibilite'] = array(
+//        'bundle' => 'rb_collections',
+//        'default_value' => NULL,
+//        'deleted' => 0,
+//        'description' => '',
+//        'display' => array(
+//            'default' => array(
+//                'label' => 'above',
+//                'module' => 'text',
+//                'settings' => array(),
+//                'type' => 'text_default',
+//                'weight' => 6,
+//            ),
+//            'teaser' => array(
+//                'label' => 'above',
+//                'module' => 'text',
+//                'settings' => array(),
+//                'type' => 'text_default',
+//                'weight' => 6,
+//            ),
+//        ),
+//        'entity_type' => 'node',
+//        'field_name' => 'field_disponibilite',
+//        'label' => 'Disponibilité',
+//        'required' => 0,
+//        'settings' => array(
+//            'entity_translation_sync' => FALSE,
+//            'text_processing' => 0,
+//            'user_register_form' => FALSE,
+//        ),
+//        'widget' => array(
+//            'active' => 1,
+//            'module' => 'text',
+//            'settings' => array(
+//                'size' => 60,
+//            ),
+//            'type' => 'text_textfield',
+//            'weight' => 10,
+//        ),
+//    );
+//
+//    // Exported field_instance: 'node-rb_collections-field_nom_projet'.
+//    $field_instances['node-rb_collections-field_nom_projet'] = array(
+//        'bundle' => 'rb_collections',
+//        'default_value' => NULL,
+//        'deleted' => 0,
+//        'description' => '',
+//        'display' => array(
+//            'default' => array(
+//                'label' => 'above',
+//                'module' => 'text',
+//                'settings' => array(),
+//                'type' => 'text_default',
+//                'weight' => 8,
+//            ),
+//            'teaser' => array(
+//                'label' => 'above',
+//                'module' => 'text',
+//                'settings' => array(),
+//                'type' => 'text_default',
+//                'weight' => 1,
+//            ),
+//        ),
+//        'entity_type' => 'node',
+//        'field_name' => 'field_nom_projet',
+//        'label' => 'Nom du projet',
+//        'required' => 0,
+//        'settings' => array(
+//            'entity_translation_sync' => FALSE,
+//            'text_processing' => 0,
+//            'user_register_form' => FALSE,
+//        ),
+//        'widget' => array(
+//            'active' => 1,
+//            'module' => 'text',
+//            'settings' => array(
+//                'size' => 60,
+//            ),
+//            'type' => 'text_textfield',
+//            'weight' => 5,
+//        ),
+//    );
+//
+//    // Exported field_instance: 'node-rb_collections-field_nombre_donneurs'.
+//    $field_instances['node-rb_collections-field_nombre_donneurs'] = array(
+//        'bundle' => 'rb_collections',
+//        'default_value' => NULL,
+//        'deleted' => 0,
+//        'description' => '',
+//        'display' => array(
+//            'default' => array(
+//                'label' => 'above',
+//                'module' => 'text',
+//                'settings' => array(),
+//                'type' => 'text_default',
+//                'weight' => 4,
+//            ),
+//            'teaser' => array(
+//                'label' => 'above',
+//                'module' => 'text',
+//                'settings' => array(),
+//                'type' => 'text_default',
+//                'weight' => 3,
+//            ),
+//        ),
+//        'entity_type' => 'node',
+//        'field_name' => 'field_nombre_donneurs',
+//        'label' => 'Nombre de donneurs',
+//        'required' => 0,
+//        'settings' => array(
+//            'entity_translation_sync' => FALSE,
+//            'text_processing' => 0,
+//            'user_register_form' => FALSE,
+//        ),
+//        'widget' => array(
+//            'active' => 1,
+//            'module' => 'text',
+//            'settings' => array(
+//                'size' => 60,
+//            ),
+//            'type' => 'text_textfield',
+//            'weight' => 7,
+//        ),
+//    );
+//
+//    // Exported field_instance: 'node-rb_collections-field_nombre_echantillons'.
+//    $field_instances['node-rb_collections-field_nombre_echantillons'] = array(
+//        'bundle' => 'rb_collections',
+//        'default_value' => NULL,
+//        'deleted' => 0,
+//        'description' => '',
+//        'display' => array(
+//            'default' => array(
+//                'label' => 'above',
+//                'module' => 'text',
+//                'settings' => array(),
+//                'type' => 'text_default',
+//                'weight' => 3,
+//            ),
+//            'teaser' => array(
+//                'label' => 'above',
+//                'module' => 'text',
+//                'settings' => array(),
+//                'type' => 'text_default',
+//                'weight' => 4,
+//            ),
+//        ),
+//        'entity_type' => 'node',
+//        'field_name' => 'field_nombre_echantillons',
+//        'label' => 'Nombre d\'échantillons',
+//        'required' => 0,
+//        'settings' => array(
+//            'entity_translation_sync' => FALSE,
+//            'text_processing' => 0,
+//            'user_register_form' => FALSE,
+//        ),
+//        'widget' => array(
+//            'active' => 1,
+//            'module' => 'text',
+//            'settings' => array(
+//                'size' => 60,
+//            ),
+//            'type' => 'text_textfield',
+//            'weight' => 8,
+//        ),
+//    );
+//
+//    // Exported field_instance: 'node-rb_collections-field_presentation'.
+//    $field_instances['node-rb_collections-field_presentation'] = array(
+//        'bundle' => 'rb_collections',
+//        'default_value' => NULL,
+//        'deleted' => 0,
+//        'description' => '',
+//        'display' => array(
+//            'default' => array(
+//                'label' => 'above',
+//                'module' => 'text',
+//                'settings' => array(),
+//                'type' => 'text_default',
+//                'weight' => 0,
+//            ),
+//            'teaser' => array(
+//                'label' => 'above',
+//                'settings' => array(),
+//                'type' => 'hidden',
+//                'weight' => 0,
+//            ),
+//        ),
+//        'entity_type' => 'node',
+//        'field_name' => 'field_presentation',
+//        'label' => 'Présentation',
+//        'required' => 0,
+//        'settings' => array(
+//            'entity_translation_sync' => FALSE,
+//            'text_processing' => 1,
+//            'user_register_form' => FALSE,
+//        ),
+//        'widget' => array(
+//            'active' => 1,
+//            'module' => 'text',
+//            'settings' => array(
+//                'rows' => 5,
+//            ),
+//            'type' => 'text_textarea',
+//            'weight' => 12,
+//        ),
+//    );
+//
+//    // Exported field_instance: 'node-rb_collections-field_regne'.
+//    $field_instances['node-rb_collections-field_regne'] = array(
+//        'bundle' => 'rb_collections',
+//        'default_value' => NULL,
+//        'default_value_function' => '',
+//        'default_value_php' => '',
+//        'deleted' => 0,
+//        'description' => '',
+//        'display' => array(
+//            'default' => array(
+//                'label' => 'above',
+//                'module' => 'list',
+//                'settings' => array(),
+//                'type' => 'list_default',
+//                'weight' => 1,
+//            ),
+//            'teaser' => array(
+//                'label' => 'above',
+//                'module' => 'i18n_field',
+//                'settings' => array(),
+//                'type' => 'i18n_list_default',
+//                'weight' => 7,
+//            ),
+//        ),
+//        'entity_type' => 'node',
+//        'field_name' => 'field_regne',
+//        'label' => 'Règne',
+//        'required' => 0,
+//        'settings' => array(
+//            'entity_translation_sync' => FALSE,
+//            'user_register_form' => FALSE,
+//        ),
+//        'widget' => array(
+//            'active' => 1,
+//            'module' => 'options',
+//            'settings' => array(),
+//            'type' => 'options_select',
+//            'weight' => 11,
+//        ),
+//    );
+//
+//    // Exported field_instance: 'node-rb_collections-field_type_de_collection'.
+//    $field_instances['node-rb_collections-field_type_de_collection'] = array(
+//        'bundle' => 'rb_collections',
+//        'default_value' => NULL,
+//        'deleted' => 0,
+//        'description' => '',
+//        'display' => array(
+//            'default' => array(
+//                'label' => 'above',
+//                'module' => 'list',
+//                'settings' => array(),
+//                'type' => 'list_default',
+//                'weight' => 2,
+//            ),
+//            'teaser' => array(
+//                'label' => 'above',
+//                'module' => 'i18n_field',
+//                'settings' => array(),
+//                'type' => 'i18n_list_default',
+//                'weight' => 2,
+//            ),
+//        ),
+//        'entity_type' => 'node',
+//        'field_name' => 'field_type_de_collection',
+//        'label' => 'Type de collection',
+//        'required' => FALSE,
+//        'settings' => array(
+//            'entity_translation_sync' => FALSE,
+//            'user_register_form' => FALSE,
+//        ),
+//        'widget' => array(
+//            'module' => 'options',
+//            'settings' => array(),
+//            'type' => 'options_select',
+//            'weight' => 6,
+//        ),
+//    );
+//
+//    // Translatables
+//    // Included for use with string extractors like potx.
+//    t('Collecte d\'échantillons supplémentaire possible');
+//    t('Disponibilité');
+//    t('Nom du projet');
+//    t('Nombre d\'échantillons');
+//    t('Nombre de donneurs');
+//    t('Présentation');
+//    t('Règne');
+//    t('Type de collection');
+//
+//    return $field_instances;
+//}
+
+
+///**
+// * Implements hook_views_api().
+// * Used to create API version of view
+// */
+//function bs_rsb_views_api($module = NULL, $api = NULL) {
+//    return array("api" => "3.0");
+//}
+
+///**
+// * Implements hook_views_default_views().
+// * Used to create the view
+// */
+//function bs_rsb_views_default_views() {
+//    $export = array();
+//
+//    $view = new view();
+//    $view->name = 'rb_collections';
+//    $view->description = '';
+//    $view->tag = 'default';
+//    $view->base_table = 'node';
+//    $view->human_name = 'RB collections';
+//    $view->core = 7;
+//    $view->api_version = '3.0';
+//    $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+//
+//    /* Display: Master */
+//    $handler = $view->new_display('default', 'Master', 'default');
+//    $handler->display->display_options['use_more_always'] = FALSE;
+//    $handler->display->display_options['use_more_text'] = 'plus';
+//    $handler->display->display_options['access']['type'] = 'perm';
+//    $handler->display->display_options['cache']['type'] = 'none';
+//    $handler->display->display_options['query']['type'] = 'views_query';
+//    $handler->display->display_options['exposed_form']['type'] = 'basic';
+//    $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Appliquer';
+//    $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Réinitialiser';
+//    $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Trier par';
+//    $handler->display->display_options['pager']['type'] = 'full';
+//    $handler->display->display_options['pager']['options']['items_per_page'] = '15';
+//    $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Éléments par page';
+//    $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Tout -';
+//    $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Décalage';
+//    $handler->display->display_options['pager']['options']['tags']['first'] = '« premier';
+//    $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ précédent';
+//    $handler->display->display_options['pager']['options']['tags']['next'] = 'suivant ›';
+//    $handler->display->display_options['pager']['options']['tags']['last'] = 'dernier »';
+//    $handler->display->display_options['style_plugin'] = 'default';
+//    $handler->display->display_options['row_plugin'] = 'node';
+//    /* Champ: Contenu : Titre */
+//    $handler->display->display_options['fields']['title']['id'] = 'title';
+//    $handler->display->display_options['fields']['title']['table'] = 'node';
+//    $handler->display->display_options['fields']['title']['field'] = 'title';
+//    $handler->display->display_options['fields']['title']['label'] = '';
+//    $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+//    $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+//    $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+//    /* Critère de tri: Statistiques de contenu : Nombre total d'affichages */
+//    $handler->display->display_options['sorts']['totalcount']['id'] = 'totalcount';
+//    $handler->display->display_options['sorts']['totalcount']['table'] = 'node_counter';
+//    $handler->display->display_options['sorts']['totalcount']['field'] = 'totalcount';
+//    $handler->display->display_options['sorts']['totalcount']['order'] = 'DESC';
+//    /* Critère de filtrage: Contenu : Publié */
+//    $handler->display->display_options['filters']['status']['id'] = 'status';
+//    $handler->display->display_options['filters']['status']['table'] = 'node';
+//    $handler->display->display_options['filters']['status']['field'] = 'status';
+//    $handler->display->display_options['filters']['status']['value'] = 1;
+//    $handler->display->display_options['filters']['status']['group'] = 1;
+//    $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+//    /* Critère de filtrage: Contenu : Type */
+//    $handler->display->display_options['filters']['type']['id'] = 'type';
+//    $handler->display->display_options['filters']['type']['table'] = 'node';
+//    $handler->display->display_options['filters']['type']['field'] = 'type';
+//    $handler->display->display_options['filters']['type']['value'] = array(
+//        'rb_collections' => 'rb_collections',
+//    );
+//
+//    /* Display: Block */
+//    $handler = $view->new_display('block', 'Block', 'block');
+//    $translatables['rb_collections'] = array(
+//        t('Master'),
+//        t('plus'),
+//        t('Appliquer'),
+//        t('Réinitialiser'),
+//        t('Trier par'),
+//        t('Asc'),
+//        t('Desc'),
+//        t('Éléments par page'),
+//        t('- Tout -'),
+//        t('Décalage'),
+//        t('« premier'),
+//        t('‹ précédent'),
+//        t('suivant ›'),
+//        t('dernier »'),
+//        t('Block'),
+//    );
+//    $export['rb_collections'] = $view;
+//
+//    return $export;
+//}
+
+///**
+// * Implements hook_user_default_permissions().
+// * Used to set permissions
+// */
+//function bs_rsb_collections_user_default_permissions() {
+//    $permissions = array();
+//
+//    // Exported permission: 'create rb_collections content'.
+//    $permissions['create rb_collections content'] = array(
+//        'name' => 'create rb_collections content',
+//        'roles' => array(
+//            'administrator' => 'administrator',
+//            'authenticated user' => 'authenticated user',
+//        ),
+//        'module' => 'node',
+//    );
+//
+//    // Exported permission: 'delete any rb_collections content'.
+//    $permissions['delete any rb_collections content'] = array(
+//        'name' => 'delete any rb_collections content',
+//        'roles' => array(
+//            'Devops' => 'Devops',
+//            'administrator' => 'administrator',
+//            'backoffice' => 'backoffice',
+//        ),
+//        'module' => 'node',
+//    );
+//
+//    // Exported permission: 'delete own rb_collections content'.
+//    $permissions['delete own rb_collections content'] = array(
+//        'name' => 'delete own rb_collections content',
+//        'roles' => array(
+//            'authenticated user' => 'authenticated user',
+//        ),
+//        'module' => 'node',
+//    );
+//
+//    // Exported permission: 'edit any rb_collections content'.
+//    $permissions['edit any rb_collections content'] = array(
+//        'name' => 'edit any rb_collections content',
+//        'roles' => array(
+//            'Devops' => 'Devops',
+//            'administrator' => 'administrator',
+//            'backoffice' => 'backoffice',
+//        ),
+//        'module' => 'node',
+//    );
+//
+//    // Exported permission: 'edit own rb_collections content'.
+//    $permissions['edit own rb_collections content'] = array(
+//        'name' => 'edit own rb_collections content',
+//        'roles' => array(
+//            'authenticated user' => 'authenticated user',
+//        ),
+//        'module' => 'node',
+//    );
+//
+//    return $permissions;
+//}

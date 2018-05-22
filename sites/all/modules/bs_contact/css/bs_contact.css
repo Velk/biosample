@@ -1,427 +1,417 @@
-/* CSS LARGEUR DE PAGE */
-
-#main-wrapper .grid-16{
+#main-wrapper .container,
+#main-wrapper .container-inner,
+#main-wrapper #main-content-wrapper,
+#main-wrapper .grid-inner {
 	width: 100% !important;
-}
-
-#main-wrapper .grid-16 .grid-14{
-	width: 100% !important;
-}
-
-#main-wrapper .grid-16 .grid-14 .grid-12{
-	width: 100% !important;
-}
-
-
-/* CSS COORDONNES + MAP */
-
-#All_coords_map{
-	/*background-image: linear-gradient(#165c72, #1e6a8e);*/
-	position:relative;
-	background-image: linear-gradient(#424242, #9E9E9E);
-	display: inline-block;
-	width: 100%;
-	/*max-height: 650px;
-	min-height: 650px;*/
-	height : 650px;
-
-}
-
-#All_coords{
-	/*background-color: #1e6a8e;*/
-	background-color: #424242;
-	width: 50%;
-	display: inline-block;
-	text-align: center;
-	height: 100% !important;
-	/*position: absolute;*/
-}
-
-
-/* CSS COORDONNES */
-
-
-	/* CSS TITRE + CORPS */
-
-
-#cood_title{
-	background-color: #1e6a8e;
-	color: white;
-	text-align: center;
-	font-family: Arial, Helvetica, sans-serif;
-	display: inline-block;
-	float: left;
-	width: 50%;
-}
-
-
-	/* CSS TITRE */
-
-
-#Title_Cood{
-	color: white;
-	text-align: center;
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 25px;
-	font-weight: bold;
-}
-
-.Title_Content_Cood{
-	padding-top: 100px;
-}
-
-
-	/* CSS CORPS */
-
-
-@media screen and (max-width: 1280px)
-{
-
-	/*#All_coords{
-		background-color: #1e6a8e;
-		width: 50%;
-		display: inline-block;
-		text-align: center;
-		height: 100% !important;
-		position: absolute;
-	}*/
-	   
-	h1.contact-title{
-		color: white;
-		text-align: center;
-		font-family: Arial, Helvetica, sans-serif;
-		font-weight: bold;
-		padding-top: 15%;
-	}
-
-	h2.contact-subtitle{
-		color: white;
-		text-align: left;
-		font-family: Arial, Helvetica, sans-serif;
-		font-weight: bold;
-		display: inline-block;
-		padding: 0 5% 0 25%;
-		margin: 20px 0 0 0;
-	}
-
-	p.contact-content{
-		color: white;
-		font-family: Arial, Helvetica, sans-serif;
-		margin: 0 0 15px 0 !important;
-		display: inline-block;
-	}
-
-	p.contact-adress{
-		position: relative;
-		top: 18px;
-	}
-}
-
-@media screen and (min-width: 1281px) and (max-width: 1550px)
-{
-
-	/*#All_coords{
-		background-color: #1e6a8e;
-		width: 50%;
-		display: inline-block;
-		height: 100% !important;
-		position: absolute;
-	}*/
-	   
-	h1.contact-title{
-		color: white;
-		text-align: center;
-		font-family: Arial, Helvetica, sans-serif;
-		font-weight: bold;
-		padding-top: 15%;
-	}
-
-	h2.contact-subtitle{
-		color: white;
-		text-align: left;
-		font-family: Arial, Helvetica, sans-serif;
-		padding: 0 5% 0 25%;
-		font-weight: bold;
-		margin: 20px 0 0 0;
-		display: inline-block;
-	}
-
-	p.contact-content{
-		color: white;
-		font-family: Arial, Helvetica, sans-serif;
-		margin: 0 0 15px 0 !important;
-		display: inline-block;
-	}
-
-	p.contact-adress{
-		position: relative;
-		top: 18px;
-	}
-}
-
-@media screen and (min-width: 1551px)
-{
-
-	/*#All_coords{
-		background-color: #1e6a8e;
-		width: 50%;
-		display: inline-block;
-	}*/
-	   
-	h1.contact-title{
-		color: white;
-		text-align: center;
-		font-family: Arial, Helvetica, sans-serif;
-		font-weight: bold;
-		padding-top: 15%;
-		font-size: 50px;
-	}
-
-	h2.contact-subtitle{
-		color: white;
-		text-align: left;
-		font-family: Arial, Helvetica, sans-serif;
-		padding: 0 5% 0 25%;
-		margin: 20px 0 0 0;
-		font-weight: bold;
-		display: inline-block;
-		font-size: 30px;
-	}
-
-	p.contact-content{
-		color: white;
-		font-family: Arial, Helvetica, sans-serif;
-		margin: 0 0 15px 0 !important;
-		display: inline-block;
-		font-size: 22px;
-	}
-
-	p.contact-adress{
-		position: relative;
-		top: 18px;
-	}
-}
-
-
-/* CSS MAP */
-
-
-#gmap_canvas{
-	filter: opacity(75%);
-}
-
-#gmap_canvas:hover{
-	filter: opacity(100%);
-}
-
-#bscontact_gmap{
-	float: right;
-	width: 50% !important;
-	height: 100%;
-}
-
-#lien-map{
-	position: absolute;
-	left: -9999px;
-}
-
-
-
-/* CSS WEBFORM */
-#webform-client-form-110{
-	width: 80%;
-	margin: auto;
-	font-size: 20px;
-}
-
-/* DEBUT - Partie Gael */
-
-
-/* START - Contact Informations */
-
-.contact-subtitle {
-	position: relative !important;
-	display: inline-block !important;
-	box-sizing: border-box !important;
-	width: 39% !important;
-	/*padding: 0 0 0 25% !important;*/
-	padding: 0 25px 0 0 !important;
-	text-align:right !important;
-	margin: 5% 0 0 0 !important;
-}
-
-.contact-content {
-	position: relative !important;
-	display: inline-block !important;
-	box-sizing: border-box !important;
-	width: 59% !important;
-	text-align: justify !important;
-}
-
-#main-content .grid-inner {
+	margin: 0 !important;
 	padding: 0 !important;
 }
 
-/* END - Contact Informations */
+/* Hide the title page bar */
+#main-wrapper > div.page-title-wrap{
+	display: none;
+}
 
-/* START - Contact Form */
+#sidebar-second-wrapper,
+#sidebar-first-wrapper {
+	display: none;
+}
 
-.form-item {
-	display:inline-block !important;
-	box-sizing: border-box !important;
-	margin: 10px 0 !important;
+#article-110 {
+	position: absolute;
+	/*top: calc(175px + 128px);*/
+	/*top: calc(175px + 37px);*/
+	top: calc(175px);
+	width: 50vw;
+	max-width: 600px;
+	z-index: 10;
+	background-color: #37474f;
+	padding: 35px 25px;
+	box-sizing: border-box;
+	margin-top: 50px;
+}
+
+/* Map */
+#gmap_canvas > div > .gm-style > div:first-of-type{
+	padding-left: 50vw !important;
+}
+
+div#lien-map {
+	height: 0;
+}
+
+/* Bandeau coordonnées */
+div#All_coords {
+	position: relative;
+	width: 100%;
+	height:auto;
+	background-color: #e9e9e9;
+	border-bottom: 1px solid #fff;
+}
+
+div#All_coords > div:first-of-type {
+	position: relative;
+	display: inline-block;
+	width: 40%;
+	height: 128px;
+	padding: 35px 15px;
+	box-sizing: border-box;
+	background-color: #20313a;
+	text-align: right;
+}
+
+div#All_coords > div:last-of-type {
+	position: relative;
+	display: inline-block;
+	width: 60%;
+	height: 128px;
+	padding: 10px 25px 10px 75px;
+	box-sizing: border-box;
+	background-color: #37474F;
+	vertical-align: top;
+}
+
+div#All_coords > div > h1.contact-title {
+	position: relative;
+	margin: 0;
+	display: inline-block;
+	width: auto;
+	font-size: 30px;
+	font-weight: 400;
+	color: #fff;
+	padding: 10px 4vw 10px 0;
+	box-sizing: border-box;
+	border-right: 1px solid #fff;
+}
+
+div#All_coords > div > i.fa-paper-plane {
+	position: relative;
+	margin: 0;
+	display: inline-block;
+	width: auto;
+	font-size: 50px;
+	color: #fff;
+	padding: 4px 3vw 4px 4vw;
+	vertical-align: bottom;
+}
+
+.contact-address {
+	position: relative;
+	display: inline-block;
+	width: auto;
+	color: #fff;
+	margin-bottom: 10px;
+}
+
+.contact-address > p {
+	margin:0;
+}
+
+p.contact-tel {
+	margin: 0;
+	font-size: 18px;
+	color: #021c29;
+}
+
+p.contact-email {
+	margin: 0;
+	font-size: 16px;
+	color: #d1dade;
+}
+
+/* Start - Contact form */
+#main-wrapper .grid-inner {
+	padding:0 !important;
+}
+
+form#webform-client-form-110{
+	width:100%;
+	padding:0 25px;
+	margin:0 auto;
+	box-sizing: border-box;
+}
+
+form#webform-client-form-110 > div div.form-item{
+	margin-top:0;
+}
+
+p.label-form {
+	text-transform: uppercase;
+	font-weight: 100;
+	font-size: 25px;
+	color: #fff;
+	padding: 5px 25px;
+	text-align: center;
+	border: 1px solid #fff;
+	box-sizing: border-box;
+	margin: 0;
+	margin-bottom: 35px !important;
+}
+
+form#webform-client-form-110 > div > div:last-of-type{
+	margin: 35px 0 0 0;
+	float: right;
+}
+
+form#webform-client-form-110 > div div.form-item input,
+form#webform-client-form-110 > div div.form-item select {
+	border: none;
+	padding: 7px 0;
+	font-size: 14px;
+	border-bottom: 1px solid #ffffff;
+	background-color: #37474f;
+	color: #d1dade;
+}
+
+/* Placeholder - Default */
+form#webform-client-form-110 > div div.form-item input::placeholder,
+form#webform-client-form-110 > div div.form-item textarea::placeholder {
+	color: #d1dade;
+	opacity: 1;
+}
+/* Placeholder - Firefox 19+ */
+form#webform-client-form-110 > div div.form-item input::-moz-placeholder,
+form#webform-client-form-110 > div div.form-item textarea::-moz-placeholder {
+	color: #d1dade;
+	opacity: 1;
+}
+/* Placeholder - Chrome, Opera, Safari */
+form#webform-client-form-110 > div div.form-item input::-webkit-input-placeholder,
+form#webform-client-form-110 > div div.form-item textarea::-webkit-input-placeholder {
+	color: #d1dade;
+	opacity: 1;
+}
+
+/* Autofill */
+form#webform-client-form-110 input:-webkit-autofill,
+form#webform-client-form-110 input:-webkit-autofill:hover,
+form#webform-client-form-110 input:-webkit-autofill:focus
+input:-webkit-autofill,
+form#webform-client-form-110 textarea:-webkit-autofill,
+form#webform-client-form-110 textarea:-webkit-autofill:hover
+textarea:-webkit-autofill:focus,
+form#webform-client-form-110 select:-webkit-autofill,
+form#webform-client-form-110 select:-webkit-autofill:hover,
+form#webform-client-form-110 select:-webkit-autofill:focus {
+	-webkit-text-fill-color: #d1dade !important;
+	-webkit-box-shadow: 0 0 0px 1000px #37474f inset !important;
+}
+
+/* Required fields */
+form#webform-client-form-110 > div div.form-item input:required,
+form#webform-client-form-110 > div div.form-item select:required,
+form#webform-client-form-110 > div div.form-item textarea:required {
+	box-shadow: none;
+}
+
+form#webform-client-form-110 > div div.form-item input:focus,
+form#webform-client-form-110 > div div.form-item select:focus {
+	background-color: #435056;
+	padding-left:10px;
+	padding-right:10px;
+	box-sizing: border-box;
+}
+
+form#webform-client-form-110 > div div.form-item {
+	position: relative;
+	display: inline-block;
+}
+
+/* Civilité */
+form#webform-client-form-110 > div div.form-item:nth-child(1) {
+	width: calc(100% / 3 - 10px);
+	margin: 0 10px 0 0;
+}
+
+form#webform-client-form-110 select#edit-submitted-civilite {
+	width: 100%;
+	height: 32px;
+	box-sizing: border-box;
+}
+
+/* Nom / Prénom */
+form#webform-client-form-110 > div div.form-item:nth-child(2) {
+	float: right;
+	width: calc(50% - 10px);
+	margin: 0 0 0 10px;
+}
+form#webform-client-form-110 input#edit-submitted-nom {
+	width: 100%;
+}
+
+/* Poste / Service */
+form#webform-client-form-110 > div div.form-item:nth-child(3) {
+	float: left;
+	width: calc(50% - 10px);
+	margin: 10px 10px 0 0;
+}
+form#webform-client-form-110 input#edit-submitted-poste-service {
 	width:100%;
 }
 
-.webform-hints-field {
-	border:2px solid #1e6a8e !important;
-	border-radius: 4px;
-	width:100% !important;
-	background-color: #FFF;
-	height: 40px !important;
-	padding: 0 10px !important;
-	-webkit-box-sizing: border-box !important;
-	-moz-box-sizing: border-box !important;
-	box-sizing: border-box !important;
+/* Adresse e-mail */
+form#webform-client-form-110 > div div.form-item:nth-child(4) {
+	margin-left: 10px;
+	width: calc(25% - 10px);
+	margin: 10px 5px 0 10px;
+}
+form#webform-client-form-110 input#edit-submitted-adresse-mail {
+	width:100%;
 }
 
-#edit-submitted-message {
-	height: auto !important;
-	padding: 10px 10px !important;
+/* Affiliation / Société */
+form#webform-client-form-110 > div div.form-item:nth-child(5) {
+	width: calc(25% - 10px);
+	margin: 10px 0 0 5px;
+	float: right;
+}
+form#webform-client-form-110 input#edit-submitted-affiliation-societe {
+	width:100%;
 }
 
-#edit-submitted-civilite {
-	color: #777;
+/* SIREN */
+form#webform-client-form-110 > div div.form-item:nth-child(6) {
+	float: left;
+	width: calc(50% - 10px);
+	margin: 10px 10px 0 0;
+}
+form#webform-client-form-110 input#edit-submitted-ndegsiren-siret {
+	width:100%;
 }
 
-#webform-component-civilite {
+/* Code postal */
+form#webform-client-form-110 > div div.form-item:nth-child(7) {
+	width: calc(50% - 10px);
+	margin: 10px 0 0 10px;
+}
+form#webform-client-form-110 input#edit-submitted-code-postal {
+	width:100%;
+}
+
+/* Téléphone */
+form#webform-client-form-110 > div div.form-item:nth-child(8) {
+	float: left;
+	width: calc(50% - 10px);
+	margin: 10px 10px 0 0;
+}
+form#webform-client-form-110 input#edit-submitted-telephone {
+	width:100%;
+}
+
+/* Fax */
+form#webform-client-form-110 > div div.form-item:nth-child(9) {
+	width: calc(25% - 10px);
+	margin: 10px 0 0 10px;
+}
+form#webform-client-form-110 input#edit-submitted-fax {
+	width:100%;
+}
+
+/* Objet */
+form#webform-client-form-110 > div div.form-item:nth-child(10) {
+	width: 100%;
+	margin: 35px 0 0 0;
+}
+form#webform-client-form-110 input#edit-submitted-objet {
+	width:100%;
+}
+
+/* Message */
+form#webform-client-form-110 > div div.form-item:nth-child(11) {
+	width: 100%;
+	margin: 25px 0 0 0;
+}
+textarea#edit-submitted-message {
+	border: none;
+	padding: 10px;
+	background-color: #435056;
+	color:#d1dade;
+	font-size: 14px;
+}
+form#webform-client-form-110 .resizable-textarea .grippie {
+	border: none;
+	background: #e0e0e0;
+	height: 3px;
+}
+
+/* Submit button */
+form#webform-client-form-110 > div > div:last-of-type input.form-submit {
+	border: none;
+	box-shadow: none;
+	padding: 8px 15px;
+	background: #1e6a8e;
+	color: #fff;
+	border-radius: 2px;
+	font-size: 12px;
+}
+
+form#webform-client-form-110 > div > div:last-of-type input.form-submit:hover {
+	background: #d1dade;
+	color: #37474f;
+}
+
+/* Captcha */
+fieldset.captcha {
+	position: relative;
+	display: inline-block;
+	width: 50%;
+	margin : 35px 0 0 0 !important;
+}
+
+fieldset.captcha > div > div.form-item {
+	width: 100% !important;
+	margin: 0 !important;
+	color: #d1dade;
+	font-size: 14px;
+}
+fieldset.captcha > div > div.form-item input#edit-captcha-response {
+	margin-left: 10px;
 	width: 25% !important;
-	float: left !important;
-}
-
-#webform-component-nom {
-	width: 73% !important;
-	float: right !important;
-}
-
-#webform-component-affiliation---societe, #webform-component-ndegsiren---siret {
-	width: 49.5% !important;
-}
-
-#webform-component-affiliation---societe, #webform-component-fax{
-	float:right !important;
-}
-
-#webform-component-ndegsiren---siret, #webform-component-code-postal {
-	float:left !important;
-}
-
-#webform-component-code-postal, #webform-component-telephone, #webform-component-fax {
-	width:32.5% !important;
-	float:left !important;
-	margin-right:1% !important;
-}
-#webform-component-fax{
-	margin-right:0 !important;
-	float:right !important;
-}
-
-/* END - Contact Form */
-
-/* FIN - Partie Gael */
-
-/*
-#webform-component-civilite .webform-hints-field{
-	border: solid 5px #1e6a8e;
-	border-radius: 10px;
-}
-
-#webform-component-nom .webform-hints-field{
-	border: solid 5px #1e6a8e;
-	border-radius: 10px;
-	float: left;
-	display: inline-block;
-}
-
-#webform-component-poste---service .webform-hints-field{
-	border: solid 5px #1e6a8e;
-	border-radius: 10px;
-	margin-left: 30%;
-	float: left;
-	display: inline-block;
-}
-
-#webform-component-adresse-mail .webform-hints-field{
-	border: solid 5px #1e6a8e;
-	border-radius: 10px;
-	margin-top: 10px;
-	float: left;
-	display: inline-block;
-}
-
-#webform-component-affiliation---societe .webform-hints-field{
-	border: solid 5px #1e6a8e;
-	border-radius: 10px;
-	margin-top: 10px;
-	margin-left: 30%;
-	float: left;
-	display: inline-block;
-}
-
-#webform-component-ndegsiren---siret .webform-hints-field{
-	border: solid 5px #1e6a8e;
-	border-radius: 10px;
-	margin-top: 10px;
-	float: left;
-	display: inline-block;
-}
-
-#webform-component-code-postal .webform-hints-field{
-	border: solid 5px #1e6a8e;
-	border-radius: 10px;
-	margin-top: 10px;
-	margin-left: 30%;
-	float: left;
-	display: inline-block;
-}
-
-#webform-component-telephone .webform-hints-field{
-	border: solid 5px #1e6a8e;
-	border-radius: 10px;
-	margin-top: 10px;
-	float: left;
-	display: inline-block;
-}
-
-#webform-component-fax .webform-hints-field{
-	border: solid 5px #1e6a8e;
-	border-radius: 10px;
-	margin-left: 30%;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	float: left;
-	display: inline-block;
-}
-
-#webform-component-message .webform-hints-field{
-	border: solid 5px #1e6a8e;
-	border-radius: 10px;
-}
-*/
-
-.webform-client-form #edit-actions{
 	text-align: center;
 }
 
-.webform-client-form #edit-actions span.button input.form-submit{
-	background: #1e6a8e !important;
-	background-color: #1e6a8e !important;
-	border: solid 5px #1e6a8e !important;
-	border-radius: 4px !important;
-	-webkit-box-shadow: 0 0 !important;
-	color: white !important;
+fieldset.captcha>div>div>label,
+fieldset.captcha>legend,
+fieldset.captcha>div>div>div.description {
+	display: none;
 }
 
-.grippie{
-	display: none;
+fieldset.captcha {
+	border:none !important;
+}
+
+/*fieldset.captcha>div>div>label {*/
+	/*width: 100%;*/
+/*}*/
+
+/*div.gm-style > div:first-of-type > div:first-of-type,*/
+/*div.gm-style > div:first-of-type > div:nth-child(3) > div:last-of-type {*/
+	/*transform: translate(25vw, 0px) !important;*/
+/*}*/
+
+/* Responsive */
+@media screen and (max-width : 1024px){
+	/* Contact form */
+	form#webform-client-form-110 {
+		width: 100%;
+		padding: 0;
+		margin: 0 auto;
+	}
+
+	form#webform-client-form-110 > div div.form-item input, form#webform-client-form-110 > div div.form-item select {
+		font-size: 12px;
+	}
+
+	textarea#edit-submitted-message {
+		font-size: 12px;
+	}
+
+	/* Bandeau */
+	div#All_coords > div > h1.contact-title {
+		font-size: 25px;
+	}
+
+	div#All_coords > div > i.fa-paper-plane {
+		font-size: 40px;
+	}
 }

@@ -1,0 +1,88 @@
+#bs-rsb-establishments {
+    position: relative;
+    width: 100%;
+    height:auto;
+}
+
+/* -------------------------------------------------------------------- */
+/* ------------------------------ IMAGE ------------------------------- */
+/* -------------------------------------------------------------------- */
+
+#bs-rsb-establishments > #establishment-image {
+    width: 100%;
+    height: 400px;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    background-position: center !important;
+}
+
+/* -------------------------------------------------------------------- */
+/* --------------------------- DATAS SHEET ---------------------------- */
+/* -------------------------------------------------------------------- */
+
+#bs-rsb-establishments > #datas-sheet {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 25px;
+    box-sizing: border-box;
+    background-color: #424242;
+    color: #fff;
+}
+
+#bs-rsb-establishments > #datas-sheet > div {
+    position: relative;
+    width: 600px;
+    margin: auto;
+}
+
+#bs-rsb-establishments > #datas-sheet > div h2 {
+    margin: 0 0 25px 0;
+    border: 1px solid #fff;
+    text-align: center;
+    padding: 5px 15px;
+    font-family: "Roboto Condensed", oswaldregular !important;
+    font-weight: 400;
+    font-size: 24px;
+}
+
+#bs-rsb-establishments > #datas-sheet > div > div {
+    margin: 10px 0;
+}
+
+#bs-rsb-establishments > #datas-sheet > div .label,
+#bs-rsb-establishments > #datas-sheet > div .data {
+    display: inline-block;
+    margin: 0;
+}
+
+#bs-rsb-establishments > #datas-sheet > div .label {
+    width:150px;
+}
+#bs-rsb-establishments > #datas-sheet > div .data {
+    width:calc(100% - 150px);
+    font-weight: 600;
+}
+
+/* -------------------------------------------------------------------- */
+/* --------------------------- PRESENTATION --------------------------- */
+/* -------------------------------------------------------------------- */
+
+#bs-rsb-establishments > #presentation {
+    position: relative;
+    height: auto;
+    max-width: 800px;
+    margin: 50px auto;
+    width: 75%;
+}
+
+#bs-rsb-establishments > #presentation > h2 {
+    margin: 0 0 25px 0;
+    border: 1px solid #424242;
+    text-align: center;
+    padding: 5px 15px;
+    font-family: "Roboto Condensed", oswaldregular !important;
+    font-weight: 400;
+    font-size: 24px;
+    color: #424242;
+}

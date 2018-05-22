@@ -50,7 +50,7 @@
     <?php
         // Check if URL parameters is send=true
         // that's to say when user clicked on the button above
-        if($_SERVER['QUERY_STRING'] == "send=true"){
+        if($_GET['send'] == "true"){
 
             if(!empty($primary_tab)){
                 // Declare a string to store url of client quotes
@@ -59,8 +59,14 @@
                 // Loop to add each quotes
                 // Refer to the multidimensional tab : $primary_tab
                 for($i = 0 ; $i < sizeof($primary_tab) ; $i++){
-                    $url_consult_devis = $url_consult_devis . "http://" . $_SERVER['SERVER_NAME'] . "/node/" . $primary_tab[$i][0] . "/submission/" . $primary_tab[$i][1] . "\n\n";
 
+                    switch($_SERVER['SERVER_NAME']){
+                        case 'fr.biosample.local' :
+                            $url_consult_devis = $url_consult_devis . "http://" . $_SERVER['SERVER_NAME'] . "/node/" . $primary_tab[$i][0] . "/submission/" . $primary_tab[$i][1] . "\n\n";
+                            break;
+                        default :
+                            $url_consult_devis = $url_consult_devis . "https://" . $_SERVER['SERVER_NAME'] . "/node/" . $primary_tab[$i][0] . "/submission/" . $primary_tab[$i][1] . "\n\n";
+                    }
                     // Refer to bsconnexion_update_submissions_values() function
                     // Contains queries to update status of the submission
                     bsconnexion_update_submissions_values($primary_tab, $i);

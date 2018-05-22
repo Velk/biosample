@@ -92,7 +92,8 @@
             echo bsconnexion_form_user_connected();
         }
         else{
-            echo drupal_render(drupal_get_form('user_login'));
+	    $login_form = drupal_get_form('user_login');
+            echo drupal_render($login_form);
         }
     }
     ?>
