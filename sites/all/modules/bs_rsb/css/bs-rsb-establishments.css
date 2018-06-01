@@ -1,88 +1,137 @@
 #bs-rsb-establishments {
-    position: relative;
     width: 100%;
-    height:auto;
+    max-width: 1500px;
+    margin: auto;
+    padding: 50px;
+    box-sizing: border-box;
+    display: grid;
+    align-items: start;
+    grid-template-columns: 350px 1fr;
+    grid-gap: 50px;
+    grid-template-areas: "a b";
 }
 
-/* -------------------------------------------------------------------- */
-/* ------------------------------ IMAGE ------------------------------- */
-/* -------------------------------------------------------------------- */
-
-#bs-rsb-establishments > #establishment-image {
-    width: 100%;
-    height: 400px;
-    background-repeat: no-repeat !important;
-    background-size: cover !important;
-    background-position: center !important;
+#datas-sheet {
+    grid-area: a;
+}
+#presentation {
+    grid-area: b;
 }
 
-/* -------------------------------------------------------------------- */
-/* --------------------------- DATAS SHEET ---------------------------- */
-/* -------------------------------------------------------------------- */
-
-#bs-rsb-establishments > #datas-sheet {
-    position: relative;
+/* Datas establishment sheet */
+#datas-sheet {
     width: 100%;
-    height: auto;
+    background-color: #37474f;
     padding: 25px;
     box-sizing: border-box;
-    background-color: #424242;
+    box-shadow: 1px 1px 5px #d1dade;
+    display: grid;
+    align-items: start;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 220px auto auto auto auto auto;
+    grid-gap: 10px;
+    grid-template-areas:
+            "a a"
+            "b b"
+            "c c"
+            "d d"
+            "e e"
+            "f g";
+}
+
+#es-image {
+    grid-area: a;
+    height: calc(100% - 20px);
+    background-size: cover;
+    margin: 20px 50px 0 50px;
+    border: 10px solid #435056;
+    box-shadow: inset 0px 0px 10px #424242;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+#es-status {
+    grid-area: b;
+}
+#es-status > p {
+    margin: 0;
+    font-size: 16px;
+    font-style: normal;
+    text-align: center;
     color: #fff;
 }
 
-#bs-rsb-establishments > #datas-sheet > div {
-    position: relative;
-    width: 600px;
-    margin: auto;
+#es-name {
+    grid-area: c;
+    margin: 25px 0;
 }
-
-#bs-rsb-establishments > #datas-sheet > div h2 {
-    margin: 0 0 25px 0;
-    border: 1px solid #fff;
+#es-name > p {
     text-align: center;
-    padding: 5px 15px;
-    font-family: "Roboto Condensed", oswaldregular !important;
-    font-weight: 400;
-    font-size: 24px;
-}
-
-#bs-rsb-establishments > #datas-sheet > div > div {
-    margin: 10px 0;
-}
-
-#bs-rsb-establishments > #datas-sheet > div .label,
-#bs-rsb-establishments > #datas-sheet > div .data {
-    display: inline-block;
+    font-size: 20px;
+    color: #fff;
     margin: 0;
+    font-weight: bold;
+}
+#es-name > p > i {
+    margin-right: 10px;
+}
+/*#datas-sheet > hr {*/
+    /*grid-area: c;*/
+    /*width: 50%;*/
+    /*height: 1px;*/
+    /*background-color: #fff;*/
+    /*border: none;*/
+    /*border-radius: 20px;*/
+    /*margin: 25px auto;*/
+/*}*/
+#datas-sheet > h3 {
+    grid-area: d;
+    margin: 0;
+    text-transform: uppercase;
+    text-align: center;
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+    margin-top: 20px;
+    background-color: #435056;
+}
+#es-address {
+    grid-area: e;
+}
+#es-city {
+    grid-area: f;
+}
+#es-postalcode {
+    grid-area: g;
+}
+#es-address > p,
+#es-city > p,
+#es-postalcode > p {
+    font-size: 16px;
+    margin: 0;
+    color: #fff;
+    background-color: #435056;
+    border-radius: 2px;
+    padding: 3px 15px;
 }
 
-#bs-rsb-establishments > #datas-sheet > div .label {
-    width:150px;
-}
-#bs-rsb-establishments > #datas-sheet > div .data {
-    width:calc(100% - 150px);
-    font-weight: 600;
-}
-
-/* -------------------------------------------------------------------- */
-/* --------------------------- PRESENTATION --------------------------- */
-/* -------------------------------------------------------------------- */
-
-#bs-rsb-establishments > #presentation {
-    position: relative;
-    height: auto;
-    max-width: 800px;
-    margin: 50px auto;
-    width: 75%;
+/* Establishment presentation sheet */
+#presentation {
+    width: 100%;
+    padding: 25px;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 5px #d1dade;
 }
 
-#bs-rsb-establishments > #presentation > h2 {
-    margin: 0 0 25px 0;
+#presentation > h2#label-presentation {
+    margin: 0;
     border: 1px solid #424242;
     text-align: center;
-    padding: 5px 15px;
-    font-family: "Roboto Condensed", oswaldregular !important;
-    font-weight: 400;
-    font-size: 24px;
+    padding: 5px 10px;
+    text-transform: uppercase;
     color: #424242;
+    margin-bottom: 50px;
+    font-size: 22px;
 }
