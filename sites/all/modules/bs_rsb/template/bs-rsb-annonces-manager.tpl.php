@@ -50,7 +50,7 @@ if($created){
 // If user has NOT created an establishment sheet
 }else{
 ?>
-    <div id="bs-rsb-add-annonce">
+    <div id="bs-rsb-no-annonce-header">
         <a href="/ressources-biologiques/home"><i class="fa fa-map-marker"></i>Cartographie des ressources biologiques</a>
     </div>
     <div id="bs-rsb-es-notcreated">

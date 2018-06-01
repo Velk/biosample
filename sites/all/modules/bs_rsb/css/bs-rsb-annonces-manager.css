@@ -22,6 +22,37 @@ div#block-bs-rsb-ressources-bio-annonces-manager {
     margin: 0;
 }
 
+/* Start - User doesn't created establishment sheet */
+div#bs-rsb-no-annonce-header{
+    position: relative;
+    width: 100%;
+    background-color: #20313a;
+    padding:15px 15px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    text-align: center;
+    border-top: 1px solid #fff;
+}
+
+div#bs-rsb-no-annonce-header > a {
+    border: 1px solid #fff;
+    padding: 5px 15px;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+div#bs-rsb-no-annonce-header > a > i {
+    padding-right: 10px;
+}
+
+div#bs-rsb-no-annonce-header > a:hover {
+    background-color: #435056;
+    color: #fff;
+}
+/* End - User doesn't created establishment sheet */
+
 /* Start - Annonce header */
 div#bs-rsb-annonce-header {
     position: relative;
