@@ -82,8 +82,270 @@ function bs_rsb_menu(){
         'type' => MENU_NORMAL_ITEM,
     );
 
+    $items['ressources-biologiques/home/criteres'] = array(
+        'title' => 'Ressources Biologiques - Critères',
+        'page callback' => 'bs_rsb_criteres_request',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK
+    );
+
+    $items['ressources-biologiques/home/criteres/filters'] = array(
+        'title' => 'Ressources Biologiques - Filtres',
+        'page callback' => 'bs_rsb_filters_request',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK
+    );
+
     return $items;
 }
+
+/**
+ * Page callback
+ * Return json output for ajax request
+ */
+function bs_rsb_filters_request() {
+    global $user;
+
+    // Retrieve the vid of the vocabulary for the machine_name "ressources_biologiques"
+    // ! Be careful, the machine_name must absolutely be 'ressources_biologiques'
+    $query = db_select('taxonomy_vocabulary', 'tv');
+    $query->fields('tv',array('vid'));
+    $query->condition('tv.machine_name', 'ressources_biologiques','=');
+    $resultVID = $query->execute()->fetchField(0);
+
+    /* ----------------------------------------------------------------------------------------*/
+    /* ----------------------------- Request - Requirement filters -----------------------------*/
+    /* ----------------------------------------------------------------------------------------*/
+
+    // Retrieve filters of a filter categories
+
+//    $arraySize = sizeof($_GET['requirement_filter_names']);
+//    drupal_set_message("Array size : " . $arraySize);
+
+//    for($l = 0 ; $l < sizeof($_GET['requirement_filter_names']) ; $l++){
+//        drupal_set_message($l . " : " . $_GET['requirement_filter_names'][$l]);
+//    }
+//
+//    $arrayFiltersResult = [];
+//    $arrayFiltersRequirement = [];
+//
+//    $query = db_select('taxonomy_term_data', 'ttd');
+//    $query->join('field_revision_field_critere','frfc','ttd.tid = frfc.field_critere_tid');
+//    $query->join('node','n','frfc.revision_id = n.nid');
+////        $query->distinct();
+//    $query->condition('ttd.vid', $resultVID, '=');
+//
+//
+//    for($i = 0  ; $i < $arraySize ; $i++){
+//
+//        $query->condition('ttd.name', $_GET['requirement_filter_names'][$i], '=');
+//    }
+//
+//    $query->fields('n',array('nid'));
+//
+//    $resultsFiltersRequirement = $query->execute();
+//
+////        $rowCountFiltersRequirement = $query->execute()->rowCount();
+//
+//    foreach ($resultsFiltersRequirement as $resultFiltersRequirement){
+//
+//        array_push($arrayFiltersRequirement, $resultFiltersRequirement->nid);
+//    }
+//
+//    $query = db_select('taxonomy_term_data', 'ttd');
+//    $query->join('field_revision_field_critere','frfc','ttd.tid = frfc.field_critere_tid');
+//    $query->join('node','n','frfc.revision_id = n.nid');
+//    $query->distinct();
+//    $query->condition('ttd.vid', $resultVID, '=');
+//
+//    // Initialize OR condition
+////    $or = db_or();
+//    // Loop into the array transmit by AJAX
+//    for($i = 0 ; $i < sizeof($_GET['requirement_filter_names']) ; $i++){
+//
+//        // Set OR condition
+//        $query->condition('ttd.name', $_GET['requirement_filter_names'][$i], '=');
+////        $or->condition('ttd.name', $_GET['requirement_filter_names'][$i], '=');
+//        // Add OR conditions to query
+////        $query->condition($or);
+//    }
+//
+//    $query->fields('n',array('nid'));
+//    $resultsFiltersRequirement = $query->execute();
+//
+//    $rowCountFiltersRequirement = $query->execute()->rowCount();
+//
+//    $arrayFiltersRequirement = [];
+//
+//    foreach ($resultsFiltersRequirement as $resultFiltersRequirement){
+//
+//        array_push($arrayFiltersRequirement, $resultFiltersRequirement->nid);
+//    }
+//
+//    $result['rowCountFiltersRequirement'] = $rowCountFiltersRequirement;
+//
+//    $result['resultsFiltersRequirement'] = $arrayFiltersRequirement;
+
+//    drupal_set_message("-------------------------------");
+//
+//    $test = $_GET['requirement_filter_names'];
+//    drupal_set_message("Size : " . sizeof($test));
+//    drupal_set_message("Tiens : " . $_GET['requirement_filter_names'][0]);
+//    drupal_set_message("Tiens : " . $_GET['requirement_filter_names'][1]);
+
+    $arrayFiltersRequirement = [];
+
+    $query = db_select('field_data_field_critere', 'fdfc');
+    $query->join('taxonomy_term_data','ttd','fdfc.field_critere_tid = ttd.tid');
+    $query->condition('ttd.vid', $resultVID, '=');
+
+    // Initialize OR condition
+    $or = db_or();
+    // Loop into the array transmit by AJAX
+    for($i = 0 ; $i < $_GET['requirement_filter_size'] ; $i++){
+
+//        drupal_set_message("i = " . $i);
+        // Set OR condition
+//        $query->condition('ttd.name', $_GET['requirement_filter_names'][$i], '=');
+        $or->condition('ttd.name', $_GET['requirement_filter_names'][$i], '=');
+        // Add OR conditions to query
+        $query->condition($or);
+    }
+
+//    $query->addExpression('COUNT(fdfc.entity_id)', 'count');
+//    $query->fields('fdfc',array('entity_id', 'count'));
+    $query->fields('fdfc',array('entity_id'));
+    $query->addExpression('count(entity_id)', 'entity_id_count');
+    $query->groupBy('fdfc.entity_id');
+
+    $query->having('COUNT(entity_id) >= :matches', array(':matches' => $_GET['requirement_filter_size']));
+
+    $resultsFiltersRequirement = $query->execute();
+
+//    foreach ($resultsFiltersRequirement as $blablabla){
+//        drupal_set_message("ENTITY_ID : " . $blablabla->entity_id);
+//        drupal_set_message("COUNT : " . $blablabla->entity_id_count);
+//        drupal_set_message("-------------------------------------------");
+//    }
+//
+    $rowCountFiltersRequirement = $query->execute()->rowCount();
+//
+//    $arrayFiltersRequirement = [];
+//
+    foreach ($resultsFiltersRequirement as $resultFiltersRequirement){
+
+        array_push($arrayFiltersRequirement, $resultFiltersRequirement->entity_id);
+    }
+//
+    $result['rowCountFiltersRequirement'] = $rowCountFiltersRequirement;
+//
+    $result['resultsFiltersRequirement'] = $arrayFiltersRequirement;
+
+    /* ----------------------------------------------------------------------------------------*/
+    /* ---------------------- Request - Requirement & preference filters ----------------------*/
+    /* ----------------------------------------------------------------------------------------*/
+
+    $arrayFilters = [];
+
+    // Retrieve filters of a filter categories
+    $query = db_select('taxonomy_term_data', 'ttd');
+    $query->join('field_revision_field_critere','frfc','ttd.tid = frfc.field_critere_tid');
+//    $query->join('node','n','frfc.revision_id = n.nid');
+    $query->condition('ttd.vid', $resultVID, '=');
+
+    // Initialize OR condition
+    $or = db_or();
+    // Loop into the array transmit by AJAX
+    for($i = 0 ; $i < $_GET['filter_size'] ; $i++){
+
+//        drupal_set_message("i = " . $i);
+        // Set OR condition
+//        $query->condition('ttd.name', $_GET['requirement_filter_names'][$i], '=');
+        $or->condition('ttd.name', $_GET['filter_names'][$i], '=');
+        // Add OR conditions to query
+        $query->condition($or);
+    }
+
+//    for($i = 0 ; $i < sizeof($_GET['filter_names']) ; $i++){
+//
+//        $query->condition('ttd.name', $_GET['filter_names'][$i], '=');
+//    }
+    $query->fields('frfc',array('entity_id'));
+    $query->addExpression('count(entity_id)', 'entity_id_count');
+    $query->groupBy('frfc.entity_id');
+
+    $query->having('COUNT(entity_id) >= :matches', array(':matches' => $_GET['filter_size']));
+
+    $resultsFilters = $query->execute();
+
+//    $query->fields('n',array('nid'));
+//    $resultsFilters = $query->execute();
+
+    $rowCountFilters = $query->execute()->rowCount();
+
+
+    foreach ($resultsFilters as $resultFilters){
+
+        array_push($arrayFilters, $resultFilters->entity_id);
+    }
+
+    $result['rowCountFilters'] = $rowCountFilters;
+
+    $result['resultsFilters'] = $arrayFilters;
+
+    drupal_json_output($result);
+
+}
+
+
+/**
+ * Page callback
+ * Return json output for ajax request
+ */
+function bs_rsb_criteres_request() {
+    global $user;
+
+    // Retrieve the vid of the vocabulary for the machine_name "ressources_biologiques"
+    // ! Be careful, the machine_name must absolutely be 'ressources_biologiques'
+    $query = db_select('taxonomy_vocabulary', 'tv');
+    $query->fields('tv',array('vid'));
+    $query->condition('tv.machine_name', 'ressources_biologiques','=');
+    $resultVID = $query->execute()->fetchField(0);
+
+    // Retrieve filters of a filter categories
+    $query = db_select('taxonomy_term_data', 'ttd');
+    $query->join('taxonomy_term_hierarchy', 'tth', 'ttd.tid = tth.tid');
+    $query->fields('ttd',array('name'));
+    $query->condition('ttd.vid', $resultVID,'=');
+    $query->condition('tth.parent', $_GET['tid'],'=');
+    $query->orderBy('ttd.weight','ASC');
+
+    $resultsCriteres = $query->execute();
+
+    $criteres = null;
+
+    foreach ($resultsCriteres as $resultCriteres){
+
+        $criteres =
+            $criteres .
+            '<div class="overlay-filter-container">' .
+                '<p>' .
+                    $resultCriteres->name .
+                '</p>' .
+                '<form class="ofc-form-choice">' .
+                  '<input type="radio" name="filter_importance" value="requirement">' .
+                  '<input type="radio" name="filter_importance" value="preference">' .
+                  '<input type="radio" name="filter_importance" value="indifferent" checked="checked">' .
+                '</form>' .
+            '</div>';
+    }
+
+    $result['resultsCriteres'] = $criteres;
+
+    drupal_json_output($result);
+
+}
+
 
 /**
  * Implement hook_init()
@@ -389,8 +651,28 @@ function bs_rsb_block_view($delta = '') {
 
         case 'ressources_bio_filtres':
 
+            // Retrieve the vid of the vocabulary for the machine_name "ressources_biologiques"
+            // ! Be careful, the machine_name must absolutely be 'ressources_biologiques'
+            $query = db_select('taxonomy_vocabulary', 'tv');
+            $query->fields('tv',array('vid'));
+            $query->condition('tv.machine_name', 'ressources_biologiques','=');
+            $resultVID = $query->execute()->fetchField(0);
+
+            // Retrieve filter categories
+            $query = db_select('taxonomy_term_data', 'ttd');
+            $query->join('taxonomy_term_hierarchy', 'tth', 'ttd.tid = tth.tid');
+            $query->fields('ttd',array('name', 'tid'));
+            $query->condition('ttd.vid', $resultVID,'=');
+            $query->condition('tth.parent', "0",'=');
+            $query->orderBy('ttd.weight','ASC');
+            $data['resultsFC'] = $query->execute();
+
+//            foreach ($resultsFC as $resultFC) {
+//                drupal_set_message($resultFC->name);
+//            }
+
             // Link the template for the rsb filtres
-            $block['content']['#markup'] = theme('tpl_rsb_filtres');
+            $block['content']['#markup'] = theme('tpl_rsb_filtres', $data);
 
             // Link a css file for the rsb filtres
             $block['content']['#attached']['css'][] = array(
