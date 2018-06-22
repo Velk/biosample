@@ -2,63 +2,6 @@
     Drupal.behaviors.bs_rsb_filtres = {
         attach: function (context, settings) {
 
-            /* -----------------------------------------------------------------------------------------------*/
-            /* -------------------------------------START - FILTERS-------------------------------------------*/
-            /* -----------------------------------------------------------------------------------------------*/
-
-            // Hide Checkboxes over the five first
-            // $(".bs-rsb-filter-datas-checkbox:nth-child(n + 6)").hide();
-
-            // Display filter criterias
-            // $(".bs-rsb-filter-title").click(function(){
-            //
-            //     // Display Filter Checkboxes and search bar depending of the Filter category clicked
-            //     $(this).parent().children(".bs-rsb-filter-datas").toggle();
-            // });
-
-            // If the button to see either more or less criterias is clicked
-            // $(".bs-rsb-filter-datas-checkboxes > button").click(function(){
-            //
-            //     // If 'Plus de critères' is clicked, display
-            //     $(this).parent().children(".bs-rsb-filter-datas-checkbox:nth-child(n + 6)").toggle();
-            //
-            //     // Retrieve the current button text : either 'Plus de critère' or 'Moins de critères'
-            //     var text = $(this).text();
-            //
-            //     // Change the text
-            //     $(this).text(text == "Plus de critères" ? "Moins de critères" : "Plus de critères");
-            // });
-
-
-            // If text is clicked check or uncheck the checkbox corresponding
-            // $(".bs-rsb-filter-datas-checkbox > p").click(function(){
-            //
-            //     // Retrieve the current value of the checkbox : true or false
-            //     var isChecked = $(this).parent().children("input").prop('checked');
-            //
-            //     // Change the value
-            //     $(this).parent().children("input").prop('checked', isChecked == true ? false : true);
-            // });
-
-            // Change appearance of Filter criterias when hovered
-            // $(".bs-rsb-filter-datas-checkbox > *").mouseenter(function(){
-            //     $(this).parent().css("background-color", "#67b1d6");
-            // });
-            // $(".bs-rsb-filter-datas-checkbox > *").mouseleave(function(){
-            //     $(this).parent().css("background-color", "#fff");
-            // });
-
-            // Reinitialize checkboxes
-            $("#bs-rsb-filters-container > button").click(function(){
-
-                // Uncheck every checkboxes
-                $(".bs-rsb-filter-datas-checkbox > input").prop('checked', false);
-            });
-
-            /* -----------------------------------------------------------------------------------------------*/
-            /* --------------------------------------END - FILTERS--------------------------------------------*/
-            /* -----------------------------------------------------------------------------------------------*/
-
             /* ---------------------------------------------------------------------------------*/
             /* ------------- START - Ajax retrieve filters from filter categorie ---------------*/
             /* ---------------------------------------------------------------------------------*/
@@ -180,59 +123,24 @@
                         $(this).prop( "checked", true );
                     }
                 });
+
+                //Call retrieveSessionFilters()
+                retrieveSessionFilters();
             }
 
             /* ---------------------------------------------------------------------------------*/
             /* -------------------------------- END - Session ----------------------------------*/
             /* ---------------------------------------------------------------------------------*/
 
-
             /* IMPORTANT! - For element dynamically added, you need to use .on() event listener */
-
-
 
             /* Ajax - Input elements */
 
             // When user clicks on filter input (requirement || preference || indifferent)
             $("body").on("click", ".ofc-form-choice > input", function(){
 
-                // Initialize an empty array intended to stock required filter names
-                var arrayRequirementFilterNames = [];
-                // Initialize an empty array intended to stock filter's name
-                var arrayFilterNames = [];
-
-
-                // Loop on session
-                for(var s = 0 ; s < sessionStorage.length ; s++){
-
-                    /*
-                     Get the value associated to the key and compare if the value is :
-                        - value equals "requirement"
-                     */
-                    if(sessionStorage.getItem(Object.keys(sessionStorage)[s]) === "requirement"){
-
-                        var filterName = Object.keys(sessionStorage)[s];
-                        arrayRequirementFilterNames.push(filterName);
-                    }
-
-                    /*
-                     Get the value associated to the key and compare if the value is :
-                        - different than "indifferent"
-                     */
-                    if(
-                        sessionStorage.getItem(Object.keys(sessionStorage)[s]) !== "indifferent"
-                    ){
-
-                        var filterName = Object.keys(sessionStorage)[s];
-                        arrayFilterNames.push(filterName);
-                    }
-                }
-
-                // console.log("LENGTH : " + arrayRequirementFilterNames.length);
-
-                requiredFilterAjax(arrayRequirementFilterNames);
-                otherFilterAjax(arrayFilterNames);
-
+                //Call retrieveSessionFilters()
+                retrieveSessionFilters();
 
                 // Browse for each input
                 // $("body .ofc-form-choice > input").each(function(){
@@ -262,11 +170,53 @@
                 // });
             });
 
+            function retrieveSessionFilters(){
+
+                // Initialize an empty array intended to stock required filter names
+                var arrayRequirementFilterNames = [];
+                // Initialize an empty array intended to stock filter's name
+                var arrayFilterNames = [];
+
+
+                // Loop on session
+                for(var s = 0 ; s < sessionStorage.length ; s++){
+
+                    /*
+                     Get the value associated to the key and compare if the value is :
+                        - value equals "requirement"
+                     */
+                    if(sessionStorage.getItem(Object.keys(sessionStorage)[s]) === "requirement"){
+
+                        var filterName = Object.keys(sessionStorage)[s];
+                        arrayRequirementFilterNames.push(filterName);
+                    }
+
+                    /*
+                     Get the value associated to the key and compare if the value is :
+                        - different than "indifferent"
+                        - That's to say equals to requirement OR preference
+                     */
+                    if(
+                        sessionStorage.getItem(Object.keys(sessionStorage)[s]) === "requirement" ||
+                        sessionStorage.getItem(Object.keys(sessionStorage)[s]) === "preference"
+                    ){
+
+                        var filterName = Object.keys(sessionStorage)[s];
+                        arrayFilterNames.push(filterName);
+                    }
+                }
+
+                // console.log("LENGTH : " + arrayRequirementFilterNames.length);
+
+                requiredFilterAjax(arrayRequirementFilterNames);
+                otherFilterAjax(arrayFilterNames);
+            }
+
+            /* ---------------------------------------------------------------------------- */
+            /* --------------------- Ajax request - Requirement filters -------------------- */
+            /* ---------------------------------------------------------------------------- */
 
             function requiredFilterAjax(arrayRequirementFilterNames){
-                /* ---------------------------------------------------------------------------- */
-                /* --------------------- Ajax request - Requirement filters -------------------- */
-                /* ---------------------------------------------------------------------------- */
 
                 /*
                  Then check the length of the array containing filter's name
@@ -359,10 +309,11 @@
                 }
             }
 
+            /* ---------------------------------------------------------------------------- */
+            /* -------------- Ajax request - Requirement & preference filters ------------- */
+            /* ---------------------------------------------------------------------------- */
+
             function otherFilterAjax(arrayFilterNames){
-                /* ---------------------------------------------------------------------------- */
-                /* -------------- Ajax request - Requirement & preference filters ------------- */
-                /* ---------------------------------------------------------------------------- */
 
                 /*
                  Then check the length of the array containing filter's name
@@ -552,26 +503,6 @@
                 $('#overlay-filters-container').remove();
             }
 
-            // If the request returns results
-            // if(isResult){
-            //
-            //     // Hide every collection elements
-            //     $(".node-rb-collections").parent().hide();
-            //
-            //     // Show every collection elements containing the node number retrieved with ajax
-            //     for(var k = 0 ; k < results.length ; k++){
-            //
-            //         $("#article-" + results[k]).parent().show();
-            //     }
-            // // If the request returns nothing
-            // }else{
-            //
-            //     // Show every collection elements
-            //     $(".node-rb-collections").parent().show();
-            // }
-
-
-
             /* ---------------------------------------------------------------------------------- */
             /* ------------------------------- CROSS : ON CLICK --------------------------------- */
             /* ---------------------------------------------------------------------------------- */
@@ -592,7 +523,6 @@
             // When user click on the overlay's reinitialize filters button :
             // checkboxes are set to "indifferent" and overlay disappear
             $("body").on("click", "#ofc-reinit", function () {
-               console.log("Click btn");
 
                 // Check checkboxes with "indifferent" value
                 $(".ofc-form-choice > input").each(function(){
@@ -608,9 +538,35 @@
                     sessionStorage.setItem(filterName, "indifferent");
                 });
 
-                // Show every collection
-                // $("#block-views-rb-collections-block .views-row").show();
+                // Call retrieveSessionFilters()
+                retrieveSessionFilters();
 
+            });
+
+            /* ---------------------------------------------------------------------------------- */
+            /* ---------------------- REINIT ALL FILTERS BUTTON : CLICK ------------------------- */
+            /* ---------------------------------------------------------------------------------- */
+
+            // When user click on reinitialize all filters button
+            $("#reinit-all-filters").click(function(){
+
+                // Browse every parameters stocked in session
+                for(var i = 0 ; i < sessionStorage.length ; i++){
+
+                    // Check if the value of the parameter is "requirement" or "preference" or "indifferent"
+                    if(
+                        sessionStorage.getItem(Object.keys(sessionStorage)[i]) === "requirement" ||
+                        sessionStorage.getItem(Object.keys(sessionStorage)[i]) === "preference" ||
+                        sessionStorage.getItem(Object.keys(sessionStorage)[i]) === "indifferent"
+                    ){
+                        // Set the value to indifferent in purpose to reinitialize every filter
+                        sessionStorage.setItem(Object.keys(sessionStorage)[i], "indifferent");
+                    }
+
+                }
+
+                // Show every collection
+                $("#block-views-rb-collections-block .views-row").show();
             });
 
         }

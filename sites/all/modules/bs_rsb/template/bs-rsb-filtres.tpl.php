@@ -115,7 +115,7 @@ $arrayCollections = array(
 <div id="bs-rsb-container">
     <div id="bs-rsb-filters-container">
         <h2>FILTRES</h2>
-        <button>Réinitialiser</button>
+        <button id="reinit-all-filters">Réinitialiser tous les filtres</button>
         <div id="bs-rsb-filters">
             <?php
             foreach ($resultsFC as $resultFC){

@@ -23,13 +23,17 @@
 #bs-rsb-filters-container > button {
     background-color: #1e6a8e;
     color: #fff;
-    padding: 7px 15px;
+    padding: 7px 10px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     border: none;
-    margin: 25px 0 25px 50%;
-    transform: translateX(-50%);
+    margin: 25px 20px 25px 20px;
+    cursor: pointer;
+}
+
+#bs-rsb-filters-container > button:hover {
+    background-color: #424242;
 }
 
 #bs-rsb-filters {
