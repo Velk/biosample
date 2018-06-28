@@ -13,22 +13,56 @@ foreach ($results as $result) {
             <?php
         }
         ?>
-        <div id="es-status">
-            <p>Status : <?php echo $result->status; ?></p>
-        </div>
         <div id="es-name">
             <p><i class="fa fa-bookmark"></i><?php echo $result->name; ?></p>
         </div>
-        <h3>Coordonnées</h3>
-        <div id="es-address">
-            <p><?php echo $result->address; ?></p>
+        <div id="es-status">
+            <p>Statut : <?php echo $result->status; ?></p>
         </div>
-        <div id="es-city">
-            <p><?php echo $result->city; ?></p>
+
+        <h3 id="es-label-organism">Organisme</h3>
+        <div id="es-country">
+            <p>
+                <i class="fa fa-globe" aria-hidden="true"></i>
+                <?php echo $resultCountry; ?>
+            </p>
         </div>
-        <div id="es-postalcode">
-            <p><?php echo $result->postal_code; ?></p>
+        <?php
+        if($result->organism_type){
+        ?>
+            <div id="es-type">
+                <span>Type</span>
+                <p><?php echo $result->organism_type; ?></p>
+            </div>
+        <?php
+        }
+        if($result->organism_theme){
+        ?>
+        <div id="es-theme">
+            <span>Thematique</span>
+            <p><?php echo $result->organism_theme; ?></p>
         </div>
+        <?php
+        }
+        ?>
+        <h3 id="es-label-activities">Activités</h3>
+        <div id="es-activities">
+            <?php
+            foreach ($activities as $activity){
+                echo '<p><i class="fa fa-circle-thin" aria-hidden="true"></i>' . $activity . '</p>';
+            }
+            ?>
+        </div>
+        <?php
+        if($result->organism_activities_more) {
+        ?>
+        <h3 id="es-label-activities-more">Activités complémentaires</h3>
+        <div id="es-activities-more">
+            <p><?php echo $result->organism_activities_more; ?></p>
+        </div>
+        <?php
+        }
+        ?>
     </div>
     <div id="presentation">
         <h2 id="label-presentation">Présentation</h2>
