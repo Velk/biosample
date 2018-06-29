@@ -607,6 +607,11 @@ function bsconnexion_admin_datas_user_delete_submit($form, &$form_state){
     $match_username = $form_state['values']['data_username'];
     $match_affiliation_societe = $form_state['values']['data_affiliation_societe'];
 
+    $query = db_select('users','u');
+    $query->fields('u', array('uid'));
+    $query->condition('name', $match_username, '=');
+    $resultUID = $query->execute()->fetchField();
+
     db_delete('users_extra_fields')
         ->condition('username', $match_username, '=')
         ->execute();
@@ -615,7 +620,12 @@ function bsconnexion_admin_datas_user_delete_submit($form, &$form_state){
         ->condition('name', $match_username, '=')
         ->execute();
 
-    drupal_set_message("Le compte ".$match_affiliation_societe." a été supprimé.");
+    // Delete the establishment sheet of the account
+    db_delete('establishment_sheet')
+        ->condition('eid', $resultUID,'=')
+        ->execute();
+
+    drupal_set_message("Le compte ".$match_affiliation_societe." et ses données ont été supprimés.");
 }
 
 /**
@@ -1239,14 +1249,16 @@ function bsconnexion_theme($existing, $type, $theme, $path) {
  * Implement hook_block_info()
  */
 function bsconnexion_block_info() {
+
     $blocks['user_client_account_menu'] = array(
         'info' => t('Menu compte client'),
         'status' => TRUE,
         'region' => 'content',
         'visibility' => BLOCK_VISIBILITY_LISTED,
-        'pages' => "utilisateur/profil\r\nutilisateur/catalogueg\r\nutilisateur/catalogueg/*\r\nutilisateur/cataloguep\r\nutilisateur/historique\r\nutilisateur/devis\r\nutilisateur/abonnements\r\nutilisateur/ress_bio/etablissement\r\nutilisateur/ress_bio/annonces\r\nutilisateur/ress_bio/favoris",
+        'pages' => "utilisateur/profil\r\nutilisateur/catalogueg\r\nutilisateur/catalogueg/*\r\nutilisateur/cataloguep\r\nutilisateur/historique\r\nutilisateur/devis\r\nutilisateur/abonnements\r\nutilisateur/ress_bio/etablissement\r\nutilisateur/ress_bio/annonces\r\nutilisateur/ress_bio/favoris\r\nnode/add/rb-collections\r\nressources-biologiques/home",
         'weight' => 1,
     );
+
     // This example comes from node.module.
     $blocks['user_profil_unchangeable_datas'] = array(
         'info' => t('Données inchangeables'),

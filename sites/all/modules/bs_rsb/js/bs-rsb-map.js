@@ -2,6 +2,14 @@
     Drupal.behaviors.bs_rsb_map = {
         attach: function (context, settings) {
 
+            // Remove page title
+            $(".page-title-wrap").remove();
+
+            // If user account menu is visble, set the map lower
+            if($("#block-bsconnexion-user-client-account-menu").is(":Visible")){
+                $("#block-bs-rsb-ressources-bio-map").css("margin-top", $("#block-bsconnexion-user-client-account-menu").height());
+            }
+
             var tabIledeFrance = [75, 77, 78, 91, 92, 93, 94, 95];
 
             var tabDepartmentNumbers = [];
@@ -232,21 +240,21 @@
             });
 
             // Blur the block after a delay
-            // setTimeout(blurRsb, 4000);
-            //
-            // function blurRsb(){
-            //     $( "#block-bs-rsb-ressources-bio-map" ).css("filter", "blur(5px)");
-            //     $( "#block-bs-rsb-ressources-bio-collections" ).css("filter", "blur(5px)");
-            //     $( "#block-views-rb-collections-block" ).css("filter", "blur(5px)");
-            //     $( "#block-bs-rsb-ressources-bio-filtres" ).css("filter", "blur(5px)");
-            //
-            //     $("body").append("<div id='bs-rsb-popup'>" +
-            //         "<p>Nous travaillons actuellement sur cette plateforme.</p>" +
-            //         "<p>N'hésitez pas à nous suivre sur " +
-            //         "<a href='https://www.facebook.com/BioSample/' target='_blank'>Facebook</a>" +
-            //         " pour rester informé des évolutions !</p>" +
-            //         "</div>");
-            // }
+            setTimeout(blurRsb, 4000);
+
+            function blurRsb(){
+                $( "#block-bs-rsb-ressources-bio-map" ).css("filter", "blur(5px)");
+                $( "#block-bs-rsb-ressources-bio-collections" ).css("filter", "blur(5px)");
+                $( "#block-views-rb-collections-block" ).css("filter", "blur(5px)");
+                $( "#block-bs-rsb-ressources-bio-filtres" ).css("filter", "blur(5px)");
+
+                $("body").append("<div id='bs-rsb-popup'>" +
+                    "<p>Nous travaillons actuellement sur cette plateforme.</p>" +
+                    "<p>N'hésitez pas à nous suivre sur " +
+                    "<a href='https://www.facebook.com/BioSample/' target='_blank'>Facebook</a>" +
+                    " pour rester informé des évolutions !</p>" +
+                    "</div>");
+            }
         }
     };
 }(jQuery));
