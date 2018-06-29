@@ -1,0 +1,142 @@
+<?php
+
+/**
+ * Implement hook_help()
+ *
+ * @param $path
+ * @param $arg
+ * @return string
+ */
+function bs_popup_help($path, $arg) {
+    switch ($path) {
+        case 'admin/help#bs_popup':
+        return '<p>' . t('Module BioSample for the Pop up managing.') . '</p>';
+    }
+}
+
+/**
+ * Implement hook_menu()
+ *
+ * @return array
+ */
+function bs_popup_menu(){
+    $items = array();
+
+    $items['admin/BioSample/popup-manager'] = array(
+        'title' => t('BS - Popup manager'),
+        'description' => t('BS Popup manager'),
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('bs_popup_admin_manager_form'),
+        'access arguments' => array('access administration pages'),
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    return $items;
+}
+
+/**
+ * Implement hook_form()
+ *
+ * @param $form
+ * @param $form_state
+ * @return mixed
+ */
+function bs_popup_admin_manager_form($form, $form_state){
+
+    $form['bs_popup']["text"] = array(
+        "#type" => "textfield",
+    );
+
+    return $form;
+}
+
+/**
+ * Implement hook_theme()
+ *
+ * @param $existing
+ * @param $type
+ * @param $theme
+ * @param $path
+ * @return array
+ */
+function bs_popup_theme($existing, $type, $theme, $path) {
+    return array(
+        'tpl_popup_cookies' => array(
+            'template' => 'template/cookies',
+            'path' => drupal_get_path('module', 'bs_popup'),
+            'variables' => array('infos' => NULL),
+        ),
+    );
+}
+
+/**
+ * Implement hook_block_info()
+ *
+ * @return array
+ */
+function bs_popup_block_info() {
+    $blocks = array();
+
+    $blocks['bs_popup_cookies'] = array(
+        'info' => t('BS - Popup - Cookies'),
+        'status' => TRUE,
+        'region' => 'content',
+        'visibility' => BLOCK_VISIBILITY_NOTLISTED,
+        'weight' => 1,
+    );
+
+    return $blocks;
+}
+
+/**
+ * Implement hook_block_view()
+ *
+ * @see hook_block_info()
+ */
+function bs_popup_block_view($delta = '') {
+    $block = array();
+
+    switch ($delta) {
+
+        case 'bs_popup_cookies':
+
+            $data['form'] = drupal_render(drupal_get_form('bs_popup_cookies_form'));
+
+            // Link the template for the rsb establishments sheet
+            $block['content']['#markup'] = theme('tpl_popup_cookies', $data);
+
+            // Link a css file for the rsb establishments sheet
+            $block['content']['#attached']['css'][] = array(
+                'data' => drupal_get_path('module', 'bs_popup') . '/css/cookies.css',
+                'type' => 'file'
+            );
+
+            // Link a js file for the rsb establishments sheet
+            $block['content']['#attached']['js'][] = array(
+                'data' => drupal_get_path('module', 'bs_popup') . '/js/cookies.js',
+                'type' => 'file'
+            );
+
+            break;
+
+    }
+
+    return $block;
+}
+
+/**
+ * Implement hook_form()
+ *
+ * @param $form
+ * @param $form_state
+ * @return mixed
+ */
+function bs_popup_cookies_form($form, $form_state){
+
+    $form['bs_popup']["text"] = array(
+        "#type" => "textfield",
+        "#title" => "Ceci est un titre",
+    );
+
+    return $form;
+}

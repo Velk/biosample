@@ -105,6 +105,177 @@ function bs_rsb_install() {
 
 function bs_rsb_uninstall() {
     db_drop_table('establishment_sheet');
+    db_drop_table('countries_list');
+}
+
+function bs_rsb_update_7001(){
+
+    $organism_type = array(
+        'type' => 'varchar',
+        'length' => 75,
+        'not null' => FALSE,
+        'description' => 'Organism type.',
+    );
+
+    $organism_theme = array(
+        'type' => 'varchar',
+        'length' => 75,
+        'not null' => FALSE,
+        'description' => 'Organism theme.',
+    );
+
+    $organism_activities = array(
+        'type' => 'text',
+        'size' => 'medium',
+        'description' => 'Organism activities.',
+    );
+
+    $organism_activities_more = array(
+        'type' => 'text',
+        'size' => 'medium',
+        'description' => 'Organism complementary activities.',
+    );
+
+    $organism_website = array(
+        'type' => 'varchar',
+        'length' => 40,
+        'not null' => FALSE,
+        'description' => 'Organism website.',
+    );
+
+    $organism_country = array(
+        'type' => 'varchar',
+        'length' => 40,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Organism country.',
+    );
+
+    $organism_phone = array(
+        'type' => 'varchar',
+        'length' => 25,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "Organism phone number.",
+    );
+
+    $organism_fax = array(
+        'type' => 'varchar',
+        'length' => 25,
+        'not null' => FALSE,
+        'description' => "Organism fax number.",
+    );
+
+    $organism_mail = array(
+        'type' => 'varchar',
+        'length' => 254,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "Organism mail.",
+    );
+
+    $organism_siret = array(
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => FALSE,
+        'description' => 'Organism SIRET.',
+    );
+
+    $organism_ape_code = array(
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => FALSE,
+        'description' => 'Organism APE code.',
+    );
+
+    $organism_contact_civility = array(
+        'type' => 'varchar',
+        'length' => 25,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "Organism contact civility.",
+    );
+
+    $organism_contact_firstname = array(
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "Organism contact firstname.",
+    );
+
+    $organism_contact_lastname = array(
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "Organism contact lastname.",
+    );
+
+    $organism_contact_poste = array(
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "Organism contact poste.",
+    );
+
+    $organism_contact_email = array(
+        'type' => 'varchar',
+        'length' => 254,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "Organism contact email.",
+    );
+
+    $organism_contact_phone = array(
+        'type' => 'varchar',
+        'length' => 25,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => "Organism contact phone number.",
+    );
+
+    db_add_field('establishment_sheet', 'organism_type', $organism_type);
+    db_add_field('establishment_sheet', 'organism_theme', $organism_theme);
+    db_add_field('establishment_sheet', 'organism_activities', $organism_activities);
+    db_add_field('establishment_sheet', 'organism_activities_more', $organism_activities_more);
+    db_add_field('establishment_sheet', 'organism_website', $organism_website);
+    db_add_field('establishment_sheet', 'organism_country', $organism_country);
+    db_add_field('establishment_sheet', 'organism_phone', $organism_phone);
+    db_add_field('establishment_sheet', 'organism_fax', $organism_fax);
+    db_add_field('establishment_sheet', 'organism_mail', $organism_mail);
+    db_add_field('establishment_sheet', 'organism_siret', $organism_siret);
+    db_add_field('establishment_sheet', 'organism_ape_code', $organism_ape_code);
+    db_add_field('establishment_sheet', 'organism_contact_civility', $organism_contact_civility);
+    db_add_field('establishment_sheet', 'organism_contact_firstname', $organism_contact_firstname);
+    db_add_field('establishment_sheet', 'organism_contact_lastname', $organism_contact_lastname);
+    db_add_field('establishment_sheet', 'organism_contact_poste', $organism_contact_poste);
+    db_add_field('establishment_sheet', 'organism_contact_email', $organism_contact_email);
+    db_add_field('establishment_sheet', 'organism_contact_phone', $organism_contact_phone);
+}
+
+function bs_rsb_update_7002(){
+
+    $schema['countries_list'] = array(
+        'fields' => array(
+            'cl_id' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+                'description' => "Country ID.",
+            ),
+            'cl_name' => array(
+                'type' => 'varchar',
+                'length' => 100,
+                'not null' => FALSE,
+                'description' => "Country name.",
+            ),
+        ),
+        'primary key' => array('cl_id'),
+    );
+
+    db_create_table('countries_list', $schema['countries_list']);
 }
 
 ?>

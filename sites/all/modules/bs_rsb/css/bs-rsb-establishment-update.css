@@ -45,7 +45,7 @@ fieldset.filter-wrapper {
 div#bs-rsb-bs-contact {
     width: 100%;
     position: relative;
-    background-color: #424242;
+    background-color: #20313a;
     padding: 25px;
     color: #fff;
     border-top: 1px solid #fff;
@@ -69,6 +69,7 @@ div#bs-rsb-update-datas {
     box-shadow: 1px 1px 5px #9e9e9e;
 }
 
+/* Title */
 #block-bs-rsb-rb-establishment-sheet div#bs-rsb-update-datas > h2 {
     margin: 0 0 40px 0;
     text-align: center;
@@ -78,61 +79,155 @@ div#bs-rsb-update-datas {
     padding: 5px 15px;
 }
 
+/* Fieldset */
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form fieldset {
+    border: none;
+    border-top: 2px solid #1e6a8e;
+    text-align: left;
+    margin-bottom: 40px;
+    box-shadow: inset 0px 0px 5px #c5c5c5;
+    padding-right: 25px;
+    padding-left: 25px;
+}
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form fieldset.collapsed {
+    box-shadow: none;
+}
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form fieldset > legend {
+    font-size: 18px;
+    background-color: #fff;
+}
+
+/* Labels */
 #block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form label {
-    display: inline-block;
-    width: 200px;
-    height: 35px;
-    padding: 4px 5px 4px 0;
+    min-height: 25px;
+    margin: 5px 0;
+    padding: 0;
     box-sizing: border-box;
     font-size: 16px;
     color: #1e6a8e;
 }
 
-#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form > div > div > input,
-#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form > div >  div >select {
-    width: calc(100% - 225px) !important;
-    float: right;
+/* Checkboxes */
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form .form-checkboxes {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-gap: 10px 20px;
+}
+
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form .form-checkboxes .form-type-checkbox {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: baseline;
+    align-content: baseline;
+}
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form .form-checkboxes .form-type-checkbox input[type="checkbox"] {
+    margin: 0 10px 0 0;
+    width: 15px;
+    height: 15px;
+}
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form .form-checkboxes .form-type-checkbox label {
+    color: #424242;
+}
+
+/* Input & select */
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form input,
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form select {
+    width: 100%;
     border: 1px solid #f1f1f1;
     border-bottom: 2px solid #1e6a8e;
     padding: 7px 10px;
     font-size: 14px;
     background-color: #fff;
 }
-
-#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form > div >  div > div.description {
-    margin-top: 25px;
-    position: relative;
-}
-
-#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form > div > .form-item,
-#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form > div > .text-format-wrapper {
-    margin:30px 0;
-}
-
-/*#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form > div > .form-item {*/
-    /*height:35px;*/
-/*}*/
-
-#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form > div > span > .form-submit {
-    float: none;
-    position: relative;
-    width: 200px !important;
-    left: 50%;
-    transform: translateX(-50%);
-    background: none;
-    background-color: #1e6a8e;
-    color: #fff;
-    box-shadow: none;
-    border: none;
-    border-radius: 2px;
-    margin-top: 25px;
-    padding: 8px;
-}
-
-#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form > div > span > .form-submit:hover {
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form select {
     background-color: #424242;
+    color: #fff;
+    border: none;
 }
 
+/* First fieldset container */
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form fieldset.collapsed #edit-establishment-datas {
+    display: none;
+}
+#edit-establishment-datas {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas:
+            "a a b b"
+            "c c c c"
+            "d d d d"
+            "e e e e"
+            "f f f f"
+            "g g h h"
+            "i i j j"
+            "k k k k"
+            "l m n n"
+            "o o p p"
+            "q q q q"
+            "r r r r"
+            "s s s s";
+    grid-gap: 10px 40px;
+}
+
+#edit-establishment-datas .form-item-name {
+    grid-area: a;
+}
+#edit-establishment-datas .form-item-status {
+    grid-area: b;
+}
+#edit-establishment-datas .form-item-type {
+    grid-area: c;
+}
+#edit-establishment-datas .form-item-theme {
+    grid-area: d;
+}
+#edit-establishment-datas .form-item-activities {
+    grid-area: e;
+}
+#edit-establishment-datas .form-item-complementary-activities {
+    grid-area: f;
+}
+#edit-establishment-datas .form-item-website {
+    grid-area: g;
+}
+#edit-establishment-datas .form-item-countries {
+    grid-area: h;
+}
+#edit-establishment-datas .form-item-postal-code {
+    grid-area: i;
+}
+#edit-establishment-datas .form-item-city {
+    grid-area: j;
+}
+#edit-establishment-datas .form-item-address {
+    grid-area: k;
+}
+#edit-establishment-datas .form-item-phone {
+    grid-area: l;
+}
+#edit-establishment-datas .form-item-fax {
+    grid-area: m;
+}
+#edit-establishment-datas .form-item-email {
+    grid-area: n;
+}
+#edit-establishment-datas .form-item-siret {
+    grid-area: o;
+}
+#edit-establishment-datas .form-item-APE-code {
+    grid-area: p;
+}
+#edit-establishment-datas .text-format-wrapper {
+    grid-area: q;
+}
+#edit-establishment-datas .form-item-files-image {
+    grid-area: r;
+}
+#edit-establishment-datas #bs-rsb-preview-img {
+    grid-area: s;
+}
+
+/* Image & Image preview */
 #bs-rsb-preview-img {
     margin: 30px 0;
 }
@@ -170,10 +265,62 @@ div#bs-rsb-update-datas {
     height: auto;
 }
 
-/* Fields errors */
+/* Second fieldset container */
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form fieldset.collapsed #edit-establishment-coordinator {
+    display: none;
+}
+#edit-establishment-coordinator {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+            "aa bb cc"
+            "dd dd dd"
+            "ee ff ff";
+    grid-gap: 10px 40px;
+}
+#edit-establishment-coordinator .form-item-contact-civility {
+    grid-area: aa;
+}
+#edit-establishment-coordinator .form-item-contact-firstname {
+    grid-area: bb;
+}
+#edit-establishment-coordinator .form-item-contact-lastname {
+    grid-area: cc;
+}
+#edit-establishment-coordinator .form-item-contact-poste {
+    grid-area: dd;
+}
+#edit-establishment-coordinator .form-item-contact-phone {
+    grid-area: ee;
+}
+#edit-establishment-coordinator .form-item-contact-email {
+    grid-area: ff;
+}
 
-#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form > div > div > input.error,
-#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form > div > div >select.error {
+/* Submit button */
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form > div > span > .form-submit {
+    float: none;
+    position: relative;
+    width: 200px !important;
+    left: 50%;
+    transform: translateX(-50%);
+    background: none;
+    background-color: #1e6a8e;
+    color: #fff;
+    box-shadow: none;
+    border: none;
+    border-radius: 2px;
+    margin-top: 40px;
+    padding: 8px;
+}
+
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form > div > span > .form-submit:hover {
+    background-color: #424242;
+}
+
+/* Fields errors */
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form input.error,
+#block-bs-rsb-rb-establishment-sheet form#bs-rsb-updating-establishment-form select.error {
     background-color: #ffd1d1;
     color: #F44336;
 }

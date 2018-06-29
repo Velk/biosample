@@ -1,0 +1,11 @@
+/* Custom the cookie module */
+
+.bs-popup-cookies {
+    position: fixed;
+    /*display: block;*/
+    display: none;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+}
+
