@@ -115,40 +115,37 @@ $arrayCollections = array(
 <div id="bs-rsb-container">
     <div id="bs-rsb-filters-container">
         <h2>FILTRES</h2>
-        <button>Réinitialiser</button>
+        <button id="reinit-all-filters">Réinitialiser tous les filtres</button>
         <div id="bs-rsb-filters">
             <?php
-            for($nb = 0; $nb < count($arrayFilters); $nb++) {
+            foreach ($resultsFC as $resultFC){
                 ?>
                 <div class="bs-rsb-filter">
                     <div class="bs-rsb-filter-title">
                         <?php
-                        echo "<p>" . $arrayFilters[$nb]["name"] . "</p><i class=\"fa fa-angle-down\"></i>"
+                        echo "<p>" . $resultFC->name . "</p><i class='fa fa-plus'></i>" ."<p class='bs-rsb-filter-tid'>" . $resultFC->tid . "</p>"
                         ?>
                     </div>
-                    <div class="bs-rsb-filter-datas">
-                        <div class="bs-rsb-filter-datas-search">
-                            <input type="search" placeholder="Rechercher"><i class="fa fa-search"></i>
-                        </div>
-                        <div class="bs-rsb-filter-datas-checkboxes">
-                            <?php
-                            $nbFiltersCheckbox = count($arrayFilters[$nb]["filters"]);
-                            for($nbC = 0; $nbC < $nbFiltersCheckbox; $nbC++) {
-                                ?>
-                                <div class="bs-rsb-filter-datas-checkbox">
-                                    <input type="checkbox">
-                                    <?php
-                                    echo "<p>" . $arrayFilters[$nb]["filters"][$nbC] . "</p>";
-                                    ?>
-                                </div>
-                                <?php
-                            }
-                            if($nbFiltersCheckbox > 5){
-                                echo "<button>Plus de critères</button>";
-                            }
-                            ?>
-                        </div>
-                    </div>
+<!--                    <div class="bs-rsb-filter-datas">-->
+<!--                        <div class="bs-rsb-filter-datas-checkboxes">-->
+<!--                            --><?php
+//                            $nbFiltersCheckbox = count($arrayFilters[$nb]["filters"]);
+//                            for($nbC = 0; $nbC < $nbFiltersCheckbox; $nbC++) {
+//                                ?>
+<!--                                <div class="bs-rsb-filter-datas-checkbox">-->
+<!--                                    <input type="checkbox">-->
+<!--                                    --><?php
+//                                    echo "<p>" . $arrayFilters[$nb]["filters"][$nbC] . "</p>";
+//                                    ?>
+<!--                                </div>-->
+<!--                                --><?php
+//                            }
+//                            if($nbFiltersCheckbox > 5){
+//                                echo "<button>Plus de critères</button>";
+//                            }
+//                            ?>
+<!--                        </div>-->
+<!--                    </div>-->
                 </div>
                 <?php
             }

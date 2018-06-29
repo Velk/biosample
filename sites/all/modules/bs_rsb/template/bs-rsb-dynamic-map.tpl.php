@@ -107,13 +107,14 @@
            xmlns:svg="http://www.w3.org/2000/svg"
            xmlns="http://www.w3.org/2000/svg"
            xmlns:xlink="http://www.w3.org/1999/xlink"
-           xmlns:dc="http://purl.org/dc/elements/1.1/"
-           xmlns:cc="http://web.resource.org/cc/"
-           xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
            version="1.0"
            width="507.08136"
            height="553.04327"
            id="svg2">
+<!--           xmlns:dc="http://purl.org/dc/elements/1.1/"-->
+<!--           xmlns:cc="http://web.resource.org/cc/"-->
+<!--           xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"-->
+
           <defs
              id="defs4">
             <clipPath
@@ -127,29 +128,29 @@
             </clipPath>
           </defs>
 
-          <metadata
-             id="metadata2027">
-            <rdf:RDF>
-              <cc:Work
-                 rdf:about="">
-                <dc:format>image/svg+xml</dc:format>
-                <dc:type
-                   rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-                <cc:license
-                   rdf:resource="http://web.resource.org/cc/PublicDomain" />
-                <dc:title>Departements of France</dc:title>
-              </cc:Work>
-              <cc:License
-                 rdf:about="http://web.resource.org/cc/PublicDomain">
-                <cc:permits
-                   rdf:resource="http://web.resource.org/cc/Reproduction" />
-                <cc:permits
-                   rdf:resource="http://web.resource.org/cc/Distribution" />
-                <cc:permits
-                   rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
-              </cc:License>
-            </rdf:RDF>
-          </metadata>
+<!--          <metadata-->
+<!--             id="metadata2027">-->
+<!--            <rdf:RDF>-->
+<!--              <cc:Work-->
+<!--                 rdf:about="">-->
+<!--                <dc:format>image/svg+xml</dc:format>-->
+<!--                <dc:type-->
+<!--                   rdf:resource="http://purl.org/dc/dcmitype/StillImage" />-->
+<!--                <cc:license-->
+<!--                   rdf:resource="http://web.resource.org/cc/PublicDomain" />-->
+<!--                <dc:title>Departements of France</dc:title>-->
+<!--              </cc:Work>-->
+<!--              <cc:License-->
+<!--                 rdf:about="http://web.resource.org/cc/PublicDomain">-->
+<!--                <cc:permits-->
+<!--                   rdf:resource="http://web.resource.org/cc/Reproduction" />-->
+<!--                <cc:permits-->
+<!--                   rdf:resource="http://web.resource.org/cc/Distribution" />-->
+<!--                <cc:permits-->
+<!--                   rdf:resource="http://web.resource.org/cc/DerivativeWorks" />-->
+<!--              </cc:License>-->
+<!--            </rdf:RDF>-->
+<!--          </metadata>-->
 
           <g id="complete_map"  >
             <path
@@ -450,65 +451,55 @@
 
     <?php
 
-        // An array containing department numbers
-        $tabDepartments = array(
-            "numDept" => array(71, 77, 69, 92 ,40),
-            "nbBiobank" => array(4, 2, 3, 1, 2),
-            "nbCollections" => array(15, 12, 8, 4, 1),
-            "nbEchantillons" => array(504, 701, 124, 952, 80)
-        );
-
         // A loop to display each marker corresponding to department numbers
-        for($i=0; $i < count($tabDepartments["numDept"]); $i++){
-            echo "<i class='fa fa-map-marker rsb-markers' id='rsb-marker-" . $tabDepartments["numDept"][$i] . "'></i>";
+        for($i=0; $i < count($tabDepartmentsDatas); $i++){
+            echo "<i class='fa fa-map-marker rsb-markers' id='rsb-marker-" . $keys[$i] . "'></i>";
         }
 
-        // Size of the array
-        $arraySize = count($tabDepartments["numDept"]);
+        // Size of the array to retrieve the number of department
+        $arraySize = count($tabDepartmentsDatas);
 
     ?>
 
     <div id="rsb-map-infos">
-        <li>
-            Biosample répertorie
-            <?php
-                $totalBiobanks = 0;
-                for($k = 0; $k<$arraySize ; $k++){
-                    $totalBiobanks = $totalBiobanks + $tabDepartments["nbBiobank"][$k];
-                }
-                echo "<span>" . $totalBiobanks. "</span>";
-            ?>
-            Biobanques
-        </li>
-        <li>
-            Comprenant
-            <?php
-                $totalCollections = 0;
-                for($k = 0; $k<$arraySize ; $k++){
-                    $totalCollections = $totalCollections + $tabDepartments["nbCollections"][$k];
-                }
-                echo "<span>" . $totalCollections. "</span>";
-            ?>
-            collections
-        </li>
-        <li>
-            Pour un total de
-            <?php
-                $totalEchantillons = 0;
-                for($k = 0; $k<$arraySize ; $k++){
-                    $totalEchantillons = $totalEchantillons + $tabDepartments["nbEchantillons"][$k];
-                }
-                echo "<span>" . $totalEchantillons. "</span>";
-            ?>
-            échantillons
-        </li>
-        <li>
-            Répartie sur
-            <?php
-                echo "<span>" . $arraySize . "</span>";
-            ?>
-            départements
-        </li>
+    <?php
+        if($totalBiobanks > 0) {
+    ?>
+            <li>
+                Biosample répertorie
+                <?php echo "<span>" . $totalBiobanks . "</span>"; ?>
+                Biobanques
+            </li>
+    <?php
+        }
+        if($totalCollections > 0) {
+    ?>
+            <li>
+                Comprenant
+                <?php echo "<span>" . $totalCollections . "</span>"; ?>
+                collections
+            </li>
+    <?php
+        }
+        if($totalEchantillons > 0) {
+    ?>
+            <li>
+                Pour un total de
+                <?php echo "<span>" . $totalEchantillons . "</span>"; ?>
+                échantillons
+            </li>
+    <?php
+        }
+        if($arraySize > 0) {
+    ?>
+            <li>
+                Répartie sur
+                <?php echo "<span>" . $arraySize . "</span>"; ?>
+                départements
+            </li>
+    <?php
+        }
+    ?>
         <div id="rsb-map-bottom">
             <a href="#block-bs-rsb-ressources-bio-collections">
                 <i class="fa fa-chevron-circle-down"></i>
@@ -520,22 +511,22 @@
 
     <div id="rsb-map-marker-datas">
     <?php
-        for($i=0; $i < count($tabDepartments["numDept"]); $i++){
+        for($i=0; $i < count($tabDepartmentsDatas); $i++){
     ?>
-            <div id="dpt-<?php echo $tabDepartments["numDept"][$i]; ?>">
+            <div id="dpt-<?php echo $keys[$i]; ?>">
                 <p class="rsb-datas-location">
                     <?php
-                        echo $tabDepartments["numDept"][$i];
+                        echo $keys[$i];
                         echo " - ";
-                        echo $tabDeptName[$tabDepartments["numDept"][$i]];
+                        echo $tabDeptName[$keys[$i]];
                     ?>
                 </p>
                 <p class="rsb-datas-name">Biobanques : </p>
-                <p class="rsb-datas-value"> <?php echo $tabDepartments["nbBiobank"][$i]; ?> </p>
+                <p class="rsb-datas-value"> <?php echo $tabDepartmentsDatas[$keys[$i]][1]; ?> </p>
                 <p class="rsb-datas-name">Collections : </p>
-                <p class="rsb-datas-value"> <?php echo $tabDepartments["nbCollections"][$i]; ?> </p>
+                <p class="rsb-datas-value"> <?php echo $tabDepartmentsDatas[$keys[$i]][2]; ?> </p>
                 <p class="rsb-datas-name">Echantillons : </p>
-                <p class="rsb-datas-value"> <?php echo $tabDepartments["nbEchantillons"][$i]; ?> </p>
+                <p class="rsb-datas-value"> <?php echo $tabDepartmentsDatas[$keys[$i]][3]; ?> </p>
             </div>
     <?php
         }

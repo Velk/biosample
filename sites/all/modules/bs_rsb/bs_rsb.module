@@ -51,8 +51,8 @@ function bs_rsb_menu(){
     );
 
     $items['utilisateur/ress_bio/etablissement'] = array(
-        'title' => t('Ressources biologiques - Mon établissement'),
-        'description' => t('Page profil permettant de gérer un établissement spécialisé dans les ressources biologiques.'),
+        'title' => t('Ressources biologiques - Mon organisme'),
+        'description' => t('Page profil permettant de gérer un organisme spécialisé dans les ressources biologiques.'),
         'page callback' => 'bs_rsb_block_view',
         'access callback' => 'user_is_logged_in',
         'type' => MENU_NORMAL_ITEM,
@@ -60,7 +60,7 @@ function bs_rsb_menu(){
 
     $items['ressources-biologiques/home/etablissement/*'] = array(
         'title' => t('Ressources biologiques - Etablissement'),
-        'description' => t('Page affichant l\'établissement proposant la fiche.'),
+        'description' => t('Page affichant l\'organisme proposant la fiche.'),
         'page callback' => 'bs_rsb_block_view',
         'access callback' => TRUE,
         'type' => MENU_NORMAL_ITEM,
@@ -82,8 +82,270 @@ function bs_rsb_menu(){
         'type' => MENU_NORMAL_ITEM,
     );
 
+    $items['ressources-biologiques/home/criteres'] = array(
+        'title' => 'Ressources Biologiques - Critères',
+        'page callback' => 'bs_rsb_criteres_request',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK
+    );
+
+    $items['ressources-biologiques/home/criteres/filters'] = array(
+        'title' => 'Ressources Biologiques - Filtres',
+        'page callback' => 'bs_rsb_filters_request',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK
+    );
+
     return $items;
 }
+
+/**
+ * Page callback
+ * Return json output for ajax request
+ */
+function bs_rsb_filters_request() {
+    global $user;
+
+    // Retrieve the vid of the vocabulary for the machine_name "ressources_biologiques"
+    // ! Be careful, the machine_name must absolutely be 'ressources_biologiques'
+    $query = db_select('taxonomy_vocabulary', 'tv');
+    $query->fields('tv',array('vid'));
+    $query->condition('tv.machine_name', 'ressources_biologiques','=');
+    $resultVID = $query->execute()->fetchField(0);
+
+    /* ----------------------------------------------------------------------------------------*/
+    /* ----------------------------- Request - Requirement filters -----------------------------*/
+    /* ----------------------------------------------------------------------------------------*/
+
+    // Retrieve filters of a filter categories
+
+//    $arraySize = sizeof($_GET['requirement_filter_names']);
+//    drupal_set_message("Array size : " . $arraySize);
+
+//    for($l = 0 ; $l < sizeof($_GET['requirement_filter_names']) ; $l++){
+//        drupal_set_message($l . " : " . $_GET['requirement_filter_names'][$l]);
+//    }
+//
+//    $arrayFiltersResult = [];
+//    $arrayFiltersRequirement = [];
+//
+//    $query = db_select('taxonomy_term_data', 'ttd');
+//    $query->join('field_revision_field_critere','frfc','ttd.tid = frfc.field_critere_tid');
+//    $query->join('node','n','frfc.revision_id = n.nid');
+////        $query->distinct();
+//    $query->condition('ttd.vid', $resultVID, '=');
+//
+//
+//    for($i = 0  ; $i < $arraySize ; $i++){
+//
+//        $query->condition('ttd.name', $_GET['requirement_filter_names'][$i], '=');
+//    }
+//
+//    $query->fields('n',array('nid'));
+//
+//    $resultsFiltersRequirement = $query->execute();
+//
+////        $rowCountFiltersRequirement = $query->execute()->rowCount();
+//
+//    foreach ($resultsFiltersRequirement as $resultFiltersRequirement){
+//
+//        array_push($arrayFiltersRequirement, $resultFiltersRequirement->nid);
+//    }
+//
+//    $query = db_select('taxonomy_term_data', 'ttd');
+//    $query->join('field_revision_field_critere','frfc','ttd.tid = frfc.field_critere_tid');
+//    $query->join('node','n','frfc.revision_id = n.nid');
+//    $query->distinct();
+//    $query->condition('ttd.vid', $resultVID, '=');
+//
+//    // Initialize OR condition
+////    $or = db_or();
+//    // Loop into the array transmit by AJAX
+//    for($i = 0 ; $i < sizeof($_GET['requirement_filter_names']) ; $i++){
+//
+//        // Set OR condition
+//        $query->condition('ttd.name', $_GET['requirement_filter_names'][$i], '=');
+////        $or->condition('ttd.name', $_GET['requirement_filter_names'][$i], '=');
+//        // Add OR conditions to query
+////        $query->condition($or);
+//    }
+//
+//    $query->fields('n',array('nid'));
+//    $resultsFiltersRequirement = $query->execute();
+//
+//    $rowCountFiltersRequirement = $query->execute()->rowCount();
+//
+//    $arrayFiltersRequirement = [];
+//
+//    foreach ($resultsFiltersRequirement as $resultFiltersRequirement){
+//
+//        array_push($arrayFiltersRequirement, $resultFiltersRequirement->nid);
+//    }
+//
+//    $result['rowCountFiltersRequirement'] = $rowCountFiltersRequirement;
+//
+//    $result['resultsFiltersRequirement'] = $arrayFiltersRequirement;
+
+//    drupal_set_message("-------------------------------");
+//
+//    $test = $_GET['requirement_filter_names'];
+//    drupal_set_message("Size : " . sizeof($test));
+//    drupal_set_message("Tiens : " . $_GET['requirement_filter_names'][0]);
+//    drupal_set_message("Tiens : " . $_GET['requirement_filter_names'][1]);
+
+    $arrayFiltersRequirement = [];
+
+    $query = db_select('field_data_field_critere', 'fdfc');
+    $query->join('taxonomy_term_data','ttd','fdfc.field_critere_tid = ttd.tid');
+    $query->condition('ttd.vid', $resultVID, '=');
+
+    // Initialize OR condition
+    $or = db_or();
+    // Loop into the array transmit by AJAX
+    for($i = 0 ; $i < $_GET['requirement_filter_size'] ; $i++){
+
+//        drupal_set_message("i = " . $i);
+        // Set OR condition
+//        $query->condition('ttd.name', $_GET['requirement_filter_names'][$i], '=');
+        $or->condition('ttd.name', $_GET['requirement_filter_names'][$i], '=');
+        // Add OR conditions to query
+        $query->condition($or);
+    }
+
+//    $query->addExpression('COUNT(fdfc.entity_id)', 'count');
+//    $query->fields('fdfc',array('entity_id', 'count'));
+    $query->fields('fdfc',array('entity_id'));
+    $query->addExpression('count(entity_id)', 'entity_id_count');
+    $query->groupBy('fdfc.entity_id');
+
+    $query->having('COUNT(entity_id) >= :matches', array(':matches' => $_GET['requirement_filter_size']));
+
+    $resultsFiltersRequirement = $query->execute();
+
+//    foreach ($resultsFiltersRequirement as $blablabla){
+//        drupal_set_message("ENTITY_ID : " . $blablabla->entity_id);
+//        drupal_set_message("COUNT : " . $blablabla->entity_id_count);
+//        drupal_set_message("-------------------------------------------");
+//    }
+//
+    $rowCountFiltersRequirement = $query->execute()->rowCount();
+//
+//    $arrayFiltersRequirement = [];
+//
+    foreach ($resultsFiltersRequirement as $resultFiltersRequirement){
+
+        array_push($arrayFiltersRequirement, $resultFiltersRequirement->entity_id);
+    }
+//
+    $result['rowCountFiltersRequirement'] = $rowCountFiltersRequirement;
+//
+    $result['resultsFiltersRequirement'] = $arrayFiltersRequirement;
+
+    /* ----------------------------------------------------------------------------------------*/
+    /* ---------------------- Request - Requirement & preference filters ----------------------*/
+    /* ----------------------------------------------------------------------------------------*/
+
+    $arrayFilters = [];
+
+    // Retrieve filters of a filter categories
+    $query = db_select('taxonomy_term_data', 'ttd');
+    $query->join('field_revision_field_critere','frfc','ttd.tid = frfc.field_critere_tid');
+//    $query->join('node','n','frfc.revision_id = n.nid');
+    $query->condition('ttd.vid', $resultVID, '=');
+
+    // Initialize OR condition
+    $or = db_or();
+    // Loop into the array transmit by AJAX
+    for($i = 0 ; $i < $_GET['filter_size'] ; $i++){
+
+//        drupal_set_message("i = " . $i);
+        // Set OR condition
+//        $query->condition('ttd.name', $_GET['requirement_filter_names'][$i], '=');
+        $or->condition('ttd.name', $_GET['filter_names'][$i], '=');
+        // Add OR conditions to query
+        $query->condition($or);
+    }
+
+//    for($i = 0 ; $i < sizeof($_GET['filter_names']) ; $i++){
+//
+//        $query->condition('ttd.name', $_GET['filter_names'][$i], '=');
+//    }
+    $query->fields('frfc',array('entity_id'));
+    $query->addExpression('count(entity_id)', 'entity_id_count');
+    $query->groupBy('frfc.entity_id');
+
+    $query->having('COUNT(entity_id) >= :matches', array(':matches' => $_GET['filter_size']));
+
+    $resultsFilters = $query->execute();
+
+//    $query->fields('n',array('nid'));
+//    $resultsFilters = $query->execute();
+
+    $rowCountFilters = $query->execute()->rowCount();
+
+
+    foreach ($resultsFilters as $resultFilters){
+
+        array_push($arrayFilters, $resultFilters->entity_id);
+    }
+
+    $result['rowCountFilters'] = $rowCountFilters;
+
+    $result['resultsFilters'] = $arrayFilters;
+
+    drupal_json_output($result);
+
+}
+
+
+/**
+ * Page callback
+ * Return json output for ajax request
+ */
+function bs_rsb_criteres_request() {
+    global $user;
+
+    // Retrieve the vid of the vocabulary for the machine_name "ressources_biologiques"
+    // ! Be careful, the machine_name must absolutely be 'ressources_biologiques'
+    $query = db_select('taxonomy_vocabulary', 'tv');
+    $query->fields('tv',array('vid'));
+    $query->condition('tv.machine_name', 'ressources_biologiques','=');
+    $resultVID = $query->execute()->fetchField(0);
+
+    // Retrieve filters of a filter categories
+    $query = db_select('taxonomy_term_data', 'ttd');
+    $query->join('taxonomy_term_hierarchy', 'tth', 'ttd.tid = tth.tid');
+    $query->fields('ttd',array('name'));
+    $query->condition('ttd.vid', $resultVID,'=');
+    $query->condition('tth.parent', $_GET['tid'],'=');
+    $query->orderBy('ttd.weight','ASC');
+
+    $resultsCriteres = $query->execute();
+
+    $criteres = null;
+
+    foreach ($resultsCriteres as $resultCriteres){
+
+        $criteres =
+            $criteres .
+            '<div class="overlay-filter-container">' .
+                '<p>' .
+                    $resultCriteres->name .
+                '</p>' .
+                '<form class="ofc-form-choice">' .
+                  '<input type="radio" name="filter_importance" value="requirement">' .
+                  '<input type="radio" name="filter_importance" value="preference">' .
+                  '<input type="radio" name="filter_importance" value="indifferent" checked="checked">' .
+                '</form>' .
+            '</div>';
+    }
+
+    $result['resultsCriteres'] = $criteres;
+
+    drupal_json_output($result);
+
+}
+
 
 /**
  * Implement hook_init()
@@ -102,7 +364,8 @@ function bs_rsb_init(){
     /* Load js file to hide page title */
     if (
         preg_match("/^\/utilisateur\/ress_bio\/etablissement$/", $_SERVER["REQUEST_URI"]) ||
-        preg_match("/^\/utilisateur\/ress_bio\/favoris$/", $_SERVER["REQUEST_URI"])
+        preg_match("/^\/utilisateur\/ress_bio\/favoris$/", $_SERVER["REQUEST_URI"]) ||
+        preg_match("/^\/node\/add\/rb-collections$/", $_SERVER["REQUEST_URI"])
     ){
         drupal_add_js(drupal_get_path('module', 'bs_rsb') . '/js/bs-rsb-annonces-manager.js', array('group' => JS_DEFAULT, 'every_page' => TRUE));
     }
@@ -120,7 +383,7 @@ function bs_rsb_init(){
 function bs_rsb_theme($existing, $type, $theme, $path) {
     return array(
         'tpl_rsb_map' => array(
-            'template' => 'template/bs-rsb-map',
+            'template' => 'template/bs-rsb-dynamic-map',
             'path' => drupal_get_path('module', 'bs_rsb'),
             'variables' => array('infos' => NULL),
         ),
@@ -197,7 +460,7 @@ function bs_rsb_block_info() {
     );
 
     $blocks['rb_establishment_sheet'] = array(
-        'info' => t('Ressources biologiques - Fiche d\'établissement'),
+        'info' => t('Ressources biologiques - Fiche d\'organisme'),
         'status' => TRUE,
         'region' => 'content',
         'visibility' => BLOCK_VISIBILITY_LISTED,
@@ -228,8 +491,130 @@ function bs_rsb_block_view($delta = '') {
     switch ($delta) {
         case 'ressources_bio_map':
 
+            /* ---------------------------------------------------------------------------*/
+            /* ---------------- Retrieve the total number of Biobanks --------------------*/
+            /* ---------------------------------------------------------------------------*/
+            $query = db_select('establishment_sheet', 'es');
+            $query->fields('es', array('eid'));
+            $data['totalBiobanks'] = $query->execute()->rowCount();
+
+            /* ---------------------------------------------------------------------------*/
+            /* --------------- Retrieve the total number of collections ------------------*/
+            /* ---------------------------------------------------------------------------*/
+            $query = db_select('node', 'n');
+            $query->fields('n',array('nid'));
+            $query->condition("type", "rb_collections", "=");
+            $data['totalCollections'] = $query->execute()->rowCount();
+
+            /* ---------------------------------------------------------------------------*/
+            /* -------------- Retrieve the total number of echantillons ------------------*/
+            /* ---------------------------------------------------------------------------*/
+            $query = db_select('field_revision_field_nombre_echantillons', 'fne');
+            $query->fields('fne',array('field_nombre_echantillons_value'));
+            $query->condition("bundle", "rb_collections", "=");
+            $resultsTotalEchantillon = $query->execute();
+
+            // Initialize de total number of echantillons
+            $totalEchantillons = null;
+
+            foreach ($resultsTotalEchantillon as $resultTotalEchantillon) {
+                // Foreach result, sum them
+                $totalEchantillons = $totalEchantillons + $resultTotalEchantillon->field_nombre_echantillons_value;
+            }
+
+            $data['totalEchantillons'] = $totalEchantillons;
+
+            /* ---------------------------------------------------------------------------*/
+            /* ---------------------- Retrieve department number -------------------------*/
+            /* ---------------------------------------------------------------------------*/
+            $query = db_select("establishment_sheet", "es");
+            $query->fields('es', array('postal_code'));
+            $resultsPostalCode = $query->execute();
+
+            /* An array containing department numbers */
+            $tabDepartmentsDatas = array();
+
+            foreach ($resultsPostalCode as $resultPostalCode) {
+
+                // If there isn't datas in the array
+                if(count($tabDepartmentsDatas) == 0){
+
+                    // Split the postal code in order to retrieve the first two numbers
+                    $resultPostalCode->postal_code = str_split($resultPostalCode->postal_code, 2)[0];
+
+                    // Push the new department number in the array
+                    $tabDepartmentsDatas[$resultPostalCode->postal_code] = array($resultPostalCode->postal_code);
+
+                    // If there is already datas in the array
+                }else if(count($tabDepartmentsDatas) > 0){
+
+                    // Split the postal code in order to retrieve the first two numbers
+                    $resultPostalCode->postal_code = str_split($resultPostalCode->postal_code, 2)[0];
+
+                    for($i = 0 ; $i < count($tabDepartmentsDatas) ; $i++){
+
+                        // Compare the first two numbers to the department numbers already stocked in the array
+                        // If there are different, push the new department number in the array
+                        if($resultPostalCode->postal_code != $tabDepartmentsDatas[$i]){
+
+                            $tabDepartmentsDatas[$resultPostalCode->postal_code] = array($resultPostalCode->postal_code);
+                        }
+                    }
+                }
+
+            }
+
+            /* ---------------------------------------------------------------------------*/
+            /* ---------------------- Retrieve department datas --------------------------*/
+            /* ---------------------------------------------------------------------------*/
+
+            // Retrieve index names (that's to say postal_code)
+            $keys = array_keys($tabDepartmentsDatas);
+
+            for($c = 0 ; $c < count($tabDepartmentsDatas) ; $c++){
+
+                // Query to retrieve the number of biobank in the corresponding department
+                $query = db_select("establishment_sheet", "es");
+                $query->fields('es',array('eid', 'name'));
+                $query->condition("es.postal_code", db_like($tabDepartmentsDatas[$keys[$c]][0]) . '%',"LIKE");
+                $resultNbBiobank = $query->execute()->rowCount();
+
+                // Add the collection numbers to the corresponding department
+                $tabDepartmentsDatas[$keys[$c]][] = $resultNbBiobank;
+
+                // Initialize the number of samples
+                $nbEchantillons = null;
+
+                // Query to retrieve every samples number of a collection depending on the postal code
+                $query = db_select("establishment_sheet", "es");
+                $query->join("node","n","es.eid = n.uid");
+                $query->join("field_revision_field_nombre_echantillons", "fne", "n.nid = fne.entity_id");
+                $query->fields('fne',array('field_nombre_echantillons_value'));
+                $query->condition("es.postal_code", db_like($tabDepartmentsDatas[$keys[$c]][0]) . '%',"LIKE");
+                $resultsNbEchantillon = $query->execute();
+                $resultNbCollection = $query->execute()->rowCount();
+
+                // Foreach results
+                foreach ($resultsNbEchantillon as $resultNbEchantillon) {
+
+                    // Sum the number of samples find for each departments
+                    $nbEchantillons = $nbEchantillons + $resultNbEchantillon->field_nombre_echantillons_value;
+                }
+
+                // Add the collection numbers to the corresponding department
+                $tabDepartmentsDatas[$keys[$c]][] = $resultNbCollection;
+
+                // Add the sample numbers to the corresponding department
+                $tabDepartmentsDatas[$keys[$c]][] = $nbEchantillons;
+            }
+
+            // Pass to data the array containing department datas
+            $data['tabDepartmentsDatas'] = $tabDepartmentsDatas;
+            // Pass to data the array containing index value of this array
+            $data['keys'] = $keys;
+
             // Link the template for the rsb map
-            $block['content']['#markup'] = theme('tpl_rsb_map');
+            $block['content']['#markup'] = theme('tpl_rsb_map', $data);
 
             // Link a css file for the rsb map
             $block['content']['#attached']['css'][] = array(
@@ -266,8 +651,28 @@ function bs_rsb_block_view($delta = '') {
 
         case 'ressources_bio_filtres':
 
+            // Retrieve the vid of the vocabulary for the machine_name "ressources_biologiques"
+            // ! Be careful, the machine_name must absolutely be 'ressources_biologiques'
+            $query = db_select('taxonomy_vocabulary', 'tv');
+            $query->fields('tv',array('vid'));
+            $query->condition('tv.machine_name', 'ressources_biologiques','=');
+            $resultVID = $query->execute()->fetchField(0);
+
+            // Retrieve filter categories
+            $query = db_select('taxonomy_term_data', 'ttd');
+            $query->join('taxonomy_term_hierarchy', 'tth', 'ttd.tid = tth.tid');
+            $query->fields('ttd',array('name', 'tid'));
+            $query->condition('ttd.vid', $resultVID,'=');
+            $query->condition('tth.parent', "0",'=');
+            $query->orderBy('ttd.weight','ASC');
+            $data['resultsFC'] = $query->execute();
+
+//            foreach ($resultsFC as $resultFC) {
+//                drupal_set_message($resultFC->name);
+//            }
+
             // Link the template for the rsb filtres
-            $block['content']['#markup'] = theme('tpl_rsb_filtres');
+            $block['content']['#markup'] = theme('tpl_rsb_filtres', $data);
 
             // Link a css file for the rsb filtres
             $block['content']['#attached']['css'][] = array(
@@ -332,7 +737,6 @@ function bs_rsb_block_view($delta = '') {
 
         case 'rb_establishment_sheet':
 
-
             // Check if user has ever created an establishment sheet
             $query = db_select('establishment_sheet', 'es');
             $query->fields('es', array('eid'));
@@ -388,9 +792,81 @@ function bs_rsb_block_view($delta = '') {
 
             // Load every establishment datas concerning the author of the collection sheet
             $query = db_select('establishment_sheet', 'es');
-            $query->fields('es', array('name', 'address', 'city', 'postal_code', 'status', 'presentation'));
+            $query->fields(
+                'es',
+                array(
+                    'name',
+                    'status',
+                    'organism_type',
+                    'organism_theme',
+                    'organism_activities_more',
+                    'presentation'
+                )
+            );
             $query->condition('es.eid', $url_uid);
             $data['results'] = $query->execute();
+
+            // Retrieve activities
+            $query = db_select('establishment_sheet', 'es');
+            $query->fields('es', array('organism_activities'));
+            $query->condition('es.eid', $url_uid);
+            $activitiesIndentifiers = $query->execute()->fetchField(0);
+
+            // Split activities string depending on the separator
+            $arrayActivities = explode("-", $activitiesIndentifiers);
+
+            $arrayResultActivities = [];
+
+            foreach ($arrayActivities as $activity){
+
+                switch ($activity){
+                    case 1 :
+                        array_push($arrayResultActivities, 'Collecte');
+                        break;
+                    case 2 :
+                        array_push($arrayResultActivities, 'Préparation');
+                        break;
+                    case 3 :
+                        array_push($arrayResultActivities, 'Stockage');
+                        break;
+                    case 4 :
+                        array_push($arrayResultActivities, 'Recueil de données biocliniques');
+                        break;
+                    case 5 :
+                        array_push($arrayResultActivities, 'Recueil de données patients');
+                        break;
+                    case 6 :
+                        array_push($arrayResultActivities, 'Recherche');
+                        break;
+                    case 7 :
+                        array_push($arrayResultActivities, 'Enseignement');
+                        break;
+                    case 8 :
+                        array_push($arrayResultActivities, 'Prestation de collecte');
+                        break;
+                    case 9 :
+                        array_push($arrayResultActivities, 'Prestation de stockage');
+                        break;
+                    case 10 :
+                        array_push($arrayResultActivities, 'Prestations d\'analyses');
+                        break;
+                }
+            }
+
+            $data['activities'] = $arrayResultActivities;
+
+            // Retrieve country identifier then retrieve the name of the country
+            $query = db_select('establishment_sheet', 'es');
+            $query->fields('es', array('organism_country'));
+            $query->condition('es.eid', $url_uid);
+            $countryIdentifier = $query->execute();
+            $countryIdentifier = $countryIdentifier->fetchField(0);
+
+            $query = db_select('countries_list', 'cl');
+            $query->fields('cl',array('cl_name'));
+            $query->condition('cl.cl_id', $countryIdentifier);
+            $resultCountry = $query->execute();
+            $data['resultCountry'] = $resultCountry->fetchField(0);
 
             // Load every establishment datas concerning the author of the collection sheet
             $query = db_select('establishment_sheet', 'es');
@@ -432,44 +908,31 @@ function bs_rsb_block_view($delta = '') {
 function bs_rsb_creation_establishment_form($form, &$form_state){
 
     $form['establishment_sheet']['head_title'] = array(
-        '#markup' => '<h2>Votre établissement biologique</h2>',
+        '#markup' => '<h2>Votre organisme</h2>',
         '#weight' => 0,
     );
 
+/* ---------------------------------------------------------------------------------------------- */
+
+    // Fieldset : Establishment sheet - Establishment datas
+    $form['establishment_sheet']['establishment_datas'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Données de l\'organisme'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+        '#weight' => 1,
+    );
+
     // Establishment sheet : Name
-    $form['establishment_sheet']['name'] = array(
+    $form['establishment_sheet']['establishment_datas']['name'] = array(
         '#type' => 'textfield',
-        '#title' => t('Nom de l\'établissement'),
+        '#title' => t('Nom'),
         '#weight' => 1,
         '#required' => TRUE,
     );
 
-    // Establishment sheet : Address
-    $form['establishment_sheet']['address'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Adresse'),
-        '#weight' => 2,
-        '#required' => TRUE,
-    );
-
-    // Establishment sheet : City
-    $form['establishment_sheet']['city'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Ville'),
-        '#weight' => 3,
-        '#required' => TRUE,
-    );
-
-    // Establishment sheet : Postal code
-    $form['establishment_sheet']['postal_code'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Code postal'),
-        '#weight' => 4,
-        '#required' => TRUE,
-    );
-
     // Establishment sheet : Status
-    $form['establishment_sheet']['status'] = array(
+    $form['establishment_sheet']['establishment_datas']['status'] = array(
         '#type' => 'select',
         '#title' => t('Status'),
         '#options' => array(
@@ -477,38 +940,309 @@ function bs_rsb_creation_establishment_form($form, &$form_state){
             1 => t('Privé'),
             2 => t('Mixte'),
         ),
+        '#weight' => 2,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Organism type
+    $form['establishment_sheet']['establishment_datas']['type'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Type'),
+        '#weight' => 3,
+        '#required' => FALSE,
+    );
+
+    // Establishment sheet : Organism theme
+    $form['establishment_sheet']['establishment_datas']['theme'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Thematique'),
+        '#weight' => 4,
+        '#required' => FALSE,
+    );
+
+    // Establishment sheet : Organism activities
+    $form['establishment_sheet']['establishment_datas']['activities'] = array(
+        '#type' => 'checkboxes',
+        '#options' => array(
+            1 => 'Collecte',
+            2 => 'Préparation',
+            3 => 'Stockage',
+            4 => 'Recueil de données biocliniques',
+            5 => 'Recueil de données patients',
+            6 => 'Recherche',
+            7 => 'Enseignement',
+            8 => 'Prestation de collecte',
+            9 => 'Prestation de stockage',
+            10 => 'Prestations d\'analyses'
+        ),
+        '#title' => t('Activités'),
         '#weight' => 5,
         '#required' => TRUE,
     );
 
+    // Establishment sheet : Complementary activities
+    $form['establishment_sheet']['establishment_datas']['complementary_activities'] = array(
+        '#type' => 'textarea',
+        '#title' => t('Activités complémentaires'),
+        '#weight' => 6,
+        '#required' => FALSE,
+    );
+
+    // Establishment sheet : Website
+    $form['establishment_sheet']['establishment_datas']['website'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Site internet'),
+        '#weight' => 7,
+        '#required' => FALSE,
+    );
+
+    // Establishment sheet : Countries
+    $query = db_select('countries_list', 'cl');
+    $query->fields('cl', array('cl_id', 'cl_name'));
+    $resultsCountries = $query->execute();
+
+    $countryList = array();
+
+    foreach ($resultsCountries as $resultCountry) {
+
+        $countryList[$resultCountry->cl_id] = $resultCountry->cl_name;
+    }
+
+    $form['establishment_sheet']['establishment_datas']['countries'] = array(
+        '#type' => 'select',
+        '#title' => t('Pays'),
+        '#options' => $countryList,
+        '#weight' => 8,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Postal code
+    $form['establishment_sheet']['establishment_datas']['postal_code'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Code postal'),
+        '#weight' => 9,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : City
+    $form['establishment_sheet']['establishment_datas']['city'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Ville'),
+        '#weight' => 10,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Address
+    $form['establishment_sheet']['establishment_datas']['address'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Adresse'),
+        '#weight' => 11,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Phone
+    $form['establishment_sheet']['establishment_datas']['phone'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Téléphone'),
+        '#weight' => 12,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Fax
+    $form['establishment_sheet']['establishment_datas']['fax'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Fax'),
+        '#weight' => 13,
+        '#required' => FALSE,
+    );
+
+    // Establishment sheet : Email
+    $form['establishment_sheet']['establishment_datas']['email'] = array(
+        '#type' => 'textfield',
+        '#title' => t('E-mail'),
+        '#weight' => 14,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : SIRET
+    $form['establishment_sheet']['establishment_datas']['siret'] = array(
+        '#type' => 'textfield',
+        '#title' => t('SIRET'),
+        '#weight' => 15,
+        '#required' => FALSE,
+    );
+
+    // Establishment sheet : APE code
+    $form['establishment_sheet']['establishment_datas']['APE_code'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Code APE'),
+        '#weight' => 16,
+        '#required' => FALSE,
+    );
+
     // Establishment sheet : Presentation
-    $form['establishment_sheet']['presentation'] = array(
+    $form['establishment_sheet']['establishment_datas']['presentation'] = array(
         '#type' => 'text_format',
         '#title' => t('Présentation'),
         '#format' => 'wysiwyg',
-        '#weight' => 6,
+        '#weight' => 17,
         '#required' => TRUE,
     );
 
     // Establishment sheet : Image
-    $form['establishment_sheet']['image'] = array(
+    $form['establishment_sheet']['establishment_datas']['image'] = array(
         '#type' => 'file',
         '#title' => t('Image'),
-        '#description' => t('Cette image sera utilisé dans la présentation de votre établissement.
-        Vous pouvez par exemple choisir votre logo ou une photographie de votre établissement.'),
-        '#weight' => 7,
+        '#description' => t('Cette image sera utilisé dans la présentation de votre organisme.
+        Vous pouvez par exemple choisir votre logo ou une photographie de votre organisme.'),
+        '#weight' => 18,
     );
+
+/* ---------------------------------------------------------------------------------------------- */
+
+    // Fieldset : Establishment sheet - Establishment coordinator
+    $form['establishment_sheet']['establishment_coordinator'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Données du coordinateur'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+        '#weight' => 2,
+    );
+
+    // Establishment sheet : Contact civility
+    $form['establishment_sheet']['establishment_coordinator']['contact_civility'] = array(
+        '#type' => 'select',
+        '#title' => t('Civilité'),
+        '#options' => array(
+            0 => t('N/A'),
+            1 => t('Madame'),
+            2 => t('Monsieur'),
+        ),
+        '#weight' => 0,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Contact firstname
+    $form['establishment_sheet']['establishment_coordinator']['contact_firstname'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Prénom'),
+        '#weight' => 1,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Contact lastname
+    $form['establishment_sheet']['establishment_coordinator']['contact_lastname'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Nom'),
+        '#weight' => 2,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Contact poste
+    $form['establishment_sheet']['establishment_coordinator']['contact_poste'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Poste'),
+        '#weight' => 3,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Contact phone
+    $form['establishment_sheet']['establishment_coordinator']['contact_phone'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Téléphone'),
+        '#weight' => 4,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Contact email
+    $form['establishment_sheet']['establishment_coordinator']['contact_email'] = array(
+        '#type' => 'textfield',
+        '#title' => t('E-mail'),
+        '#weight' => 5,
+        '#required' => TRUE,
+    );
+
+/* ---------------------------------------------------------------------------------------------- */
 
     // Establishment sheet : Submit button
     $form['establishment_sheet']['submit'] = array(
         '#type' => 'submit',
         '#value' => t('Valider'),
-        '#weight' => 8,
+        '#weight' => 3,
     );
 
+    $form['establishment_sheet']['submit']['#validate'][] = 'bs_rsb_creation_establishment_validate';
     $form['establishment_sheet']['submit']['#submit'][] = 'bs_rsb_creation_establishment_submit';
 
     return $form;
+}
+
+/**
+ * Implement bs_rsb_creation_establishment_validate()
+ *
+ * @param $form
+ * @param $form_state
+ */
+function bs_rsb_creation_establishment_validate($form, $form_state){
+
+    $isError = false;
+
+    // Email verification
+    if($error = (!preg_match("/^[A-z0-9_\-\.]+@[A-z-]+\.[A-z]*$/", $form_state['values']['email']))){
+        // Check if the mail value match with the Regular Expression above
+        // Display an error in the mail field
+        form_set_error('email', $error);
+        $isError = true;
+    }else if($error = (preg_match("/^[A-z0-9_\-\.]+@yopmail+\.[A-z]*$/", $form_state['values']['email']))) {
+        // Check if the mail value match with the Regular Expression  above
+        // Display an error in the mail field
+        form_set_error('email', $error);
+        $isError = true;
+    }
+
+    // Code postal verification
+    if($error = (!preg_match("/^[0-9 \-\.]*$/", $form_state['values']['postal_code']))){
+        // Check if the code postal value match with the Regular Expression above
+        // Allow digits, spaces, dashes and dots
+        // Display an error in the code postal field
+        form_set_error('postal_code', $error);
+        $isError = true;
+    }
+
+    // Phone number verification
+    if($error = (!preg_match("/^[0-9 \(\)\+\-\.]*$/", $form_state['values']['phone']))){
+        // Check if the phone value match with the Regular Expression above
+        // Allow digits, space, parenthesis, plus symbol, hyphen, dot
+        // Display an error in the phone field
+        form_set_error('phone', $error);
+        $isError = true;
+    }
+
+    // Contact email verification
+    if($error = (!preg_match("/^[A-z0-9_\-\.]+@[A-z-]+\.[A-z]*$/", $form_state['values']['contact_email']))){
+        // Check if the mail value match with the Regular Expression above
+        // Display an error in the mail field
+        form_set_error('contact_email', $error);
+        $isError = true;
+    }else if($error = (preg_match("/^[A-z0-9_\-\.]+@yopmail+\.[A-z]*$/", $form_state['values']['contact_email']))) {
+        // Check if the mail value match with the Regular Expression  above
+        // Display an error in the mail field
+        form_set_error('contact_email', $error);
+        $isError = true;
+    }
+
+    // Contact phone number verification
+    if($error = (!preg_match("/^[0-9 \(\)\+\-\.]*$/", $form_state['values']['contact_phone']))){
+        // Check if the phone value match with the Regular Expression above
+        // Allow digits, space, parenthesis, plus symbol, hyphen, dot
+        // Display an error in the phone field
+        form_set_error('contact_phone', $error);
+        $isError = true;
+    }
+
+    if($isError){
+        drupal_set_message("Il y a une ou plusieurs erreurs dans le formulaire.");
+    }
 }
 
 /**
@@ -527,7 +1261,7 @@ function bs_rsb_creation_establishment_submit($form, &$form_state){
     if($result->rowCount() > 0){
 
         // If it is, display an error message
-        drupal_set_message("Vous possédez déjà une fiche d'établissement.");
+        drupal_set_message("Vous possédez déjà une fiche d'organisme.");
     }else{
 
         /* ------------------------------------------------------------------------------ */
@@ -547,16 +1281,29 @@ function bs_rsb_creation_establishment_submit($form, &$form_state){
                 break;
         }
 
+        // Change the value stocked for the selected contact civility
+        switch($form_state['values']['contact_civility']){
+            case '0' :
+                $form_state['values']['contact_civility'] = '';
+                break;
+            case '1' :
+                $form_state['values']['contact_civility'] = 'Madame';
+                break;
+            case '2' :
+                $form_state['values']['contact_civility'] = 'Monsieur';
+                break;
+        }
+
         /* ------------------------------------------------------------------------------ */
         /* ----------------------- Add the image to the file system --------------------- */
         /* ------------------------------------------------------------------------------ */
 
         /*
-         * Allow .csv extension
-         * Create a path as uploading csv file
+         * Allow .jpg .png extension
+         * Create a path as uploading jpg/png file
          */
         $validators = [
-            'file_validate_extensions' => ['jpg'],
+            'file_validate_extensions' => ['jpg png'],
         ];
         if ($file = file_save_upload('image', $validators, file_default_scheme() . '://')) {
             // The file was saved using file_save_upload() and was added to
@@ -578,6 +1325,24 @@ function bs_rsb_creation_establishment_submit($form, &$form_state){
         }
 
         /* ------------------------------------------------------------------------------ */
+        /* ---------- Parse activities to retrieve only checkboxes identifier ----------- */
+        /* ------------------------------------------------------------------------------ */
+
+        // Initialize string container
+        $selectedActivities = "";
+
+        // Foreach on the array
+        foreach($form_state['values']['activities'] as $identifier) {
+            // If the value is different of 0, the checkbox is checked
+            if($identifier != 0)
+            {
+                // Add to the string container the identifier of the checkbox checked
+                // Also add a separator
+                $selectedActivities = $selectedActivities . "-" . $identifier;
+            }
+        }
+
+        /* ------------------------------------------------------------------------------ */
         /* -------------------------- Insert datas in database -------------------------- */
         /* ------------------------------------------------------------------------------ */
 
@@ -592,10 +1357,30 @@ function bs_rsb_creation_establishment_submit($form, &$form_state){
                 'status' => $form_state['values']['status'],
                 'presentation' => $form_state['values']['presentation']['value'],
                 'image' => $form_state['values']['image'],
+                'organism_type' => $form_state['values']['type'],
+                'organism_theme' => $form_state['values']['theme'],
+                'organism_activities' => $selectedActivities,
+                'organism_activities_more' => $form_state['values']['complementary_activities'],
+                'organism_website' => $form_state['values']['website'],
+                'organism_country' => $form_state['values']['countries'],
+                'organism_phone' => $form_state['values']['phone'],
+                'organism_fax' => $form_state['values']['fax'],
+                'organism_mail' => $form_state['values']['email'],
+                'organism_siret' => $form_state['values']['siret'],
+                'organism_ape_code' => $form_state['values']['APE_code'],
+                'organism_contact_civility' => $form_state['values']['contact_civility'],
+                'organism_contact_firstname' => $form_state['values']['contact_firstname'],
+                'organism_contact_lastname' => $form_state['values']['contact_lastname'],
+                'organism_contact_poste' => $form_state['values']['contact_poste'],
+                'organism_contact_email' => $form_state['values']['contact_email'],
+                'organism_contact_phone' => $form_state['values']['contact_phone'],
             ))
             ->execute();
 
-        drupal_set_message("La fiches d'établissement a été créée.");
+        drupal_set_message("La fiche d'organisme a été créée.");
+
+//        $tabInsert = ["Afrique du Sud", "Afghanistan", "Albanie", "Algérie" ,"Allemagne","Andorre","Angola","Antigua-et-Barbuda","Arabie Saoudite","Argentine","Arménie","Australie","Autriche","Azerbaïdjan","Bahamas","Bahreïn","Bangladesh","Barbade","Belgique","Belize","Bénin","Bhoutan","Biélorussie","Birmanie","Bolivie","Bosnie-Herzégovine","Botswana","Brésil","Brunei","Bulgarie","Burkina Faso","Burundi","Cambodge","Cameroun","Canada","Cap-Vert","Chili","Chine","Chypre","Colombie","Comores","Corée du Nord","Corée du Sud","Costa Rica","Côte d’Ivoire", "Croatie","Cuba","Danemark","Djibouti","Dominique","Égypte","Émirats arabes unis","Équateur","Érythrée","Espagne","Estonie","États-Unis","Éthiopie","Fidji","Finlande","France","Gabon","Gambie","Géorgie","Ghana","Grèce","Grenade","Guatemala","Guinée","Guinée équatoriale","Guinée-Bissau","Guyana","Haïti","Honduras","Hongrie","Îles Cook","Îles Marshall","Inde","Indonésie","Irak","Iran","Irlande","Islande","Israël","Italie","Jamaïque","Japon","Jordanie","Kazakhstan","Kenya","Kirghizistan","Kiribati","Koweït","Laos","Lesotho","Lettonie","Liban","Liberia","Libye","Liechtenstein","Lituanie","Luxembourg","Macédoine","Madagascar","Malaisie","Malawi","Maldives","Mali","Malte","Maroc","Maurice","Mauritanie","Mexique","Micronésie","Moldavie","Monaco","Mongolie","Monténégro","Mozambique","Namibie","Nauru","Népal","Nicaragua","Niger","Nigeria","Niue","Norvège","Nouvelle-Zélande","Oman","Ouganda","Ouzbékistan","Pakistan","Palaos","Palestine","Panama","Papouasie-Nouvelle-Guinée","Paraguay","Pays-Bas","Pérou","Philippines","Pologne","Portugal","Qatar","République centrafricaine","République démocratique du Congo","République Dominicaine","République du Congo","République tchèque","Roumanie","Royaume-Uni","Russie","Rwanda","Saint-Kitts-et-Nevis","Saint-Vincent-et-les-Grenadines","Sainte-Lucie","Saint-Marin","Salomon","Salvador","Samoa","São Tomé-et-Principe","Sénégal","Serbie","Seychelles","Sierra Leone","Singapour","Slovaquie","Slovénie","Somalie","Soudan","Soudan du Sud","Sri Lanka","Suède","Suisse","Suriname","Swaziland","Syrie","Tadjikistan","Tanzanie","Tchad","Thaïlande","Timor oriental","Togo","Tonga","Trinité-et-Tobago","Tunisie","Turkménistan","Turquie","Tuvalu","Ukraine","Uruguay","Vanuatu","Vatican","Venezuela","Viêt Nam","Yémen","Zambie", "Zimbabwe"];
+
     }
 }
 
@@ -608,10 +1393,61 @@ function bs_rsb_updating_establishment_form($form, &$form_state){
 
     // Retrieve every datas stocked in database that user can change
     $query = db_select('establishment_sheet', 'es');
-    $query->fields('es', array('eid', 'name', 'address', 'city', 'postal_code', 'status', 'presentation', 'image'));
+    $query->fields(
+        'es',
+        array(
+            'eid',
+            'name',
+            'address',
+            'city',
+            'postal_code',
+            'status',
+            'presentation',
+            'image',
+            'organism_type',
+            'organism_theme',
+            'organism_activities',
+            'organism_activities_more',
+            'organism_website',
+            'organism_country',
+            'organism_phone',
+            'organism_fax',
+            'organism_mail',
+            'organism_siret',
+            'organism_ape_code',
+            'organism_contact_civility',
+            'organism_contact_firstname',
+            'organism_contact_lastname',
+            'organism_contact_poste',
+            'organism_contact_email',
+            'organism_contact_phone'
+        )
+    );
     $query->condition('es.eid', $GLOBALS['user']->uid);
     $results = $query->execute();
     $result = $results->fetchAssoc();
+
+/* ---------------------------------------------------------------------------------------------- */
+
+    // Fieldset : Establishment sheet - Establishment datas
+    $form['update_establishment']['establishment_datas'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Données de l\'organisme'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+        '#weight' => 1,
+    );
+
+    // Establishment sheet : Name
+    $form['update_establishment']['establishment_datas']['name'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Nom'),
+        '#default_value' => $result['name'],
+        '#weight' => 1,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Status
 
     // Translate the status value stocked in database to make
     // the correspondence with the key of the select field
@@ -627,49 +1463,7 @@ function bs_rsb_updating_establishment_form($form, &$form_state){
             break;
     }
 
-    // Split the path stocked in database to retrieve
-    // a relative path necessary to load the previewed image
-    $split_result = preg_split('/public:\/\//', $result['image']);
-    $result['image'] = $split_result[1];
-
-    // Establishment sheet : Name
-    $form['update_establishment']['name'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Nom de l\'établissement'),
-        '#default_value' => $result['name'],
-        '#weight' => 1,
-        '#required' => TRUE,
-    );
-
-    // Establishment sheet : Address
-    $form['update_establishment']['address'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Adresse'),
-        '#default_value' => $result['address'],
-        '#weight' => 2,
-        '#required' => TRUE,
-    );
-
-    // Establishment sheet : City
-    $form['update_establishment']['city'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Ville'),
-        '#default_value' => $result['city'],
-        '#weight' => 3,
-        '#required' => TRUE,
-    );
-
-    // Establishment sheet : Postal code
-    $form['update_establishment']['postal_code'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Code postal'),
-        '#default_value' => $result['postal_code'],
-        '#weight' => 4,
-        '#required' => TRUE,
-    );
-
-    // Establishment sheet : Status
-    $form['update_establishment']['status'] = array(
+    $form['update_establishment']['establishment_datas']['status'] = array(
         '#type' => 'select',
         '#default_value' => $result['status'],
         '#title' => t('Status'),
@@ -678,42 +1472,287 @@ function bs_rsb_updating_establishment_form($form, &$form_state){
             1 => t('Privé'),
             2 => t('Mixte'),
         ),
+        '#weight' => 2,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Organism type
+    $form['update_establishment']['establishment_datas']['type'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Type'),
+        '#default_value' => $result['organism_type'],
+        '#weight' => 3,
+        '#required' => FALSE,
+    );
+
+    // Establishment sheet : Organism theme
+    $form['update_establishment']['establishment_datas']['theme'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Thematique'),
+        '#default_value' => $result['organism_theme'],
+        '#weight' => 4,
+        '#required' => FALSE,
+    );
+
+    // Establishment sheet : Organism activities
+
+    // Parse activities depending on the separator
+    $arrayActivities = explode("-", $result['organism_activities']);
+
+    $form['update_establishment']['establishment_datas']['activities'] = array(
+        '#type' => 'checkboxes',
+        '#options' => array(
+            1 => 'Collecte',
+            2 => 'Préparation',
+            3 => 'Stockage',
+            4 => 'Recueil de données biocliniques',
+            5 => 'Recueil de données patients',
+            6 => 'Recherche',
+            7 => 'Enseignement',
+            8 => 'Prestation de collecte',
+            9 => 'Prestation de stockage',
+            10 => 'Prestations d\'analyses'
+        ),
+        '#default_value' => $arrayActivities,
+        '#title' => t('Activités'),
         '#weight' => 5,
         '#required' => TRUE,
     );
 
+
+    // Establishment sheet : Complementary activities
+    $form['update_establishment']['establishment_datas']['complementary_activities'] = array(
+        '#type' => 'textarea',
+        '#title' => t('Activités complémentaires'),
+        '#default_value' => $result['organism_activities_more'],
+        '#weight' => 6,
+        '#required' => FALSE,
+    );
+
+    // Establishment sheet : Website
+    $form['update_establishment']['establishment_datas']['website'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Site internet'),
+        '#default_value' => $result['organism_website'],
+        '#weight' => 7,
+        '#required' => FALSE,
+    );
+
+    // Establishment sheet : Countries
+    $query = db_select('countries_list', 'cl');
+    $query->fields('cl', array('cl_id', 'cl_name'));
+    $resultsCountries = $query->execute();
+
+    $countryList = array();
+
+    foreach ($resultsCountries as $resultCountry) {
+
+        $countryList[$resultCountry->cl_id] = $resultCountry->cl_name;
+    }
+
+    $form['update_establishment']['establishment_datas']['countries'] = array(
+        '#type' => 'select',
+        '#title' => t('Pays'),
+        '#options' => $countryList,
+        '#default_value' => $result['organism_country'],
+        '#weight' => 8,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Postal code
+    $form['update_establishment']['establishment_datas']['postal_code'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Code postal'),
+        '#default_value' => $result['postal_code'],
+        '#weight' => 9,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : City
+    $form['update_establishment']['establishment_datas']['city'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Ville'),
+        '#default_value' => $result['city'],
+        '#weight' => 10,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Address
+    $form['update_establishment']['establishment_datas']['address'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Adresse'),
+        '#default_value' => $result['address'],
+        '#weight' => 11,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Phone
+    $form['update_establishment']['establishment_datas']['phone'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Téléphone'),
+        '#default_value' => $result['organism_phone'],
+        '#weight' => 12,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Fax
+    $form['update_establishment']['establishment_datas']['fax'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Fax'),
+        '#default_value' => $result['organism_fax'],
+        '#weight' => 13,
+        '#required' => FALSE,
+    );
+
+    // Establishment sheet : Email
+    $form['update_establishment']['establishment_datas']['email'] = array(
+        '#type' => 'textfield',
+        '#title' => t('E-mail'),
+        '#default_value' => $result['organism_mail'],
+        '#weight' => 14,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : SIRET
+    $form['update_establishment']['establishment_datas']['siret'] = array(
+        '#type' => 'textfield',
+        '#title' => t('SIRET'),
+        '#default_value' => $result['organism_siret'],
+        '#weight' => 15,
+        '#required' => FALSE,
+    );
+
+    // Establishment sheet : APE code
+    $form['update_establishment']['establishment_datas']['APE_code'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Code APE'),
+        '#default_value' => $result['organism_ape_code'],
+        '#weight' => 16,
+        '#required' => FALSE,
+    );
+
     // Establishment sheet : Presentation
-    $form['update_establishment']['presentation'] = array(
+    $form['update_establishment']['establishment_datas']['presentation'] = array(
         '#type' => 'text_format',
         '#title' => t('Présentation'),
         '#format' => 'wysiwyg',
         '#default_value' => $result['presentation'],
-        '#weight' => 6,
+        '#weight' => 17,
         '#required' => TRUE,
     );
 
     // Establishment sheet : Image
-    $form['update_establishment']['image'] = array(
+
+    // Split the path stocked in database to retrieve
+    // a relative path necessary to load the previewed image
+    $split_result = preg_split('/public:\/\//', $result['image']);
+    $result['image'] = $split_result[1];
+
+    $form['update_establishment']['establishment_datas']['image'] = array(
         '#type' => 'file',
         '#title' => t('Image'),
-        '#description' => t('Cette image sera utilisé dans la présentation de votre établissement.
-        Vous pouvez par exemple choisir votre logo ou une photographie de votre établissement.'),
-        '#weight' => 7,
+        '#description' => t('Cette image sera utilisé dans la présentation de votre organisme.
+        Vous pouvez par exemple choisir votre logo ou une photographie de votre organisme.'),
+        '#weight' => 18,
     );
 
     // Check if there is path of an image stocked in database
     if(!empty($result['image'])){
 
         // Establishment sheet : Image preview
-        $form['update_establishment']['imagePreview'] = array(
+        $form['update_establishment']['establishment_datas']['imagePreview'] = array(
             '#markup' =>
-                '<div id="bs-rsb-preview-img">
-                    <p>Image actuelle : </p><span>VOIR</span>
-                    <img src="/sites/default/files/' . $result['image'] . '" width="500px" height="auto" alt="Image de l\'établissement">
-                 </div>',
-            '#weight' => 8,
+                '<div id="bs-rsb-preview-img">' .
+                    '<p>Image actuelle : </p><span>VOIR</span>' .
+                    '<img src="/sites/default/files/' . $result['image'] . '" width="500px" height="auto" alt="Image de l\'organisme">' .
+                 '</div>',
+            '#weight' => 19,
         );
     }
+
+/* ---------------------------------------------------------------------------------------------- */
+
+    // Fieldset : Establishment sheet - Establishment coordinator
+    $form['update_establishment']['establishment_coordinator'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Données du coordinateur'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+        '#weight' => 2,
+    );
+
+    // Establishment sheet : Contact civility
+    switch($result['organism_contact_civility']){
+        case "" :
+            $result['organism_contact_civility'] = 0;
+            break;
+        case "Madame" :
+            $result['organism_contact_civility'] = 1;
+            break;
+        case "Monsieur" :
+            $result['organism_contact_civility'] = 2;
+            break;
+    }
+
+    $form['update_establishment']['establishment_coordinator']['contact_civility'] = array(
+        '#type' => 'select',
+        '#title' => t('Civilité'),
+        '#options' => array(
+            0 => t('N/A'),
+            1 => t('Madame'),
+            2 => t('Monsieur'),
+        ),
+        '#default_value' => $result['organism_contact_civility'],
+        '#weight' => 0,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Contact firstname
+    $form['update_establishment']['establishment_coordinator']['contact_firstname'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Prénom'),
+        '#default_value' => $result['organism_contact_firstname'],
+        '#weight' => 1,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Contact lastname
+    $form['update_establishment']['establishment_coordinator']['contact_lastname'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Nom'),
+        '#default_value' => $result['organism_contact_lastname'],
+        '#weight' => 2,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Contact poste
+    $form['update_establishment']['establishment_coordinator']['contact_poste'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Poste'),
+        '#default_value' => $result['organism_contact_poste'],
+        '#weight' => 3,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Contact phone
+    $form['update_establishment']['establishment_coordinator']['contact_phone'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Téléphone'),
+        '#default_value' => $result['organism_contact_phone'],
+        '#weight' => 4,
+        '#required' => TRUE,
+    );
+
+    // Establishment sheet : Contact email
+    $form['update_establishment']['establishment_coordinator']['contact_email'] = array(
+        '#type' => 'textfield',
+        '#title' => t('E-mail'),
+        '#default_value' => $result['organism_contact_email'],
+        '#weight' => 5,
+        '#required' => TRUE,
+    );
+
+/* ---------------------------------------------------------------------------------------------- */
 
     // Establishment sheet : Submit button
     $form['update_establishment']['submit'] = array(
@@ -722,9 +1761,79 @@ function bs_rsb_updating_establishment_form($form, &$form_state){
         '#weight' => 10,
     );
 
+    $form['update_establishment']['submit']['#validate'][] = 'bs_rsb_updating_establishment_validate';
     $form['update_establishment']['submit']['#submit'][] = 'bs_rsb_updating_establishment_submit';
 
     return $form;
+
+}
+
+/**
+ * Implement bs_rsb_updating_establishment_validate()
+ *
+ * @param $form
+ * @param $form_state
+ */
+function bs_rsb_updating_establishment_validate($form, $form_state){
+
+    $isError = false;
+
+    // Email verification
+    if($error = (!preg_match("/^[A-z0-9_\-\.]+@[A-z-]+\.[A-z]*$/", $form_state['values']['email']))){
+        // Check if the mail value match with the Regular Expression above
+        // Display an error in the mail field
+        form_set_error('email', $error);
+        $isError = true;
+    }else if($error = (preg_match("/^[A-z0-9_\-\.]+@yopmail+\.[A-z]*$/", $form_state['values']['email']))) {
+        // Check if the mail value match with the Regular Expression  above
+        // Display an error in the mail field
+        form_set_error('email', $error);
+        $isError = true;
+    }
+
+    // Code postal verification
+    if($error = (!preg_match("/^[0-9 \-\.]*$/", $form_state['values']['postal_code']))){
+        // Check if the code postal value match with the Regular Expression above
+        // Allow digits, spaces, dashes and dots
+        // Display an error in the code postal field
+        form_set_error('postal_code', $error);
+        $isError = true;
+    }
+
+    // Phone number verification
+    if($error = (!preg_match("/^[0-9 \(\)\+\-\.]*$/", $form_state['values']['phone']))){
+        // Check if the phone value match with the Regular Expression above
+        // Allow digits, space, parenthesis, plus symbol, hyphen, dot
+        // Display an error in the phone field
+        form_set_error('phone', $error);
+        $isError = true;
+    }
+
+    // Contact email verification
+    if($error = (!preg_match("/^[A-z0-9_\-\.]+@[A-z-]+\.[A-z]*$/", $form_state['values']['contact_email']))){
+        // Check if the mail value match with the Regular Expression above
+        // Display an error in the mail field
+        form_set_error('contact_email', $error);
+        $isError = true;
+    }else if($error = (preg_match("/^[A-z0-9_\-\.]+@yopmail+\.[A-z]*$/", $form_state['values']['contact_email']))) {
+        // Check if the mail value match with the Regular Expression  above
+        // Display an error in the mail field
+        form_set_error('contact_email', $error);
+        $isError = true;
+    }
+
+    // Contact phone number verification
+    if($error = (!preg_match("/^[0-9 \(\)\+\-\.]*$/", $form_state['values']['contact_phone']))){
+        // Check if the phone value match with the Regular Expression above
+        // Allow digits, space, parenthesis, plus symbol, hyphen, dot
+        // Display an error in the phone field
+        form_set_error('contact_phone', $error);
+        $isError = true;
+    }
+
+    if($isError){
+        drupal_set_message("Il y a une ou plusieurs erreurs dans le formulaire.");
+    }
 }
 
 /**
@@ -751,16 +1860,29 @@ function bs_rsb_updating_establishment_submit($form, &$form_state){
             break;
     }
 
+    // Change the value stocked for the selected contact civility
+    switch($form_state['values']['contact_civility']){
+        case '0' :
+            $form_state['values']['contact_civility'] = '';
+            break;
+        case '1' :
+            $form_state['values']['contact_civility'] = 'Madame';
+            break;
+        case '2' :
+            $form_state['values']['contact_civility'] = 'Monsieur';
+            break;
+    }
+
     /* ------------------------------------------------------------------------------ */
     /* ----------------------- Add the image to the file system --------------------- */
     /* ------------------------------------------------------------------------------ */
 
     /*
-     * Allow .jpg extension
-     * Create a path as uploading csv file
+     * Allow .jpg .png extension
+     * Create a path as uploading jpg/png file
      */
     $validators = [
-        'file_validate_extensions' => ['jpg'],
+        'file_validate_extensions' => ['jpg png'],
     ];
     if ($file = file_save_upload('image', $validators, file_default_scheme() . '://')) {
         // The file was saved using file_save_upload() and was added to
@@ -782,6 +1904,24 @@ function bs_rsb_updating_establishment_submit($form, &$form_state){
     }
 
     /* ------------------------------------------------------------------------------ */
+    /* ---------- Parse activities to retrieve only checkboxes identifier ----------- */
+    /* ------------------------------------------------------------------------------ */
+
+    // Initialize string container
+    $selectedActivities = "";
+
+    // Foreach on the array
+    foreach($form_state['values']['activities'] as $identifier) {
+        // If the value is different of 0, the checkbox is checked
+        if($identifier != 0)
+        {
+            // Add to the string container the identifier of the checkbox checked
+            // Also add a separator
+            $selectedActivities = $selectedActivities . "-" . $identifier;
+        }
+    }
+
+    /* ------------------------------------------------------------------------------ */
     /* -------------------------- Update datas in database -------------------------- */
     /* ------------------------------------------------------------------------------ */
 
@@ -795,6 +1935,23 @@ function bs_rsb_updating_establishment_submit($form, &$form_state){
             'postal_code' => $form_state['values']['postal_code'],
             'status' => $form_state['values']['status'],
             'presentation' => $form_state['values']['presentation']['value'],
+            'organism_type' => $form_state['values']['type'],
+            'organism_theme' => $form_state['values']['theme'],
+            'organism_activities' => $selectedActivities,
+            'organism_activities_more' => $form_state['values']['complementary_activities'],
+            'organism_website' => $form_state['values']['website'],
+            'organism_country' => $form_state['values']['countries'],
+            'organism_phone' => $form_state['values']['phone'],
+            'organism_fax' => $form_state['values']['fax'],
+            'organism_mail' => $form_state['values']['email'],
+            'organism_siret' => $form_state['values']['siret'],
+            'organism_ape_code' => $form_state['values']['APE_code'],
+            'organism_contact_civility' => $form_state['values']['contact_civility'],
+            'organism_contact_firstname' => $form_state['values']['contact_firstname'],
+            'organism_contact_lastname' => $form_state['values']['contact_lastname'],
+            'organism_contact_poste' => $form_state['values']['contact_poste'],
+            'organism_contact_email' => $form_state['values']['contact_email'],
+            'organism_contact_phone' => $form_state['values']['contact_phone'],
         ))
         ->execute();
 
@@ -835,7 +1992,7 @@ function bs_rsb_admin_manager_form($form, &$form_state){
         'uid' => array('data' => t('uid'), 'field' => 'es.eid'),
         'affiliation_societe' => array('data' => t('Affiliation / Société'), 'field' => 'uef.affiliation_societe'),
         'user_mail' => array('data' => t('Mail de l\'utilisateur contact'), 'field' => 'uef.mail_contact'),
-        'establishment_name' => array('data' => t('Nom de l\'établissement'), 'field' => 'es.name'),
+        'establishment_name' => array('data' => t('Nom de l\'organisme'), 'field' => 'es.name'),
         'bs_contact' => array('data' => t('Contact BioSample'), 'field' => 'es.bs_contact_lastname'),
         'operations' => array('data' => t('Operations')),
     );
@@ -893,13 +2050,51 @@ function bs_rsb_admin_manager_form($form, &$form_state){
  */
 function bs_rsb_admin_datas_establishment_form($form, $form_state){
 
+    // Add js file to prevent establishment deleting
+    drupal_add_js(drupal_get_path('module', 'bs_rsb') .'/js/bs-rsb-admin-manager.js', 'file');
+    // Add css file to custom the prevent establishment deleting
+    drupal_add_css(drupal_get_path('module', 'bs_rsb') .'/css/bs-rsb-admin-manager.css', 'file');
+
     // Split the URI to retrieve user id : UID
     $splitted_uri = preg_split("/\//",$_SERVER['REQUEST_URI']);
     // Retrieve the UID
     $url_uid = $splitted_uri[4];
 
     $query = db_select("establishment_sheet", "es");
-    $query->fields("es", array("name", "address", "city", "postal_code", "status", "presentation", "image", "bs_contact_civility", "bs_contact_firstname", "bs_contact_lastname", "bs_contact_mail", "bs_contact_phone"));
+    $query->fields(
+        "es",
+        array(
+            "name",
+            "address",
+            "city",
+            "postal_code",
+            "status",
+            "presentation",
+            "image",
+            "bs_contact_civility",
+            "bs_contact_firstname",
+            "bs_contact_lastname",
+            "bs_contact_mail",
+            "bs_contact_phone",
+            'organism_type',
+            'organism_theme',
+            'organism_activities',
+            'organism_activities_more',
+            'organism_website',
+            'organism_country',
+            'organism_phone',
+            'organism_fax',
+            'organism_mail',
+            'organism_siret',
+            'organism_ape_code',
+            'organism_contact_civility',
+            'organism_contact_firstname',
+            'organism_contact_lastname',
+            'organism_contact_poste',
+            'organism_contact_email',
+            'organism_contact_phone'
+        )
+    );
     $query->condition("es.eid", $url_uid,"=");
     $results = $query->execute();
 
@@ -907,45 +2102,21 @@ function bs_rsb_admin_datas_establishment_form($form, $form_state){
 
     /* Establishment - Datas */
 
-        // Fieldset : Establishment datas
-        $form['establishment']['datas'] = array(
+        // Fieldset : Establishment sheet - Establishment datas
+        $form['establishment']['establishment_datas'] = array(
             '#type' => 'fieldset',
-            '#title' => t('Données de l\'établissement'),
+            '#title' => t('Données de l\'organisme'),
             '#collapsible' => TRUE,
-            '#collapsed' => FALSE,
+            '#collapsed' => TRUE,
             '#weight' => 1,
         );
 
         // Establishment name
-        $form['establishment']['datas']['name'] = array(
+        $form['establishment']['establishment_datas']['name'] = array(
             '#type' => 'textfield',
-            '#title' => t('Nom de l\'établissement'),
+            '#title' => t('Nom'),
             '#default_value' => $result->name,
-            '#weight' => 2,
-        );
-
-        // Establishment address
-        $form['establishment']['datas']['address'] = array(
-            '#type' => 'textfield',
-            '#title' => t('Adresse de l\'établissement'),
-            '#default_value' => $result->address,
-            '#weight' => 3,
-        );
-
-        // Establishment city
-        $form['establishment']['datas']['city'] = array(
-            '#type' => 'textfield',
-            '#title' => t('Ville de l\'établissement'),
-            '#default_value' => $result->city,
-            '#weight' => 4,
-        );
-
-        // Establishment postal code
-        $form['establishment']['datas']['postal_code'] = array(
-            '#type' => 'textfield',
-            '#title' => t('Code postal de l\'établissement'),
-            '#default_value' => $result->postal_code,
-            '#weight' => 5,
+            '#weight' => 1,
         );
 
         // Establishment status
@@ -961,42 +2132,183 @@ function bs_rsb_admin_datas_establishment_form($form, $form_state){
                 break;
         }
 
-        $form['establishment']['datas']['status'] = array(
+        $form['establishment']['establishment_datas']['status'] = array(
             '#type' => 'select',
-            '#title' => t('Status de l\'établissement'),
+            '#title' => t('Status de l\'organisme'),
             '#options' => array(
                 0 => t('Public'),
                 1 => t('Privé'),
                 2 => t('Mixte'),
             ),
             '#default_value' => $result->status,
+            '#weight' => 2,
+        );
+
+        // Establishment sheet : Organism type
+        $form['establishment']['establishment_datas']['type'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Type'),
+            '#default_value' => $result->organism_type,
+            '#weight' => 3,
+        );
+
+        // Establishment sheet : Organism theme
+        $form['establishment']['establishment_datas']['theme'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Thematique'),
+            '#default_value' => $result->organism_theme,
+            '#weight' => 4,
+        );
+
+        // Establishment sheet : Organism activities
+
+        // Parse activities depending on the separator
+        $arrayActivities = explode("-", $result->organism_activities);
+
+        $form['establishment']['establishment_datas']['activities'] = array(
+            '#type' => 'checkboxes',
+            '#options' => array(
+                1 => 'Collecte',
+                2 => 'Préparation',
+                3 => 'Stockage',
+                4 => 'Recueil de données biocliniques',
+                5 => 'Recueil de données patients',
+                6 => 'Recherche',
+                7 => 'Enseignement',
+                8 => 'Prestation de collecte',
+                9 => 'Prestation de stockage',
+                10 => 'Prestations d\'analyses'
+            ),
+            '#default_value' => $arrayActivities,
+            '#title' => t('Activités'),
+            '#weight' => 5,
+        );
+
+
+        // Establishment sheet : Complementary activities
+        $form['establishment']['establishment_datas']['complementary_activities'] = array(
+            '#type' => 'textarea',
+            '#title' => t('Activités complémentaires'),
+            '#default_value' => $result->organism_activities_more,
             '#weight' => 6,
         );
 
-        // Establishment presentation
-        $form['establishment']['datas']['presentation'] = array(
+        // Establishment sheet : Website
+        $form['establishment']['establishment_datas']['website'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Site internet'),
+            '#default_value' => $result->organism_website,
+            '#weight' => 7,
+        );
+
+        // Establishment sheet : Countries
+        $query = db_select('countries_list', 'cl');
+        $query->fields('cl', array('cl_id', 'cl_name'));
+        $resultsCountries = $query->execute();
+
+        $countryList = array();
+
+        foreach ($resultsCountries as $resultCountry) {
+
+            $countryList[$resultCountry->cl_id] = $resultCountry->cl_name;
+        }
+
+        $form['establishment']['establishment_datas']['countries'] = array(
+            '#type' => 'select',
+            '#title' => t('Pays'),
+            '#options' => $countryList,
+            '#default_value' => $result->organism_country,
+            '#weight' => 8,
+        );
+
+        // Establishment sheet : Postal code
+        $form['establishment']['establishment_datas']['postal_code'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Code postal'),
+            '#default_value' => $result->postal_code,
+            '#weight' => 9,
+        );
+
+        // Establishment sheet : City
+        $form['establishment']['establishment_datas']['city'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Ville'),
+            '#default_value' => $result->city,
+            '#weight' => 10,
+        );
+
+        // Establishment sheet : Address
+        $form['establishment']['establishment_datas']['address'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Adresse'),
+            '#default_value' => $result->address,
+            '#weight' => 11,
+        );
+
+        // Establishment sheet : Phone
+        $form['establishment']['establishment_datas']['phone'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Téléphone'),
+            '#default_value' => $result->organism_phone,
+            '#weight' => 12,
+        );
+
+        // Establishment sheet : Fax
+        $form['establishment']['establishment_datas']['fax'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Fax'),
+            '#default_value' => $result->organism_fax,
+            '#weight' => 13,
+        );
+
+        // Establishment sheet : Email
+        $form['establishment']['establishment_datas']['email'] = array(
+            '#type' => 'textfield',
+            '#title' => t('E-mail'),
+            '#default_value' => $result->organism_mail,
+            '#weight' => 14,
+        );
+
+        // Establishment sheet : SIRET
+        $form['establishment']['establishment_datas']['siret'] = array(
+            '#type' => 'textfield',
+            '#title' => t('SIRET'),
+            '#default_value' => $result->organism_siret,
+            '#weight' => 15,
+        );
+
+        // Establishment sheet : APE code
+        $form['establishment']['establishment_datas']['APE_code'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Code APE'),
+            '#default_value' => $result->organism_ape_code,
+            '#weight' => 16,
+        );
+
+        // Establishment sheet : Presentation
+        $form['establishment']['establishment_datas']['presentation'] = array(
             '#type' => 'text_format',
             '#title' => t('Présentation de l\'entreprise'),
             '#format' => 'wysiwyg',
             '#default_value' => $result->presentation,
-            '#weight' => 7,
+            '#weight' => 17,
         );
 
         // Establishment image
-        $form['establishment']['datas']['image'] = array(
+        $form['establishment']['establishment_datas']['image'] = array(
             '#type' => 'file',
-            '#title' => t('Image de l\'établissement'),
-            '#weight' => 8,
+            '#title' => t('Image de l\'organisme'),
+            '#weight' => 18,
         );
 
         // Establishment image preview
             // Fieldset : Image preview
-            $form['establishment']['datas']['image_preview'] = array(
+            $form['establishment']['establishment_datas']['image_preview'] = array(
                 '#type' => 'fieldset',
-                '#title' => t('Preview de l\'image actuelle de l\'établissement'),
+                '#title' => t('Preview de l\'image actuelle de l\'organisme'),
                 '#collapsible' => TRUE,
                 '#collapsed' => TRUE,
-                '#weight' => 9,
+                '#weight' => 19,
             );
 
             // Check if there is path of an image stocked in database
@@ -1006,11 +2318,89 @@ function bs_rsb_admin_datas_establishment_form($form, $form_state){
                 $image_uri = preg_split("/public:\/\//",$result->image)[1];
 
                 // Establishment sheet : Image preview
-                $form['establishment']['datas']['image_preview']['image'] = array(
-                    '#markup' => '<img src="/sites/default/files/' . $image_uri . '" width="500px" height="auto" alt="Image de l\'établissement">',
+                $form['establishment']['establishment_datas']['image_preview']['image'] = array(
+                    '#markup' => '<img src="/sites/default/files/' . $image_uri . '" width="500px" height="auto" alt="Image de l\'organisme">',
                     '#weight' => 1,
                 );
             }
+
+    /* ---------------------------------------------------------------------------------------------- */
+
+        // Fieldset : Establishment sheet - Establishment coordinator
+        $form['establishment']['establishment_coordinator'] = array(
+            '#type' => 'fieldset',
+            '#title' => t('Données du coordinateur'),
+            '#collapsible' => TRUE,
+            '#collapsed' => TRUE,
+            '#weight' => 2,
+        );
+
+        // Establishment sheet : Contact civility
+        switch($result->organism_contact_civility){
+            case "" :
+                $result->organism_contact_civility = 0;
+                break;
+            case "Madame" :
+                $result->organism_contact_civility = 1;
+                break;
+            case "Monsieur" :
+                $result->organism_contact_civility = 2;
+                break;
+        }
+
+        $form['establishment']['establishment_coordinator']['contact_civility'] = array(
+            '#type' => 'select',
+            '#title' => t('Civilité'),
+            '#options' => array(
+                0 => t('N/A'),
+                1 => t('Madame'),
+                2 => t('Monsieur'),
+            ),
+            '#default_value' => $result->organism_contact_civility,
+            '#weight' => 0,
+        );
+
+        // Establishment sheet : Contact firstname
+        $form['establishment']['establishment_coordinator']['contact_firstname'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Prénom'),
+            '#default_value' => $result->organism_contact_firstname,
+            '#weight' => 1,
+        );
+
+        // Establishment sheet : Contact lastname
+        $form['establishment']['establishment_coordinator']['contact_lastname'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Nom'),
+            '#default_value' => $result->organism_contact_lastname,
+            '#weight' => 2,
+        );
+
+        // Establishment sheet : Contact poste
+        $form['establishment']['establishment_coordinator']['contact_poste'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Poste'),
+            '#default_value' => $result->organism_contact_poste,
+            '#weight' => 3,
+        );
+
+        // Establishment sheet : Contact phone
+        $form['establishment']['establishment_coordinator']['contact_phone'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Téléphone'),
+            '#default_value' => $result->organism_contact_phone,
+            '#weight' => 4,
+        );
+
+        // Establishment sheet : Contact email
+        $form['establishment']['establishment_coordinator']['contact_email'] = array(
+            '#type' => 'textfield',
+            '#title' => t('E-mail'),
+            '#default_value' => $result->organism_contact_email,
+            '#weight' => 5,
+        );
+
+    /* ---------------------------------------------------------------------------------------------- */
 
     /* Establishment - Contact datas */
 
@@ -1091,6 +2481,16 @@ function bs_rsb_admin_datas_establishment_form($form, $form_state){
 
     $form['establishment']['submit']['#submit'][] = 'bs_rsb_admin_datas_establishment_form_submit';
 
+    // Delete button
+    $form['establishment']['delete'] = array(
+        '#type' => 'submit',
+        '#value' => t('Delete'),
+        '#weight' => 21,
+        '#id' => 'bs-cc-admin-delete-establishment',
+    );
+
+    $form['establishment']['delete']['#submit'][] = 'bs_rsb_admin_datas_establishment_form_delete';
+
     return $form;
 }
 
@@ -1119,6 +2519,19 @@ function bs_rsb_admin_datas_establishment_form_submit($form, &$form_state){
             break;
     }
 
+    // Change the value stocked for the selected contact civility
+    switch($form_state['values']['contact_civility']){
+        case '0' :
+            $form_state['values']['contact_civility'] = '';
+            break;
+        case '1' :
+            $form_state['values']['contact_civility'] = 'Madame';
+            break;
+        case '2' :
+            $form_state['values']['contact_civility'] = 'Monsieur';
+            break;
+    }
+
     /* ------------------------------------------------------------------- */
     /* ------------------------ BS Contact Civility ---------------------- */
     /* ------------------------------------------------------------------- */
@@ -1136,6 +2549,30 @@ function bs_rsb_admin_datas_establishment_form_submit($form, &$form_state){
             break;
     }
 
+
+    /* ------------------------------------------------------------------------------ */
+    /* ---------- Parse activities to retrieve only checkboxes identifier ----------- */
+    /* ------------------------------------------------------------------------------ */
+
+    // Initialize string container
+    $selectedActivities = "";
+
+    // Foreach on the array
+    foreach($form_state['values']['activities'] as $identifier) {
+        // If the value is different of 0, the checkbox is checked
+        if($identifier != 0)
+        {
+            // Add to the string container the identifier of the checkbox checked
+            // Also add a separator
+            $selectedActivities = $selectedActivities . "-" . $identifier;
+        }
+    }
+
+    /* ------------------------------------------------------------------------------ */
+    /* -------------------------- Update datas in database -------------------------- */
+    /* ------------------------------------------------------------------------------ */
+
+    // Update establishment sheet datas with the new values.
     db_update('establishment_sheet')
         ->condition('eid', $url_uid, '=')
         ->fields(array(
@@ -1150,6 +2587,23 @@ function bs_rsb_admin_datas_establishment_form_submit($form, &$form_state){
             'bs_contact_lastname' => $form_state['values']['bs_contact_lastname'],
             'bs_contact_mail' => $form_state['values']['bs_contact_mail'],
             'bs_contact_phone' => $form_state['values']['bs_contact_phone'],
+            'organism_type' => $form_state['values']['type'],
+            'organism_theme' => $form_state['values']['theme'],
+            'organism_activities' => $selectedActivities,
+            'organism_activities_more' => $form_state['values']['complementary_activities'],
+            'organism_website' => $form_state['values']['website'],
+            'organism_country' => $form_state['values']['countries'],
+            'organism_phone' => $form_state['values']['phone'],
+            'organism_fax' => $form_state['values']['fax'],
+            'organism_mail' => $form_state['values']['email'],
+            'organism_siret' => $form_state['values']['siret'],
+            'organism_ape_code' => $form_state['values']['APE_code'],
+            'organism_contact_civility' => $form_state['values']['contact_civility'],
+            'organism_contact_firstname' => $form_state['values']['contact_firstname'],
+            'organism_contact_lastname' => $form_state['values']['contact_lastname'],
+            'organism_contact_poste' => $form_state['values']['contact_poste'],
+            'organism_contact_email' => $form_state['values']['contact_email'],
+            'organism_contact_phone' => $form_state['values']['contact_phone'],
         ))
         ->execute();
 
@@ -1158,11 +2612,11 @@ function bs_rsb_admin_datas_establishment_form_submit($form, &$form_state){
     /* ------------------------------------------------------------------- */
 
     /*
-     * Allow .jpg extension
-     * Create a path as uploading jpg file
+     * Allow .jpg .png extension
+     * Create a path as uploading jpg/png file
      */
     $validators = [
-        'file_validate_extensions' => ['jpg'],
+        'file_validate_extensions' => ['jpg png'],
     ];
     if ($file = file_save_upload('image', $validators, file_default_scheme() . '://')) {
         // The file was saved using file_save_upload() and was added to
@@ -1204,6 +2658,18 @@ function bs_rsb_admin_datas_establishment_form_submit($form, &$form_state){
             ->execute();
     }
 
+}
+
+function bs_rsb_admin_datas_establishment_form_delete($form, &$form_state){
+
+    // Split the URI to retrieve user id : UID
+    $splitted_uri = preg_split("/\//",$_SERVER['REQUEST_URI']);
+    // Retrieve the UID
+    $url_uid = $splitted_uri[4];
+
+    db_delete('establishment_sheet')
+        ->condition('eid', $url_uid, '=')
+        ->execute();
 }
 
 ///**

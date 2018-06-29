@@ -35,7 +35,7 @@
         }
         ?>
     </div><div id="bs-rsb-update-datas">
-        <h2>Modification de votre fiche d'établissement</h2>
+        <h2>Modification de votre fiche d'organisme</h2>
         <?php print($update_establishment_sheet);?>
     </div>
 </div>

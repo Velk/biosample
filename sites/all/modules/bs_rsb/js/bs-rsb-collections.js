@@ -3,9 +3,7 @@
         attach: function (context, settings) {
 
             // If btn 'Reinitialiser' is clicked, remove the hash
-            $("#bs-rsb-filters-container > button").click(function(){
-                // window.location.hash = "collections";
-                $("#rsb-map-bottom > a").click();
+            $("#bs-rsb-families #all-regne > a").click(function(){
 
                 $("div#block-views-rb-collections-block .views-row").each(function(){
 
@@ -47,6 +45,27 @@
 
                         // For each collection
                         // $("#bs-rsb-collections > div").each(function(){
+
+                        // $("div#block-views-rb-collections-block .views-row").each(function(){
+                        //
+                        //     console.log($(this).children().children(".article-header").children("h2.node-title").text());
+                        //     if($(this).is(':visible')){
+                        //        $(this).children().children(".node-content").children(".field-name-field-regne").each(function(){
+                        //
+                        //            // If the collection has the name of the hash location (tab clicked)
+                        //            // Show the div / collection or hide it
+                        //            if($(this).children("div.field-items").children("div.field-item").text() == textFamilyName){
+                        //
+                        //                $(this).parent().parent().parent().show();
+                        //            }else{
+                        //
+                        //                $(this).parent().parent().parent().hide();
+                        //            }
+                        //        });
+                        //
+                        //     }
+                        //
+                        // });
                         $("div#block-views-rb-collections-block .views-row .node-content > .field-name-field-regne").each(function(){
 
                             // If the collection has the name of the hash location (tab clicked)
@@ -62,7 +81,6 @@
                     }
                 }
             }
-
         }
     };
 }(jQuery));
