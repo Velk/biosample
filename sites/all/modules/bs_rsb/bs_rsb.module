@@ -1086,7 +1086,7 @@ function bs_rsb_creation_establishment_form($form, &$form_state){
         '#title' => t('Présentation'),
         '#format' => 'wysiwyg',
         '#weight' => 17,
-        '#required' => TRUE,
+        '#required' => FALSE,
     );
 
     // Establishment sheet : Image
@@ -1114,9 +1114,8 @@ function bs_rsb_creation_establishment_form($form, &$form_state){
         '#type' => 'select',
         '#title' => t('Civilité'),
         '#options' => array(
-            0 => t('N/A'),
-            1 => t('Madame'),
-            2 => t('Monsieur'),
+            0 => t('Madame'),
+            1 => t('Monsieur')
         ),
         '#weight' => 0,
         '#required' => TRUE,
@@ -1284,12 +1283,9 @@ function bs_rsb_creation_establishment_submit($form, &$form_state){
         // Change the value stocked for the selected contact civility
         switch($form_state['values']['contact_civility']){
             case '0' :
-                $form_state['values']['contact_civility'] = '';
-                break;
-            case '1' :
                 $form_state['values']['contact_civility'] = 'Madame';
                 break;
-            case '2' :
+            case '1' :
                 $form_state['values']['contact_civility'] = 'Monsieur';
                 break;
         }
@@ -1638,7 +1634,7 @@ function bs_rsb_updating_establishment_form($form, &$form_state){
         '#format' => 'wysiwyg',
         '#default_value' => $result['presentation'],
         '#weight' => 17,
-        '#required' => TRUE,
+        '#required' => FALSE,
     );
 
     // Establishment sheet : Image
@@ -1683,14 +1679,11 @@ function bs_rsb_updating_establishment_form($form, &$form_state){
 
     // Establishment sheet : Contact civility
     switch($result['organism_contact_civility']){
-        case "" :
+        case "Madame" :
             $result['organism_contact_civility'] = 0;
             break;
-        case "Madame" :
-            $result['organism_contact_civility'] = 1;
-            break;
         case "Monsieur" :
-            $result['organism_contact_civility'] = 2;
+            $result['organism_contact_civility'] = 1;
             break;
     }
 
@@ -1698,9 +1691,8 @@ function bs_rsb_updating_establishment_form($form, &$form_state){
         '#type' => 'select',
         '#title' => t('Civilité'),
         '#options' => array(
-            0 => t('N/A'),
-            1 => t('Madame'),
-            2 => t('Monsieur'),
+            0 => t('Madame'),
+            1 => t('Monsieur')
         ),
         '#default_value' => $result['organism_contact_civility'],
         '#weight' => 0,
@@ -1863,12 +1855,9 @@ function bs_rsb_updating_establishment_submit($form, &$form_state){
     // Change the value stocked for the selected contact civility
     switch($form_state['values']['contact_civility']){
         case '0' :
-            $form_state['values']['contact_civility'] = '';
-            break;
-        case '1' :
             $form_state['values']['contact_civility'] = 'Madame';
             break;
-        case '2' :
+        case '1' :
             $form_state['values']['contact_civility'] = 'Monsieur';
             break;
     }
@@ -2337,14 +2326,11 @@ function bs_rsb_admin_datas_establishment_form($form, $form_state){
 
         // Establishment sheet : Contact civility
         switch($result->organism_contact_civility){
-            case "" :
+            case "Madame" :
                 $result->organism_contact_civility = 0;
                 break;
-            case "Madame" :
-                $result->organism_contact_civility = 1;
-                break;
             case "Monsieur" :
-                $result->organism_contact_civility = 2;
+                $result->organism_contact_civility = 1;
                 break;
         }
 
@@ -2352,9 +2338,8 @@ function bs_rsb_admin_datas_establishment_form($form, $form_state){
             '#type' => 'select',
             '#title' => t('Civilité'),
             '#options' => array(
-                0 => t('N/A'),
-                1 => t('Madame'),
-                2 => t('Monsieur'),
+                0 => t('Madame'),
+                1 => t('Monsieur')
             ),
             '#default_value' => $result->organism_contact_civility,
             '#weight' => 0,
@@ -2522,12 +2507,9 @@ function bs_rsb_admin_datas_establishment_form_submit($form, &$form_state){
     // Change the value stocked for the selected contact civility
     switch($form_state['values']['contact_civility']){
         case '0' :
-            $form_state['values']['contact_civility'] = '';
-            break;
-        case '1' :
             $form_state['values']['contact_civility'] = 'Madame';
             break;
-        case '2' :
+        case '1' :
             $form_state['values']['contact_civility'] = 'Monsieur';
             break;
     }
