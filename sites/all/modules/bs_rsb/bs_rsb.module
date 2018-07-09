@@ -880,6 +880,14 @@ function bs_rsb_block_view($delta = '') {
             $split_result = preg_split('/public:\/\//', $result_image['image']);
             $data['image'] = $split_result[1];
 
+            /* Retrieve every collections of the organism */
+            $query = db_select('node','n');
+            $query->join('field_data_field_nom_collection','fdfnc','n.nid = fdfnc.entity_id');
+            $query->fields('n', array('title', 'uid'));
+            $query->fields('fdfnc', array('field_nom_collection_value'));
+            $query->condition('type','rb_collections','=');
+            $data['everyCollections'] = $query->execute();
+
             $block['content']['#markup'] = theme('tpl_rsb_establishments', $data);
 
             // Link a css file for the rsb establishments
