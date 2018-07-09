@@ -132,28 +132,8 @@ div#bs-rsb-annonce-header > a#consult-map {
     margin: 25px 15px !important;
 }
 
-/*.bs-rsb-card-action-consult {*/
-    /*grid-area: action-consult;*/
-    /*margin-left: 15px;*/
-    /*margin-bottom: 10px;*/
-/*}*/
-/*.bs-rsb-card-action-consult > a {*/
-    /*display: block;*/
-    /*width: 100%;*/
-    /*text-align: center;*/
-    /*background-color: #1e6a8e;*/
-    /*color: #fff !important;*/
-    /*font-size: 16px;*/
-    /*padding: 3px 5px;*/
-    /*box-sizing: border-box;*/
-/*}*/
-/*.bs-rsb-card-action-consult > a > i {*/
-    /*margin-left: 5px;*/
-/*}*/
-
 .bs-rsb-card-action-edit {
     grid-area: action-edit;
-    /*margin-right: 15px;*/
     margin-bottom: 10px;
 }
 .bs-rsb-card-action-edit > a {
@@ -213,30 +193,6 @@ div#bs-rsb-annonce-header > a#consult-map {
 /* ------------------------------------------------------------------------------------- */
 /* ---------------------------------- Edit - Annonce ----------------------------------- */
 /* ------------------------------------------------------------------------------------- */
-
-/*#rb-collections-node-form{*/
-    /*position: relative;*/
-    /*width: 600px;*/
-    /*margin: auto;*/
-/*}*/
-
-/*#rb-collections-node-form input:not(.form-submit) {*/
-    /*width: 100%;*/
-    /*margin: 7px 0 15px 0;*/
-    /*padding: 7px 10px;*/
-    /*border: 2px solid #1e6a8e;*/
-    /*border-radius: 2px;*/
-/*}*/
-
-/*#rb-collections-node-form select {*/
-    /*width: 100%;*/
-    /*margin: 7px 0 15px 0;*/
-    /*padding: 7px 10px;*/
-    /*background-color: #1e6a8e;*/
-    /*border: none;*/
-    /*border-radius: 2px;*/
-    /*color: #fff;*/
-/*}*/
 
 #rb-collections-node-form .form-type-textarea textarea {
     border: 2px solid #1e6a8e;
@@ -440,34 +396,6 @@ fieldset.filter-wrapper {
 /* ------------------------------------------------------------------------------------- */
 /* ------------------------------ Consult - Full annonce ------------------------------- */
 /* ------------------------------------------------------------------------------------- */
-/*.node-rb-collections{*/
-    /*position: relative;*/
-    /*width: 600px;*/
-    /*margin: 50px auto !important;*/
-/*}*/
-
-/*.node-rb-collections div.field:first-of-type {*/
-    /*margin-bottom: 50px;*/
-/*}*/
-
-/*.node-rb-collections div.field:first-of-type .field-items {*/
-    /*border-left:1px solid #1e6a8e;*/
-    /*padding-left:15px;*/
-    /*margin-top: 20px;*/
-    /*text-align: justify;*/
-/*}*/
-
-/*.node-rb-collections h3.field-label{*/
-    /*font-family: "Roboto Condensed", oswaldregular !important;*/
-    /*font-weight: 500;*/
-    /*font-size: 20px;*/
-    /*text-transform: uppercase;*/
-    /*color: #1e6a8e;*/
-/*}*/
-
-/*.node-rb-collections div.field:not(:first-of-type) {*/
-    /*margin-bottom: 20px;*/
-/*}*/
 
 .node-rb-collections {
     position: relative;
@@ -586,6 +514,10 @@ fieldset.filter-wrapper {
 }
 .node-rb-collections .field-name-field-nom-collection {
     padding-bottom: 30px;
+}
+
+.node-rb-collections .field-name-field-critere {
+    display: none;
 }
 
 /* Link to the establishment sheet */

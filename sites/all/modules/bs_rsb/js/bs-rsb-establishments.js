@@ -4,24 +4,30 @@
 
             $(document).ready(function(){
 
-                // function setImageHeight(){
-                //
-                //     // Distance between the top of the window and the top of the image
-                //     var topImageContainer = $("#establishment-image").offset().top;
-                //     // Window height
-                //     var windowHeight = $(window).height();
-                //     // Calcul the new height of the image
-                //     var heightImageContainer = windowHeight - topImageContainer;
-                //
-                //     // Set the new height of the image
-                //     $("#establishment-image").css("height", heightImageContainer);
-                // }
-                //
-                // // Wait 50 milliseconds before run function
-                // // Like that the page is loaded and the values retrieved are right
-                // setTimeout(setImageHeight, 50);
-
                 $(".page-title-wrap").remove();
+
+                $("#presentation > a").on('click', function(event) {
+
+                    // Make sure this.hash has a value before overriding default behavior
+                    if (this.hash !== "") {
+                        // Prevent default anchor click behavior
+                        event.preventDefault();
+
+                        // Store hash
+                        var hash = this.hash;
+
+                        // Using jQuery's animate() method to add smooth page scroll and it takes 800 ms
+                        $('html, body').animate({
+                            scrollTop: $(hash).offset().top - 65
+                        }, 800, function(){
+
+                            // Add hash (#) to URL when done scrolling (default click behavior)
+                            // window.location.hash = hash;
+                            window.location.hash = "autres-collections";
+                        });
+                    }
+                });
+
 
             });
 
