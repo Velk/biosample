@@ -66,7 +66,7 @@ foreach ($results as $result) {
     </div>
     <div id="presentation">
         <h2 id="label-presentation">Présentation</h2>
-        <a href="#bs-rsb-oc-container">
+        <a href="#bs-rsb-ec-container">
             <i class="fa fa-long-arrow-down" aria-hidden="true"></i>
         </a>
         <div><?php echo $result->presentation; ?></div>
