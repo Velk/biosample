@@ -57,6 +57,9 @@ fieldset.filter-wrapper {
     box-shadow: inset 0px 0px 5px #c5c5c5;
     padding-right: 25px;
     padding-left: 25px;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
 }
 #block-bs-rsb-rb-establishment-sheet form#bs-rsb-creation-establishment-form fieldset.collapsed {
     box-shadow: none;
@@ -120,7 +123,7 @@ fieldset.filter-wrapper {
 }
 #edit-establishment-datas {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    /*grid-template-columns: repeat(4, 1fr);*/
     grid-template-areas:
             "a a b b"
             "c c c c"
@@ -134,9 +137,12 @@ fieldset.filter-wrapper {
             "o o p p"
             "q q q q"
             "r r r r";
-    grid-gap: 10px 40px;
+    /*grid-gap: 10px 40px;*/
 }
-
+div#edit-establishment-datas > div.form-item,
+div#edit-establishment-datas > div.text-format-wrapper {
+    margin: 10px;
+}
 #edit-establishment-datas .form-item-name {
     grid-area: a;
 }
@@ -198,12 +204,15 @@ fieldset.filter-wrapper {
 }
 #edit-establishment-coordinator {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    /*grid-template-columns: repeat(3, 1fr);*/
     grid-template-areas:
             "aa bb cc"
             "dd dd dd"
             "ee ff ff";
-    grid-gap: 10px 40px;
+    /*grid-gap: 10px 40px;*/
+}
+div#edit-establishment-coordinator > .form-item {
+    margin: 10px;
 }
 #edit-establishment-coordinator .form-item-contact-civility {
     grid-area: aa;

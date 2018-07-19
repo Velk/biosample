@@ -26,7 +26,7 @@
                     <a href="/utilisateur/ress_bio/etablissement">Mon organisme</a>
                 </li>
                 <li id="bs-cc-annonces-li">
-                    <a href="/utilisateur/ress_bio/annonces">Annonces</a>
+                    <a href="/utilisateur/ress_bio/annonces">Mes collections</a>
                 </li>
                 <li id="bs-cc-favoris-li">
                     <a href="/utilisateur/ress_bio/favoris">Favoris</a>
