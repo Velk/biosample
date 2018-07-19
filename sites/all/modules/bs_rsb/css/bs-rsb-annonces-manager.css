@@ -328,6 +328,9 @@ fieldset.filter-wrapper {
             "j j j j j j j j j j j j j j j j j j"
             "k k k k k k k k k k k k k k k k k k"
             "l l l l l l l l l l l l l l l l l l";
+            /*"n n n n n n n n n o o o o o o o o o"*/
+            /*"p p p p p p p p p . . . . . . . . ."*/
+            /*"q q q q q q q q q q q q q q q q q q";*/
 }
 
 .form-item-title {
@@ -360,12 +363,31 @@ fieldset.filter-wrapper {
 #edit-field-presentation {
     grid-area: j;
 }
-#edit-field-critere {
+.group-criteres {
     grid-area: k;
 }
 #edit-actions {
     grid-area: l;
 }
+/*#edit-field-critere {*/
+    /*grid-area: k;*/
+/*}*/
+/*#edit-field-critere-donnees-anthropo {*/
+    /*grid-area: l;*/
+/*}*/
+/*#edit-field-critere-suivi-des-donneurs {*/
+    /*grid-area: m;*/
+/*}*/
+/*#edit-field-critere-consentement {*/
+    /*grid-area: n;*/
+/*}*/
+/*#edit-field-critere-nature {*/
+    /*grid-area: o;*/
+/*}*/
+/*#edit-field-critere-donnees-associees {*/
+    /*grid-area: p;*/
+/*}*/
+
 
 /* Fields */
 #rb-collections-node-form .form-item label {
@@ -392,6 +414,23 @@ fieldset.filter-wrapper {
     color: #fff;
 }
 
+/* Fieldset */
+#rb-collections-node-form fieldset.group-criteres {
+    border: none;
+    border-top: 2px solid #1e6a8e;
+    text-align: left;
+    margin: 15px 0 0 0;
+    box-shadow: inset 0px 0px 5px #c5c5c5;
+    padding-right: 25px;
+    padding-left: 25px;
+}
+#rb-collections-node-form fieldset.group-criteres.collapsed {
+    box-shadow: none;
+}
+#rb-collections-node-form fieldset.group-criteres > legend {
+    font-size: 18px;
+    background-color: #fff;
+}
 
 /* ------------------------------------------------------------------------------------- */
 /* ------------------------------ Consult - Full annonce ------------------------------- */
@@ -573,14 +612,8 @@ fieldset.filter-wrapper {
 /* ------------------------------------------------------------------------------------- */
 /* Start - Custom the automatic menu */
 .tabs{
-    /*width: 600px;*/
-    /*margin: auto;*/
-    /*margin-bottom: 50px !important;*/
-    /*border-radius: 0 !important;*/
-    /*box-shadow: 2px 3px 5px -1px #b5b5b5;*/
     width: 100%;
     border-radius: 0 !important;
-    /*background-color: #1e6a8e;*/
     background-color: #20313a;
     padding: 5px 25px;
     box-sizing: border-box;
@@ -589,57 +622,29 @@ fieldset.filter-wrapper {
     margin:0 !important;
 }
 .tabs > ul{
-    /*margin:0 !important;*/
-    /*padding:0 !important;*/
     margin: 0 auto !important;
     padding: 0 !important;
     width: 600px;
+    display: grid;
+    grid-template-columns: repeat(2 , 1fr);
 }
 .tabs li{
-    width: calc(100% / 2);
+    width: 100%;
     margin: 0 !important;
 }
 .tabs li > a {
     width: 100%;
     box-sizing: border-box;
     text-align: center;
-    /*color: #424242 !important;*/
     border-radius: 0 !important;
-    /*background-color: #1e6a8e !important;*/
     background-color: #20313a !important;
     color: #fff !important;
 }
-.tabs li:nth-child(1) > a {
-    /*background-color: #ffe4cd !important;*/
-    /*background-color: #1e6a8e !important;*/
-    /*color: #fff !important;*/
-}
-.tabs li:nth-child(2) > a {
-    /*background-color: #d2ffda !important;*/
-
-}
-/*.tabs li:nth-child(3) > a {*/
-    /*background-color: #ffc2c2 !important;*/
-/*}*/
 
 .tabs li > a:hover {
     border: none !important;
-    /*background-color: #427e92 !important;*/
     background-color: #37474f !important;
-    /*-webkit-box-shadow: inset 1px 1px 5px #424242;*/
 }
-/*.tabs li:nth-child(1) > a:hover {*/
-    /*background-color: #ffc693 !important;*/
-    /*color: #ffe4cd;*/
-/*}*/
-/*.tabs li:nth-child(2) > a:hover {*/
-    /*background-color: #9acea3 !important;*/
-    /*color: #d2ffda;*/
-/*}*/
-/*.tabs li:nth-child(3) > a:hover {*/
-    /*background-color: #ff8c8c !important;*/
-    /*color: #ffc2c2;*/
-/*}*/
 
 .tabs li > a.active {
     border: none !important;

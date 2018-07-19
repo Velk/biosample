@@ -13,6 +13,7 @@
     position: relative;
     width: 100%;
     margin: 0 auto;
+    text-align: center;
 }
 
 #bs-rsb-filters-container > h2 {
@@ -28,7 +29,9 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     border: none;
-    margin: 25px 20px 25px 20px;
+    text-align: center;
+    margin: 25px auto;
+    max-width: 200px;
     cursor: pointer;
 }
 
@@ -50,6 +53,7 @@
     background-color: #EDEFEF;
     margin-bottom: 5px;
     cursor: pointer;
+    text-align: left;
 }
 
 .bs-rsb-filter-title {
@@ -69,6 +73,7 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    word-wrap: break-word;
 }
 .bs-rsb-filter-title > i {
     width: 20%;
@@ -82,7 +87,11 @@
     width: 100%;
 }
 
-.bs-rsb-filter-tid {
+/*.bs-rsb-filter-tid {*/
+    /*display: none;*/
+    /*height:0;*/
+/*}*/
+.bs-rsb-filter-vid {
     display: none;
     height:0;
 }
@@ -108,10 +117,16 @@
 
 #overlay-filters-container > p {
     text-align: center;
-    margin: 20px auto 30px auto;
+    margin: 20px auto 50px auto;
     font-size: 25px;
-    width: 150px;
+    width: auto;
     font-weight: bold;
+    color: #fff;
+}
+#overlay-filters-container > p > span {
+    display: block;
+    font-size: 20px;
+    font-weight: normal;
     color: #d1dade;
 }
 
@@ -143,9 +158,15 @@ button#ofc-reinit {
     border: 1px solid #fff;
     background-color: transparent;
     cursor: pointer;
+    max-width: 215px;
 }
 button#ofc-reinit:hover {
     background-color: #313131;
+}
+
+button#ofc-reinit > span {
+    display: block;
+    margin-top: 5px;
 }
 
 /* Filtres - Explication */
@@ -243,6 +264,7 @@ button#ofc-reinit:hover {
 }
 
 #overlay-filters-container > #ofc-request-results {
+    display: none;
     position: fixed;
     width: 750px;
     bottom: 25px;
@@ -348,8 +370,55 @@ button#ofc-reinit:hover {
 /* --------------------------------------END - FILTERS--------------------------------------------*/
 /* -----------------------------------------------------------------------------------------------*/
 
-
 div#block-bs-rsb-ressources-bio-filtres {
     float: left;
     width: 30%;
 }
+
+/* -----------------------------------------------------------------------------------------------*/
+/* ------------------------------------- START - LOADER ------------------------------------------*/
+/* -----------------------------------------------------------------------------------------------*/
+
+#loader-criterias-container {
+    display: block;
+    position: fixed;
+    bottom: 25px;
+    left: 0;
+    width: 100%;
+    height: auto;
+    background-color: transparent;
+    z-index: 9999;
+}
+
+#loader-criterias-container > p {
+    text-align: center;
+    margin: 25px 0 0 0;
+    font-size: 15px;
+    font-style: italic;
+    color: #fff;
+}
+
+#loader-criterias-container #loader {
+    border: 5px solid transparent;
+    border-radius: 50%;
+    border-top: 5px solid #fff;
+    width: 50px;
+    height: 50px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* -----------------------------------------------------------------------------------------------*/
+/* --------------------------------------- END - LOADER ------------------------------------------*/
+/* -----------------------------------------------------------------------------------------------*/

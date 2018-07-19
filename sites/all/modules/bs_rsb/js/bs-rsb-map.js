@@ -240,21 +240,21 @@
             });
 
             // Blur the block after a delay
-            setTimeout(blurRsb, 4000);
-
-            function blurRsb(){
-                $( "#block-bs-rsb-ressources-bio-map" ).css("filter", "blur(5px)");
-                $( "#block-bs-rsb-ressources-bio-collections" ).css("filter", "blur(5px)");
-                $( "#block-views-rb-collections-block" ).css("filter", "blur(5px)");
-                $( "#block-bs-rsb-ressources-bio-filtres" ).css("filter", "blur(5px)");
-
-                $("body").append("<div id='bs-rsb-popup'>" +
-                    "<p>Nous travaillons actuellement sur cette plateforme.</p>" +
-                    "<p>N'hésitez pas à nous suivre sur " +
-                    "<a href='https://www.facebook.com/BioSample/' target='_blank'>Facebook</a>" +
-                    " pour rester informé des évolutions !</p>" +
-                    "</div>");
-            }
+            // setTimeout(blurRsb, 4000);
+            //
+            // function blurRsb(){
+            //     $( "#block-bs-rsb-ressources-bio-map" ).css("filter", "blur(5px)");
+            //     $( "#block-bs-rsb-ressources-bio-collections" ).css("filter", "blur(5px)");
+            //     $( "#block-views-rb-collections-block" ).css("filter", "blur(5px)");
+            //     $( "#block-bs-rsb-ressources-bio-filtres" ).css("filter", "blur(5px)");
+            //
+            //     $("body").append("<div id='bs-rsb-popup'>" +
+            //         "<p>Nous travaillons actuellement sur cette plateforme.</p>" +
+            //         "<p>N'hésitez pas à nous suivre sur " +
+            //         "<a href='https://www.facebook.com/BioSample/' target='_blank'>Facebook</a>" +
+            //         " pour rester informé des évolutions !</p>" +
+            //         "</div>");
+            // }
         }
     };
 }(jQuery));
