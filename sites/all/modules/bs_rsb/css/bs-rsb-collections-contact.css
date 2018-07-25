@@ -1,0 +1,169 @@
+/* Contact */
+div#contact-container {
+    text-align: center;
+    padding: 10px 25px;
+    background-color: #37474f;
+}
+
+p#contact-title {
+    font-size: 20px;
+    color: #d1dade;
+    margin-bottom: 15px;
+}
+
+#contact-container > button {
+    cursor: pointer;
+    color: #fff !important;
+    padding: 5px 15px;
+    border: 1px solid #fff;
+    background-color: transparent;
+}
+
+#contact-container > button:hover {
+    background-color: #1e6a8e;
+}
+
+/* Contact popup */
+#contact-popup-container {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #000000dd;
+    z-index: 99990;
+}
+
+div#contact-popup {
+    width: 600px;
+    margin: auto;
+    margin-top: 50vh;
+    transform: translateY(-50%);
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 25px 50px;
+    box-sizing: border-box;
+}
+
+#contact-popup > i#exit {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 20px;
+    color: #424242;
+    cursor: pointer;
+}
+
+#contact-popup > i#exit:hover {
+    color: #1e6a8e;
+}
+
+#contact-popup > p#title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+}
+
+#contact-popup > p#info {
+    font-size: 14px;
+    font-style: italic;
+    color: #ff6d62;
+}
+
+/* Contact form */
+form#bs-rsb-collections-contact-form {
+    margin: 40px 0 0 0;
+}
+
+form#bs-rsb-collections-contact-form > div {
+    display:grid;
+    grid-template-areas:
+            "a a a a . . b b b b b b"
+            "c c c c c c d d d e e e"
+            "f f f f f f g g g g g g"
+            "h h h h h h i i i . . ."
+            "j j j j j j j j j j j j"
+            "k k k k k k k k k k k k"
+            "l l l l l l l l l l l l";
+    grid-gap: 20px;
+}
+form#bs-rsb-collections-contact-form .form-item-civility {
+    grid-area: a;
+}
+form#bs-rsb-collections-contact-form .form-item-name {
+    grid-area: c;
+}
+form#bs-rsb-collections-contact-form .form-item-email {
+    grid-area: f;
+}
+form#bs-rsb-collections-contact-form .form-item-poste-service {
+    grid-area: h;
+}
+form#bs-rsb-collections-contact-form .form-item-affiliation-societe {
+    grid-area: b;
+}
+form#bs-rsb-collections-contact-form .form-item-siren {
+    grid-area: d;
+}
+form#bs-rsb-collections-contact-form .form-item-postal-code {
+    grid-area: e;
+}
+form#bs-rsb-collections-contact-form .form-item-phone {
+    grid-area: g;
+}
+form#bs-rsb-collections-contact-form .form-item-fax {
+    grid-area: i;
+}
+form#bs-rsb-collections-contact-form .form-item-subject {
+    grid-area: j;
+}
+form#bs-rsb-collections-contact-form .form-item-message {
+    grid-area: k;
+}
+form#bs-rsb-collections-contact-form .bs-rsb-contact-submit {
+    grid-area: l;
+    text-align: center;
+    width: 150px;
+    margin: auto;
+}
+
+form#bs-rsb-collections-contact-form div.form-item {
+    margin: 0;
+}
+
+form#bs-rsb-collections-contact-form input,
+form#bs-rsb-collections-contact-form select,
+form#bs-rsb-collections-contact-form textarea {
+    width: 100%;
+    padding: 7px 10px;
+    border: none;
+    border-bottom: 1px solid #424242;
+    background-color: #fbfbfb;
+    color: #7c7b7b !important;
+}
+form#bs-rsb-collections-contact-form input,
+form#bs-rsb-collections-contact-form select {
+    height: 35px;
+}
+
+form#bs-rsb-collections-contact-form input.error,
+form#bs-rsb-collections-contact-form select.error,
+form#bs-rsb-collections-contact-form textarea.error {
+    background-color: #ffdcdc;
+}
+
+form#bs-rsb-collections-contact-form .bs-rsb-contact-submit input#bs-rsb-contact-submit {
+    border: 1px solid #1e6a8e;
+    box-shadow: none;
+    padding: 8px 15px;
+    background: #1e6a8e;
+    color: #fff !important;
+    border-radius: 2px;
+    font-size: 12px;
+}
+form#bs-rsb-collections-contact-form .bs-rsb-contact-submit input#bs-rsb-contact-submit:hover {
+    background-color: #fff;
+    color: #1e6a8e !important;
+}

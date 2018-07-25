@@ -40,6 +40,15 @@ function bs_rsb_menu(){
         'type' => MENU_NORMAL_ITEM,
     );
 
+    $items['admin/BioSample/criteres-manager'] = array(
+        'title' => t('BS - Filters manager'),
+        'description' => t('BS Filters manager'),
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('bs_rsb_admin_filters_manager_form'),
+        'access arguments' => array('access administration pages'),
+        'type' => MENU_NORMAL_ITEM,
+    );
+
     $items['ressources-biologiques/home'] = array(
         'title' => t('Ressources biologiques - Cartographie'),
         'description' => t('Cartographie des ressources biologiques'),
@@ -104,194 +113,269 @@ function bs_rsb_menu(){
  * Return json output for ajax request
  */
 function bs_rsb_filters_request() {
-    global $user;
 
-    // Retrieve the vid of the vocabulary for the machine_name "ressources_biologiques"
-    // ! Be careful, the machine_name must absolutely be 'ressources_biologiques'
-    $query = db_select('taxonomy_vocabulary', 'tv');
-    $query->fields('tv',array('vid'));
-    $query->condition('tv.machine_name', 'ressources_biologiques','=');
-    $resultVID = $query->execute()->fetchField(0);
+    // Array containing all of results
+    $arrayAllCriteres = [];
+    // Array intended to contain results
+    $arrayCriteres = [];
 
-    /* ----------------------------------------------------------------------------------------*/
-    /* ----------------------------- Request - Requirement filters -----------------------------*/
-    /* ----------------------------------------------------------------------------------------*/
+    // Retrieve every table containing "field_data_field_critere..." as table name
+    $queryTables = db_select('INFORMATION_SCHEMA.TABLES', 'db');
+    $queryTables->fields('db', array('TABLE_NAME'));
+    $queryTables->condition('TABLE_NAME', 'field_data_field_critere' . '%', 'LIKE');
+    $resultsTables = $queryTables->execute();
 
-    // Retrieve filters of a filter categories
+    foreach ($resultsTables as $resultTable){
 
-//    $arraySize = sizeof($_GET['requirement_filter_names']);
-//    drupal_set_message("Array size : " . $arraySize);
+        // Retrieve every columns of table containing "field_critere..." as column name
+        $queryColumns = db_select('INFORMATION_SCHEMA.COLUMNS', 'col');
+        $queryColumns->fields('col', array('COLUMN_NAME'));
+        $queryColumns->condition('TABLE_SCHEMA', 'biosample'. '%','LIKE');
+        $queryColumns->condition('TABLE_NAME', $resultTable->TABLE_NAME,'=');
+        $queryColumns->condition('COLUMN_NAME', 'field_critere'. '%','LIKE');
+        $resultsColumns = $queryColumns->execute();
 
-//    for($l = 0 ; $l < sizeof($_GET['requirement_filter_names']) ; $l++){
-//        drupal_set_message($l . " : " . $_GET['requirement_filter_names'][$l]);
-//    }
-//
-//    $arrayFiltersResult = [];
-//    $arrayFiltersRequirement = [];
-//
-//    $query = db_select('taxonomy_term_data', 'ttd');
-//    $query->join('field_revision_field_critere','frfc','ttd.tid = frfc.field_critere_tid');
-//    $query->join('node','n','frfc.revision_id = n.nid');
-////        $query->distinct();
-//    $query->condition('ttd.vid', $resultVID, '=');
-//
-//
-//    for($i = 0  ; $i < $arraySize ; $i++){
-//
-//        $query->condition('ttd.name', $_GET['requirement_filter_names'][$i], '=');
-//    }
-//
-//    $query->fields('n',array('nid'));
-//
-//    $resultsFiltersRequirement = $query->execute();
-//
-////        $rowCountFiltersRequirement = $query->execute()->rowCount();
-//
-//    foreach ($resultsFiltersRequirement as $resultFiltersRequirement){
-//
-//        array_push($arrayFiltersRequirement, $resultFiltersRequirement->nid);
-//    }
-//
-//    $query = db_select('taxonomy_term_data', 'ttd');
-//    $query->join('field_revision_field_critere','frfc','ttd.tid = frfc.field_critere_tid');
-//    $query->join('node','n','frfc.revision_id = n.nid');
-//    $query->distinct();
-//    $query->condition('ttd.vid', $resultVID, '=');
-//
-//    // Initialize OR condition
-////    $or = db_or();
-//    // Loop into the array transmit by AJAX
-//    for($i = 0 ; $i < sizeof($_GET['requirement_filter_names']) ; $i++){
-//
-//        // Set OR condition
-//        $query->condition('ttd.name', $_GET['requirement_filter_names'][$i], '=');
-////        $or->condition('ttd.name', $_GET['requirement_filter_names'][$i], '=');
-//        // Add OR conditions to query
-////        $query->condition($or);
-//    }
-//
-//    $query->fields('n',array('nid'));
-//    $resultsFiltersRequirement = $query->execute();
-//
-//    $rowCountFiltersRequirement = $query->execute()->rowCount();
-//
-//    $arrayFiltersRequirement = [];
-//
-//    foreach ($resultsFiltersRequirement as $resultFiltersRequirement){
-//
-//        array_push($arrayFiltersRequirement, $resultFiltersRequirement->nid);
-//    }
-//
-//    $result['rowCountFiltersRequirement'] = $rowCountFiltersRequirement;
-//
-//    $result['resultsFiltersRequirement'] = $arrayFiltersRequirement;
 
-//    drupal_set_message("-------------------------------");
-//
-//    $test = $_GET['requirement_filter_names'];
-//    drupal_set_message("Size : " . sizeof($test));
-//    drupal_set_message("Tiens : " . $_GET['requirement_filter_names'][0]);
-//    drupal_set_message("Tiens : " . $_GET['requirement_filter_names'][1]);
+        foreach ($resultsColumns as $resultColumn){
 
-    $arrayFiltersRequirement = [];
+            // Push results into array
+            array_push($arrayCriteres, $resultTable->TABLE_NAME, "ct", $resultColumn->COLUMN_NAME);
+        }
 
-    $query = db_select('field_data_field_critere', 'fdfc');
-    $query->join('taxonomy_term_data','ttd','fdfc.field_critere_tid = ttd.tid');
-    $query->condition('ttd.vid', $resultVID, '=');
+        // Retrieve the vid
+        $toGetVID = explode("field_data_field_critere_", $resultTable->TABLE_NAME)[1];
 
-    // Initialize OR condition
-    $or = db_or();
-    // Loop into the array transmit by AJAX
-    for($i = 0 ; $i < $_GET['requirement_filter_size'] ; $i++){
+        $queryVID = db_select('taxonomy_vocabulary', 'tv');
+        $queryVID->fields('tv', array('vid'));
+        $queryVID->condition('machine_name', 'rb_'.$toGetVID.'%', 'LIKE');
+        $resultsVID = $queryVID->execute();
 
-//        drupal_set_message("i = " . $i);
-        // Set OR condition
-//        $query->condition('ttd.name', $_GET['requirement_filter_names'][$i], '=');
-        $or->condition('ttd.name', $_GET['requirement_filter_names'][$i], '=');
-        // Add OR conditions to query
-        $query->condition($or);
+        foreach ($resultsVID as $resultVID){
+
+            // Push VID result into array
+            array_push($arrayCriteres, $resultVID->vid);
+        }
+
+        // Push array containing results into an other array containing all the results
+        array_push($arrayAllCriteres, $arrayCriteres);
+
+        // Empty the array
+        $arrayCriteres = [];
+
     }
 
-//    $query->addExpression('COUNT(fdfc.entity_id)', 'count');
-//    $query->fields('fdfc',array('entity_id', 'count'));
-    $query->fields('fdfc',array('entity_id'));
-    $query->addExpression('count(entity_id)', 'entity_id_count');
-    $query->groupBy('fdfc.entity_id');
+    /*
+     * Pour chaque catégorie de critère rempli par l'utilisateur dans les collections,
+     * je vais voir le TID (Identifiant du critère) associés à la collection en fonction
+     * de la catégorie de critère.
+     * Après je récupère le nom du critère relatif au TID.
+     * Toujours pour une catégorie de critère donnée, je compare les critères "d'exigence"
+     * que l'utilisateur a sélectionnés en session aux noms des critères d'une collection.
+     * Si le critère d'exigence de l'utilisateur correspond à un critère d'une collection
+     * alors je sauvegarde l'identifiant de la collection.
+     * Je compare le nombre de redondance de la collection. Cette redondance doit être égale
+     * au nombre de requête ajax. Si c'est le cas alors la collection vérifie ces critères.
+     * C'est le même principe pour l'autre choix sauf que l'on ajoute les critères d'exigences
+     * et de préférences.
+     */
 
-    $query->having('COUNT(entity_id) >= :matches', array(':matches' => $_GET['requirement_filter_size']));
+    /* ----------------------------------------------------------------------------------------*/
+    /* ---------------------------- Request - Requirement filters -----------------------------*/
+    /* ----------------------------------------------------------------------------------------*/
 
-    $resultsFiltersRequirement = $query->execute();
+    $arrayResultsRequirement = array();
 
-//    foreach ($resultsFiltersRequirement as $blablabla){
-//        drupal_set_message("ENTITY_ID : " . $blablabla->entity_id);
-//        drupal_set_message("COUNT : " . $blablabla->entity_id_count);
-//        drupal_set_message("-------------------------------------------");
-//    }
-//
-    $rowCountFiltersRequirement = $query->execute()->rowCount();
-//
-//    $arrayFiltersRequirement = [];
-//
-    foreach ($resultsFiltersRequirement as $resultFiltersRequirement){
+    $nbAjaxRequirement = 0;
 
-        array_push($arrayFiltersRequirement, $resultFiltersRequirement->entity_id);
+    $resultsRequirement = [];
+
+    for($i = 0 ; $i < sizeof($arrayAllCriteres) ; $i++){
+
+        /* Retrieve tid of collections */
+        $query = db_select('taxonomy_term_data', 'ttd');
+        $query->join($arrayAllCriteres[$i][0], $arrayAllCriteres[$i][1],'ttd.tid='.$arrayAllCriteres[$i][1].'.'.$arrayAllCriteres[$i][2]);
+        $query->fields($arrayAllCriteres[$i][1], array('entity_id'));
+
+        /* OR condition - Filters */
+        // Get every filters contained in a filter category
+        $queryGetFilters = db_select('taxonomy_term_data', 'ttd');
+        $queryGetFilters->fields('ttd', array('name'));
+        $queryGetFilters->condition('ttd.vid', $arrayAllCriteres[$i][3], '=');
+        $resultsGetFilters = $queryGetFilters->execute();
+
+        /*
+         * Browse into filters selected by user, and compare them to filters contained in
+         * category filters. It allows to sort filters of a category.
+        */
+        $arrayRightFilters = [];
+
+        foreach ($resultsGetFilters as $resultGetFilter){
+
+            for($j = 0 ; $j < $_GET['requirement_filter_size'] ; $j++) {
+
+                if ($resultGetFilter->name == $_GET['requirement_filter_names'][$j]){
+
+                    array_push($arrayRightFilters, $_GET['requirement_filter_names'][$j]);
+                }
+            }
+        }
+
+        $orFilters = null;
+
+        $orVID = null;
+
+        if(!empty($arrayRightFilters)){
+
+            // Initialize OR condition
+            $orFilters = "(";
+
+            // Loop into the array transmit by AJAX
+            for($j = 0 ; $j < sizeof($arrayRightFilters) ; $j++){
+
+                // Set OR condition
+                $orFilters = $orFilters . "name='" . $arrayRightFilters[$j] . "' OR ";
+            }
+            $orFilters = substr($orFilters, 0, -3);
+
+            // Add parenthesis
+            if(strlen($orFilters) != 0){
+
+                $orFilters = $orFilters . ")";
+            }
+
+            $orVID = "(vid=" . $arrayAllCriteres[$i][3] . ")";
+
+        }
+
+        // Set WHERE condition
+        if(strlen($orFilters) != 0){
+
+            $query->where($orFilters . " AND " . $orVID);
+
+            $query->groupBy($arrayAllCriteres[$i][1].'.entity_id');
+
+            $query->having('COUNT(entity_id) = :matches', array(':matches' => sizeof($arrayRightFilters)));
+
+            $resultsRequiredFilters = $query->execute();
+
+            foreach ($resultsRequiredFilters as $resultRequiredFilters){
+
+                $arrayResultsRequirement[$resultRequiredFilters->entity_id] = $arrayResultsRequirement[$resultRequiredFilters->entity_id] + 1;
+            }
+
+            $nbAjaxRequirement++;
+        }
+
     }
-//
-    $result['rowCountFiltersRequirement'] = $rowCountFiltersRequirement;
-//
-    $result['resultsFiltersRequirement'] = $arrayFiltersRequirement;
+
+    foreach ($arrayResultsRequirement as $key => $value) {
+
+        if($nbAjaxRequirement == $value){
+            array_push($resultsRequirement, $key);
+        }
+    }
+
+    $result['resultsFiltersRequirement'] = $resultsRequirement;
+    $result['rowCountFiltersRequirement'] = sizeof($resultsRequirement);
 
     /* ----------------------------------------------------------------------------------------*/
     /* ---------------------- Request - Requirement & preference filters ----------------------*/
     /* ----------------------------------------------------------------------------------------*/
 
-    $arrayFilters = [];
+    $arrayResultsOthers = array();
 
-    // Retrieve filters of a filter categories
-    $query = db_select('taxonomy_term_data', 'ttd');
-    $query->join('field_revision_field_critere','frfc','ttd.tid = frfc.field_critere_tid');
-//    $query->join('node','n','frfc.revision_id = n.nid');
-    $query->condition('ttd.vid', $resultVID, '=');
+    $nbAjaxOthers = 0;
 
-    // Initialize OR condition
-    $or = db_or();
-    // Loop into the array transmit by AJAX
-    for($i = 0 ; $i < $_GET['filter_size'] ; $i++){
+    $resultsOthers = [];
 
-//        drupal_set_message("i = " . $i);
-        // Set OR condition
-//        $query->condition('ttd.name', $_GET['requirement_filter_names'][$i], '=');
-        $or->condition('ttd.name', $_GET['filter_names'][$i], '=');
-        // Add OR conditions to query
-        $query->condition($or);
+    for($i = 0 ; $i < sizeof($arrayAllCriteres) ; $i++){
+
+        /* Retrieve tid of collections */
+        $query = db_select('taxonomy_term_data', 'ttd');
+        $query->join($arrayAllCriteres[$i][0], $arrayAllCriteres[$i][1],'ttd.tid='.$arrayAllCriteres[$i][1].'.'.$arrayAllCriteres[$i][2]);
+        $query->fields($arrayAllCriteres[$i][1], array('entity_id'));
+
+        /* OR condition - Filters */
+        // Get every filters contained in a filter category
+        $queryGetFilters = db_select('taxonomy_term_data', 'ttd');
+        $queryGetFilters->fields('ttd', array('name'));
+        $queryGetFilters->condition('ttd.vid', $arrayAllCriteres[$i][3], '=');
+        $resultsGetFilters = $queryGetFilters->execute();
+
+        /*
+         * Browse into filters selected by user, and compare them to filters contained in
+         * category filters. It allows to sort filters of a category.
+        */
+        $arrayRightFilters = [];
+
+        foreach ($resultsGetFilters as $resultGetFilter){
+
+            for($j = 0 ; $j < $_GET['filter_size'] ; $j++) {
+
+                if ($resultGetFilter->name == $_GET['filter_names'][$j]){
+
+                    array_push($arrayRightFilters, $_GET['filter_names'][$j]);
+                }
+            }
+        }
+
+        $orFilters = null;
+
+        $orVID = null;
+
+        if(!empty($arrayRightFilters)){
+
+            // Initialize OR condition
+            $orFilters = "(";
+
+            // Loop into the array transmit by AJAX
+            for($j = 0 ; $j < sizeof($arrayRightFilters) ; $j++){
+
+                // Set OR condition
+                $orFilters = $orFilters . "name='" . $arrayRightFilters[$j] . "' OR ";
+            }
+            $orFilters = substr($orFilters, 0, -3);
+
+            // Add parenthesis
+            if(strlen($orFilters) != 0){
+
+                $orFilters = $orFilters . ")";
+            }
+
+            $orVID = "(vid=" . $arrayAllCriteres[$i][3] . ")";
+
+        }
+
+        // Set WHERE condition
+        if(strlen($orFilters) != 0){
+
+            $query->where($orFilters . " AND " . $orVID);
+
+            $query->groupBy($arrayAllCriteres[$i][1].'.entity_id');
+
+            $query->having('COUNT(entity_id) = :matches', array(':matches' => sizeof($arrayRightFilters)));
+
+            $resultsRequiredFilters = $query->execute();
+
+            foreach ($resultsRequiredFilters as $resultRequiredFilters){
+
+                $arrayResultsOthers[$resultRequiredFilters->entity_id] = $arrayResultsOthers[$resultRequiredFilters->entity_id] + 1;
+            }
+
+            $nbAjaxOthers++;
+        }
+
     }
 
-//    for($i = 0 ; $i < sizeof($_GET['filter_names']) ; $i++){
-//
-//        $query->condition('ttd.name', $_GET['filter_names'][$i], '=');
-//    }
-    $query->fields('frfc',array('entity_id'));
-    $query->addExpression('count(entity_id)', 'entity_id_count');
-    $query->groupBy('frfc.entity_id');
+    foreach ($arrayResultsOthers as $key => $value) {
 
-    $query->having('COUNT(entity_id) >= :matches', array(':matches' => $_GET['filter_size']));
-
-    $resultsFilters = $query->execute();
-
-//    $query->fields('n',array('nid'));
-//    $resultsFilters = $query->execute();
-
-    $rowCountFilters = $query->execute()->rowCount();
-
-
-    foreach ($resultsFilters as $resultFilters){
-
-        array_push($arrayFilters, $resultFilters->entity_id);
+        if($nbAjaxOthers == $value){
+            array_push($resultsOthers, $key);
+        }
     }
 
-    $result['rowCountFilters'] = $rowCountFilters;
-
-    $result['resultsFilters'] = $arrayFilters;
+    $result['resultsFilters'] = $resultsOthers;
+    $result['rowCountFilters'] = sizeof($resultsOthers);
 
     drupal_json_output($result);
 
@@ -303,21 +387,11 @@ function bs_rsb_filters_request() {
  * Return json output for ajax request
  */
 function bs_rsb_criteres_request() {
-    global $user;
-
-    // Retrieve the vid of the vocabulary for the machine_name "ressources_biologiques"
-    // ! Be careful, the machine_name must absolutely be 'ressources_biologiques'
-    $query = db_select('taxonomy_vocabulary', 'tv');
-    $query->fields('tv',array('vid'));
-    $query->condition('tv.machine_name', 'ressources_biologiques','=');
-    $resultVID = $query->execute()->fetchField(0);
 
     // Retrieve filters of a filter categories
     $query = db_select('taxonomy_term_data', 'ttd');
-    $query->join('taxonomy_term_hierarchy', 'tth', 'ttd.tid = tth.tid');
     $query->fields('ttd',array('name'));
-    $query->condition('ttd.vid', $resultVID,'=');
-    $query->condition('tth.parent', $_GET['tid'],'=');
+    $query->condition('ttd.vid', $_GET['vid'],'=');
     $query->orderBy('ttd.weight','ASC');
 
     $resultsCriteres = $query->execute();
@@ -412,6 +486,11 @@ function bs_rsb_theme($existing, $type, $theme, $path) {
             'path' => drupal_get_path('module', 'bs_rsb'),
             'variables' => array('infos' => NULL),
         ),
+        'tpl_rsb_collections_contact' => array(
+            'template' => 'template/bs-rsb-collections-contact',
+            'path' => drupal_get_path('module', 'bs_rsb'),
+            'variables' => array('infos' => NULL),
+        ),
     );
 }
 
@@ -474,6 +553,15 @@ function bs_rsb_block_info() {
         'region' => 'content',
         'visibility' => BLOCK_VISIBILITY_LISTED,
         'pages' => "ressources-biologiques/home/etablissement/*",
+        'weight' => 1,
+    );
+
+    $blocks['rb_collections_contact'] = array(
+        'info' => t('Ressources biologiques - Collections contact'),
+        'status' => TRUE,
+        'region' => 'content',
+        'visibility' => BLOCK_VISIBILITY_LISTED,
+        'pages' => "ressources-biologiques/home/%/%",
         'weight' => 1,
     );
 
@@ -651,27 +739,47 @@ function bs_rsb_block_view($delta = '') {
 
         case 'ressources_bio_filtres':
 
-            // Retrieve the vid of the vocabulary for the machine_name "ressources_biologiques"
-            // ! Be careful, the machine_name must absolutely be 'ressources_biologiques'
-            $query = db_select('taxonomy_vocabulary', 'tv');
-            $query->fields('tv',array('vid'));
-            $query->condition('tv.machine_name', 'ressources_biologiques','=');
-            $resultVID = $query->execute()->fetchField(0);
+//            // Retrieve the vid of the vocabulary for the machine_name "ressources_biologiques"
+//            // ! Be careful, the machine_name must absolutely be 'ressources_biologiques'
+//            $query = db_select('taxonomy_vocabulary', 'tv');
+//            $query->fields('tv',array('vid'));
+//            $query->condition('tv.machine_name', 'ressources_biologiques','=');
+//            $resultVID = $query->execute()->fetchField(0);
+//
+//            // Retrieve filter categories
+//            $query = db_select('taxonomy_term_data', 'ttd');
+//            $query->join('taxonomy_term_hierarchy', 'tth', 'ttd.tid = tth.tid');
+//            $query->fields('ttd',array('name', 'tid'));
+//            $query->condition('ttd.vid', $resultVID,'=');
+//            $query->condition('tth.parent', "0",'=');
+//            $query->orderBy('ttd.weight','ASC');
+//            $data['resultsFC'] = $query->execute();
+//
+////            foreach ($resultsFC as $resultFC) {
+////                drupal_set_message($resultFC->name);
+////            }
+//
+//            // Link the template for the rsb filtres
+//            $block['content']['#markup'] = theme('tpl_rsb_filtres', $data);
+//
+//            // Link a css file for the rsb filtres
+//            $block['content']['#attached']['css'][] = array(
+//                'data' => drupal_get_path('module', 'bs_rsb') . '/css/bs-rsb-filtres.css',
+//                'type' => 'file'
+//            );
+//
+//            // Link a js file for the rsb filtres
+//            $block['content']['#attached']['js'][] = array(
+//                'data' => drupal_get_path('module', 'bs_rsb') . '/js/bs-rsb-filtres.js',
+//                'type' => 'file'
+//            );
 
-            // Retrieve filter categories
-            $query = db_select('taxonomy_term_data', 'ttd');
-            $query->join('taxonomy_term_hierarchy', 'tth', 'ttd.tid = tth.tid');
-            $query->fields('ttd',array('name', 'tid'));
-            $query->condition('ttd.vid', $resultVID,'=');
-            $query->condition('tth.parent', "0",'=');
-            $query->orderBy('ttd.weight','ASC');
+            $query = db_select('taxonomy_vocabulary','tv');
+            $query->fields('tv', array('name', 'vid'));
+            $query->condition('name','RB - ' . '%', 'LIKE');
+            $query->orderBy('weight','ASC');
             $data['resultsFC'] = $query->execute();
 
-//            foreach ($resultsFC as $resultFC) {
-//                drupal_set_message($resultFC->name);
-//            }
-
-            // Link the template for the rsb filtres
             $block['content']['#markup'] = theme('tpl_rsb_filtres', $data);
 
             // Link a css file for the rsb filtres
@@ -682,9 +790,10 @@ function bs_rsb_block_view($delta = '') {
 
             // Link a js file for the rsb filtres
             $block['content']['#attached']['js'][] = array(
-                'data' => drupal_get_path('module', 'bs_rsb') . '/js/bs-rsb-filtres.js',
+                'data' => drupal_get_path('module', 'bs_rsb') . '/js/bs-rsb-filters.js',
                 'type' => 'file'
             );
+
 
             break;
 
@@ -880,6 +989,14 @@ function bs_rsb_block_view($delta = '') {
             $split_result = preg_split('/public:\/\//', $result_image['image']);
             $data['image'] = $split_result[1];
 
+            /* Retrieve every collections of the organism */
+            $query = db_select('node','n');
+            $query->join('field_data_field_nom_collection','fdfnc','n.nid = fdfnc.entity_id');
+            $query->fields('n', array('title', 'uid'));
+            $query->fields('fdfnc', array('field_nom_collection_value'));
+            $query->condition('type','rb_collections','=');
+            $data['everyCollections'] = $query->execute();
+
             $block['content']['#markup'] = theme('tpl_rsb_establishments', $data);
 
             // Link a css file for the rsb establishments
@@ -893,6 +1010,33 @@ function bs_rsb_block_view($delta = '') {
                 'data' => drupal_get_path('module', 'bs_rsb') . '/js/bs-rsb-establishments.js',
                 'type' => 'file'
             );
+
+            break;
+
+        case 'rb_collections_contact':
+
+            if(
+                preg_match("/^\/ressources-biologiques\/home\/[A-z0-9_\-\.]*\/[0-9]*$/", $_SERVER["REQUEST_URI"]) &&
+                !preg_match("/^\/ressources-biologiques\/home\/etablissement\/[0-9]*$/", $_SERVER["REQUEST_URI"])
+            ) {
+                // Pass in variable the form
+                $data['contact_form'] = drupal_render(drupal_get_form('bs_rsb_collections_contact_form'));
+
+                $block['content']['#markup'] = theme('tpl_rsb_collections_contact', $data);
+
+                // Link a css file for the rsb establishments
+                $block['content']['#attached']['css'][] = array(
+                    'data' => drupal_get_path('module', 'bs_rsb') . '/css/bs-rsb-collections-contact.css',
+                    'type' => 'file'
+                );
+
+                // Link a js file for the rsb establishments
+                $block['content']['#attached']['js'][] = array(
+                    'data' => drupal_get_path('module', 'bs_rsb') . '/js/bs-rsb-collections-contact.js',
+                    'type' => 'file'
+                );
+            }
+
 
             break;
     }
@@ -917,7 +1061,7 @@ function bs_rsb_creation_establishment_form($form, &$form_state){
     // Fieldset : Establishment sheet - Establishment datas
     $form['establishment_sheet']['establishment_datas'] = array(
         '#type' => 'fieldset',
-        '#title' => t('Données de l\'organisme'),
+        '#title' => t('Organisme'),
         '#collapsible' => TRUE,
         '#collapsed' => TRUE,
         '#weight' => 1,
@@ -1103,7 +1247,7 @@ function bs_rsb_creation_establishment_form($form, &$form_state){
     // Fieldset : Establishment sheet - Establishment coordinator
     $form['establishment_sheet']['establishment_coordinator'] = array(
         '#type' => 'fieldset',
-        '#title' => t('Données du coordinateur'),
+        '#title' => t('Coordinateur'),
         '#collapsible' => TRUE,
         '#collapsed' => TRUE,
         '#weight' => 2,
@@ -1428,7 +1572,7 @@ function bs_rsb_updating_establishment_form($form, &$form_state){
     // Fieldset : Establishment sheet - Establishment datas
     $form['update_establishment']['establishment_datas'] = array(
         '#type' => 'fieldset',
-        '#title' => t('Données de l\'organisme'),
+        '#title' => t('Organisme'),
         '#collapsible' => TRUE,
         '#collapsed' => TRUE,
         '#weight' => 1,
@@ -1671,7 +1815,7 @@ function bs_rsb_updating_establishment_form($form, &$form_state){
     // Fieldset : Establishment sheet - Establishment coordinator
     $form['update_establishment']['establishment_coordinator'] = array(
         '#type' => 'fieldset',
-        '#title' => t('Données du coordinateur'),
+        '#title' => t('Coordinateur'),
         '#collapsible' => TRUE,
         '#collapsed' => TRUE,
         '#weight' => 2,
@@ -2094,7 +2238,7 @@ function bs_rsb_admin_datas_establishment_form($form, $form_state){
         // Fieldset : Establishment sheet - Establishment datas
         $form['establishment']['establishment_datas'] = array(
             '#type' => 'fieldset',
-            '#title' => t('Données de l\'organisme'),
+            '#title' => t('Organisme'),
             '#collapsible' => TRUE,
             '#collapsed' => TRUE,
             '#weight' => 1,
@@ -2318,7 +2462,7 @@ function bs_rsb_admin_datas_establishment_form($form, $form_state){
         // Fieldset : Establishment sheet - Establishment coordinator
         $form['establishment']['establishment_coordinator'] = array(
             '#type' => 'fieldset',
-            '#title' => t('Données du coordinateur'),
+            '#title' => t('Coordinateur'),
             '#collapsible' => TRUE,
             '#collapsed' => TRUE,
             '#weight' => 2,
@@ -2479,7 +2623,12 @@ function bs_rsb_admin_datas_establishment_form($form, $form_state){
     return $form;
 }
 
-
+/**
+ * Implements bs_rsb_admin_datas_establishment_form_submit()
+ *
+ * @param $form
+ * @param $form_state
+ */
 function bs_rsb_admin_datas_establishment_form_submit($form, &$form_state){
 
     // Split the URI to retrieve user id : UID
@@ -2642,6 +2791,12 @@ function bs_rsb_admin_datas_establishment_form_submit($form, &$form_state){
 
 }
 
+/**
+ * Implements bs_rsb_admin_datas_establishment_form_delete()
+ *
+ * @param $form
+ * @param $form_state
+ */
 function bs_rsb_admin_datas_establishment_form_delete($form, &$form_state){
 
     // Split the URI to retrieve user id : UID
@@ -2654,742 +2809,572 @@ function bs_rsb_admin_datas_establishment_form_delete($form, &$form_state){
         ->execute();
 }
 
-///**
-// * Implements hook_node_info()
-// * Used to create : content type
-// */
-//function bs_rsb_node_info() {
-//    $items = array(
-//        'rb_collections' => array(
-//            'name' => t('RB collections'),
-//            'base' => 'node_content',
-//            'description' => t('Type de contenu relatif à la création de collections pour les Ressources biologiques.'),
-//            'has_title' => '1',
-//            'title_label' => t('Nom de la collection'),
-//            'help' => '',
-//        ),
-//    );
-//    drupal_alter('node_info', $items);
-//    return $items;
-////    return array(
-////        'rb_collections' => array(
-////            'name' => t('RB collections'),
-////            'base' => 'rb_collections',
-////            'description' => t('Type de contenu relatif à la création de collections pour les Ressources biologiques.')
-////        )
-////    );
-//}
+/**
+ * Implements hook_form()
+ *
+ * @param $form
+ * @param $form_state
+ * @return mixed
+ */
+function bs_rsb_collections_contact_form($form, $form_state){
 
-///**
-// * Implements hook_field_default_field_bases().
-// * Used to create fields
-// */
-//function bs_rsb_field_default_field_bases() {
-//    $field_bases = array();
-//
-//    // Exported field_base: 'field_collecte_echantillons_supp'.
-//    $field_bases['field_collecte_echantillons_supp'] = array(
-//        'active' => 1,
-//        'cardinality' => 1,
-//        'deleted' => 0,
-//        'entity_types' => array(),
-//        'field_name' => 'field_collecte_echantillons_supp',
-//        'indexes' => array(
-//            'value' => array(
-//                0 => 'value',
-//            ),
-//        ),
-//        'locked' => 0,
-//        'module' => 'list',
-//        'settings' => array(
-//            'allowed_values' => array(
-//                'oui' => 'Oui',
-//                'non' => 'Non',
-//            ),
-//            'allowed_values_function' => '',
-//            'allowed_values_php' => '',
-//            'entity_translation_sync' => FALSE,
-//        ),
-//        'translatable' => 0,
-//        'type' => 'list_text',
-//    );
-//
-//    // Exported field_base: 'field_disponibilite'.
-//    $field_bases['field_disponibilite'] = array(
-//        'active' => 1,
-//        'cardinality' => 1,
-//        'deleted' => 0,
-//        'entity_types' => array(),
-//        'field_name' => 'field_disponibilite',
-//        'indexes' => array(
-//            'format' => array(
-//                0 => 'format',
-//            ),
-//        ),
-//        'locked' => 0,
-//        'module' => 'text',
-//        'settings' => array(
-//            'entity_translation_sync' => FALSE,
-//            'max_length' => 255,
-//        ),
-//        'translatable' => 0,
-//        'type' => 'text',
-//    );
-//
-//    // Exported field_base: 'field_nom_projet'.
-//    $field_bases['field_nom_projet'] = array(
-//        'active' => 1,
-//        'cardinality' => 1,
-//        'deleted' => 0,
-//        'entity_types' => array(),
-//        'field_name' => 'field_nom_projet',
-//        'indexes' => array(
-//            'format' => array(
-//                0 => 'format',
-//            ),
-//        ),
-//        'locked' => 0,
-//        'module' => 'text',
-//        'settings' => array(
-//            'entity_translation_sync' => FALSE,
-//            'max_length' => 255,
-//        ),
-//        'translatable' => 0,
-//        'type' => 'text',
-//    );
-//
-//    // Exported field_base: 'field_nombre_donneurs'.
-//    $field_bases['field_nombre_donneurs'] = array(
-//        'active' => 1,
-//        'cardinality' => 1,
-//        'deleted' => 0,
-//        'entity_types' => array(),
-//        'field_name' => 'field_nombre_donneurs',
-//        'indexes' => array(
-//            'format' => array(
-//                0 => 'format',
-//            ),
-//        ),
-//        'locked' => 0,
-//        'module' => 'text',
-//        'settings' => array(
-//            'entity_translation_sync' => FALSE,
-//            'max_length' => 255,
-//        ),
-//        'translatable' => 0,
-//        'type' => 'text',
-//    );
-//
-//    // Exported field_base: 'field_nombre_echantillons'.
-//    $field_bases['field_nombre_echantillons'] = array(
-//        'active' => 1,
-//        'cardinality' => 1,
-//        'deleted' => 0,
-//        'entity_types' => array(),
-//        'field_name' => 'field_nombre_echantillons',
-//        'indexes' => array(
-//            'format' => array(
-//                0 => 'format',
-//            ),
-//        ),
-//        'locked' => 0,
-//        'module' => 'text',
-//        'settings' => array(
-//            'entity_translation_sync' => FALSE,
-//            'max_length' => 255,
-//        ),
-//        'translatable' => 0,
-//        'type' => 'text',
-//    );
-//
-//    // Exported field_base: 'field_presentation'.
-//    $field_bases['field_presentation'] = array(
-//        'active' => 1,
-//        'cardinality' => 1,
-//        'deleted' => 0,
-//        'entity_types' => array(),
-//        'field_name' => 'field_presentation',
-//        'indexes' => array(
-//            'format' => array(
-//                0 => 'format',
-//            ),
-//        ),
-//        'locked' => 0,
-//        'module' => 'text',
-//        'settings' => array(
-//            'entity_translation_sync' => FALSE,
-//        ),
-//        'translatable' => 0,
-//        'type' => 'text_long',
-//    );
-//
-//    // Exported field_base: 'field_regne'.
-//    $field_bases['field_regne'] = array(
-//        'active' => 1,
-//        'cardinality' => 1,
-//        'deleted' => 0,
-//        'entity_types' => array(),
-//        'field_name' => 'field_regne',
-//        'indexes' => array(
-//            'value' => array(
-//                0 => 'value',
-//            ),
-//        ),
-//        'locked' => 0,
-//        'module' => 'list',
-//        'settings' => array(
-//            'allowed_values' => array(
-//                'humain' => 'humain',
-//                'animal' => 'animal',
-//                'vegetal' => 'vegetal',
-//                'microbiologie' => 'microbiologie',
-//            ),
-//            'allowed_values_function' => '',
-//            'allowed_values_php' => '',
-//            'entity_translation_sync' => FALSE,
-//        ),
-//        'translatable' => 0,
-//        'type' => 'list_text',
-//    );
-//
-//    // Exported field_base: 'field_type_de_collection'.
-//    $field_bases['field_type_de_collection'] = array(
-//        'active' => 1,
-//        'cardinality' => 1,
-//        'deleted' => 0,
-//        'entity_types' => array(),
-//        'field_name' => 'field_type_de_collection',
-//        'indexes' => array(
-//            'value' => array(
-//                0 => 'value',
-//            ),
-//        ),
-//        'locked' => 0,
-//        'module' => 'list',
-//        'settings' => array(
-//            'allowed_values' => array(
-//                'donnees_seulement' => 'Données seulement',
-//                'materiel_bio_et_donnees' => 'Matériel biologique et données',
-//                'cohortes' => 'Cohortes',
-//            ),
-//            'allowed_values_function' => '',
-//            'allowed_values_php' => '',
-//            'entity_translation_sync' => FALSE,
-//        ),
-//        'translatable' => 0,
-//        'type' => 'list_text',
-//    );
-//
-//    return $field_bases;
-//}
+    $form['contact']['civility'] = array(
+        '#type' => 'select',
+        '#empty_option' => t('* Civilité'),
+        '#options' => array(
+            0 => t('Madame'),
+            1 => t('Monsieur'),
+        ),
+        '#weight' => 1,
+        '#required' => TRUE,
+    );
 
-///**
-// * Implements hook_field_default_field_instances().
-// * Set fields created previously to the content type : br_collections
-// */
-//function bs_rsb_field_default_field_instances() {
-//    $field_instances = array();
+    $form['contact']['name'] = array(
+        '#type' => 'textfield',
+        '#attributes' => array( 'placeholder' => "* Prénom / Nom" ),
+        '#weight' => 2,
+        '#required' => TRUE,
+    );
+
+    $form['contact']['email'] = array(
+        '#type' => 'textfield',
+        '#attributes' => array( 'placeholder' => "* Adresse email" ),
+        '#weight' => 3,
+        '#required' => TRUE,
+    );
+
+    $form['contact']['poste_service'] = array(
+        '#type' => 'textfield',
+        '#attributes' => array( 'placeholder' => "Poste / Service" ),
+        '#weight' => 4,
+    );
+
+    $form['contact']['affiliation_societe'] = array(
+        '#type' => 'textfield',
+        '#attributes' => array( 'placeholder' => "Affiliation / Société" ),
+        '#weight' => 5,
+    );
+
+    $form['contact']['siren'] = array(
+        '#type' => 'textfield',
+        '#attributes' => array( 'placeholder' => "N° SIREN" ),
+        '#weight' => 6,
+    );
+
+    $form['contact']['postal_code'] = array(
+        '#type' => 'textfield',
+        '#attributes' => array( 'placeholder' => "Code postal" ),
+        '#weight' => 7,
+    );
+
+    $form['contact']['phone'] = array(
+        '#type' => 'textfield',
+        '#attributes' => array( 'placeholder' => "Téléphone" ),
+        '#weight' => 8,
+    );
+
+    $form['contact']['fax'] = array(
+        '#type' => 'textfield',
+        '#attributes' => array( 'placeholder' => "Fax" ),
+        '#weight' => 9,
+    );
+
+    $form['contact']['subject'] = array(
+        '#type' => 'textfield',
+        '#attributes' => array( 'placeholder' => "Objet" ),
+        '#weight' => 10,
+    );
+
+    $form['contact']['message'] = array(
+        '#type' => 'textarea',
+        '#attributes' => array( 'placeholder' => "* Message" ),
+        '#weight' => 11,
+        '#required' => TRUE,
+    );
+
+    $form['contact']['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Contacter'),
+        '#id' => 'bs-rsb-contact-submit',
+        '#weight' => 20,
+    );
+
+    $form['contact']['submit']['#validate'][] = 'bs_rsb_collections_contact_form_validate';
+    $form['contact']['submit']['#submit'][] = 'bs_rsb_collections_contact_form_submit';
+
+    return $form;
+}
+
+/**
+ * Implements bs_rsb_collections_contact_form_validate()
+ *
+ * @param $form
+ * @param $form_state
+ */
+function bs_rsb_collections_contact_form_validate($form, &$form_state){
+
+    if(
+        $error = empty($form_state["values"]["civility"]) ||
+        $error = empty($form_state["values"]["name"]) ||
+        $error = empty($form_state["values"]["email"]) ||
+        $error = empty($form_state["values"]["message"])
+    ){
+        drupal_set_message("Erreur. Au moins un champs à caractère obligatoire n'est pas rempli.");
+    }
+
+    if($error = empty($form_state["values"]["name"])){
+        form_set_error('name', $error);
+    }
+    if($error = empty($form_state["values"]["email"])){
+        form_set_error('email', $error);
+    }
+    if($error = empty($form_state["values"]["message"])){
+        form_set_error('message', $error);
+    }
+
+}
+
+/**
+ * Implements bs_rsb_collections_contact_form_submit()
+ *
+ * @param $form
+ * @param $form_state
+ */
+function bs_rsb_collections_contact_form_submit($form, &$form_state){
+
+//    // Retrieve user's datas from table users_extra_fields in the database
+//    // To send informations in the mail
+//    $query = db_select('users_extra_fields', 'uef');
+//    $query->join('users', 'u', 'u.name = uef.username');
+//    $query->fields('uef', array('client_code', 'affiliation_societe', 'nom_prenom', 'mail_contact', 'mail', 'code_postal'));
+//    $query->condition('u.uid',$GLOBALS['user']->uid,'=');
+//    $user_datas = $query->execute();
 //
-//    // Exported field_instance:
-//    // 'node-rb_collections-field_collecte_echantillons_supp'.
-//    $field_instances['node-rb_collections-field_collecte_echantillons_supp'] = array(
-//        'bundle' => 'rb_collections',
-//        'default_value' => NULL,
-//        'default_value_function' => '',
-//        'default_value_php' => '',
-//        'deleted' => 0,
-//        'description' => '',
-//        'display' => array(
-//            'default' => array(
-//                'label' => 'above',
-//                'module' => 'list',
-//                'settings' => array(),
-//                'type' => 'list_default',
-//                'weight' => 5,
-//            ),
-//            'teaser' => array(
-//                'label' => 'above',
-//                'module' => 'i18n_field',
-//                'settings' => array(),
-//                'type' => 'i18n_list_default',
-//                'weight' => 5,
-//            ),
-//        ),
-//        'entity_type' => 'node',
-//        'field_name' => 'field_collecte_echantillons_supp',
-//        'label' => 'Collecte d\'échantillons supplémentaire possible',
-//        'required' => 0,
-//        'settings' => array(
-//            'entity_translation_sync' => FALSE,
-//            'user_register_form' => FALSE,
-//        ),
-//        'widget' => array(
-//            'active' => 1,
-//            'module' => 'options',
-//            'settings' => array(),
-//            'type' => 'options_select',
-//            'weight' => 9,
-//        ),
-//    );
+//    foreach ($user_datas as $user_data){
 //
-//    // Exported field_instance: 'node-rb_collections-field_disponibilite'.
-//    $field_instances['node-rb_collections-field_disponibilite'] = array(
-//        'bundle' => 'rb_collections',
-//        'default_value' => NULL,
-//        'deleted' => 0,
-//        'description' => '',
-//        'display' => array(
-//            'default' => array(
-//                'label' => 'above',
-//                'module' => 'text',
-//                'settings' => array(),
-//                'type' => 'text_default',
-//                'weight' => 6,
-//            ),
-//            'teaser' => array(
-//                'label' => 'above',
-//                'module' => 'text',
-//                'settings' => array(),
-//                'type' => 'text_default',
-//                'weight' => 6,
-//            ),
-//        ),
-//        'entity_type' => 'node',
-//        'field_name' => 'field_disponibilite',
-//        'label' => 'Disponibilité',
-//        'required' => 0,
-//        'settings' => array(
-//            'entity_translation_sync' => FALSE,
-//            'text_processing' => 0,
-//            'user_register_form' => FALSE,
-//        ),
-//        'widget' => array(
-//            'active' => 1,
-//            'module' => 'text',
-//            'settings' => array(
-//                'size' => 60,
-//            ),
-//            'type' => 'text_textfield',
-//            'weight' => 10,
-//        ),
-//    );
+//        // Initialize body of the mail
+//        $body = "Informations du compte utilisateur : " . "\n" .
+//            "Code client : " . $user_data->client_code . "\n" .
+//            "Société : " . $user_data->affiliation_societe . "\n" .
+//            "Prénom / Nom : " . $user_data->nom_prenom . "\n" .
+//            "Courriel du contact : " . $user_data->mail_contact . "\n" .
+//            "Courriel : " . $user_data->mail . "\n" .
+//            "Code postal : " . $user_data->code_postal . "\n" .
+//            "UID : " . $GLOBALS['user']->uid . "\n";
+//    }
 //
-//    // Exported field_instance: 'node-rb_collections-field_nom_projet'.
-//    $field_instances['node-rb_collections-field_nom_projet'] = array(
-//        'bundle' => 'rb_collections',
-//        'default_value' => NULL,
-//        'deleted' => 0,
-//        'description' => '',
-//        'display' => array(
-//            'default' => array(
-//                'label' => 'above',
-//                'module' => 'text',
-//                'settings' => array(),
-//                'type' => 'text_default',
-//                'weight' => 8,
-//            ),
-//            'teaser' => array(
-//                'label' => 'above',
-//                'module' => 'text',
-//                'settings' => array(),
-//                'type' => 'text_default',
-//                'weight' => 1,
-//            ),
-//        ),
-//        'entity_type' => 'node',
-//        'field_name' => 'field_nom_projet',
-//        'label' => 'Nom du projet',
-//        'required' => 0,
-//        'settings' => array(
-//            'entity_translation_sync' => FALSE,
-//            'text_processing' => 0,
-//            'user_register_form' => FALSE,
-//        ),
-//        'widget' => array(
-//            'active' => 1,
-//            'module' => 'text',
-//            'settings' => array(
-//                'size' => 60,
-//            ),
-//            'type' => 'text_textfield',
-//            'weight' => 5,
-//        ),
-//    );
+//    // Retrieve user's datas from table establishment_sheet in the database
+//    // To send informations in the mail
+//    $query = db_select('establishment_sheet', 'es');
+//    $query->join('users', 'u', 'u.uid = es.eid');
+//    $query->fields('es', array('name', 'address', 'city', 'postal_code', 'organism_mail', 'organism_phone', 'organism_contact_civility' , 'organism_contact_firstname', 'organism_contact_lastname', 'organism_contact_poste', 'organism_contact_email', 'organism_contact_phone'));
+//    $query->condition('u.uid',$GLOBALS['user']->uid,'=');
+//    $organism_datas = $query->execute();
+//    $organism_datas_count = $query->execute()->rowCount();
 //
-//    // Exported field_instance: 'node-rb_collections-field_nombre_donneurs'.
-//    $field_instances['node-rb_collections-field_nombre_donneurs'] = array(
-//        'bundle' => 'rb_collections',
-//        'default_value' => NULL,
-//        'deleted' => 0,
-//        'description' => '',
-//        'display' => array(
-//            'default' => array(
-//                'label' => 'above',
-//                'module' => 'text',
-//                'settings' => array(),
-//                'type' => 'text_default',
-//                'weight' => 4,
-//            ),
-//            'teaser' => array(
-//                'label' => 'above',
-//                'module' => 'text',
-//                'settings' => array(),
-//                'type' => 'text_default',
-//                'weight' => 3,
-//            ),
-//        ),
-//        'entity_type' => 'node',
-//        'field_name' => 'field_nombre_donneurs',
-//        'label' => 'Nombre de donneurs',
-//        'required' => 0,
-//        'settings' => array(
-//            'entity_translation_sync' => FALSE,
-//            'text_processing' => 0,
-//            'user_register_form' => FALSE,
-//        ),
-//        'widget' => array(
-//            'active' => 1,
-//            'module' => 'text',
-//            'settings' => array(
-//                'size' => 60,
-//            ),
-//            'type' => 'text_textfield',
-//            'weight' => 7,
-//        ),
-//    );
+//    foreach ($organism_datas as $organism_data){
 //
-//    // Exported field_instance: 'node-rb_collections-field_nombre_echantillons'.
-//    $field_instances['node-rb_collections-field_nombre_echantillons'] = array(
-//        'bundle' => 'rb_collections',
-//        'default_value' => NULL,
-//        'deleted' => 0,
-//        'description' => '',
-//        'display' => array(
-//            'default' => array(
-//                'label' => 'above',
-//                'module' => 'text',
-//                'settings' => array(),
-//                'type' => 'text_default',
-//                'weight' => 3,
-//            ),
-//            'teaser' => array(
-//                'label' => 'above',
-//                'module' => 'text',
-//                'settings' => array(),
-//                'type' => 'text_default',
-//                'weight' => 4,
-//            ),
-//        ),
-//        'entity_type' => 'node',
-//        'field_name' => 'field_nombre_echantillons',
-//        'label' => 'Nombre d\'échantillons',
-//        'required' => 0,
-//        'settings' => array(
-//            'entity_translation_sync' => FALSE,
-//            'text_processing' => 0,
-//            'user_register_form' => FALSE,
-//        ),
-//        'widget' => array(
-//            'active' => 1,
-//            'module' => 'text',
-//            'settings' => array(
-//                'size' => 60,
-//            ),
-//            'type' => 'text_textfield',
-//            'weight' => 8,
-//        ),
-//    );
-//
-//    // Exported field_instance: 'node-rb_collections-field_presentation'.
-//    $field_instances['node-rb_collections-field_presentation'] = array(
-//        'bundle' => 'rb_collections',
-//        'default_value' => NULL,
-//        'deleted' => 0,
-//        'description' => '',
-//        'display' => array(
-//            'default' => array(
-//                'label' => 'above',
-//                'module' => 'text',
-//                'settings' => array(),
-//                'type' => 'text_default',
-//                'weight' => 0,
-//            ),
-//            'teaser' => array(
-//                'label' => 'above',
-//                'settings' => array(),
-//                'type' => 'hidden',
-//                'weight' => 0,
-//            ),
-//        ),
-//        'entity_type' => 'node',
-//        'field_name' => 'field_presentation',
-//        'label' => 'Présentation',
-//        'required' => 0,
-//        'settings' => array(
-//            'entity_translation_sync' => FALSE,
-//            'text_processing' => 1,
-//            'user_register_form' => FALSE,
-//        ),
-//        'widget' => array(
-//            'active' => 1,
-//            'module' => 'text',
-//            'settings' => array(
-//                'rows' => 5,
-//            ),
-//            'type' => 'text_textarea',
-//            'weight' => 12,
-//        ),
-//    );
-//
-//    // Exported field_instance: 'node-rb_collections-field_regne'.
-//    $field_instances['node-rb_collections-field_regne'] = array(
-//        'bundle' => 'rb_collections',
-//        'default_value' => NULL,
-//        'default_value_function' => '',
-//        'default_value_php' => '',
-//        'deleted' => 0,
-//        'description' => '',
-//        'display' => array(
-//            'default' => array(
-//                'label' => 'above',
-//                'module' => 'list',
-//                'settings' => array(),
-//                'type' => 'list_default',
-//                'weight' => 1,
-//            ),
-//            'teaser' => array(
-//                'label' => 'above',
-//                'module' => 'i18n_field',
-//                'settings' => array(),
-//                'type' => 'i18n_list_default',
-//                'weight' => 7,
-//            ),
-//        ),
-//        'entity_type' => 'node',
-//        'field_name' => 'field_regne',
-//        'label' => 'Règne',
-//        'required' => 0,
-//        'settings' => array(
-//            'entity_translation_sync' => FALSE,
-//            'user_register_form' => FALSE,
-//        ),
-//        'widget' => array(
-//            'active' => 1,
-//            'module' => 'options',
-//            'settings' => array(),
-//            'type' => 'options_select',
-//            'weight' => 11,
-//        ),
-//    );
-//
-//    // Exported field_instance: 'node-rb_collections-field_type_de_collection'.
-//    $field_instances['node-rb_collections-field_type_de_collection'] = array(
-//        'bundle' => 'rb_collections',
-//        'default_value' => NULL,
-//        'deleted' => 0,
-//        'description' => '',
-//        'display' => array(
-//            'default' => array(
-//                'label' => 'above',
-//                'module' => 'list',
-//                'settings' => array(),
-//                'type' => 'list_default',
-//                'weight' => 2,
-//            ),
-//            'teaser' => array(
-//                'label' => 'above',
-//                'module' => 'i18n_field',
-//                'settings' => array(),
-//                'type' => 'i18n_list_default',
-//                'weight' => 2,
-//            ),
-//        ),
-//        'entity_type' => 'node',
-//        'field_name' => 'field_type_de_collection',
-//        'label' => 'Type de collection',
-//        'required' => FALSE,
-//        'settings' => array(
-//            'entity_translation_sync' => FALSE,
-//            'user_register_form' => FALSE,
-//        ),
-//        'widget' => array(
-//            'module' => 'options',
-//            'settings' => array(),
-//            'type' => 'options_select',
-//            'weight' => 6,
-//        ),
-//    );
-//
-//    // Translatables
-//    // Included for use with string extractors like potx.
-//    t('Collecte d\'échantillons supplémentaire possible');
-//    t('Disponibilité');
-//    t('Nom du projet');
-//    t('Nombre d\'échantillons');
-//    t('Nombre de donneurs');
-//    t('Présentation');
-//    t('Règne');
-//    t('Type de collection');
-//
-//    return $field_instances;
-//}
+//        // Initialize body of the mail
+//        $body = $body . "-----------------------------------------------------------\n" .
+//            "Informations de l'organisme demandeur : " . "\n" .
+//            "Nom : " . $organism_data->name . "\n" .
+//            "Addresse : " . $organism_data->address . "\n" .
+//            "Ville : " . $organism_data->city . "\n" .
+//            "Code postal : " . $organism_data->postal_code . "\n" .
+//            "E-mail : " . $organism_data->organism_mail . "\n" .
+//            "Téléphone : " . $organism_data->organism_phone . "\n\n" .
+//            "Informations du contact de l'organisme demandeur : " . "\n" .
+//            $organism_data->organism_contact_civility . " " . $organism_data->organism_contact_firstname . " " . $organism_data->organism_contact_lastname . "\n" .
+//            "Poste : " . $organism_data->organism_contact_poste . "\n" .
+//            "E-mail : " . $organism_data->organism_contact_email . "\n" .
+//            "Téléphone : " . $organism_data->organism_contact_phone . "\n\n";
+//    }
+
+    $url = $_SERVER["REQUEST_URI"];
+    $urlSplitted = explode("/", $url);
+
+    // Formatting collection name
+    $collectionName = $urlSplitted[3];
+    $collectionName = str_replace("-", " ", $collectionName);
+    $collectionName = ucfirst($collectionName);
+
+    // Retrieve establishment ID
+    $establishmentID = $urlSplitted[4];
+
+    // Formatting civility
+    switch($form_state['values']['civility']){
+        case 0 :
+            $form_state['values']['civility'] = "Madame";
+            break;
+        case 1 :
+            $form_state['values']['civility'] = "Monsieur";
+            break;
+    }
+
+    /* Start - E-mail body */
+    $body = "Informations sur la collection : " . "\n" .
+        "URL : " . $_SERVER['HTTP_HOST'] . $_SERVER["REQUEST_URI"] . "\n" .
+        "Nom de la collection : " . $collectionName . "\n" .
+        "Identifiant de l'établissement hébergeant la collection : " . $establishmentID . "\n\n" .
+        "----------------------------------------------------------------------------" . "\n\n" .
+        "Informations du demandeur : " . "\n" .
+        $form_state['values']['civility'] . " " . $form_state['values']['name'] . "\n" .
+        "E-mail : " . $form_state['values']['email'] . "\n";
+
+    // Check if poste_service is filled
+    if( !empty($form_state['values']['poste_service']) ){
+        $body = $body . "Poste / Service : " . $form_state['values']['poste_service'] . "\n";
+    }
+
+    // Check if affiliation_societe is filled
+    if( !empty($form_state['values']['affiliation_societe']) ){
+        $body = $body . "Affiliation / Société : " . $form_state['values']['affiliation_societe'] . "\n";
+    }
+
+    // Check if siren is filled
+    if( !empty($form_state['values']['siren']) ){
+        $body = $body . "N° SIREN : " . $form_state['values']['siren'] . "\n";
+    }
+
+    // Check if postal_code is filled
+    if( !empty($form_state['values']['postal_code']) ){
+        $body = $body . "Code postal : " . $form_state['values']['postal_code'] . "\n";
+    }
+
+    // Check if phone is filled
+    if( !empty($form_state['values']['phone']) ){
+        $body = $body . "Téléphone : " . $form_state['values']['phone'] . "\n";
+    }
+
+    // Check if fax is filled
+    if( !empty($form_state['values']['fax']) ){
+        $body = $body . "Fax : " . $form_state['values']['fax'] . "\n\n";
+    }
+
+    // Check if subject is filled
+    if( !empty($form_state['values']['subject']) ){
+        $body = $body . "Objet : " . $form_state['values']['subject'];
+    }
+
+    $body = $body . "\n\n" . "Message : " . $form_state['values']['message'];
+    /* End - E-mail body */
+
+    // Mail's parameters
+//    $to = "developer.biosample@gmail.com";
+//    $from = "developer.biosample@gmail.com";
+    $to = "contact@biosample.fr";
+    $from = "contact@biosample.fr";
+
+    // Subject of the mail
+    $subject = "Demande de contact pour une collection des Ressources Biologiques";
+
+    // Call mail function
+    $params = array(
+        'subject' => $subject,
+        'body' => $body,
+    );
+
+    if(drupal_mail('bs_rsb', '10', $to, "fr", $params, $from)){
+        drupal_set_message("Votre demande de contact a bien été envoyée.");
+        drupal_goto("/ressources-biologiques/home");
+    } else {
+        drupal_set_message("Erreur, la demande de contact n'a pas abouti.");
+        drupal_goto("/ressources-biologiques/home");
+    }
+}
+
+/**
+ * Implementation of hook_mail().
+ *
+ * A very simple hook_mail() implementation, for module "bsconnexion".
+ * This implementation expects to receive a $body, $subject, and $headers
+ * inside the $params sent from drupal_mail(), rather than construct
+ * those here in the hook.
+ * @see drupal_mail()
+ */
+function bs_rsb_mail($key, &$message, $params) {
+    switch ($key) {
+        case '10':
+            $message['subject'] = $params['subject'];
+            $message['body'][] = $params['body'];
+            break;
+    }
+}
+
+/**
+ * Implements hook_form()
+ *
+ * @param $form
+ * @param $form_state
+ * @return mixed
+ */
+function bs_rsb_admin_filters_manager_form($form, $form_state){
+
+    $form['filters_manager']['info'] = array(
+        '#markup' =>
+            'Le gestionnaire de filtres ou filters manager permet de vérifier '.
+            'si un critère n\'est pas utilisé.<br>'.
+            'Si c\'est le cas, alors il est supprimé du vocabulaire auquel il appartient.<br><br>',
+        '#weight' => 1,
+    );
+
+    $form['filters_manager']['checkbox'] = array(
+        '#type' => 'checkbox',
+        '#weight' => 2,
+        '#title' => 'Suppression des critères non utilisés',
+        '#description' => 'Cocher la case si vous souhaitez supprimer les critères inutilisés.'
+    );
+
+    $form['filters_manager']['see'] = array(
+        '#type' => 'submit',
+        '#value' => t('Voir les critères non utilisés'),
+        '#weight' => 10,
+    );
+
+    $form['filters_manager']['see']['#submit'][] = 'bs_rsb_admin_filters_manager_see_form_submit';
+
+    $form['filters_manager']['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Valider'),
+        '#weight' => 11,
+    );
+
+    $form['filters_manager']['submit']['#submit'][] = 'bs_rsb_admin_filters_manager_form_submit';
+
+    return $form;
+}
+
+function bs_rsb_admin_filters_manager_see_form_submit($form, &$form_state){
+
+    $arrayTID = [];
+    $arrayToGetUnusedTID = [];
+
+    // Retrieve every table containing "field_data_field_critere..." as table name
+    $queryTables = db_select('INFORMATION_SCHEMA.TABLES', 'db');
+    $queryTables->fields('db', array('TABLE_NAME'));
+    $queryTables->condition('TABLE_NAME', 'field_data_field_critere' . '%', 'LIKE');
+    $resultsTables = $queryTables->execute();
+
+    foreach ($resultsTables as $resultTable) {
+
+        // Retrieve every columns of table containing "field_critere..." as column name
+        $queryColumns = db_select('INFORMATION_SCHEMA.COLUMNS', 'col');
+        $queryColumns->fields('col', array('COLUMN_NAME'));
+        $queryColumns->condition('TABLE_SCHEMA', 'biosample' . '%', 'LIKE');
+        $queryColumns->condition('TABLE_NAME', $resultTable->TABLE_NAME, '=');
+        $queryColumns->condition('COLUMN_NAME', 'field_critere' . '%', 'LIKE');
+        $resultsColumns = $queryColumns->execute();
+
+        foreach ($resultsColumns as $resultColumn) {
+
+            // Retrieve the vid
+            $toGetVID = explode("field_data_field_critere_", $resultTable->TABLE_NAME)[1];
+
+            $queryVID = db_select('taxonomy_vocabulary', 'tv');
+            $queryVID->fields('tv', array('vid'));
+            $queryVID->condition('machine_name', 'rb_' . $toGetVID . '%', 'LIKE');
+            $resultsVID = $queryVID->execute();
+
+            foreach ($resultsVID as $resultVID) {
+
+                // Retrieve every TID
+                $queryAllTID = db_select('taxonomy_term_data', 'ttd');
+                $queryAllTID->fields('ttd', array('tid'));
+                $queryAllTID->condition('ttd.vid', $resultVID->vid, '=');
+                $resultsAllTID = $queryAllTID->execute();
+
+                foreach ($resultsAllTID as $resultAllTID) {
+
+                    // Push every TID into an array
+                    $arrayTID[$resultAllTID->tid] = 0;
+
+                    // Retrieve every TID used
+                    $columnName = $resultColumn->COLUMN_NAME;
+
+                    $queryTID = db_select($resultTable->TABLE_NAME, 'tb');
+                    $queryTID->distinct();
+                    $queryTID->fields('tb', array($columnName));
+                    $resultsTID = $queryTID->execute();
+
+                    foreach ($resultsTID as $resultTID) {
+
+                        // Check if TID is used
+                        if ($resultAllTID->tid == $resultTID->$columnName) {
+
+                            // If it's used : Change value of the TID in the array
+                            $arrayTID[$resultAllTID->tid] = 1;
+                        }
+                    }
 
 
-///**
-// * Implements hook_views_api().
-// * Used to create API version of view
-// */
-//function bs_rsb_views_api($module = NULL, $api = NULL) {
-//    return array("api" => "3.0");
-//}
+                    // Check unused TID that's to say those who have as value 0
+                    if ($arrayTID[$resultAllTID->tid] == 0) {
 
-///**
-// * Implements hook_views_default_views().
-// * Used to create the view
-// */
-//function bs_rsb_views_default_views() {
-//    $export = array();
-//
-//    $view = new view();
-//    $view->name = 'rb_collections';
-//    $view->description = '';
-//    $view->tag = 'default';
-//    $view->base_table = 'node';
-//    $view->human_name = 'RB collections';
-//    $view->core = 7;
-//    $view->api_version = '3.0';
-//    $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
-//
-//    /* Display: Master */
-//    $handler = $view->new_display('default', 'Master', 'default');
-//    $handler->display->display_options['use_more_always'] = FALSE;
-//    $handler->display->display_options['use_more_text'] = 'plus';
-//    $handler->display->display_options['access']['type'] = 'perm';
-//    $handler->display->display_options['cache']['type'] = 'none';
-//    $handler->display->display_options['query']['type'] = 'views_query';
-//    $handler->display->display_options['exposed_form']['type'] = 'basic';
-//    $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Appliquer';
-//    $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Réinitialiser';
-//    $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Trier par';
-//    $handler->display->display_options['pager']['type'] = 'full';
-//    $handler->display->display_options['pager']['options']['items_per_page'] = '15';
-//    $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Éléments par page';
-//    $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Tout -';
-//    $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Décalage';
-//    $handler->display->display_options['pager']['options']['tags']['first'] = '« premier';
-//    $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ précédent';
-//    $handler->display->display_options['pager']['options']['tags']['next'] = 'suivant ›';
-//    $handler->display->display_options['pager']['options']['tags']['last'] = 'dernier »';
-//    $handler->display->display_options['style_plugin'] = 'default';
-//    $handler->display->display_options['row_plugin'] = 'node';
-//    /* Champ: Contenu : Titre */
-//    $handler->display->display_options['fields']['title']['id'] = 'title';
-//    $handler->display->display_options['fields']['title']['table'] = 'node';
-//    $handler->display->display_options['fields']['title']['field'] = 'title';
-//    $handler->display->display_options['fields']['title']['label'] = '';
-//    $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-//    $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-//    $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-//    /* Critère de tri: Statistiques de contenu : Nombre total d'affichages */
-//    $handler->display->display_options['sorts']['totalcount']['id'] = 'totalcount';
-//    $handler->display->display_options['sorts']['totalcount']['table'] = 'node_counter';
-//    $handler->display->display_options['sorts']['totalcount']['field'] = 'totalcount';
-//    $handler->display->display_options['sorts']['totalcount']['order'] = 'DESC';
-//    /* Critère de filtrage: Contenu : Publié */
-//    $handler->display->display_options['filters']['status']['id'] = 'status';
-//    $handler->display->display_options['filters']['status']['table'] = 'node';
-//    $handler->display->display_options['filters']['status']['field'] = 'status';
-//    $handler->display->display_options['filters']['status']['value'] = 1;
-//    $handler->display->display_options['filters']['status']['group'] = 1;
-//    $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-//    /* Critère de filtrage: Contenu : Type */
-//    $handler->display->display_options['filters']['type']['id'] = 'type';
-//    $handler->display->display_options['filters']['type']['table'] = 'node';
-//    $handler->display->display_options['filters']['type']['field'] = 'type';
-//    $handler->display->display_options['filters']['type']['value'] = array(
-//        'rb_collections' => 'rb_collections',
-//    );
-//
-//    /* Display: Block */
-//    $handler = $view->new_display('block', 'Block', 'block');
-//    $translatables['rb_collections'] = array(
-//        t('Master'),
-//        t('plus'),
-//        t('Appliquer'),
-//        t('Réinitialiser'),
-//        t('Trier par'),
-//        t('Asc'),
-//        t('Desc'),
-//        t('Éléments par page'),
-//        t('- Tout -'),
-//        t('Décalage'),
-//        t('« premier'),
-//        t('‹ précédent'),
-//        t('suivant ›'),
-//        t('dernier »'),
-//        t('Block'),
-//    );
-//    $export['rb_collections'] = $view;
-//
-//    return $export;
-//}
+                        // Push unused TID into array
+                        array_push($arrayToGetUnusedTID, $resultAllTID->tid);
 
-///**
-// * Implements hook_user_default_permissions().
-// * Used to set permissions
-// */
-//function bs_rsb_collections_user_default_permissions() {
-//    $permissions = array();
-//
-//    // Exported permission: 'create rb_collections content'.
-//    $permissions['create rb_collections content'] = array(
-//        'name' => 'create rb_collections content',
-//        'roles' => array(
-//            'administrator' => 'administrator',
-//            'authenticated user' => 'authenticated user',
-//        ),
-//        'module' => 'node',
-//    );
-//
-//    // Exported permission: 'delete any rb_collections content'.
-//    $permissions['delete any rb_collections content'] = array(
-//        'name' => 'delete any rb_collections content',
-//        'roles' => array(
-//            'Devops' => 'Devops',
-//            'administrator' => 'administrator',
-//            'backoffice' => 'backoffice',
-//        ),
-//        'module' => 'node',
-//    );
-//
-//    // Exported permission: 'delete own rb_collections content'.
-//    $permissions['delete own rb_collections content'] = array(
-//        'name' => 'delete own rb_collections content',
-//        'roles' => array(
-//            'authenticated user' => 'authenticated user',
-//        ),
-//        'module' => 'node',
-//    );
-//
-//    // Exported permission: 'edit any rb_collections content'.
-//    $permissions['edit any rb_collections content'] = array(
-//        'name' => 'edit any rb_collections content',
-//        'roles' => array(
-//            'Devops' => 'Devops',
-//            'administrator' => 'administrator',
-//            'backoffice' => 'backoffice',
-//        ),
-//        'module' => 'node',
-//    );
-//
-//    // Exported permission: 'edit own rb_collections content'.
-//    $permissions['edit own rb_collections content'] = array(
-//        'name' => 'edit own rb_collections content',
-//        'roles' => array(
-//            'authenticated user' => 'authenticated user',
-//        ),
-//        'module' => 'node',
-//    );
-//
-//    return $permissions;
-//}
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    if(empty($arrayToGetUnusedTID)){
+
+        // If there isn't unused TID
+        drupal_set_message("Il n'y a aucun critère inutilisé.");
+
+    }else {
+
+        // If there is unused TID
+        drupal_set_message("Les critères inutilisés :");
+
+        for ($i = 0; $i < sizeof($arrayToGetUnusedTID); $i++) {
+
+            // Retrieve the name of each criteria depending on its tid
+            $queryGetName = db_select('taxonomy_term_data', 'ttd');
+            $queryGetName->fields('ttd', array('name'));
+            $queryGetName->condition('tid', $arrayToGetUnusedTID[$i], '=');
+            $resultsGetName = $queryGetName->execute();
+
+            foreach ($resultsGetName as $resultGetName) {
+                drupal_set_message("Critère n° " . $arrayToGetUnusedTID[$i] . " - Nom : " . $resultGetName->name);
+            }
+
+        }
+
+    }
+
+}
+
+/**
+ * Implements bs_rsb_admin_filters_manager_form_submit()
+ *
+ * @param $form
+ * @param $form_state
+ */
+function bs_rsb_admin_filters_manager_form_submit($form, &$form_state){
+
+    if($form_state['values']['checkbox'] == 0){
+        drupal_set_message("Aucune action n'a été effectuée.");
+    }else if($form_state['values']['checkbox'] == 1){
+
+        $arrayTID = [];
+        $arrayToDelete = [];
+
+        // Retrieve every table containing "field_data_field_critere..." as table name
+        $queryTables = db_select('INFORMATION_SCHEMA.TABLES', 'db');
+        $queryTables->fields('db', array('TABLE_NAME'));
+        $queryTables->condition('TABLE_NAME', 'field_data_field_critere' . '%', 'LIKE');
+        $resultsTables = $queryTables->execute();
+
+        foreach ($resultsTables as $resultTable) {
+
+            // Retrieve every columns of table containing "field_critere..." as column name
+            $queryColumns = db_select('INFORMATION_SCHEMA.COLUMNS', 'col');
+            $queryColumns->fields('col', array('COLUMN_NAME'));
+            $queryColumns->condition('TABLE_SCHEMA', 'biosample' . '%', 'LIKE');
+            $queryColumns->condition('TABLE_NAME', $resultTable->TABLE_NAME, '=');
+            $queryColumns->condition('COLUMN_NAME', 'field_critere' . '%', 'LIKE');
+            $resultsColumns = $queryColumns->execute();
+
+            foreach ($resultsColumns as $resultColumn){
+
+                // Retrieve the vid
+                $toGetVID = explode("field_data_field_critere_", $resultTable->TABLE_NAME)[1];
+
+                $queryVID = db_select('taxonomy_vocabulary', 'tv');
+                $queryVID->fields('tv', array('vid'));
+                $queryVID->condition('machine_name', 'rb_'.$toGetVID.'%', 'LIKE');
+                $resultsVID = $queryVID->execute();
+
+                foreach ($resultsVID as $resultVID){
+
+                    // Retrieve every TID
+                    $queryAllTID = db_select('taxonomy_term_data', 'ttd');
+                    $queryAllTID->fields('ttd', array('tid'));
+                    $queryAllTID->condition('ttd.vid', $resultVID->vid, '=');
+                    $resultsAllTID = $queryAllTID->execute();
+
+                    foreach ($resultsAllTID as $resultAllTID){
+
+                        // Push every TID into an array
+                        $arrayTID[$resultAllTID->tid] = 0;
+
+                        // Retrieve every TID used
+                        $columnName = $resultColumn->COLUMN_NAME;
+
+                        $queryTID = db_select($resultTable->TABLE_NAME, 'tb');
+                        $queryTID->distinct();
+                        $queryTID->fields('tb', array($columnName));
+                        $resultsTID = $queryTID->execute();
+
+                        foreach ($resultsTID as $resultTID){
+
+                            // Check if TID is used
+                            if($resultAllTID->tid == $resultTID->$columnName){
+
+                                // If it's used : Change value of the TID in the array
+                                $arrayTID[$resultAllTID->tid] = 1;
+                            }
+                        }
+
+
+                        // Check unused TID that's to say those who have as value 0
+                        if($arrayTID[$resultAllTID->tid] == 0){
+
+                            // Push unused TID into array
+                            array_push($arrayToDelete, $resultAllTID->tid);
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        if(empty($arrayToDelete)){
+
+            // If there isn't unused TID to delete
+            drupal_set_message("Il n'y a aucun critère inutilisé.");
+
+        }else{
+
+            // If there is unused TID to delete
+            for($i = 0 ; $i < sizeof($arrayToDelete) ; $i++){
+
+                db_delete('taxonomy_term_data')
+                    ->condition('tid', $arrayToDelete[$i], '=')
+                    ->execute();
+            }
+
+            drupal_set_message("La suppression des critères inutilisés a bien été pris en compte.");
+
+        }
+    }
+}
+
+/**
+ * Implements hook_form_alter()
+ *
+ * @param $form
+ * @param $form_state
+ * @param $form_id
+ */
+function bs_rsb_form_field_ui_field_edit_form_alter(&$form, &$form_state, $form_id) {
+    // Increase the max cardinality to 10
+    $range = drupal_map_assoc(range(1, 10));
+
+    // Add 256 choices
+    $new_options = array(FIELD_CARDINALITY_UNLIMITED => t('Unlimited'), 256 => '256') + $range;
+
+    // Change the options
+    $form['field']['cardinality']['#options'] = $new_options;
+}

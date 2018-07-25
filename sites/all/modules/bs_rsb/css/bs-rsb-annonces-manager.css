@@ -132,28 +132,8 @@ div#bs-rsb-annonce-header > a#consult-map {
     margin: 25px 15px !important;
 }
 
-/*.bs-rsb-card-action-consult {*/
-    /*grid-area: action-consult;*/
-    /*margin-left: 15px;*/
-    /*margin-bottom: 10px;*/
-/*}*/
-/*.bs-rsb-card-action-consult > a {*/
-    /*display: block;*/
-    /*width: 100%;*/
-    /*text-align: center;*/
-    /*background-color: #1e6a8e;*/
-    /*color: #fff !important;*/
-    /*font-size: 16px;*/
-    /*padding: 3px 5px;*/
-    /*box-sizing: border-box;*/
-/*}*/
-/*.bs-rsb-card-action-consult > a > i {*/
-    /*margin-left: 5px;*/
-/*}*/
-
 .bs-rsb-card-action-edit {
     grid-area: action-edit;
-    /*margin-right: 15px;*/
     margin-bottom: 10px;
 }
 .bs-rsb-card-action-edit > a {
@@ -213,30 +193,6 @@ div#bs-rsb-annonce-header > a#consult-map {
 /* ------------------------------------------------------------------------------------- */
 /* ---------------------------------- Edit - Annonce ----------------------------------- */
 /* ------------------------------------------------------------------------------------- */
-
-/*#rb-collections-node-form{*/
-    /*position: relative;*/
-    /*width: 600px;*/
-    /*margin: auto;*/
-/*}*/
-
-/*#rb-collections-node-form input:not(.form-submit) {*/
-    /*width: 100%;*/
-    /*margin: 7px 0 15px 0;*/
-    /*padding: 7px 10px;*/
-    /*border: 2px solid #1e6a8e;*/
-    /*border-radius: 2px;*/
-/*}*/
-
-/*#rb-collections-node-form select {*/
-    /*width: 100%;*/
-    /*margin: 7px 0 15px 0;*/
-    /*padding: 7px 10px;*/
-    /*background-color: #1e6a8e;*/
-    /*border: none;*/
-    /*border-radius: 2px;*/
-    /*color: #fff;*/
-/*}*/
 
 #rb-collections-node-form .form-type-textarea textarea {
     border: 2px solid #1e6a8e;
@@ -372,6 +328,9 @@ fieldset.filter-wrapper {
             "j j j j j j j j j j j j j j j j j j"
             "k k k k k k k k k k k k k k k k k k"
             "l l l l l l l l l l l l l l l l l l";
+            /*"n n n n n n n n n o o o o o o o o o"*/
+            /*"p p p p p p p p p . . . . . . . . ."*/
+            /*"q q q q q q q q q q q q q q q q q q";*/
 }
 
 .form-item-title {
@@ -404,12 +363,31 @@ fieldset.filter-wrapper {
 #edit-field-presentation {
     grid-area: j;
 }
-#edit-field-critere {
+.group-criteres {
     grid-area: k;
 }
 #edit-actions {
     grid-area: l;
 }
+/*#edit-field-critere {*/
+    /*grid-area: k;*/
+/*}*/
+/*#edit-field-critere-donnees-anthropo {*/
+    /*grid-area: l;*/
+/*}*/
+/*#edit-field-critere-suivi-des-donneurs {*/
+    /*grid-area: m;*/
+/*}*/
+/*#edit-field-critere-consentement {*/
+    /*grid-area: n;*/
+/*}*/
+/*#edit-field-critere-nature {*/
+    /*grid-area: o;*/
+/*}*/
+/*#edit-field-critere-donnees-associees {*/
+    /*grid-area: p;*/
+/*}*/
+
 
 /* Fields */
 #rb-collections-node-form .form-item label {
@@ -436,38 +414,27 @@ fieldset.filter-wrapper {
     color: #fff;
 }
 
+/* Fieldset */
+#rb-collections-node-form fieldset.group-criteres {
+    border: none;
+    border-top: 2px solid #1e6a8e;
+    text-align: left;
+    margin: 15px 0 0 0;
+    box-shadow: inset 0px 0px 5px #c5c5c5;
+    padding-right: 25px;
+    padding-left: 25px;
+}
+#rb-collections-node-form fieldset.group-criteres.collapsed {
+    box-shadow: none;
+}
+#rb-collections-node-form fieldset.group-criteres > legend {
+    font-size: 18px;
+    background-color: #fff;
+}
 
 /* ------------------------------------------------------------------------------------- */
 /* ------------------------------ Consult - Full annonce ------------------------------- */
 /* ------------------------------------------------------------------------------------- */
-/*.node-rb-collections{*/
-    /*position: relative;*/
-    /*width: 600px;*/
-    /*margin: 50px auto !important;*/
-/*}*/
-
-/*.node-rb-collections div.field:first-of-type {*/
-    /*margin-bottom: 50px;*/
-/*}*/
-
-/*.node-rb-collections div.field:first-of-type .field-items {*/
-    /*border-left:1px solid #1e6a8e;*/
-    /*padding-left:15px;*/
-    /*margin-top: 20px;*/
-    /*text-align: justify;*/
-/*}*/
-
-/*.node-rb-collections h3.field-label{*/
-    /*font-family: "Roboto Condensed", oswaldregular !important;*/
-    /*font-weight: 500;*/
-    /*font-size: 20px;*/
-    /*text-transform: uppercase;*/
-    /*color: #1e6a8e;*/
-/*}*/
-
-/*.node-rb-collections div.field:not(:first-of-type) {*/
-    /*margin-bottom: 20px;*/
-/*}*/
 
 .node-rb-collections {
     position: relative;
@@ -588,6 +555,10 @@ fieldset.filter-wrapper {
     padding-bottom: 30px;
 }
 
+.node-rb-collections .field-name-field-critere {
+    display: none;
+}
+
 /* Link to the establishment sheet */
 #bs-rsb-establishment-link {
     width: 100%;
@@ -641,14 +612,8 @@ fieldset.filter-wrapper {
 /* ------------------------------------------------------------------------------------- */
 /* Start - Custom the automatic menu */
 .tabs{
-    /*width: 600px;*/
-    /*margin: auto;*/
-    /*margin-bottom: 50px !important;*/
-    /*border-radius: 0 !important;*/
-    /*box-shadow: 2px 3px 5px -1px #b5b5b5;*/
     width: 100%;
     border-radius: 0 !important;
-    /*background-color: #1e6a8e;*/
     background-color: #20313a;
     padding: 5px 25px;
     box-sizing: border-box;
@@ -657,57 +622,29 @@ fieldset.filter-wrapper {
     margin:0 !important;
 }
 .tabs > ul{
-    /*margin:0 !important;*/
-    /*padding:0 !important;*/
     margin: 0 auto !important;
     padding: 0 !important;
     width: 600px;
+    display: grid;
+    grid-template-columns: repeat(2 , 1fr);
 }
 .tabs li{
-    width: calc(100% / 2);
+    width: 100%;
     margin: 0 !important;
 }
 .tabs li > a {
     width: 100%;
     box-sizing: border-box;
     text-align: center;
-    /*color: #424242 !important;*/
     border-radius: 0 !important;
-    /*background-color: #1e6a8e !important;*/
     background-color: #20313a !important;
     color: #fff !important;
 }
-.tabs li:nth-child(1) > a {
-    /*background-color: #ffe4cd !important;*/
-    /*background-color: #1e6a8e !important;*/
-    /*color: #fff !important;*/
-}
-.tabs li:nth-child(2) > a {
-    /*background-color: #d2ffda !important;*/
-
-}
-/*.tabs li:nth-child(3) > a {*/
-    /*background-color: #ffc2c2 !important;*/
-/*}*/
 
 .tabs li > a:hover {
     border: none !important;
-    /*background-color: #427e92 !important;*/
     background-color: #37474f !important;
-    /*-webkit-box-shadow: inset 1px 1px 5px #424242;*/
 }
-/*.tabs li:nth-child(1) > a:hover {*/
-    /*background-color: #ffc693 !important;*/
-    /*color: #ffe4cd;*/
-/*}*/
-/*.tabs li:nth-child(2) > a:hover {*/
-    /*background-color: #9acea3 !important;*/
-    /*color: #d2ffda;*/
-/*}*/
-/*.tabs li:nth-child(3) > a:hover {*/
-    /*background-color: #ff8c8c !important;*/
-    /*color: #ffc2c2;*/
-/*}*/
 
 .tabs li > a.active {
     border: none !important;

@@ -178,6 +178,7 @@
 
 /* Establishment presentation sheet */
 #presentation {
+    position: relative;
     width: 100%;
     padding: 25px;
     box-sizing: border-box;
@@ -185,12 +186,122 @@
 }
 
 #presentation > h2#label-presentation {
-    margin: 0;
+    margin: 0 0 50px 0;
     border: 1px solid #424242;
     text-align: center;
     padding: 5px 10px;
     text-transform: uppercase;
     color: #424242;
-    margin-bottom: 50px;
     font-size: 22px;
+    width: calc(100% - 75px);
+}
+#presentation > a > i {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    text-align: right;
+    height: 39px;
+    padding: 7px 0;
+    box-sizing: border-box;
+    font-size: 25px;
+    color: #424242;
+}
+#presentation > a > i:hover {
+    color: #1e6a8e;
+}
+
+/* Every collections */
+#bs-rsb-ec-container {
+    position: relative;
+    width:100%;
+    margin-top: 30px;
+}
+
+#bs-rsb-ec-container > h2 {
+    display: inline-block;
+    text-align: center;
+    margin: 0 0 0 50%;
+    transform: translateX(-50%);
+    padding: 10px 25px;
+    box-sizing: border-box;
+    border: 1px solid #424242;
+    color: #424242;
+}
+
+#bs-rsb-ec-cards-container{
+    display: grid;
+    width: calc(100% - 100px);
+    margin: 50px auto;
+    grid-template-columns: repeat(4, 1fr [col-start]);
+    grid-gap: 40px;
+    background-color: #fff;
+    color: #444;
+    justify-items: center;
+}
+
+.bs-rsb-ec-card-title {
+    grid-area: title;
+    background-color: #37474F;
+    color: #fff;
+    padding: 10px;
+}
+.bs-rsb-ec-card-title * {
+    display: inline-block;
+    margin: 0;
+    font-size: 18px;
+}
+.bs-rsb-ec-card-title > i {
+    margin-right: 10px;
+    vertical-align: top;
+    font-size: 18px;
+}
+.bs-rsb-ec-card-title > p {
+    float: right;
+    width: calc(100% - 30px);
+    line-height: 1.25;
+}
+
+.bs-rsb-ec-card-content {
+    grid-area : content;
+}
+.bs-rsb-ec-card-content > p {
+    margin: 25px 15px !important;
+}
+
+.bs-rsb-ec-card-action-edit {
+    grid-area: action-edit;
+    margin-bottom: 10px;
+}
+.bs-rsb-ec-card-action-edit > a {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: #1e6a8e;
+    color: #fff !important;
+    font-size: 16px;
+    padding: 3px 5px;
+    box-sizing: border-box;
+}
+.bs-rsb-ec-card-action-edit > a:hover {
+    background-color: #3c92bb;
+}
+.bs-rsb-ec-card-action-edit > a > i {
+    margin-left: 5px;
+}
+
+.bs-rsb-ec-cards {
+    background-color: #fff;
+    box-shadow: 1px 1px 3px #d1dade;
+    width: 100%;
+    display: grid;
+    grid-template-rows: auto auto auto;
+    grid-template-columns: auto 40% auto;
+    grid-template-areas:
+            "title title title"
+            "content content content"
+            ". action-edit .";
+}
+.bs-rsb-ec-cards:hover{
+    box-shadow: 1px 1px 5px #435056;
+    cursor: pointer;
 }

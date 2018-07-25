@@ -1,51 +1,32 @@
 (function ($) {
-    Drupal.behaviors.bs_rsb_filtres = {
+    Drupal.behaviors.bs_rsb_filters = {
         attach: function (context, settings) {
+
 
             /* ---------------------------------------------------------------------------------*/
             /* ------------- START - Ajax retrieve filters from filter categorie ---------------*/
             /* ---------------------------------------------------------------------------------*/
 
-            var resultsRequirementFilters;
-            var resultsFilters;
+            // var resultsRequirementFilters;
+            // var resultsFilters;
 
             // When user click on a filter category
             $(".bs-rsb-filter-title").click(function(e){
                 e.preventDefault();
 
-                // Check if the container isn't already created
-                if($("body > #overlay-filters-container").length === 0){
+                // var vidSelected = $(this).children(".bs-rsb-filter-vid").text();
 
-                    // Append the filters container and its structure
-                    /* Exigence - Préférence - Indifférent */
-                    $("body").append(
-                        "<div id='overlay-filters-container'>" +
-                            "<p>Critères</p>" +
-                            "<i id='ofc-remove' class='fa fa-times' aria-hidden='true'></i>" +
-                            "<button id='ofc-reinit'>Réinitialiser les filtres</button>" +
-                            "<div id='ofc-explaination'>" +
-                                "<p>Explications du système de choix des filtres</p>" +
-                                "<p>Exigence</p>" +
-                                "<p>Préférence</p>" +
-                                "<p>Indifférent</p>" +
-                                "<p>Nom du filtre</p>" +
-                                "<input type='radio' name='filter_explanation' disabled>" +
-                                "<input type='radio' name='filter_explanation' disabled>" +
-                                "<input type='radio' name='filter_explanation' disabled checked='checked'>" +
-                            "</div>" +
-                            "<div id='overlay-filters'>" +
-                            "</div>" +
-                            "<div id='ofc-request-results'>" +
-                            "</div>" +
-                        "</div>"
-                    );
-                }
+                console.log($(this).children("p:first-of-type").text());
+                var filterName = $(this).children("p:first-of-type").text();
+
+                // Call addFiltersContainer function
+                addFiltersContainer(filterName);
 
                 // Initialize and define ajax datas
                 var datas = {
 
-                    // tid of the category filter clicked by user
-                    tid: $(this).children(".bs-rsb-filter-tid").text()
+                    // vid of the category filter clicked by user
+                    vid: $(this).children(".bs-rsb-filter-vid").text()
                 };
 
                 $.ajax({
@@ -64,23 +45,63 @@
 
             });
 
-            /* ---------------------------------------------------------------------------------*/
-            /* --------------- END - Ajax retrieve filters from filter categorie ---------------*/
-            /* ---------------------------------------------------------------------------------*/
+            /* ---------------------------------------------------------------------------------- */
+            /* ---------------------------- Add : Filters container ----------------------------- */
+            /* ---------------------------------------------------------------------------------- */
 
+            function addFiltersContainer(filterName) {
 
-            /* ---------------------------------------------------------------------------------*/
-            /* ------------------------------- START - Session ---------------------------------*/
-            /* ---------------------------------------------------------------------------------*/
+                // Check if the container isn't already created
+                if($("body > #overlay-filters-container").length === 0){
 
-            /* Set filter choice in session */
+                    // Append the filters container and its structure
+                    /* Exigence - Préférence - Indifférent */
+                    $("body").append(
+                        "<div id='overlay-filters-container'>" +
+                        "<p>Critères<span>" + filterName + "</span></p>" +
+                        "<i id='ofc-remove' class='fa fa-times' aria-hidden='true'></i>" +
+                        "<button id='ofc-reinit'>Réinitialiser les filtres<span>" + filterName + "</span></button>" +
+                        "<div id='ofc-explaination'>" +
+                        "<p>Explications du système de choix des filtres</p>" +
+                        "<p>Exigence</p>" +
+                        "<p>Préférence</p>" +
+                        "<p>Indifférent</p>" +
+                        "<p>Nom du filtre</p>" +
+                        "<input type='radio' name='filter_explanation' disabled>" +
+                        "<input type='radio' name='filter_explanation' disabled>" +
+                        "<input type='radio' name='filter_explanation' disabled checked='checked'>" +
+                        "</div>" +
+                        "<div id='overlay-filters'>" +
+                        "</div>" +
+                        "<div id='ofc-request-results'>" +
+                        "</div>" +
+                        "</div>"
+                    );
+                }
+            }
+
+            /* ---------------------------------------------------------------------------------- */
+            /* ------------------------ Session : Set filters choice ---------------------------- */
+            /* ---------------------------------------------------------------------------------- */
+
+            // var tab = [];
+            // Set filter choice in session
             // When user click on a filter input
             $("body").on("click", ".ofc-form-choice > input", function(){
+
+
 
                 // Retrieve the filter name
                 var filterName = $(this).parent().parent().children("p").text();
                 // Retrieve the filter value
                 var filterValue = $(this).val();
+                // filterValue = filterValue + "-8";
+                // console.log($(this).parent().parent().parent().parent().children("#vid-selected").text());
+                // var vidSelected = $(this).parent().parent().parent().parent().children("#vid-selected").text();
+                // filterValue = filterValue + "-" + vidSelected;
+
+                // tab[filterName] = filterValue;
+                // console.log(tab);
 
                 // Set into session the value of the filter
                 sessionStorage.setItem(
@@ -88,6 +109,10 @@
                     filterValue
                 );
             });
+
+            /* ---------------------------------------------------------------------------------- */
+            /* ---------------------- Retrieve : Session filters choice ------------------------- */
+            /* ---------------------------------------------------------------------------------- */
 
             // When user click on filter category
             $(".bs-rsb-filter").click(function(){
@@ -128,55 +153,28 @@
                 retrieveSessionFilters();
             }
 
-            /* ---------------------------------------------------------------------------------*/
-            /* -------------------------------- END - Session ----------------------------------*/
-            /* ---------------------------------------------------------------------------------*/
+            /* ---------------------------------------------------------------------------------- */
+            /* ------------------------ Ajax : Session filters choice --------------------------- */
+            /* ---------------------------------------------------------------------------------- */
 
             /* IMPORTANT! - For element dynamically added, you need to use .on() event listener */
 
-            /* Ajax - Input elements */
-
             // When user clicks on filter input (requirement || preference || indifferent)
-            $("body").on("click", ".ofc-form-choice > input", function(){
+            $("body").on("click", ".ofc-form-choice > input", function() {
 
                 //Call retrieveSessionFilters()
                 retrieveSessionFilters();
-
-                // Browse for each input
-                // $("body .ofc-form-choice > input").each(function(){
-                //
-                //     /*
-                //      Check if the input is :
-                //         - checked &&
-                //         - value is different than "indifferent" &&
-                //         - value equals "requirement"
-                //      */
-                //     if($(this).is(':checked') && $(this).val() !== "indifferent" && $(this).val() === "requirement"){
-                //
-                //         // Push into array containing required filter names, the name of the filter
-                //         arrayRequirementFilterNames.push($(this).parent().parent().children("p").text());
-                //     }
-                //
-                //     /*
-                //      Check if the input is :
-                //         - checked &&
-                //         - value is different than "indifferent"
-                //      */
-                //     if($(this).is(':checked') && $(this).val() !== "indifferent"){
-                //
-                //         // Push into array containing filter names, the name of the filter
-                //         arrayFilterNames.push($(this).parent().parent().children("p").text());
-                //     }
-                // });
             });
 
+            /**
+             * Implements retrieveSessionFilters()
+             */
             function retrieveSessionFilters(){
 
                 // Initialize an empty array intended to stock required filter names
                 var arrayRequirementFilterNames = [];
                 // Initialize an empty array intended to stock filter's name
                 var arrayFilterNames = [];
-
 
                 // Loop on session
                 for(var s = 0 ; s < sessionStorage.length ; s++){
@@ -206,17 +204,24 @@
                     }
                 }
 
-                // console.log("LENGTH : " + arrayRequirementFilterNames.length);
-
                 requiredFilterAjax(arrayRequirementFilterNames);
                 otherFilterAjax(arrayFilterNames);
+
             }
 
             /* ---------------------------------------------------------------------------- */
             /* --------------------- Ajax request - Requirement filters -------------------- */
             /* ---------------------------------------------------------------------------- */
 
+            /**
+             * Implements requiredFilterAjax()
+             *
+             * @param arrayRequirementFilterNames
+             */
             function requiredFilterAjax(arrayRequirementFilterNames){
+
+                // Call setLoaderCriteriasResults()
+                setLoaderCriteriasResults();
 
                 /*
                  Then check the length of the array containing filter's name
@@ -227,9 +232,6 @@
                   */
                 if(arrayRequirementFilterNames.length > 0){
 
-                    // console.log("entre");
-                    //
-                    // console.log("LENGTH : " + arrayRequirementFilterNames.length);
                     // Initialize and define ajax datas
                     var datas = {
                         requirement_filter_names: arrayRequirementFilterNames,
@@ -247,9 +249,9 @@
                             // If the ajax request returns results of requirement filters
                             if(result.resultsFiltersRequirement.length > 0){
 
-                                for(var t = 0 ; t < result.resultsFiltersRequirement.length ; t++){
-                                    console.log(result.resultsFiltersRequirement[t]);
-                                }
+                                // for(var t = 0 ; t < result.resultsFiltersRequirement.length ; t++){
+                                //     console.log(result.resultsFiltersRequirement[t]);
+                                // }
 
                                 // Initialize and define the message
                                 var message = 'Nous avons trouvé : ' + result.rowCountFiltersRequirement + ' résultat(s)<br>correspondant à vos filtres d\'éxigence';
@@ -313,7 +315,15 @@
             /* -------------- Ajax request - Requirement & preference filters ------------- */
             /* ---------------------------------------------------------------------------- */
 
+            /**
+             * Implements otherFilterAjax()
+             *
+             * @param arrayFilterNames
+             */
             function otherFilterAjax(arrayFilterNames){
+
+                // Call setLoaderCriteriasResults()
+                setLoaderCriteriasResults();
 
                 /*
                  Then check the length of the array containing filter's name
@@ -322,7 +332,6 @@
                     - If the length equals 0 - There is no data
                       So display a message saying there is no result
                   */
-                // console.log(arrayFilterNames.length);
                 if(arrayFilterNames.length > 0){
 
                     // Initialize and define ajax datas
@@ -420,13 +429,13 @@
 
                     $('div#overlay-filters-container > #ofc-request-results').append(
                         '<div id="' + idDiv + '">' +
-                            '<p>' +
-                            message +
-                            '</p>' +
-                            consultResults +
+                        '<p>' +
+                        message +
+                        '</p>' +
+                        consultResults +
                         '</div>'
                     );
-                // If the result container exists
+                    // If the result container exists
                 }else if($('div#overlay-filters-container > #ofc-request-results > #' + idDiv).length !== 0){
 
                     // Update the message
@@ -468,6 +477,12 @@
                         });
                     });
 
+                if( $( "#loader-criterias-container" ).length ){
+
+                    // Call removeLoaderCriteriasResults()
+                    removeLoaderCriteriasResults();
+                }
+
             }
 
             /* User choose which result he wants to see */
@@ -504,7 +519,42 @@
             }
 
             /* ---------------------------------------------------------------------------------- */
-            /* ------------------------------- CROSS : ON CLICK --------------------------------- */
+            /* ---------------------- Loader : Waiting criterias results ------------------------ */
+            /* ---------------------------------------------------------------------------------- */
+
+            function setLoaderCriteriasResults(){
+
+                if( $( "#loader-criterias-container" ).length == 0 ){
+
+                    $("#overlay-filters-container").append(
+                        "<div id='loader-criterias-container'>" +
+                        "<div id='loader'></div>" +
+                        "<p>Chargement ...</p>" +
+                        "</div>"
+                    );
+                }
+
+                if( $( "#loader-criterias-container" ).length ){
+
+                    $("#ofc-request-results").hide();
+                }
+            }
+
+            function removeLoaderCriteriasResults(){
+
+                if( $( "#loader-criterias-container" ).length ){
+
+                    $( "#loader-criterias-container" ).remove();
+                }
+
+                if( $( "#loader-criterias-container" ).length == 0){
+
+                    $("#ofc-request-results").show();
+                }
+            }
+
+            /* ---------------------------------------------------------------------------------- */
+            /* ------------------------------- Cross : On Click --------------------------------- */
             /* ---------------------------------------------------------------------------------- */
 
             // When user click on the overlay's cross : Overlay containing filters disappear
