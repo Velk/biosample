@@ -3,6 +3,11 @@
         <h2>FILTRES</h2>
         <button id="reinit-all-filters">Réinitialiser tous les filtres</button>
         <div id="bs-rsb-filters">
+            <div class="bs-rsb-filter">
+                <div class="bs-rsb-filter-title special-filters">
+                    <p>Informations collection</p><i class='fa fa-plus'></i>
+                </div>
+            </div>
             <?php
             foreach ($resultsFC as $resultFC){
                 ?>

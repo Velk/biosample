@@ -11,12 +11,12 @@
             // var resultsFilters;
 
             // When user click on a filter category
-            $(".bs-rsb-filter-title").click(function(e){
+            $(".bs-rsb-filter-title:not(.special-filters)").click(function(e){
                 e.preventDefault();
 
                 // var vidSelected = $(this).children(".bs-rsb-filter-vid").text();
 
-                console.log($(this).children("p:first-of-type").text());
+                // console.log($(this).children("p:first-of-type").text());
                 var filterName = $(this).children("p:first-of-type").text();
 
                 // Call addFiltersContainer function
@@ -43,6 +43,338 @@
                     }
                 });
 
+            });
+
+            $(".special-filters").click(function(e){
+
+                var filterName = $(this).children("p:first-of-type").text();
+
+                // Check if the container isn't already created
+                if($("body > #overlay-filters-container").length === 0){
+
+                    // Append the special filters container and its structure
+                    $("body").append(
+                        "<div id='overlay-filters-container'>" +
+                        "<p>Critères<span>" + filterName + "</span></p>" +
+                        "<i id='ofc-remove' class='fa fa-times' aria-hidden='true'></i>" +
+                        "<button id='ofc-reinit-sf'>Réinitialiser les filtres<span>" + filterName + "</span></button>" +
+                        "<div id='overlay-filters' class='special-filters'>" +
+                            "<div class='sf-container' id='nb-individus'>" +
+                                "<p>Nombre d'individus :</p>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='nombre_individus' value='0' id='nb-individus-0'>" +
+                                    "<label for='nb-individus-0'>< 1000</label>" +
+                                "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='nombre_individus' value='1' id='nb-individus-1'>" +
+                                    "<label for='nb-individus-1'>< 10 000</label>" +
+                                "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='nombre_individus' value='2' id='nb-individus-2'>" +
+                                    "<label for='nb-individus-2'>< 100 000</label>" +
+                                "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='nombre_individus' value='3' id='nb-individus-3'>" +
+                                    "<label for='nb-individus-3'>> 100 000</label>" +
+                                "</div>" +
+                            "</div>" +
+                            "<div class='sf-container' id='nb-echantillons'>" +
+                                "<p>Nombre d'échantillons :</p>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='nombre_echantillons' value='0' id='nb-echantillons-0'>" +
+                                    "<label for='nb-echantillons-0'>< 1000</label>" +
+                                "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='nombre_echantillons' value='1' id='nb-echantillons-1'>" +
+                                    "<label for='nb-echantillons-1'>< 10 000</label>" +
+                                "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='nombre_echantillons' value='2' id='nb-echantillons-2'>" +
+                                    "<label for='nb-echantillons-2'>< 100 000</label>" +
+                                "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='nombre_echantillons' value='3' id='nb-echantillons-3'>" +
+                                    "<label for='nb-echantillons-3'>> 100 000</label>" +
+                                "</div>" +
+                            "</div>" +
+                            "<div class='sf-container' id='collecte-donnees'>" +
+                                "<p>Collecte des données :</p>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='collecte_donnees' value='0' id='collecte-donnees-0'>" +
+                                    "<label for='collecte-donnees-0'>Avant</label>" +
+                                "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='collecte_donnees' value='1' id='collecte-donnees-1'>" +
+                                    "<label for='collecte-donnees-1'>Au moment de la collecte</label>" +
+                                "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='collecte_donnees' value='2' id='collecte-donnees-2'>" +
+                                    "<label for='collecte-donnees-2'>Après</label>" +
+                                "</div>" +
+                            "</div>" +
+                            "<div class='sf-container' id='suivi-individus'>" +
+                                "<p>Suivi des individus :</p>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='suivi_individus' value='0' id='suivi-individus-0'>" +
+                                    "<label for='suivi-individus-0'>En amont</label>" +
+                                "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='suivi_individus' value='1' id='suivi-individus-1'>" +
+                                    "<label for='suivi-individus-1'>En aval</label>" +
+                                "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='suivi_individus' value='2' id='suivi-individus-2'>" +
+                                    "<label for='suivi-individus-2'>Suivi longitudinal</label>" +
+                                "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='suivi_individus' value='2' id='suivi-individus-3'>" +
+                                    "<label for='suivi-individus-3'>Pas de suivi</label>" +
+                                "</div>" +
+                            "</div>" +
+                            "<div class='sf-container' id='echantillons-controle'>" +
+                                "<p>La collection dispose-t-elle d'échantillons de contrôles ?</p>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='echantillons_controle' value='yes' id='echantillons-controle-0'>" +
+                                    "<label for='echantillons-controle-0'>Oui</label>" +
+                                "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='echantillons_controle' value='no' id='echantillons-controle-1'>" +
+                                    "<label for='echantillons-controle-1'>Non</label>" +
+                                "</div>" +
+                            "</div>" +
+                            "<div class='sf-container' id='echantillons-sup'>" +
+                                "<p>Collecte d'échantillons supplémentaires</p>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='collecte_echantillons_sup' value='0' id='echantillons-sup-0'>" +
+                                    "<label for='echantillons-sup-0'>Collecte continue</label>" +
+                                "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='collecte_echantillons_sup' value='1' id='echantillons-sup-1'>" +
+                                    "<label for='echantillons-sup-1'>A la demande</label>" +
+                                "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='collecte_echantillons_sup' value='2' id='echantillons-sup-2'>" +
+                                    "<label for='echantillons-sup-2'>Non</label>" +
+                                "</div>" +
+                            "</div>" +
+                            "<div class='sf-container' id='donnees-sup'>" +
+                                "<p>Collecte de données supplémentaires</p>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='collecte_donnees_sup' value='0' id='donnees-sup-0'>" +
+                                    "<label for='donnees-sup-0'>Collecte continue</label>" +
+                                "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='collecte_donnees_sup' value='1' id='donnees-sup-1'>" +
+                                    "<label for='donnees-sup-1'>A la demande</label>" +
+                                "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='collecte_donnees_sup' value='2' id='donnees-sup-2'>" +
+                                    "<label for='donnees-sup-2'>Non</label>" +
+                                "</div>" +
+                            "</div>" +
+                        "</div>" +
+                        "<div id='ofc-request-results-sf'>" +
+                        "</div>" +
+                        "</div>"
+                    );
+                }
+
+                // Set user choice stored in session
+                $(".sf-container > .sf-choice-container > input").each(function(){
+
+                    // Loop on session
+                    for(var s = 0 ; s < sessionStorage.length ; s++) {
+
+                        // Check if session parameter is a special filter
+                        if (Object.keys(sessionStorage)[s].match("^sf_")) {
+
+                            var toCompareName = Object.keys(sessionStorage)[s].split("sf_")[1];
+                            var toCompareValue = sessionStorage.getItem(Object.keys(sessionStorage)[s]);
+
+                            if(
+                                toCompareName === $(this).attr("name") &&
+                                toCompareValue ===  $(this).val()
+                            ){
+                                // console.log($(this).attr("name"));
+                                // console.log($(this).val());
+                                $(this).prop( "checked", true );
+                            }
+                        }
+                    }
+                });
+            });
+
+
+            $("body").on("click", ".sf-container > .sf-choice-container > input", function(){
+
+                // Array containing every special filters
+                var arraySpecialFilters = [];
+               // console.log("input Name : " + $(this).attr('name'));
+               // console.log("input value : " + $(this).val());
+
+               var toStockSpecialFilterName = "sf_" + $(this).attr('name');
+               var specialFilterValue = $(this).val();
+
+                // Set into session the value of the filter
+                sessionStorage.setItem(
+                    toStockSpecialFilterName,
+                    specialFilterValue
+                );
+
+                // Array containing one special filter with his value
+                var arraySpecialFilter = [];
+
+                // Loop on session
+                for(var s = 0 ; s < sessionStorage.length ; s++){
+
+                    if(Object.keys(sessionStorage)[s].match("^sf_")){
+
+                        // Retrieve and split the filter name
+                        var specialFilterName = Object.keys(sessionStorage)[s].split("sf_")[1];
+
+                        // Push filter name
+                        arraySpecialFilter.push(specialFilterName);
+                        // Push its value
+                        arraySpecialFilter.push(sessionStorage.getItem(Object.keys(sessionStorage)[s]));
+
+                        // Push into array containing every filters, the array containing filter name with its value
+                        arraySpecialFilters.push(arraySpecialFilter);
+
+                        // Reinitialize array containing filter name and its value
+                        arraySpecialFilter = [];
+                    }
+                }
+
+                    // Initialize and define ajax datas
+                var datas = {
+
+                    arraySpecialFilters: arraySpecialFilters,
+                    arraySpecialFiltersLength: arraySpecialFilters.length
+                };
+
+                $.ajax({
+                    url:Drupal.settings.basePath + 'ressources-biologiques/home/criteres/special-filters',
+                    dataType: 'json',
+                    type: 'GET',
+                    data: datas,
+                    success: function(result){
+
+                        if(result.arrayFinalResultsSize > 0){
+
+                            if($("#sf-result-consult").length > 0){
+
+                                $("#sf-result-consult > p").text("Nous avons trouvé : " + result.arrayFinalResultsSize + " résultat(s)");
+
+                                if($("#sf-result-consult > i").length == 0){
+                                    $("#sf-result-consult").append("<i class='fa fa-eye'></i>");
+                                }
+
+                            }else{
+                                $("#ofc-request-results-sf").append(
+                                    "<div id='sf-result-consult'>" +
+                                    "<p>" +
+                                    "Nous avons trouvé : " + result.arrayFinalResultsSize + " résultat(s)" +
+                                    "</p>" +
+                                    "<i class='fa fa-eye'></i>" +
+                                    "</div>"
+                                );
+                            }
+
+                            $("#sf-result-consult").css({
+                                "border": "1px solid rgb(255, 255, 255)",
+                                "cursor": "pointer",
+                                "background-color": "transparent"
+                            });
+
+                            $("#sf-result-consult").mouseenter(function(){
+                                $("#sf-result-consult").css("background-color", "rgba(255, 255, 255, 0.18)");
+                            });
+                            $("#sf-result-consult").mouseleave(function(){
+                                $("#sf-result-consult").css("background-color", "transparent");
+                            });
+
+
+                        }else{
+                            if($("#sf-result-consult").length > 0){
+
+                                $("#sf-result-consult > p").text("Aucun résultat ne correspond à votre recherche");
+                                $("#sf-result-consult > i").remove();
+
+                            }else{
+                                $("#ofc-request-results-sf").append(
+                                    "<div id='sf-result-consult'>" +
+                                    "<p>" +
+                                    "Aucun résultat ne correspond à votre recherche" +
+                                    "</p>" +
+                                    "</div>"
+                                );
+                            }
+
+                            $("#sf-result-consult").css({
+                                "border": "none",
+                                "cursor": "default",
+                                "background-color": "transparent"
+                            });
+
+                            $("#sf-result-consult").mouseenter(function(){
+                                $("#sf-result-consult").css("background-color", "transparent");
+                            });
+                            $("#sf-result-consult").mouseleave(function(){
+                                $("#sf-result-consult").css("background-color", "transparent");
+                            });
+
+                        }
+
+
+                        // Hide every collection preview
+                        $("#block-views-rb-collections-block div.views-row").hide();
+
+                        for(var i = 0 ; i < result.arrayFinalResults.length ; i++){
+
+                            // Display only collection preview corresponding to user choice
+                            $("#article-" + result.arrayFinalResults[i]).parent().show();
+                        }
+
+                    }
+                });
+            });
+
+            $("body").on("click", "#sf-result-consult", function(){
+
+                if($("#sf-result-consult > i").length > 0){
+
+                    // Remove the overlay
+                    $('#overlay-filters-container').fadeOut('slow', function(){
+                        $('#overlay-filters-container').remove();
+                    });
+                }
+            });
+
+            // Reinit every special filters
+            $("body").on("click", "#ofc-reinit-sf", function () {
+
+                // Initiliaze an array containing session parameter to delete
+                var arrayToDelete = [];
+
+                // Loop on session
+                for(var s = 0 ; s < sessionStorage.length ; s++) {
+
+                    // Check if session parameter is a special filter
+                    if (Object.keys(sessionStorage)[s].match("^sf_")) {
+
+                        // Push it into the array
+                        arrayToDelete.push(Object.keys(sessionStorage)[s]);
+                    }
+                }
+
+                // Browse through the array
+                for(var i = 0 ; i < arrayToDelete.length ; i++){
+                    // Remove every special filter in the session
+                    sessionStorage.removeItem(arrayToDelete[i]);
+                }
+
+                // Uncheck every inputs
+                $(".sf-choice-container > input").prop( "checked", false );
             });
 
             /* ---------------------------------------------------------------------------------- */
