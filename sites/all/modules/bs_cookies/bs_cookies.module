@@ -57,7 +57,7 @@ function bs_cookies_admin_manager(){
     $form['bs_cookies_btn_yes'] = array(
         '#type' => 'textfield',
         '#title' => t('Cookies - Texte du bouton d\'acceptation des cookies'),
-        '#description' => t('Saississez le texte qui sera affiché pour dans le bouton d\'acceptation des cookies.'),
+        '#description' => t('Saississez le texte qui sera affiché sur le bouton d\'acceptation des cookies.'),
         '#default_value' => variable_get(
             'bs_cookies_btn_yes',
             'Accepter'
@@ -66,8 +66,8 @@ function bs_cookies_admin_manager(){
 
     $form['bs_cookies_btn_no'] = array(
         '#type' => 'textfield',
-        '#title' => t('Cookies - Texte du bouton d\'acceptation des cookies'),
-        '#description' => t('Saississez le texte qui sera affiché pour dans le bouton d\'acceptation des cookies.'),
+        '#title' => t('Cookies - Texte du bouton de refus des cookies'),
+        '#description' => t('Saississez le texte qui sera affiché sur le bouton de refus des cookies.'),
         '#default_value' => variable_get(
             'bs_cookies_btn_no',
             'Refuser'
