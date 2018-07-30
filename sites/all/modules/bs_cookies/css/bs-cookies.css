@@ -1,0 +1,77 @@
+div#bs-cookies-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #424242;
+    width: 100%;
+    z-index: 9999;
+    padding: 7px 20px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-areas:
+            "a b c";
+    /*grid-template-columns: repeat(3, 1fr);*/
+    grid-template-columns: auto 1fr auto;
+    grid-gap: 30px;
+}
+
+#bs-cookies-header {
+    grid-area: a;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-content: center;
+    align-items: center;
+    grid-gap: 5px;
+}
+#bs-cookies-content {
+    grid-area: b;
+    display: grid;
+    align-content: center;
+}
+#bs-cookies-actions {
+    grid-area: c;
+    display: grid;
+    align-content: center;
+}
+
+#bs-cookies-header * {
+    font-size: 20px;
+    color: #fff;
+}
+div#bs-cookies-header > h1 {
+    margin: 0;
+}
+
+#bs-cookies-user-choice-form {
+    margin: 0;
+}
+#bs-cookies-user-choice-form > div {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    justify-items: center;
+    grid-gap: 15px;
+}
+#bs-cookies-user-choice-form input {
+    box-shadow: none;
+    border: 1px solid #1e6a8e;
+    border-radius: 0;
+    background-color: #1e6a8e;
+    background: #1e6a8e;
+    color: #fff;
+    padding: 5px 15px;
+    font-size: 12px;
+    margin: 0;
+    text-transform: uppercase;
+}
+#bs-cookies-user-choice-form input:hover {
+    background-color:transparent;
+    background:transparent;
+    color: #1e6a8e;
+}
+
+div#bs-cookies-content > p {
+    font-size: 12px;
+    margin: 0;
+    color: #fff;
+    text-align: justify;
+}
