@@ -40,8 +40,7 @@
             "g g"
             "h h"
             "i i"
-            "j j"
-            "k k";
+            "j j";
 }
 
 #es-image {
@@ -98,23 +97,20 @@
 #es-country {
     grid-area: e;
 }
-#es-type {
+#es-theme {
     grid-area: f;
 }
-#es-theme {
+#datas-sheet > h3#es-label-activities {
     grid-area: g;
 }
-#datas-sheet > h3#es-label-activities {
+#es-activities {
     grid-area: h;
 }
-#es-activities {
+#datas-sheet > h3#es-label-activities-more {
     grid-area: i;
 }
-#datas-sheet > h3#es-label-activities-more {
-    grid-area: j;
-}
 #es-activities-more {
-    grid-area: k;
+    grid-area: j;
 }
 
 #datas-sheet > h3 {

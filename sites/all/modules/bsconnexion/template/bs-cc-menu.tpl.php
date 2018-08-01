@@ -8,15 +8,6 @@
             <a href="/utilisateur/cataloguep">CATALOGUE PERSONNALISÉ</a>
         </li><li id="bs-cc-historique-li">
             <a href="/utilisateur/historique">HISTORIQUE</a>
-<!--            <a>HISTORIQUE</a>-->
-<!--            <ul id="bs-cc-dropdown-historique">-->
-<!--                <li id="bs-cc-factures-li">-->
-<!--                    <a href="/utilisateur/factures">Factures</a>-->
-<!--                </li>-->
-<!--                <li id="bs-cc-commandes-li">-->
-<!--                    <a href="/utilisateur/commandes">Commandes en cours</a>-->
-<!--                </li>-->
-<!--            </ul>-->
         </li><li id="bs-cc-abonnements-li">
             <a href="/utilisateur/abonnements">ABONNEMENTS</a>
         </li><li id="bs-cc-rb-li">
@@ -27,9 +18,6 @@
                 </li>
                 <li id="bs-cc-annonces-li">
                     <a href="/utilisateur/ress_bio/annonces">Mes collections</a>
-                </li>
-                <li id="bs-cc-favoris-li">
-                    <a href="/utilisateur/ress_bio/favoris">Favoris</a>
                 </li>
             </ul>
         </li>

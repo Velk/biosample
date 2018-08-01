@@ -60,7 +60,7 @@
                         "<button id='ofc-reinit-sf'>Réinitialiser les filtres<span>" + filterName + "</span></button>" +
                         "<div id='overlay-filters' class='special-filters'>" +
                             "<div class='sf-container' id='nb-individus'>" +
-                                "<p>Nombre d'individus :</p>" +
+                                "<p>Nombre d'individus</p>" +
                                 "<div class='sf-choice-container'>" +
                                     "<input type='radio' name='nombre_individus' value='0' id='nb-individus-0'>" +
                                     "<label for='nb-individus-0'>< 1000</label>" +
@@ -79,7 +79,7 @@
                                 "</div>" +
                             "</div>" +
                             "<div class='sf-container' id='nb-echantillons'>" +
-                                "<p>Nombre d'échantillons :</p>" +
+                                "<p>Nombre d'échantillons</p>" +
                                 "<div class='sf-choice-container'>" +
                                     "<input type='radio' name='nombre_echantillons' value='0' id='nb-echantillons-0'>" +
                                     "<label for='nb-echantillons-0'>< 1000</label>" +
@@ -98,7 +98,7 @@
                                 "</div>" +
                             "</div>" +
                             "<div class='sf-container' id='collecte-donnees'>" +
-                                "<p>Collecte des données :</p>" +
+                                "<p>Collecte des données associées aux échantillons</p>" +
                                 "<div class='sf-choice-container'>" +
                                     "<input type='radio' name='collecte_donnees' value='0' id='collecte-donnees-0'>" +
                                     "<label for='collecte-donnees-0'>Avant</label>" +
@@ -111,24 +111,36 @@
                                     "<input type='radio' name='collecte_donnees' value='2' id='collecte-donnees-2'>" +
                                     "<label for='collecte-donnees-2'>Après</label>" +
                                 "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='collecte_donnees' value='3' id='collecte-donnees-3'>" +
+                                    "<label for='collecte-donnees-3'>Suivi longitudinal</label>" +
+                                "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='collecte_donnees' value='4' id='collecte-donnees-4'>" +
+                                    "<label for='collecte-donnees-4'>Aucun</label>" +
+                                "</div>" +
                             "</div>" +
                             "<div class='sf-container' id='suivi-individus'>" +
-                                "<p>Suivi des individus :</p>" +
+                                "<p>Suivi des individus</p>" +
                                 "<div class='sf-choice-container'>" +
                                     "<input type='radio' name='suivi_individus' value='0' id='suivi-individus-0'>" +
-                                    "<label for='suivi-individus-0'>En amont</label>" +
+                                    "<label for='suivi-individus-0'>Avant</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
                                     "<input type='radio' name='suivi_individus' value='1' id='suivi-individus-1'>" +
-                                    "<label for='suivi-individus-1'>En aval</label>" +
+                                    "<label for='suivi-individus-1'>Au moment de la collecte</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
                                     "<input type='radio' name='suivi_individus' value='2' id='suivi-individus-2'>" +
-                                    "<label for='suivi-individus-2'>Suivi longitudinal</label>" +
+                                    "<label for='suivi-individus-2'>Après</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='suivi_individus' value='2' id='suivi-individus-3'>" +
-                                    "<label for='suivi-individus-3'>Pas de suivi</label>" +
+                                    "<input type='radio' name='suivi_individus' value='3' id='suivi-individus-3'>" +
+                                    "<label for='suivi-individus-3'>Suivi longitudinal</label>" +
+                                "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='suivi_individus' value='4' id='suivi-individus-4'>" +
+                                    "<label for='suivi-individus-4'>Aucun</label>" +
                                 "</div>" +
                             "</div>" +
                             "<div class='sf-container' id='echantillons-controle'>" +
@@ -156,6 +168,10 @@
                                     "<input type='radio' name='collecte_echantillons_sup' value='2' id='echantillons-sup-2'>" +
                                     "<label for='echantillons-sup-2'>Non</label>" +
                                 "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='collecte_echantillons_sup' value='3' id='echantillons-sup-3'>" +
+                                    "<label for='echantillons-sup-3'>Aucun</label>" +
+                                "</div>" +
                             "</div>" +
                             "<div class='sf-container' id='donnees-sup'>" +
                                 "<p>Collecte de données supplémentaires</p>" +
@@ -171,12 +187,19 @@
                                     "<input type='radio' name='collecte_donnees_sup' value='2' id='donnees-sup-2'>" +
                                     "<label for='donnees-sup-2'>Non</label>" +
                                 "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='collecte_donnees_sup' value='3' id='donnees-sup-3'>" +
+                                    "<label for='donnees-sup-3'>Aucun</label>" +
+                                "</div>" +
                             "</div>" +
                         "</div>" +
                         "<div id='ofc-request-results-sf'>" +
                         "</div>" +
                         "</div>"
                     );
+
+                    // Call toDisableScroll function
+                    toDisableScroll();
                 }
 
                 // Set user choice stored in session
@@ -348,6 +371,9 @@
                         $('#overlay-filters-container').remove();
                     });
                 }
+
+                // Call toEnableScroll function
+                toEnableScroll();
             });
 
             // Reinit every special filters
@@ -409,6 +435,9 @@
                         "</div>" +
                         "</div>"
                     );
+
+                    // Call toDisableScroll function
+                    toDisableScroll();
                 }
             }
 
@@ -416,12 +445,9 @@
             /* ------------------------ Session : Set filters choice ---------------------------- */
             /* ---------------------------------------------------------------------------------- */
 
-            // var tab = [];
             // Set filter choice in session
             // When user click on a filter input
             $("body").on("click", ".ofc-form-choice > input", function(){
-
-
 
                 // Retrieve the filter name
                 var filterName = $(this).parent().parent().children("p").text();
@@ -825,10 +851,12 @@
                     displaySelectedResult(resultsRequirementFilters);
                 }
 
+
+
             });
 
             $("body").on("click", "#ofc-filters-results", function(){
-                console.log("Click on filters");
+
                 if($("#ofc-filters-results i").is(":visible")){
 
                     displaySelectedResult(resultsFilters);
@@ -848,6 +876,9 @@
 
                 // Remove the filter overlay
                 $('#overlay-filters-container').remove();
+
+                // Call toEnableScroll function
+                toEnableScroll();
             }
 
             /* ---------------------------------------------------------------------------------- */
@@ -896,6 +927,9 @@
                 $('#overlay-filters-container').fadeOut('slow', function(){
                     $('#overlay-filters-container').remove();
                 });
+
+                // Call toEnableScroll function
+                toEnableScroll();
             });
 
             /* ---------------------------------------------------------------------------------- */
@@ -947,9 +981,36 @@
 
                 }
 
+                // Go back to home family filter
+                $("#bs-rsb-families li").removeClass("bs-rsb-family-selected");
+                $("#all-regne").addClass("bs-rsb-family-selected");
+
                 // Show every collection
                 $("#block-views-rb-collections-block .views-row").show();
             });
+
+            // toDisableScroll function
+            function toDisableScroll(){
+
+                $("body").css("overflow", "hidden");
+            }
+
+            // toEnableScroll function
+            function toEnableScroll(){
+
+                $("body").css("overflow", "scroll");
+            }
+
+            // Remove the last error to have a clear drupal message
+            if(
+                // $(".messages.status > ul > li:first-of-type").text() === "Erreur. Au moins un champs à caractère obligatoire n'est pas rempli." &&
+                // $(".messages.status > ul > li:last-of-type").text() === "Un récapitulatif de votre demande a été envoyé sur l'adresse e-mail renseignée."
+                $(".messages.status > ul > li:first-of-type:contains(\"Erreur. Au moins un champs à caractère obligatoire n'est pas rempli.\")").is(':visible') &&
+                $(".messages.status > ul > li:last-of-type:contains(\"Un récapitulatif de votre demande a été envoyé sur l'adresse e-mail renseignée.\")").is(':visible')
+            ) {
+                // $(".messages.status > ul > li:contains(\"Erreur. Au moins un champs à caractère obligatoire n'est pas rempli.\")").remove();
+                $(".messages.status > ul > li:contains(\"Erreur. Au moins un champs à caractère obligatoire n'est pas rempli.\")").css("display","none");
+            }
 
         }
     };

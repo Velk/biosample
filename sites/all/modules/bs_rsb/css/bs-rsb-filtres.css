@@ -228,7 +228,7 @@ button#ofc-reinit > span {
 
 #overlay-filters-container > #overlay-filters {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     grid-gap: 100px;
     margin: 0 auto;
     color: #d1dade;
@@ -294,36 +294,6 @@ button#ofc-reinit > span {
 #overlay-filters-container > #ofc-request-results *{
     margin: 0;
 }
-
-/*.bs-rsb-filter-datas-search{*/
-    /*width:100%;*/
-    /*background-color: #fff;*/
-    /*border: 2px solid #dadada;*/
-    /*-webkit-box-sizing: border-box;*/
-    /*-moz-box-sizing: border-box;*/
-    /*box-sizing: border-box;*/
-/*}*/
-
-
-/*.bs-rsb-filter-datas-search > *{*/
-    /*color: #717171;*/
-/*}*/
-/*.bs-rsb-filter-datas-search > input {*/
-    /*width: 80%;*/
-    /*background-color: transparent;*/
-    /*border: none;*/
-    /*padding: 5px 10px;*/
-    /*-webkit-box-sizing: border-box;*/
-    /*-moz-box-sizing: border-box;*/
-    /*box-sizing: border-box;*/
-/*}*/
-/*.bs-rsb-filter-datas-search > input::-webkit-search-cancel-button{*/
-    /*-webkit-appearance:none;*/
-/*}*/
-/*.bs-rsb-filter-datas-search > i {*/
-    /*width: 20%;*/
-    /*text-align: center;*/
-/*}*/
 
 .bs-rsb-filter-datas-checkboxes {
     width: 100%;
@@ -446,61 +416,40 @@ div#block-bs-rsb-ressources-bio-filtres {
 
 div#nb-individus,
 div#nb-echantillons,
-div#suivi-individus {
+div#echantillons-sup,
+div#donnees-sup {
     grid-template-areas: "a a a a" "b c d e";
 }
 
 div#nb-individus > p:nth-child(1),
 div#nb-echantillons > p:nth-child(1),
-div#suivi-individus > p:nth-child(1) {
+div#echantillons-sup > p:nth-child(1),
+div#donnees-sup > p:nth-child(1) {
     grid-area: a;
 }
 div#nb-individus > div:nth-child(2),
 div#nb-echantillons > div:nth-child(2),
-div#suivi-individus > div:nth-child(2) {
+div#echantillons-sup > div:nth-child(2),
+div#donnees-sup > div:nth-child(2) {
     grid-area: b;
 }
 div#nb-individus > div:nth-child(3),
 div#nb-echantillons > div:nth-child(3),
-div#suivi-individus > div:nth-child(3) {
+div#echantillons-sup > div:nth-child(3),
+div#donnees-sup > div:nth-child(3) {
     grid-area: c;
 }
 div#nb-individus > div:nth-child(4),
 div#nb-echantillons > div:nth-child(4),
-div#suivi-individus > div:nth-child(4) {
+div#echantillons-sup > div:nth-child(4),
+div#donnees-sup > div:nth-child(4) {
     grid-area: d;
 }
 div#nb-individus > div:nth-child(5),
 div#nb-echantillons > div:nth-child(5),
-div#suivi-individus > div:nth-child(5) {
+div#echantillons-sup > div:nth-child(5),
+div#donnees-sup > div:nth-child(5) {
     grid-area: e;
-}
-
-div#collecte-donnees,
-div#echantillons-sup,
-div#donnees-sup {
-    grid-template-areas: "a a a" "b c d";
-}
-
-div#collecte-donnees > p:nth-child(1),
-div#echantillons-sup > p:nth-child(1),
-div#donnees-sup > p:nth-child(1) {
-    grid-area : a;
-}
-div#collecte-donnees > div:nth-child(2),
-div#echantillons-sup > div:nth-child(2),
-div#donnees-sup > div:nth-child(2) {
-    grid-area : b;
-}
-div#collecte-donnees > div:nth-child(3),
-div#echantillons-sup > div:nth-child(3),
-div#donnees-sup > div:nth-child(3) {
-    grid-area : c;
-}
-div#collecte-donnees > div:nth-child(4),
-div#echantillons-sup > div:nth-child(4),
-div#donnees-sup > div:nth-child(4) {
-    grid-area : d;
 }
 
 div#echantillons-controle {
@@ -515,6 +464,42 @@ div#echantillons-controle > div:nth-child(2) {
 }
 div#echantillons-controle > div:nth-child(3) {
     grid-area : c;
+}
+
+div#collecte-donnees,
+div#suivi-individus {
+    grid-template-areas: "a a a a a" "b c d e f";
+}
+
+div#collecte-donnees > p:nth-child(1),
+div#suivi-individus > p:nth-child(1) {
+    grid-area: a;
+}
+div#collecte-donnees > div:nth-child(2),
+div#suivi-individus > div:nth-child(2) {
+    grid-area: b;
+}
+div#collecte-donnees > div:nth-child(3),
+div#suivi-individus > div:nth-child(3) {
+    grid-area: c;
+}
+div#collecte-donnees > div:nth-child(4),
+div#suivi-individus > div:nth-child(4) {
+    grid-area: d;
+}
+div#collecte-donnees > div:nth-child(5),
+div#suivi-individus > div:nth-child(5) {
+    grid-area: e;
+}
+
+div#nb-individus,
+div#nb-echantillons,
+div#echantillons-sup,
+div#donnees-sup,
+div#echantillons-controle,
+div#collecte-donnees,
+div#suivi-individus {
+    align-items: baseline;
 }
 
 .sf-choice-container {
@@ -571,3 +556,27 @@ div#sf-result-consult > p{
 div#sf-result-consult > i{
     font-size: 20px;
 }
+
+/* Start - Custom Scrollbar */
+
+/* width */
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #a7a7a740;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #e9e9e9;
+}
+
+/* End - Custom Scrollbar */
