@@ -423,44 +423,6 @@ fieldset.filter-wrapper {
     grid-area: s;
 }
 
-/*.form-item-title {*/
-    /*grid-area: a;*/
-/*}*/
-/*#edit-field-nom-organisme {*/
-    /*grid-area: b;*/
-/*}*/
-/*#edit-field-nom-collection {*/
-    /*grid-area: c;*/
-/*}*/
-/*#edit-field-type-de-collection {*/
-    /*grid-area: d;*/
-/*}*/
-/*#edit-field-nombre-donneurs {*/
-    /*grid-area: e;*/
-/*}*/
-/*#edit-field-nombre-echantillons {*/
-    /*grid-area: f;*/
-/*}*/
-/*#edit-field-collecte-echantillons-supp {*/
-    /*grid-area: g;*/
-/*}*/
-/*#edit-field-disponibilite {*/
-    /*grid-area: h;*/
-/*}*/
-/*#edit-field-regne {*/
-    /*grid-area: i;*/
-/*}*/
-/*#edit-field-presentation {*/
-    /*grid-area: j;*/
-/*}*/
-/*.group-criteres {*/
-    /*grid-area: k;*/
-/*}*/
-/*#edit-actions {*/
-    /*grid-area: l;*/
-/*}*/
-
-
 /* Fields */
 #rb-collections-node-form .form-item label {
     font-size: 15px;
@@ -525,6 +487,30 @@ input[type="radio"] {
     background-color: #fff;
 }
 
+/* Checkboxes multiple choice */
+div#edit-field-collecte-donnees-und,
+div#edit-field-suivi-individus-und {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    justify-items: center;
+}
+
+div#edit-field-collecte-echantillons-sup-und,
+div#edit-field-collecte-donnees-sup-und {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+}
+
+div#edit-field-collecte-donnees-und input,
+div#edit-field-suivi-individus-und input,
+div#edit-field-collecte-echantillons-sup-und input,
+div#edit-field-collecte-donnees-sup-und input {
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
 /* ------------------------------------------------------------------------------------- */
 /* ------------------------------ Consult - Full annonce ------------------------------- */
 /* ------------------------------------------------------------------------------------- */
@@ -544,6 +530,7 @@ input[type="radio"] {
     padding: 50px !important;
     box-sizing: border-box;
     grid-template-areas:
+            "project-name a"
             "b a"
             "c a"
             "d a"
@@ -559,13 +546,16 @@ input[type="radio"] {
             "n a";
 }
 
+#project-name {
+    grid-area: project-name;
+    padding-top:25px;
+}
 .node-rb-collections .field-name-field-presentation {
     grid-area: a;
 }
-
 .node-rb-collections .field-name-field-nom-collection{
     grid-area: b;
-    padding-top: 25px !important;
+    padding-top:25px !important;
 }
 .node-rb-collections .field-name-field-regne{
     grid-area: c;

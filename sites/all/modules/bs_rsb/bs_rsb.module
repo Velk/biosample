@@ -726,6 +726,7 @@ function bs_rsb_block_view($delta = '') {
 
                 // Initialize the number of samples
                 $nbEchantillons = null;
+                $nbEchantillonsPrefix = null;
 
                 // Query to retrieve every samples number of a collection depending on the postal code
                 $query = db_select("establishment_sheet", "es");
@@ -739,15 +740,51 @@ function bs_rsb_block_view($delta = '') {
                 // Foreach results
                 foreach ($resultsNbEchantillon as $resultNbEchantillon) {
 
+                    // Add echantillons number
+                    // Add prefix echantillons number. If it's greater than, prefix still gt (>)
+                    // But if it is lower than, keep lt (<)
+                    switch($resultNbEchantillon->field_nombre_echantillons_value){
+                        case 0 :
+                            $nbEchantillons = $nbEchantillons + 1000;
+
+                            if($nbEchantillonsPrefix != ">"){
+                                $nbEchantillonsPrefix = "<";
+                            }
+                            break;
+                        case 1 :
+                            $nbEchantillons = $nbEchantillons + 10000;
+
+                            if($nbEchantillonsPrefix != ">"){
+                                $nbEchantillonsPrefix = "<";
+                            }
+                            break;
+                        case 2 :
+                            $nbEchantillons = $nbEchantillons + 100000;
+
+                            if($nbEchantillonsPrefix != ">"){
+                                $nbEchantillonsPrefix = "<";
+                            }
+                            break;
+                        case 3 :
+                            $nbEchantillons = $nbEchantillons + 100000;
+
+                            $nbEchantillonsPrefix = ">";
+                            break;
+                    }
                     // Sum the number of samples find for each departments
-                    $nbEchantillons = $nbEchantillons + $resultNbEchantillon->field_nombre_echantillons_value;
+//                    $nbEchantillons = $nbEchantillons + $resultNbEchantillon->field_nombre_echantillons_value;
                 }
+
+                // Formatting echantillons number and set space between each 3 characters
+                $nbEchantillons = number_format($nbEchantillons, null, null, ' ');
+                // Add prefix and echantillons number
+                $nbEchantillonsTotal = $nbEchantillonsPrefix . " " . $nbEchantillons;
 
                 // Add the collection numbers to the corresponding department
                 $tabDepartmentsDatas[$keys[$c]][] = $resultNbCollection;
 
                 // Add the sample numbers to the corresponding department
-                $tabDepartmentsDatas[$keys[$c]][] = $nbEchantillons;
+                $tabDepartmentsDatas[$keys[$c]][] = $nbEchantillonsTotal;
             }
 
             // Pass to data the array containing department datas
@@ -960,7 +997,6 @@ function bs_rsb_block_view($delta = '') {
                 array(
                     'name',
                     'status',
-                    'organism_type',
                     'organism_theme',
                     'organism_activities_more',
                     'presentation'
@@ -1145,18 +1181,18 @@ function bs_rsb_creation_establishment_form($form, &$form_state){
         '#required' => TRUE,
     );
 
-    // Establishment sheet : Organism type
-    $form['establishment_sheet']['establishment_datas']['type'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Type'),
-        '#weight' => 3,
-        '#required' => FALSE,
-    );
+//    // Establishment sheet : Organism type
+//    $form['establishment_sheet']['establishment_datas']['type'] = array(
+//        '#type' => 'textfield',
+//        '#title' => t('Type'),
+//        '#weight' => 3,
+//        '#required' => FALSE,
+//    );
 
     // Establishment sheet : Organism theme
     $form['establishment_sheet']['establishment_datas']['theme'] = array(
         '#type' => 'textfield',
-        '#title' => t('Thematique'),
+        '#title' => t('Thematique(s)'),
         '#weight' => 4,
         '#required' => FALSE,
     );
@@ -1260,7 +1296,7 @@ function bs_rsb_creation_establishment_form($form, &$form_state){
     // Establishment sheet : Email
     $form['establishment_sheet']['establishment_datas']['email'] = array(
         '#type' => 'textfield',
-        '#title' => t('E-mail'),
+        '#title' => t('Adresse e-mail'),
         '#weight' => 14,
         '#required' => TRUE,
     );
@@ -1357,7 +1393,7 @@ function bs_rsb_creation_establishment_form($form, &$form_state){
     // Establishment sheet : Contact email
     $form['establishment_sheet']['establishment_coordinator']['contact_email'] = array(
         '#type' => 'textfield',
-        '#title' => t('E-mail'),
+        '#title' => t('Adresse e-mail'),
         '#weight' => 5,
         '#required' => TRUE,
     );
@@ -1554,7 +1590,7 @@ function bs_rsb_creation_establishment_submit($form, &$form_state){
                 'status' => $form_state['values']['status'],
                 'presentation' => $form_state['values']['presentation']['value'],
                 'image' => $form_state['values']['image'],
-                'organism_type' => $form_state['values']['type'],
+//                'organism_type' => $form_state['values']['type'],
                 'organism_theme' => $form_state['values']['theme'],
                 'organism_activities' => $selectedActivities,
                 'organism_activities_more' => $form_state['values']['complementary_activities'],
@@ -1601,7 +1637,7 @@ function bs_rsb_updating_establishment_form($form, &$form_state){
             'status',
             'presentation',
             'image',
-            'organism_type',
+//            'organism_type',
             'organism_theme',
             'organism_activities',
             'organism_activities_more',
@@ -1674,18 +1710,18 @@ function bs_rsb_updating_establishment_form($form, &$form_state){
     );
 
     // Establishment sheet : Organism type
-    $form['update_establishment']['establishment_datas']['type'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Type'),
-        '#default_value' => $result['organism_type'],
-        '#weight' => 3,
-        '#required' => FALSE,
-    );
+//    $form['update_establishment']['establishment_datas']['type'] = array(
+//        '#type' => 'textfield',
+//        '#title' => t('Type'),
+//        '#default_value' => $result['organism_type'],
+//        '#weight' => 3,
+//        '#required' => FALSE,
+//    );
 
     // Establishment sheet : Organism theme
     $form['update_establishment']['establishment_datas']['theme'] = array(
         '#type' => 'textfield',
-        '#title' => t('Thematique'),
+        '#title' => t('Thematique(s)'),
         '#default_value' => $result['organism_theme'],
         '#weight' => 4,
         '#required' => FALSE,
@@ -1804,7 +1840,7 @@ function bs_rsb_updating_establishment_form($form, &$form_state){
     // Establishment sheet : Email
     $form['update_establishment']['establishment_datas']['email'] = array(
         '#type' => 'textfield',
-        '#title' => t('E-mail'),
+        '#title' => t('Adresse e-mail'),
         '#default_value' => $result['organism_mail'],
         '#weight' => 14,
         '#required' => TRUE,
@@ -1939,7 +1975,7 @@ function bs_rsb_updating_establishment_form($form, &$form_state){
     // Establishment sheet : Contact email
     $form['update_establishment']['establishment_coordinator']['contact_email'] = array(
         '#type' => 'textfield',
-        '#title' => t('E-mail'),
+        '#title' => t('Adresse e-mail'),
         '#default_value' => $result['organism_contact_email'],
         '#weight' => 5,
         '#required' => TRUE,
@@ -2125,7 +2161,7 @@ function bs_rsb_updating_establishment_submit($form, &$form_state){
             'postal_code' => $form_state['values']['postal_code'],
             'status' => $form_state['values']['status'],
             'presentation' => $form_state['values']['presentation']['value'],
-            'organism_type' => $form_state['values']['type'],
+//            'organism_type' => $form_state['values']['type'],
             'organism_theme' => $form_state['values']['theme'],
             'organism_activities' => $selectedActivities,
             'organism_activities_more' => $form_state['values']['complementary_activities'],
@@ -2266,7 +2302,7 @@ function bs_rsb_admin_datas_establishment_form($form, $form_state){
             "bs_contact_lastname",
             "bs_contact_mail",
             "bs_contact_phone",
-            'organism_type',
+//            'organism_type',
             'organism_theme',
             'organism_activities',
             'organism_activities_more',
@@ -2334,18 +2370,18 @@ function bs_rsb_admin_datas_establishment_form($form, $form_state){
             '#weight' => 2,
         );
 
-        // Establishment sheet : Organism type
-        $form['establishment']['establishment_datas']['type'] = array(
-            '#type' => 'textfield',
-            '#title' => t('Type'),
-            '#default_value' => $result->organism_type,
-            '#weight' => 3,
-        );
+//        // Establishment sheet : Organism type
+//        $form['establishment']['establishment_datas']['type'] = array(
+//            '#type' => 'textfield',
+//            '#title' => t('Type'),
+//            '#default_value' => $result->organism_type,
+//            '#weight' => 3,
+//        );
 
         // Establishment sheet : Organism theme
         $form['establishment']['establishment_datas']['theme'] = array(
             '#type' => 'textfield',
-            '#title' => t('Thematique'),
+            '#title' => t('Thematique(s)'),
             '#default_value' => $result->organism_theme,
             '#weight' => 4,
         );
@@ -2454,7 +2490,7 @@ function bs_rsb_admin_datas_establishment_form($form, $form_state){
         // Establishment sheet : Email
         $form['establishment']['establishment_datas']['email'] = array(
             '#type' => 'textfield',
-            '#title' => t('E-mail'),
+            '#title' => t('Adresse e-mail'),
             '#default_value' => $result->organism_mail,
             '#weight' => 14,
         );
@@ -2581,7 +2617,7 @@ function bs_rsb_admin_datas_establishment_form($form, $form_state){
         // Establishment sheet : Contact email
         $form['establishment']['establishment_coordinator']['contact_email'] = array(
             '#type' => 'textfield',
-            '#title' => t('E-mail'),
+            '#title' => t('Adresse e-mail'),
             '#default_value' => $result->organism_contact_email,
             '#weight' => 5,
         );
@@ -2643,7 +2679,7 @@ function bs_rsb_admin_datas_establishment_form($form, $form_state){
         // BioSample contact e-mail's
         $form['establishment']['bs_contact']['bs_contact_mail'] = array(
             '#type' => 'textfield',
-            '#title' => t('E-mail du contact BioSample'),
+            '#title' => t('Adresse e-mail du contact BioSample'),
             '#default_value' => $result->bs_contact_mail,
             '#weight' => 14,
         );
@@ -2775,7 +2811,7 @@ function bs_rsb_admin_datas_establishment_form_submit($form, &$form_state){
             'bs_contact_lastname' => $form_state['values']['bs_contact_lastname'],
             'bs_contact_mail' => $form_state['values']['bs_contact_mail'],
             'bs_contact_phone' => $form_state['values']['bs_contact_phone'],
-            'organism_type' => $form_state['values']['type'],
+//            'organism_type' => $form_state['values']['type'],
             'organism_theme' => $form_state['values']['theme'],
             'organism_activities' => $selectedActivities,
             'organism_activities_more' => $form_state['values']['complementary_activities'],
@@ -2999,6 +3035,10 @@ function bs_rsb_collections_contact_form_validate($form, &$form_state){
  */
 function bs_rsb_collections_contact_form_submit($form, &$form_state){
 
+    /* ---------------------------------------------------------------------------------- */
+    /* ------------------------------ Mail to BioSample --------------------------------- */
+    /* ---------------------------------------------------------------------------------- */
+
     $url = $_SERVER["REQUEST_URI"];
     $urlSplitted = explode("/", $url);
 
@@ -3069,10 +3109,10 @@ function bs_rsb_collections_contact_form_submit($form, &$form_state){
     /* End - E-mail body */
 
     // Mail's parameters
-//    $to = "developer.biosample@gmail.com";
-//    $from = "developer.biosample@gmail.com";
-    $to = "contact@biosample.fr";
-    $from = "contact@biosample.fr";
+    $to = "developer.biosample@gmail.com";
+    $from = "developer.biosample@gmail.com";
+//    $to = "contact@biosample.fr";
+//    $from = "contact@biosample.fr";
 
     // Subject of the mail
     $subject = "Demande de contact pour une collection des Ressources Biologiques";
@@ -3085,11 +3125,79 @@ function bs_rsb_collections_contact_form_submit($form, &$form_state){
 
     if(drupal_mail('bs_rsb', '10', $to, "fr", $params, $from)){
         drupal_set_message("Votre demande de contact a bien été envoyée.");
-        drupal_goto("/ressources-biologiques/home");
     } else {
         drupal_set_message("Erreur, la demande de contact n'a pas abouti.");
-        drupal_goto("/ressources-biologiques/home");
     }
+
+    /* ---------------------------------------------------------------------------------- */
+    /* -------------------------------- Mail to user ------------------------------------ */
+    /* ---------------------------------------------------------------------------------- */
+
+    /* Start - E-mail body */
+    $body = "Informations sur la collection : " . "\n" .
+        "URL : " . $_SERVER['HTTP_HOST'] . $_SERVER["REQUEST_URI"] . "\n" .
+        "Nom de la collection : " . $collectionName . "\n" .
+        "----------------------------------------------------------------------------" . "\n\n" .
+        "Vos informations : " . "\n" .
+        $form_state['values']['civility'] . " " . $form_state['values']['name'] . "\n";
+
+    // Check if poste_service is filled
+    if( !empty($form_state['values']['poste_service']) ){
+        $body = $body . "Poste / Service : " . $form_state['values']['poste_service'] . "\n";
+    }
+
+    // Check if affiliation_societe is filled
+    if( !empty($form_state['values']['affiliation_societe']) ){
+        $body = $body . "Affiliation / Société : " . $form_state['values']['affiliation_societe'] . "\n";
+    }
+
+    // Check if siren is filled
+    if( !empty($form_state['values']['siren']) ){
+        $body = $body . "N° SIREN : " . $form_state['values']['siren'] . "\n";
+    }
+
+    // Check if postal_code is filled
+    if( !empty($form_state['values']['postal_code']) ){
+        $body = $body . "Code postal : " . $form_state['values']['postal_code'] . "\n";
+    }
+
+    // Check if phone is filled
+    if( !empty($form_state['values']['phone']) ){
+        $body = $body . "Téléphone : " . $form_state['values']['phone'] . "\n";
+    }
+
+    // Check if fax is filled
+    if( !empty($form_state['values']['fax']) ){
+        $body = $body . "Fax : " . $form_state['values']['fax'] . "\n\n";
+    }
+
+    // Check if subject is filled
+    if( !empty($form_state['values']['subject']) ){
+        $body = $body . "Objet : " . $form_state['values']['subject'];
+    }
+
+    $body = $body . "\n\n" . "Message : " . $form_state['values']['message'];
+
+    // Mail's parameters
+    $to = $form_state['values']['email'];
+    $from = $form_state['values']['email'];
+
+    // Subject of the mail
+    $subject = "BioSample | Récapitulatif - Demande de contact pour une collection des Ressources Biologiques";
+
+    // Call mail function
+    $params = array(
+        'subject' => $subject,
+        'body' => $body,
+    );
+
+    if(drupal_mail('bs_rsb', '20', $to, "fr", $params, $from)){
+        drupal_set_message("Un récapitulatif de votre demande a été envoyé sur l'adresse e-mail renseignée.");
+    } else {
+        drupal_set_message("Erreur, impossible d'envoyer un message à destination de votre adresse e-mail.");
+    }
+
+    drupal_goto($_SERVER["REQUEST_URI"]);
 }
 
 /**
@@ -3104,6 +3212,10 @@ function bs_rsb_collections_contact_form_submit($form, &$form_state){
 function bs_rsb_mail($key, &$message, $params) {
     switch ($key) {
         case '10':
+            $message['subject'] = $params['subject'];
+            $message['body'][] = $params['body'];
+            break;
+        case '20':
             $message['subject'] = $params['subject'];
             $message['body'][] = $params['body'];
             break;
@@ -3439,6 +3551,8 @@ function bs_rsb_form_rb_collections_node_form_alter(&$form, &$form_state, $form_
         // Set the establishment status
         $form['field_statut_organisme']['und']['#default_value'] = $organismStatus;
 
+        // Limit criterias categories to 100 chars
+//        $form['field_critere_normes']['und']['#maxlength'] = 100;
     }
 
 }

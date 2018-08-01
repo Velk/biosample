@@ -31,7 +31,7 @@
                     if(tabDepartmentNumbers[v] == tabIledeFrance[w]){
 
                         // Remove the element
-                        tabDepartmentNumbers.splice(v,1);
+                        // tabDepartmentNumbers.splice(v,1);
                     }
                 }
             }
@@ -96,7 +96,6 @@
                 for(var i = 0; i < tabDepartmentNumbers.length ; i++) {
 
                     if (numberDepartment == tabDepartmentNumbers[i]) {
-                        // console.log("PAS IDF");
 
                         $("#rsb-map-marker-datas").toggle();
 
@@ -106,13 +105,12 @@
 
                 for (var j = 0; j < tabIledeFrance.length; j++){
 
-                    if (numberDepartment == tabIledeFrance[j]) {
-                        // console.log("IDF");
+                    if (
+                        numberDepartment == tabIledeFrance[j] &&
+                        numberDepartment == tabDepartmentNumbers[i]
+                    ) {
 
                         $("#rsb-map-marker-datas").toggle();
-                        // $("#rsb-map-marker-datas").animate({
-                        //     opacity: "1",
-                        // }, 500);
 
                         for (var k = 0; k < tabIledeFrance.length; k++) {
                             $("#dpt-" + tabIledeFrance[k]).toggle();
@@ -127,7 +125,10 @@
                 for(var i=0; i<tabNumbMax; i++){
 
                     // If the department hovered is in tabIledeFrance
-                    if(numberDepartment == tabIledeFrance[i]){
+                    if(
+                        numberDepartment == tabIledeFrance[i] &&
+                        numberDepartment == tabDepartmentNumbers[i]
+                    ){
 
                         // Change appearance of the Ile-de-France and its Marker
                         for(var j=0; j<tabIledeFrance.length; j++) {
@@ -148,32 +149,88 @@
             // Hover on lands
             $(".land").mouseenter(function(){
 
+                // Boolean to check if department number hovered is into Ile de France
+                var isIleDeFrance = null;
+
                 // Retrieve and stock the department number of the land
                 var numberDepartment = $(this).attr("class").split("land departement")[1];
+
+                // Check if the land hovered is contained in the array Ile de France
+                for(var i=0 ; i < tabIledeFrance.length ; i++){
+
+                    if(numberDepartment == tabIledeFrance[i]){
+
+                        // Set boolean to true
+                        isIleDeFrance = true;
+                    }
+                }
 
                 // Set colors
                 var fillColor = "#FFCDD2";
                 var colorColor = "#D32F2F";
 
-                // Call changeAppearance function
-                changeAppearance(numberDepartment, fillColor, colorColor);
+                // If department hovered is in Ile de France
+                if( isIleDeFrance ) {
 
-                displayDatas(numberDepartment);
+                    // Call both functions for each department contained into Ile de France array
+                    for (var j = 0; j < tabIledeFrance.length; j++) {
+
+                        numberDepartment = tabIledeFrance[j];
+
+                        // Call changeAppearance function
+                        changeAppearance(numberDepartment, fillColor, colorColor);
+
+                        displayDatas(numberDepartment);
+                    }
+                }else {
+                    // Call changeAppearance function
+                    changeAppearance(numberDepartment, fillColor, colorColor);
+
+                    displayDatas(numberDepartment);
+                }
             });
 
             $(".land").mouseleave(function(){
 
-                // Retrieve and stock the department number of the land
+                // Boolean to check if department number hovered is into Ile de France
+                var isIleDeFrance = null;
+
+                // Retrieve and stock the department number of the land hovered
                 var numberDepartment = $(this).attr("class").split("land departement")[1];
+
+                // Check if the land hovered is contained in the array Ile de France
+                for(var i=0 ; i < tabIledeFrance.length ; i++){
+
+                    if(numberDepartment == tabIledeFrance[i]){
+
+                        // Set boolean to true
+                        isIleDeFrance = true;
+                    }
+                }
 
                 // Set colors
                 var fillColor = "#EDEFEF";
                 var colorColor = "#1e6a8e";
 
-                // Call changeAppearance function
-                changeAppearance(numberDepartment, fillColor, colorColor);
+                // If department hovered is in Ile de France
+                if( isIleDeFrance ) {
 
-                displayDatas(numberDepartment);
+                    // Call both functions for each department contained into Ile de France array
+                    for (var j = 0; j < tabIledeFrance.length; j++) {
+
+                        numberDepartment = tabIledeFrance[j];
+
+                        // Call changeAppearance function
+                        changeAppearance(numberDepartment, fillColor, colorColor);
+
+                        displayDatas(numberDepartment);
+                    }
+                }else {
+                    // Call changeAppearance function
+                    changeAppearance(numberDepartment, fillColor, colorColor);
+
+                    displayDatas(numberDepartment);
+                }
             });
 
             // Hover on markers

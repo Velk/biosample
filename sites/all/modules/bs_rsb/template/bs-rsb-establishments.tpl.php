@@ -28,18 +28,10 @@ foreach ($results as $result) {
             </p>
         </div>
         <?php
-        if($result->organism_type){
-        ?>
-            <div id="es-type">
-                <span>Type</span>
-                <p><?php echo $result->organism_type; ?></p>
-            </div>
-        <?php
-        }
         if($result->organism_theme){
         ?>
         <div id="es-theme">
-            <span>Thematique</span>
+            <span>Thematique(s)</span>
             <p><?php echo $result->organism_theme; ?></p>
         </div>
         <?php

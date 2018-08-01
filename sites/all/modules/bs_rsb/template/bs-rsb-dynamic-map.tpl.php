@@ -468,7 +468,7 @@
             <li>
                 Biosample répertorie
                 <?php echo "<span>" . $totalBiobanks . "</span>"; ?>
-                Biobanques
+                <?php echo (($totalBiobanks == 1)) ? "Biobanque" : "Biobanques"; ?>
             </li>
     <?php
         }
@@ -477,7 +477,7 @@
             <li>
                 Comprenant
                 <?php echo "<span>" . $totalCollections . "</span>"; ?>
-                collections
+                <?php echo (($totalCollections == 1)) ? "collection" : "collections"; ?>
             </li>
     <?php
         }
@@ -486,20 +486,23 @@
             <li>
                 Pour un total de
                 <?php echo "<span>" . $totalEchantillons . "</span>"; ?>
-                échantillons
+                <?php echo (($totalEchantillons == 1)) ? "échantillon" : "échantillons"; ?>
             </li>
     <?php
         }
         if($arraySize > 0) {
     ?>
             <li>
-                Répartie sur
+                <?php echo (($totalBiobanks == 1) && ($totalCollections == 1) && ($totalEchantillons == 1)) ? "Répartie sur" : "Réparties sur"; ?>
                 <?php echo "<span>" . $arraySize . "</span>"; ?>
-                départements
+                <?php echo (($arraySize == 1)) ? "département" : "départements"; ?>
             </li>
     <?php
         }
     ?>
+<!--        <li>-->
+<!--            Répondant(s) au(x) <span>X</span> critère(s) séléctionné(s)-->
+<!--        </li>-->
         <div id="rsb-map-bottom">
             <a href="#block-bs-rsb-ressources-bio-collections">
                 <i class="fa fa-chevron-circle-down"></i>
@@ -521,9 +524,13 @@
                         echo $tabDeptName[$keys[$i]];
                     ?>
                 </p>
-                <p class="rsb-datas-name">Biobanques : </p>
+                <p class="rsb-datas-name">
+                    <?php echo (($tabDepartmentsDatas[$keys[$i]][1] == 1)) ? "Biobanque :" : "Biobanques :"; ?>
+                </p>
                 <p class="rsb-datas-value"> <?php echo $tabDepartmentsDatas[$keys[$i]][1]; ?> </p>
-                <p class="rsb-datas-name">Collections : </p>
+                <p class="rsb-datas-name">
+                    <?php echo (($tabDepartmentsDatas[$keys[$i]][2] == 1)) ? "Collection :" : "Collections :"; ?>
+                </p>
                 <p class="rsb-datas-value"> <?php echo $tabDepartmentsDatas[$keys[$i]][2]; ?> </p>
                 <p class="rsb-datas-name">Echantillons : </p>
                 <p class="rsb-datas-value"> <?php echo $tabDepartmentsDatas[$keys[$i]][3]; ?> </p>
