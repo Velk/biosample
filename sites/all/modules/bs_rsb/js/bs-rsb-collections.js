@@ -43,6 +43,21 @@
                         // Retrieve the name of the family
                         var textFamilyName = tabFamilyName[i].split("#")[1];
 
+                        switch(textFamilyName){
+                            case "humain" :
+                                textFamilyName = "Humain";
+                                break;
+                            case "animal" :
+                                textFamilyName = "Animal";
+                                break;
+                            case "vegetal" :
+                                textFamilyName = "Végétal";
+                                break;
+                            case "microbiologie" :
+                                textFamilyName = "Microbiologie";
+                                break;
+                        }
+
                         $("div#block-views-rb-collections-block .views-row .node-content > .field-name-field-regne").each(function(){
 
                             if( $(this).parent().parent().parent().is(':visible') ){

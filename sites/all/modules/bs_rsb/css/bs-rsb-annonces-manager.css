@@ -493,6 +493,7 @@ div#edit-field-suivi-individus-und {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     justify-items: center;
+    grid-gap: 0 20px;
 }
 
 div#edit-field-collecte-echantillons-sup-und,
@@ -500,6 +501,7 @@ div#edit-field-collecte-donnees-sup-und {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     justify-items: center;
+    grid-gap: 0 20px;
 }
 
 div#edit-field-collecte-donnees-und input,
@@ -509,6 +511,39 @@ div#edit-field-collecte-donnees-sup-und input {
     -webkit-box-shadow: none !important;
     -moz-box-shadow: none !important;
     box-shadow: none !important;
+}
+
+div#edit-field-collecte-donnees-und > .form-item,
+div#edit-field-suivi-individus-und > .form-item,
+div#edit-field-collecte-echantillons-sup-und > .form-item,
+div#edit-field-collecte-donnees-sup-und > .form-item {
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    box-sizing: border-box;
+    box-shadow: inset 0px 0px 5px #d8d8d8;
+}
+div#edit-field-collecte-donnees-und > .form-item:hover,
+div#edit-field-suivi-individus-und > .form-item:hover,
+div#edit-field-collecte-echantillons-sup-und > .form-item:hover,
+div#edit-field-collecte-donnees-sup-und > .form-item:hover {
+    background-color: #fbfbfb;
+}
+div#edit-field-collecte-donnees-und > .form-item > input,
+div#edit-field-suivi-individus-und > .form-item > input,
+div#edit-field-collecte-echantillons-sup-und > .form-item > input,
+div#edit-field-collecte-donnees-sup-und > .form-item > input {
+    height: 16px;
+    margin: 7px 0 0 0;
+}
+div#edit-field-collecte-donnees-und > .form-item > label,
+div#edit-field-suivi-individus-und > .form-item > label,
+div#edit-field-collecte-echantillons-sup-und > .form-item > label,
+div#edit-field-collecte-donnees-sup-und > .form-item > label {
+    width: 100%;
+    text-align: center;
+    margin: 10px 0 0 0;
+    height: calc(100% - 16px - 10px - 7px);
 }
 
 /* ------------------------------------------------------------------------------------- */
@@ -543,7 +578,8 @@ div#edit-field-collecte-donnees-sup-und input {
             "k a"
             "l a"
             "m a"
-            "n a";
+            "n a"
+            "criteres criteres";
 }
 
 #project-name {
@@ -593,6 +629,9 @@ div#edit-field-collecte-donnees-sup-und input {
 .node-rb-collections #bs-rsb-establishment-link {
     grid-area: n;
     padding-bottom: 30px;
+}
+.node-rb-collections .group-criteres {
+    grid-area: criteres;
 }
 
 .node-rb-collections .node-content div.field.section:not(.field-name-field-presentation) {
@@ -668,6 +707,42 @@ div#edit-field-collecte-donnees-sup-und input {
     padding: 15px;
     box-sizing: border-box;
     box-shadow: inset -5px 1px 5px #d1dade;
+}
+
+/* Criterias section */
+.node-rb-collections .group-criteres {
+    margin: 50px 0 10px 0;
+    border: none;
+    padding: 10px 25px;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 5px #d1dade;
+}
+.node-rb-collections .group-criteres > legend {
+    display: none;
+}
+.node-rb-collections .group-criteres > .fieldset-content {
+    display: grid;
+}
+.node-rb-collections .group-criteres > .fieldset-content > .field {
+    padding: 15px 0;
+    margin: 0;
+    border-bottom: 1px solid #e9e9e9;
+}
+.node-rb-collections .group-criteres > .fieldset-content > .field:last-of-type {
+    border: none;
+}
+.node-rb-collections .group-criteres > .fieldset-content > .field > .field-label::before {
+    font-family: "FontAwesome";
+    content: "\f105";
+    margin-right: 10px;
+    color: #1e6a8e;
+    vertical-align: top;
+}
+.node-rb-collections .group-criteres > .fieldset-content > .field > .field-label {
+    color: #1e6a8e;
+}
+.node-rb-collections .group-criteres > .fieldset-content > .field > .field-items {
+    padding-left: 15px;
 }
 
 /* ------------------------------------------------------------------------------------- */

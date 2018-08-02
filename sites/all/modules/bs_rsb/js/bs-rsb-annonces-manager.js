@@ -57,6 +57,16 @@
                     // Display new text
                     $(this).text(newText);
                 });
+
+                /* Criterias - Remove colon */
+                $(".node-rb-collections .group-criteres > .fieldset-content > .field > .field-label").each(function(){
+
+                    // Get text and splice it in order to remove the space and the colon at the end
+                    var newText = $(this).text().slice(0,-2);
+
+                    // Display new text
+                    $(this).text(newText);
+                })
             }
 
             /* Set to uppercase the first character of Regne (Animal, Microbio, Végétal, Humain) */

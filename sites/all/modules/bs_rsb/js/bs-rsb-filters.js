@@ -984,6 +984,7 @@
                 // Go back to home family filter
                 $("#bs-rsb-families li").removeClass("bs-rsb-family-selected");
                 $("#all-regne").addClass("bs-rsb-family-selected");
+                window.location.hash = "#collections";
 
                 // Show every collection
                 $("#block-views-rb-collections-block .views-row").show();
@@ -992,13 +993,13 @@
             // toDisableScroll function
             function toDisableScroll(){
 
-                $("body").css("overflow", "hidden");
+                $("body").css("overflow-y", "hidden");
             }
 
             // toEnableScroll function
             function toEnableScroll(){
 
-                $("body").css("overflow", "scroll");
+                $("body").css("overflow-y", "scroll");
             }
 
             // Remove the last error to have a clear drupal message
