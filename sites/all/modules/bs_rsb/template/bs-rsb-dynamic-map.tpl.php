@@ -465,7 +465,7 @@
     <?php
         if($totalBiobanks > 0) {
     ?>
-            <li>
+            <li id="map-nb-biobanks">
                 Biosample répertorie
                 <?php echo "<span>" . $totalBiobanks . "</span>"; ?>
                 <?php echo (($totalBiobanks == 1)) ? "Biobanque" : "Biobanques"; ?>
@@ -474,7 +474,7 @@
         }
         if($totalCollections > 0) {
     ?>
-            <li>
+            <li id="map-nb-collections">
                 Comprenant
                 <?php echo "<span>" . $totalCollections . "</span>"; ?>
                 <?php echo (($totalCollections == 1)) ? "collection" : "collections"; ?>
@@ -483,8 +483,8 @@
         }
         if($totalEchantillons > 0) {
     ?>
-            <li>
-                Pour un total de
+            <li id="map-nb-samples">
+                Pour un total
                 <?php echo "<span>" . $totalEchantillons . "</span>"; ?>
                 <?php echo (($totalEchantillons == 1)) ? "échantillon" : "échantillons"; ?>
             </li>
@@ -492,7 +492,7 @@
         }
         if($arraySize > 0) {
     ?>
-            <li>
+            <li id="map-nb-departments">
                 <?php echo (($totalBiobanks == 1) && ($totalCollections == 1) && ($totalEchantillons == 1)) ? "Répartie sur" : "Réparties sur"; ?>
                 <?php echo "<span>" . $arraySize . "</span>"; ?>
                 <?php echo (($arraySize == 1)) ? "département" : "départements"; ?>
@@ -500,9 +500,9 @@
     <?php
         }
     ?>
-<!--        <li>-->
-<!--            Répondant(s) au(x) <span>X</span> critère(s) séléctionné(s)-->
-<!--        </li>-->
+        <li id="special-filters-infos-map">
+            Répondant(s) au(x) <span>0</span> critère(s) séléctionné(s)
+        </li>
         <div id="rsb-map-bottom">
             <a href="#block-bs-rsb-ressources-bio-collections">
                 <i class="fa fa-chevron-circle-down"></i>
@@ -516,7 +516,7 @@
     <?php
         for($i=0; $i < count($tabDepartmentsDatas); $i++){
     ?>
-            <div id="dpt-<?php echo $keys[$i]; ?>">
+            <div id="dpt-<?php echo $keys[$i]; ?>" class="rsb-datas">
                 <p class="rsb-datas-location">
                     <?php
                         echo $keys[$i];
