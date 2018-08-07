@@ -343,15 +343,16 @@ fieldset.filter-wrapper {
             "e f"
             "g h"
             "i j"
-            "k k"
-            "l l"
+            "k l"
             "m m"
             "n n"
             "o o"
             "p p"
             "q q"
             "r r"
-            "s s";
+            "s s"
+            "t t"
+            "u u";
     grid-gap: 40px 30px;
     align-items: center;
     justify-content: space-around;
@@ -392,35 +393,41 @@ fieldset.filter-wrapper {
 #rb-collections-node-form .field-name-field-nombre-individus {
     grid-area: i;
 }
-#rb-collections-node-form .field-name-field-nombre-echantillons {
+#rb-collections-node-form .field-name-field-nb-exact-individus {
     grid-area: j;
 }
-#rb-collections-node-form .field-name-field-collecte-donnees {
+#rb-collections-node-form .field-name-field-nombre-echantillons {
     grid-area: k;
 }
-#rb-collections-node-form .field-name-field-suivi-individus {
+#rb-collections-node-form .field-name-field-nb-exact-echantillons {
     grid-area: l;
 }
-#rb-collections-node-form .field-name-field-echantillons-controle {
+#rb-collections-node-form .field-name-field-collecte-donnees {
     grid-area: m;
 }
-#rb-collections-node-form .field-name-field-collecte-echantillons-sup {
+#rb-collections-node-form .field-name-field-suivi-individus {
     grid-area: n;
 }
-#rb-collections-node-form .field-name-field-collecte-donnees-sup {
+#rb-collections-node-form .field-name-field-echantillons-controle {
     grid-area: o;
 }
-#rb-collections-node-form .field-name-field-tracabilite {
+#rb-collections-node-form .field-name-field-collecte-echantillons-sup {
     grid-area: p;
 }
-#rb-collections-node-form .field-name-field-presentation {
+#rb-collections-node-form .field-name-field-collecte-donnees-sup {
     grid-area: q;
 }
-#rb-collections-node-form fieldset.group-criteres {
+#rb-collections-node-form .field-name-field-tracabilite {
     grid-area: r;
 }
-#rb-collections-node-form div#edit-actions {
+#rb-collections-node-form .field-name-field-presentation {
     grid-area: s;
+}
+#rb-collections-node-form fieldset.group-criteres {
+    grid-area: t;
+}
+#rb-collections-node-form div#edit-actions {
+    grid-area: u;
 }
 
 /* Fields */
@@ -499,7 +506,7 @@ div#edit-field-suivi-individus-und {
 div#edit-field-collecte-echantillons-sup-und,
 div#edit-field-collecte-donnees-sup-und {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     justify-items: center;
     grid-gap: 0 20px;
 }

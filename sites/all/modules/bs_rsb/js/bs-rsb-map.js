@@ -361,7 +361,8 @@
             $("body").on('click', 'i#ofc-remove', function(){
 
                 // Call getNumberFiltersSelected function
-                getNumberFiltersSelected();
+                // getNumberFiltersSelected();
+                setTimeout(getNumberFiltersSelected,500);
             });
 
             /* ---------------------------------------------------------------------------------- */
@@ -372,7 +373,8 @@
             $("body").on('click', '#reinit-all-filters', function(){
 
                 // Call getNumberFiltersSelected function
-                getNumberFiltersSelected();
+                // getNumberFiltersSelected();
+                setTimeout(getNumberFiltersSelected,500);
             });
 
             function getNumberFiltersSelected(){
@@ -396,107 +398,7 @@
                 }
 
                 // Update text : "répondant(s) au(x)  X critère(s) séléctionné(s)"
-                $("#special-filters-infos-map > span").text(numberFiltersSelected);
-
-                /* ------------------------------------------------------------------------- */
-                /* ------------------------- Collections number ---------------------------- */
-                /* ------------------------------------------------------------------------- */
-
-                var collectionsNumber = 0;
-                $(".view-rb-collections .views-row").each(function(){
-
-                    if( $(this).is(":visible") ){
-
-                        // Increment number of collections
-                        collectionsNumber++;
-                    }
-                });
-
-                // Update text : "Comprenant X collections"
-                $("#map-nb-collections > span").text(collectionsNumber);
-
-                /* ------------------------------------------------------------------------- */
-                /* -------------------------- Biobanks number ------------------------------ */
-                /* ------------------------------------------------------------------------- */
-
-                // Number of biobanks
-                var biobanksNumber = 0;
-                // Array containing biobanks
-                var arrayCompareBiobankName = {};
-
-                $(".field-name-field-nom-organisme .field-item").each(function(){
-
-                    if( $(this).is(":visible") ){
-
-                        var biobankName = $(this).text();
-
-                        // If biobankName isn't set yet
-                        if( arrayCompareBiobankName[biobankName] == null ){
-
-                            // Set to 1
-                            arrayCompareBiobankName[biobankName] = 1;
-                        }else{
-
-                            // Else increment
-                            arrayCompareBiobankName[biobankName] = arrayCompareBiobankName[biobankName] + 1;
-                        }
-                    }
-                });
-
-                // Foreach into arrayCompareBiobankName and get key => value
-                $.each(arrayCompareBiobankName, function(key, value) {
-
-                    // Increment number of biobanks
-                    biobanksNumber++;
-                });
-
-                // Update text : "Biosample répertorie X Biobanques"
-                $("#map-nb-biobanks > span").text(biobanksNumber);
-
-                /* ------------------------------------------------------------------------- */
-                /* --------------------------- Samples number ------------------------------ */
-                /* ------------------------------------------------------------------------- */
-
-                // Number of biobanks
-                var samplesNumber = 0;
-                // Final symbol samples number
-                var symbolSamplesNumber = "";
-
-                $(".field-name-field-nombre-echantillons .field-item").each(function(){
-
-                    if( $(this).is(":visible") ){
-
-                        // Greater than or Lower than to compare
-                        var symbolToCompare = $(this).text().charAt(0);
-
-                        // Compare symbol
-                        switch (symbolToCompare){
-                            case "<" :
-                                if( symbolSamplesNumber === ">" ){
-                                    symbolSamplesNumber = ">";
-                                }else{
-                                    symbolSamplesNumber = "<";
-                                }
-                                break;
-                            case ">" :
-                                symbolSamplesNumber = ">";
-                                break;
-                        }
-
-                        // Remove two first chars that's to say the symbol and the space
-                        var sampleNumber = $(this).text().slice(2);
-                        // Replace space by nothing
-                        sampleNumber = sampleNumber.replace(/ /g, '');
-                        sampleNumber = parseInt(sampleNumber);
-
-                        samplesNumber = samplesNumber + sampleNumber;
-
-                    }
-
-                });
-
-                // Update text : "Pour un total X échantillons"
-                $("#map-nb-samples > span").text(symbolSamplesNumber + " " + samplesNumber);
+                $("#special-filters-infos-map > span.rsb-value").text(numberFiltersSelected);
 
                 /* ------------------------------------------------------------------------- */
                 /* --------------------------- Pins on the map ----------------------------- */
@@ -571,11 +473,64 @@
                         $("#rsb-map-container").append(result.structure);
 
                         /* ------------------------------------------------------------------------- */
+                        /* -------------------------- Biobanks number ------------------------------ */
+                        /* ------------------------------------------------------------------------- */
+
+                        // Update text : "Biosample répertorie X Biobanques"
+                        $("#map-nb-biobanks > span.rsb-value").text(result.arrayMapDatas["nbBiobank"]);
+                        if(result.arrayMapDatas["nbBiobank"] <= 1){
+                            $("#map-nb-biobanks > span.rsb-conjug").text(" Biobanque");
+                        }else{
+                            $("#map-nb-biobanks > span.rsb-conjug").text(" Biobanques");
+                        }
+
+                        /* ------------------------------------------------------------------------- */
+                        /* ------------------------- Collections number ---------------------------- */
+                        /* ------------------------------------------------------------------------- */
+
+                        // Update text : "Comprenant X collections"
+                        $("#map-nb-collections > span.rsb-value").text(result.arrayMapDatas["nbCollections"]);
+                        if(result.arrayMapDatas["nbCollections"] <= 1){
+                            $("#map-nb-collections > span.rsb-conjug").text(" collection");
+                        }else{
+                            $("#map-nb-collections > span.rsb-conjug").text(" collections");
+                        }
+
+                        /* ------------------------------------------------------------------------- */
+                        /* --------------------------- Individus number ------------------------------ */
+                        /* ------------------------------------------------------------------------- */
+
+                        // Update text : "Soit X individus"
+                        $("#map-nb-individus > span.rsb-value").text(result.arrayMapDatas["nbIndividus"]);
+                        if(result.arrayMapDatas["nbIndividus"] <= 1){
+                            $("#map-nb-individus > span.rsb-conjug").text(" individu");
+                        }else{
+                            $("#map-nb-individus > span.rsb-conjug").text(" individus");
+                        }
+
+                        /* ------------------------------------------------------------------------- */
+                        /* --------------------------- Samples number ------------------------------ */
+                        /* ------------------------------------------------------------------------- */
+
+                        // Update text : "Et X échantillons"
+                        $("#map-nb-samples > span.rsb-value").text(result.arrayMapDatas["nbSample"]);
+                        if(result.arrayMapDatas["nbSample"] <= 1){
+                            $("#map-nb-samples > span.rsb-conjug").text(" échantillon");
+                        }else{
+                            $("#map-nb-samples > span.rsb-conjug").text(" échantillons");
+                        }
+
+                        /* ------------------------------------------------------------------------- */
                         /* ------------------------- Departments number ---------------------------- */
                         /* ------------------------------------------------------------------------- */
 
                         // Update text : "Réparties sur X départements"
-                        $("#map-nb-departments > span").text(result.arrayResultsPostalCode.length);
+                        $("#map-nb-departments > span.rsb-value").text(result.arrayMapDatas["nbDepartments"]);
+                        if(result.arrayMapDatas["nbDepartments"] <= 1){
+                            $("#map-nb-departments > span.rsb-conjug").text(" département");
+                        }else{
+                            $("#map-nb-departments > span.rsb-conjug").text(" départements");
+                        }
 
                     }
                 });

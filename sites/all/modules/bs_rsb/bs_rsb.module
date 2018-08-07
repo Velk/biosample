@@ -59,7 +59,7 @@ function bs_rsb_menu(){
         'type' => MENU_NORMAL_ITEM,
     );
 
-    $items['utilisateur/ress_bio/etablissement'] = array(
+    $items['utilisateur/ress_bio/organisme'] = array(
         'title' => t('Ressources biologiques - Mon organisme'),
         'description' => t('Page profil permettant de gérer un organisme spécialisé dans les ressources biologiques.'),
         'page callback' => 'bs_rsb_block_view',
@@ -67,29 +67,29 @@ function bs_rsb_menu(){
         'type' => MENU_NORMAL_ITEM,
     );
 
-    $items['ressources-biologiques/home/etablissement/*'] = array(
-        'title' => t('Ressources biologiques - Etablissement'),
+    $items['ressources-biologiques/home/organisme/*'] = array(
+        'title' => t('Ressources biologiques - Organisme'),
         'description' => t('Page affichant l\'organisme proposant la fiche.'),
         'page callback' => 'bs_rsb_block_view',
         'access callback' => TRUE,
         'type' => MENU_NORMAL_ITEM,
     );
 
-    $items['utilisateur/ress_bio/annonces'] = array(
-        'title' => t('Ressources biologiques - Annonces Manager'),
-        'description' => t('Manager des annonces des ressources biologiques'),
+    $items['utilisateur/ress_bio/collections'] = array(
+        'title' => t('Ressources biologiques - Collections Manager'),
+        'description' => t('Manager des collections des ressources biologiques'),
         'page callback' => 'bs_rsb_block_view',
         'access callback' => 'user_is_logged_in',
         'type' => MENU_NORMAL_ITEM,
     );
 
-    $items['utilisateur/ress_bio/favoris'] = array(
-        'title' => t('Ressources biologiques - Favoris manager'),
-        'description' => t('Manager des annonces favorites des ressources biologiques'),
-        'page callback' => 'bs_rsb_block_view',
-        'access callback' => 'user_is_logged_in',
-        'type' => MENU_NORMAL_ITEM,
-    );
+//    $items['utilisateur/ress_bio/favoris'] = array(
+//        'title' => t('Ressources biologiques - Favoris manager'),
+//        'description' => t('Manager des annonces favorites des ressources biologiques'),
+//        'page callback' => 'bs_rsb_block_view',
+//        'access callback' => 'user_is_logged_in',
+//        'type' => MENU_NORMAL_ITEM,
+//    );
 
     $items['ressources-biologiques/home/criteres'] = array(
         'title' => 'Ressources Biologiques - Critères',
@@ -255,22 +255,26 @@ function bs_rsb_pins_request(){
 
     // Array to stock datas
     $arrayDatas = [];
-    // Array to stock datas
+    // Array to stock postal code
     $arrayPostalCode = [];
-    // Array to stock datas
+    // Array to stock individus
+    $arrayIndividus = [];
+    // Array to stock sample
     $arraySample = [];
-    // Array to stock datas
-    $arraySamplePrefix = [];
     // Array to stock EID
     $arrayEID = [];
+    // Array to stock map datas
+    $arrayMapDatas = [];
 
     for($i = 0 ; $i < sizeof($_GET['node_ID']) ; $i++){
 
         $queryDatas = db_select('node', 'n');
         $queryDatas->join('establishment_sheet', 'es', 'n.uid=es.eid');
-        $queryDatas->join('field_data_field_nombre_echantillons', 'fne', 'n.nid=fne.entity_id');
+        $queryDatas->join('field_data_field_nb_exact_echantillons', 'ee', 'n.nid=ee.entity_id');
+        $queryDatas->join('field_data_field_nb_exact_individus', 'ei', 'n.nid=ei.entity_id');
         $queryDatas->fields('es', array('postal_code', 'eid'));
-        $queryDatas->fields('fne', array('field_nombre_echantillons_value'));
+        $queryDatas->fields('ee', array('field_nb_exact_echantillons_value'));
+        $queryDatas->fields('ei', array('field_nb_exact_individus_value'));
         $queryDatas->condition('n.nid', $_GET['node_ID'][$i], '=');
         $resultsDatas = $queryDatas->execute();
 
@@ -287,71 +291,29 @@ function bs_rsb_pins_request(){
 
                 // Increment postal code value
                 $arrayPostalCode[$postal_code] += 1;
+
+                // Set total biobank number
+                $arrayMapDatas["nbBiobank"] += 1;
             }
 
+            // Sum the exact number of individus depending on the postal code
+            $arrayIndividus[$postal_code] = $arrayIndividus[$postal_code] + $resultDatas->field_nb_exact_individus_value;
 
-            switch($resultDatas->field_nombre_echantillons_value){
+            // Sum the exact number of echantillons depending on the postal code
+            $arraySample[$postal_code] = $arraySample[$postal_code] + $resultDatas->field_nb_exact_echantillons_value;
 
-                case 0 :
-                    // Set sample value into array
-                    $arraySample[$postal_code] = $arraySample[$postal_code] + 1000;
+            /* ------------------------------------------------- */
+            /* ------------------- Map datas ------------------- */
+            /* ------------------------------------------------- */
 
-                    // Set sample prefix into array
-                    if( !isset($arraySamplePrefix[$postal_code]) ){
-                        $arraySamplePrefix[$postal_code] = "<";
-                    }else{
-
-                        if($arraySamplePrefix[$postal_code] != ">"){
-                            $arraySamplePrefix[$postal_code] = "<";
-                        }
-                    }
-
-                    break;
-                case 1 :
-
-                    // Set sample value into array
-                    $arraySample[$postal_code] = $arraySample[$postal_code] + 10000;
-
-                    // Set sample prefix into array
-                    if( !isset($arraySamplePrefix[$postal_code]) ){
-                        $arraySamplePrefix[$postal_code] = "<";
-                    }else{
-
-                        if($arraySamplePrefix[$postal_code] != ">"){
-                            $arraySamplePrefix[$postal_code] = "<";
-                        }
-                    }
-
-                    break;
-                case 2 :
-
-                    // Set sample value into array
-                    $arraySample[$postal_code] = $arraySample[$postal_code] + 100000;
-
-                    // Set sample prefix into array
-                    if( !isset($arraySamplePrefix[$postal_code]) ){
-                        $arraySamplePrefix[$postal_code] = "<";
-                    }else{
-
-                        if($arraySamplePrefix[$postal_code] != ">"){
-                            $arraySamplePrefix[$postal_code] = "<";
-                        }
-                    }
-
-                    break;
-                case 3 :
-
-                    // Set sample value into array
-                    $arraySample[$postal_code] = $arraySample[$postal_code] + 100000;
-
-                    // Set sample prefix into array
-                    $arraySamplePrefix[$postal_code] = ">";
-
-                    break;
-            }
+            // Set total sample number
+            $arrayMapDatas["nbCollections"] += 1;
+            // Set total individus number
+            $arrayMapDatas["nbIndividus"] = $arrayMapDatas["nbIndividus"] + $resultDatas->field_nb_exact_individus_value;
+            // Set total sample number
+            $arrayMapDatas["nbSample"] = $arrayMapDatas["nbSample"] + $resultDatas->field_nb_exact_echantillons_value;
 
         }
-
     }
 
     // Browse throughout array containing postal code
@@ -381,20 +343,24 @@ function bs_rsb_pins_request(){
     }
 
     // Browse throughout array containing samples number
+    foreach ($arrayIndividus as $key => $value) {
+
+        // Insert into array Datas the number of biobanks
+        $arrayDatas[$key]["nbIndividus"] = $value;
+    }
+
+    // Browse throughout array containing samples number
     foreach ($arraySample as $key => $value) {
 
         // Insert into array Datas the number of biobanks
         $arrayDatas[$key]["nbSamples"] = $value;
     }
 
-    // Browse throughout array containing samples number
-    foreach ($arraySamplePrefix as $key => $value) {
-
-        // Insert into array Datas the number of biobanks
-        $arrayDatas[$key]["samplesPrefix"] = $value;
-    }
+    // Set total departments number
+    $arrayMapDatas["nbDepartments"] = count($arrayDatas);
 
 //    drupal_set_message("<pre>" . print_r($arrayDatas, true) . "</pre>");
+//    drupal_set_message("<pre>" . print_r($arrayMapDatas, true) . "</pre>");
 
     /* ------------------------------------------------ */
     /* ----------- Construct HTML structure ----------- */
@@ -408,6 +374,8 @@ function bs_rsb_pins_request(){
 
         $conjugBiobank = (($arrayDatas[$key]["nbBiobanks"] == 1)) ? "Biobanque :" : "Biobanques :";
         $conjugCollection = (($arrayDatas[$key]["nbCollections"] == 1)) ? "Collection :" : "Collections :";
+        $conjugSample = (($arrayDatas[$key]["nbSamples"] == 1)) ? "Echantillon :" : "Echantillons :";
+        $conjugIndividu = (($arrayDatas[$key]["nbIndividus"] == 1)) ? "Individu :" : "Individus :";
 
         $structure = $structure .
             '<div id="dpt-' . $key . '" class="rsb-datas">' .
@@ -428,9 +396,17 @@ function bs_rsb_pins_request(){
                 '<p class="rsb-datas-value">' .
                     $arrayDatas[$key]["nbCollections"] .
                 '</p>' .
-                '<p class="rsb-datas-name">Echantillons : </p>' .
+                '<p class="rsb-datas-name">' .
+                    $conjugIndividu .
+                '</p>' .
                 '<p class="rsb-datas-value">' .
-                    $arrayDatas[$key]["samplesPrefix"] . ' ' . $arrayDatas[$key]["nbSamples"] .
+                    $arrayDatas[$key]["nbIndividus"] .
+                '</p>' .
+                '<p class="rsb-datas-name">' .
+                    $conjugSample .
+                '</p>' .
+                '<p class="rsb-datas-value">' .
+                    $arrayDatas[$key]["nbSamples"] .
                 '</p>' .
             '</div>';
 
@@ -440,6 +416,7 @@ function bs_rsb_pins_request(){
 
     $result['arrayResultsPostalCode'] = $arrayResultsPostalCode;
     $result['structure'] = $structure;
+    $result['arrayMapDatas'] = $arrayMapDatas;
 
     drupal_json_output($result);
 }
@@ -822,7 +799,7 @@ function bs_rsb_init(){
 
     /* Load js file to hide page title */
     if (
-        preg_match("/^\/utilisateur\/ress_bio\/etablissement$/", $_SERVER["REQUEST_URI"]) ||
+        preg_match("/^\/utilisateur\/ress_bio\/organisme$/", $_SERVER["REQUEST_URI"]) ||
         preg_match("/^\/utilisateur\/ress_bio\/favoris$/", $_SERVER["REQUEST_URI"]) ||
         preg_match("/^\/node\/add\/rb-collections$/", $_SERVER["REQUEST_URI"])
     ){
@@ -915,11 +892,11 @@ function bs_rsb_block_info() {
     );
 
     $blocks['ressources_bio_annonces_manager'] = array(
-        'info' => t('Ressources biologiques - Annonces Manager'),
+        'info' => t('Ressources biologiques - Collections Manager'),
         'status' => TRUE,
         'region' => 'content',
         'visibility' => BLOCK_VISIBILITY_LISTED,
-        'pages' => "utilisateur/ress_bio/annonces",
+        'pages' => "utilisateur/ress_bio/collections",
         'weight' => 1,
     );
 
@@ -928,16 +905,16 @@ function bs_rsb_block_info() {
         'status' => TRUE,
         'region' => 'content',
         'visibility' => BLOCK_VISIBILITY_LISTED,
-        'pages' => "utilisateur/ress_bio/etablissement",
+        'pages' => "utilisateur/ress_bio/organisme",
         'weight' => 1,
     );
 
     $blocks['rb_establishments'] = array(
-        'info' => t('Ressources biologiques - Etablissements'),
+        'info' => t('Ressources biologiques - Organismes'),
         'status' => TRUE,
         'region' => 'content',
         'visibility' => BLOCK_VISIBILITY_LISTED,
-        'pages' => "ressources-biologiques/home/etablissement/*",
+        'pages' => "ressources-biologiques/home/organisme/*",
         'weight' => 1,
     );
 
@@ -978,6 +955,24 @@ function bs_rsb_block_view($delta = '') {
             $query->fields('n',array('nid'));
             $query->condition("type", "rb_collections", "=");
             $data['totalCollections'] = $query->execute()->rowCount();
+
+            /* ---------------------------------------------------------------------------*/
+            /* -------------- Retrieve the total number of individus ------------------*/
+            /* ---------------------------------------------------------------------------*/
+            $query = db_select('field_revision_field_nombre_individus', 'fni');
+            $query->fields('fni',array('field_nombre_individus_value'));
+            $query->condition("bundle", "rb_collections", "=");
+            $resultsTotalIndividu = $query->execute();
+
+            // Initialize de total number of individus
+            $totalIndividus = null;
+
+            foreach ($resultsTotalIndividu as $resultTotalIndividu) {
+                // Foreach result, sum them
+                $totalIndividus = $totalIndividus + $resultTotalIndividu->field_nombre_individus_value;
+            }
+
+            $data['totalIndividus'] = $totalIndividus;
 
             /* ---------------------------------------------------------------------------*/
             /* -------------- Retrieve the total number of echantillons ------------------*/
@@ -1441,7 +1436,7 @@ function bs_rsb_block_view($delta = '') {
 
             if(
                 preg_match("/^\/ressources-biologiques\/home\/[A-z0-9_\-\.]*\/[0-9]*$/", $_SERVER["REQUEST_URI"]) &&
-                !preg_match("/^\/ressources-biologiques\/home\/etablissement\/[0-9]*$/", $_SERVER["REQUEST_URI"])
+                !preg_match("/^\/ressources-biologiques\/home\/organisme\/[0-9]*$/", $_SERVER["REQUEST_URI"])
             ) {
                 // Pass in variable the form
                 $data['contact_form'] = drupal_render(drupal_get_form('bs_rsb_collections_contact_form'));
@@ -1873,7 +1868,7 @@ function bs_rsb_creation_establishment_submit($form, &$form_state){
             // The file was saved using file_save_upload() and was added to
             // the files table as a temporary file. We'll make a copy and let
             // the garbage collector delete the original upload.
-            $path = 'public://img_etablissements/' . $GLOBALS['user']->uid;
+            $path = 'public://img_organismes/' . $GLOBALS['user']->uid;
             //we check if the we can create the directory
             if (file_prepare_directory($path, FILE_CREATE_DIRECTORY)) {
                 $destination = $path . '/' . $file->filename;
@@ -2445,7 +2440,7 @@ function bs_rsb_updating_establishment_submit($form, &$form_state){
         // The file was saved using file_save_upload() and was added to
         // the files table as a temporary file. We'll make a copy and let
         // the garbage collector delete the original upload.
-        $path = 'public://img_etablissements/' . $GLOBALS['user']->uid;
+        $path = 'public://img_organismes/' . $GLOBALS['user']->uid;
         //we check if the we can create the directory
         if (file_prepare_directory($path, FILE_CREATE_DIRECTORY)) {
             $destination = $path . '/' . $file->filename;
@@ -3177,7 +3172,7 @@ function bs_rsb_admin_datas_establishment_form_submit($form, &$form_state){
         // The file was saved using file_save_upload() and was added to
         // the files table as a temporary file. We'll make a copy and let
         // the garbage collector delete the original upload.
-        $path = 'public://img_etablissements/' . $url_uid;
+        $path = 'public://img_organismes/' . $url_uid;
         //we check if the we can create the directory
         if (file_prepare_directory($path, FILE_CREATE_DIRECTORY)) {
             $destination = $path . '/' . $file->filename;
@@ -3440,10 +3435,10 @@ function bs_rsb_collections_contact_form_submit($form, &$form_state){
     /* End - E-mail body */
 
     // Mail's parameters
-    $to = "developer.biosample@gmail.com";
-    $from = "developer.biosample@gmail.com";
-//    $to = "contact@biosample.fr";
-//    $from = "contact@biosample.fr";
+//    $to = "developer.biosample@gmail.com";
+//    $from = "developer.biosample@gmail.com";
+    $to = "contact@biosample.fr";
+    $from = "contact@biosample.fr";
 
     // Subject of the mail
     $subject = "Demande de contact pour une collection des Ressources Biologiques";

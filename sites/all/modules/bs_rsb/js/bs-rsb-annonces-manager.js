@@ -18,7 +18,7 @@
             // Check the URL pathname. If user is on collection sheet
             if(
                 window.location.pathname.match(/^\/ressources-biologiques\/home\/.*\/[0-9]{0,10}$/) &&
-                !window.location.pathname.match(/^\/ressources-biologiques\/home\/etablissement\/[0-9]{0,10}$/)
+                !window.location.pathname.match(/^\/ressources-biologiques\/home\/organisme\/[0-9]{0,10}$/)
             ){
 
                 // Retrieve the uid of the author of the node
@@ -29,7 +29,7 @@
                 // Add a link to the establishment author
                 $(".node-rb-collections > div.node-content").prepend(
                     "<div id='bs-rsb-establishment-link'>" +
-                        "<a href='/ressources-biologiques/home/etablissement/" + url_uid + "'><i class='fa fa-eye'></i> Fiche de l'établissement</a>" +
+                        "<a href='/ressources-biologiques/home/organisme/" + url_uid + "'><i class='fa fa-eye'></i> Fiche de l'établissement</a>" +
                     "</div>"
                 );
 
@@ -173,7 +173,7 @@
             }
 
 
-            if(window.location.pathname === "/utilisateur/ress_bio/etablissement"){
+            if(window.location.pathname === "/utilisateur/ress_bio/organisme"){
 
                 // Call preventLeavingPage function
                 preventLeavingPage();
@@ -245,9 +245,9 @@
 
                 if(
                     $(this).is( ":checked" ) &&
-                    $(this).attr("id") !== "edit-field-collecte-echantillons-sup-und-3"
+                    $(this).attr("id") !== "edit-field-collecte-echantillons-sup-und-2"
                 ){
-                    var aucunValue = "edit-field-collecte-echantillons-sup-und-3";
+                    var aucunValue = "edit-field-collecte-echantillons-sup-und-2";
 
                     unCheckAucunValue(aucunValue);
                 }
@@ -257,9 +257,9 @@
 
                 if(
                     $(this).is( ":checked" ) &&
-                    $(this).attr("id") !== "edit-field-collecte-donnees-sup-und-3"
+                    $(this).attr("id") !== "edit-field-collecte-donnees-sup-und-2"
                 ){
-                    var aucunValue = "edit-field-collecte-donnees-sup-und-3";
+                    var aucunValue = "edit-field-collecte-donnees-sup-und-2";
 
                     unCheckAucunValue(aucunValue);
                 }
@@ -307,28 +307,26 @@
                }
             });
             /* Collecte d'échantillons supplémentaires */
-            $(".field-name-field-collecte-echantillons-sup #edit-field-collecte-echantillons-sup-und-3").click(function(){
+            $(".field-name-field-collecte-echantillons-sup #edit-field-collecte-echantillons-sup-und-2").click(function(){
 
                if( $(this).is( ":checked" ) ){
 
                    var arrayValue = [
                        "edit-field-collecte-echantillons-sup-und-0",
-                       "edit-field-collecte-echantillons-sup-und-1",
-                       "edit-field-collecte-echantillons-sup-und-2"
+                       "edit-field-collecte-echantillons-sup-und-1"
                    ];
 
                    uncheckWhenAucun(arrayValue);
                }
             });
             /* Collecte de données supplémentaires */
-            $(".field-name-field-collecte-donnees-sup #edit-field-collecte-donnees-sup-und-3").click(function(){
+            $(".field-name-field-collecte-donnees-sup #edit-field-collecte-donnees-sup-und-2").click(function(){
 
                if( $(this).is( ":checked" ) ){
 
                    var arrayValue = [
                        "edit-field-collecte-donnees-sup-und-0",
-                       "edit-field-collecte-donnees-sup-und-1",
-                       "edit-field-collecte-donnees-sup-und-2"
+                       "edit-field-collecte-donnees-sup-und-1"
                    ];
 
                    uncheckWhenAucun(arrayValue);

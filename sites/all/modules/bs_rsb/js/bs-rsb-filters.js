@@ -64,38 +64,46 @@
                                 "<p>Nombre d'individus</p>" +
                                 "<div class='sf-choice-container'>" +
                                     "<input type='radio' name='nombre_individus' value='0' id='nb-individus-0'>" +
-                                    "<label for='nb-individus-0'>< 1000</label>" +
+                                    "<label for='nb-individus-0'>- de 100</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
                                     "<input type='radio' name='nombre_individus' value='1' id='nb-individus-1'>" +
-                                    "<label for='nb-individus-1'>< 10 000</label>" +
+                                    "<label for='nb-individus-1'>100 à 1 000</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
                                     "<input type='radio' name='nombre_individus' value='2' id='nb-individus-2'>" +
-                                    "<label for='nb-individus-2'>< 100 000</label>" +
+                                    "<label for='nb-individus-2'>1 001 à 10 000</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
                                     "<input type='radio' name='nombre_individus' value='3' id='nb-individus-3'>" +
-                                    "<label for='nb-individus-3'>> 100 000</label>" +
+                                    "<label for='nb-individus-3'>10 001 à 50 000</label>" +
+                                "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='nombre_individus' value='4' id='nb-individus-4'>" +
+                                    "<label for='nb-individus-4'>+ de 50 000</label>" +
                                 "</div>" +
                             "</div>" +
                             "<div class='sf-container' id='nb-echantillons'>" +
                                 "<p>Nombre d'échantillons</p>" +
                                 "<div class='sf-choice-container'>" +
                                     "<input type='radio' name='nombre_echantillons' value='0' id='nb-echantillons-0'>" +
-                                    "<label for='nb-echantillons-0'>< 1000</label>" +
+                                    "<label for='nb-echantillons-0'>- de 100</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
                                     "<input type='radio' name='nombre_echantillons' value='1' id='nb-echantillons-1'>" +
-                                    "<label for='nb-echantillons-1'>< 10 000</label>" +
+                                    "<label for='nb-echantillons-1'>100 à 1 000</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
                                     "<input type='radio' name='nombre_echantillons' value='2' id='nb-echantillons-2'>" +
-                                    "<label for='nb-echantillons-2'>< 100 000</label>" +
+                                    "<label for='nb-echantillons-2'>1 001 à 10 000</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
                                     "<input type='radio' name='nombre_echantillons' value='3' id='nb-echantillons-3'>" +
-                                    "<label for='nb-echantillons-3'>> 100 000</label>" +
+                                    "<label for='nb-echantillons-3'>10 001 à 50 000</label>" +
+                                "</div>" +
+                                "<div class='sf-choice-container'>" +
+                                    "<input type='radio' name='nombre_echantillons' value='4' id='nb-echantillons-4'>" +
+                                    "<label for='nb-echantillons-4'>+ de 50 000</label>" +
                                 "</div>" +
                             "</div>" +
                             "<div class='sf-container' id='collecte-donnees'>" +
@@ -118,7 +126,7 @@
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
                                     "<input type='radio' name='collecte_donnees' value='4' id='collecte-donnees-4'>" +
-                                    "<label for='collecte-donnees-4'>Aucun</label>" +
+                                    "<label for='collecte-donnees-4'>Aucune</label>" +
                                 "</div>" +
                             "</div>" +
                             "<div class='sf-container' id='suivi-individus'>" +
@@ -167,11 +175,7 @@
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
                                     "<input type='radio' name='collecte_echantillons_sup' value='2' id='echantillons-sup-2'>" +
-                                    "<label for='echantillons-sup-2'>Non</label>" +
-                                "</div>" +
-                                "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='collecte_echantillons_sup' value='3' id='echantillons-sup-3'>" +
-                                    "<label for='echantillons-sup-3'>Aucun</label>" +
+                                    "<label for='echantillons-sup-2'>Aucune</label>" +
                                 "</div>" +
                             "</div>" +
                             "<div class='sf-container' id='donnees-sup'>" +
@@ -186,11 +190,7 @@
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
                                     "<input type='radio' name='collecte_donnees_sup' value='2' id='donnees-sup-2'>" +
-                                    "<label for='donnees-sup-2'>Non</label>" +
-                                "</div>" +
-                                "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='collecte_donnees_sup' value='3' id='donnees-sup-3'>" +
-                                    "<label for='donnees-sup-3'>Aucun</label>" +
+                                    "<label for='donnees-sup-2'>Aucune</label>" +
                                 "</div>" +
                             "</div>" +
                         "</div>" +
@@ -647,7 +647,7 @@
                                 // }
 
                                 // Initialize and define the message
-                                var message = 'Nous avons trouvé : ' + result.rowCountFiltersRequirement + ' résultat(s)<br>correspondant à vos filtres d\'éxigence';
+                                var message = 'Nous avons trouvé : ' + result.rowCountFiltersRequirement + ' résultat(s)<br>correspondant à vos éxigences';
 
                                 // Initialize and define the id of the result container
                                 var idDiv = 'ofc-requirement-filters-results';
@@ -665,7 +665,7 @@
                             }else if(result.resultsFiltersRequirement.length === 0){
 
                                 // Initialize and define the message
-                                var message = 'Aucun résultat ne correspond à votre recherche pour vos filtres d\'éxigence.';
+                                var message = 'Aucun résultat ne correspond à votre recherche pour vos éxigences.';
 
                                 // Initialize and define the id of the result container
                                 var idDiv = 'ofc-requirement-filters-results';
@@ -687,7 +687,7 @@
                 }else if(arrayRequirementFilterNames.length === 0){
 
                     // Initialize and define the message
-                    var message = 'Aucun résultat ne correspond à votre recherche pour vos filtres d\'éxigence.';
+                    var message = 'Aucun résultat ne correspond à votre recherche pour vos éxigences.';
 
                     // Initialize and define the id of the result container
                     var idDiv = 'ofc-requirement-filters-results';

@@ -85,7 +85,7 @@ foreach ($results as $result) {
                 <p><?php echo $everyCollection->field_nom_collection_value; ?></p>
             </div>
             <div class="bs-rsb-ec-card-action-edit">
-                <a href="/ressources-biologiques/home/<?php toURLString($everyCollection->title); ?>/<?php echo $everyCollection->uid; ?>" title="Consulter l'annonce">Consulter <i class="fa fa-pencil"></i></a>
+                <a href="/ressources-biologiques/home/<?php toURLString($everyCollection->title); ?>/<?php echo $everyCollection->uid; ?>" title="Consulter la collection">Consulter <i class="fa fa-pencil"></i></a>
             </div>
         </div>
     <?php

@@ -467,8 +467,12 @@
     ?>
             <li id="map-nb-biobanks">
                 Biosample répertorie
-                <?php echo "<span>" . $totalBiobanks . "</span>"; ?>
-                <?php echo (($totalBiobanks == 1)) ? "Biobanque" : "Biobanques"; ?>
+                <?php echo "<span class='rsb-value'>" . $totalBiobanks . "</span>"; ?>
+                <?php
+                    echo "<span class='rsb-conjug'>";
+                    echo (($totalBiobanks == 1)) ? "Biobanque" : "Biobanques";
+                    echo "</span>";
+                ?>
             </li>
     <?php
         }
@@ -476,17 +480,38 @@
     ?>
             <li id="map-nb-collections">
                 Comprenant
-                <?php echo "<span>" . $totalCollections . "</span>"; ?>
-                <?php echo (($totalCollections == 1)) ? "collection" : "collections"; ?>
+                <?php echo "<span class='rsb-value'>" . $totalCollections . "</span>"; ?>
+                <?php
+                echo "<span class='rsb-conjug'>";
+                echo (($totalCollections == 1)) ? "collection" : "collections";
+                echo "</span>";
+                ?>
+            </li>
+    <?php
+        }
+        if($totalIndividus > 0) {
+    ?>
+            <li id="map-nb-individus">
+                Soit
+                <?php echo "<span class='rsb-value'>" . $totalIndividus . "</span>"; ?>
+                <?php
+                echo "<span class='rsb-conjug'>";
+                echo (($totalIndividus == 1)) ? "individu" : "individus";
+                echo "</span>";
+                ?>
             </li>
     <?php
         }
         if($totalEchantillons > 0) {
     ?>
             <li id="map-nb-samples">
-                Pour un total
-                <?php echo "<span>" . $totalEchantillons . "</span>"; ?>
-                <?php echo (($totalEchantillons == 1)) ? "échantillon" : "échantillons"; ?>
+                Et
+                <?php echo "<span class='rsb-value'>" . $totalEchantillons . "</span>"; ?>
+                <?php
+                    echo "<span class='rsb-conjug'>";
+                    echo (($totalEchantillons == 1)) ? "échantillon" : "échantillons";
+                    echo "</span>";
+                ?>
             </li>
     <?php
         }
@@ -494,14 +519,18 @@
     ?>
             <li id="map-nb-departments">
                 <?php echo (($totalBiobanks == 1) && ($totalCollections == 1) && ($totalEchantillons == 1)) ? "Répartie sur" : "Réparties sur"; ?>
-                <?php echo "<span>" . $arraySize . "</span>"; ?>
-                <?php echo (($arraySize == 1)) ? "département" : "départements"; ?>
+                <?php echo "<span class='rsb-value'>" . $arraySize . "</span>"; ?>
+                <?php
+                    echo "<span class='rsb-conjug'>";
+                    echo (($arraySize == 1)) ? "département" : "départements";
+                    echo "</span>";
+                ?>
             </li>
     <?php
         }
     ?>
         <li id="special-filters-infos-map">
-            Répondant(s) au(x) <span>0</span> critère(s) séléctionné(s)
+            Répondant(s) au(x) <span class='rsb-value'>0</span> critère(s) séléctionné(s)
         </li>
         <div id="rsb-map-bottom">
             <a href="#block-bs-rsb-ressources-bio-collections">
