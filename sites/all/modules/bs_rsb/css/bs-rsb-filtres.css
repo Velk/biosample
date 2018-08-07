@@ -416,40 +416,59 @@ div#block-bs-rsb-ressources-bio-filtres {
 
 div#nb-individus,
 div#nb-echantillons,
+div#collecte-donnees,
+div#suivi-individus {
+    grid-template-areas: "a a a a a a a a a" "b b b c c c d d d" "e e e e e f f f f";
+}
+
 div#echantillons-sup,
 div#donnees-sup {
-    grid-template-areas: "a a a a" "b c d e";
+    grid-template-areas: "a a a" "b c d";
 }
 
 div#nb-individus > p:nth-child(1),
 div#nb-echantillons > p:nth-child(1),
 div#echantillons-sup > p:nth-child(1),
-div#donnees-sup > p:nth-child(1) {
+div#donnees-sup > p:nth-child(1),
+div#collecte-donnees > p:nth-child(1),
+div#suivi-individus > p:nth-child(1) {
     grid-area: a;
 }
 div#nb-individus > div:nth-child(2),
 div#nb-echantillons > div:nth-child(2),
 div#echantillons-sup > div:nth-child(2),
-div#donnees-sup > div:nth-child(2) {
+div#donnees-sup > div:nth-child(2),
+div#collecte-donnees > div:nth-child(2),
+div#suivi-individus > div:nth-child(2) {
     grid-area: b;
 }
 div#nb-individus > div:nth-child(3),
 div#nb-echantillons > div:nth-child(3),
 div#echantillons-sup > div:nth-child(3),
-div#donnees-sup > div:nth-child(3) {
+div#donnees-sup > div:nth-child(3),
+div#collecte-donnees > div:nth-child(3),
+div#suivi-individus > div:nth-child(3) {
     grid-area: c;
 }
 div#nb-individus > div:nth-child(4),
 div#nb-echantillons > div:nth-child(4),
 div#echantillons-sup > div:nth-child(4),
-div#donnees-sup > div:nth-child(4) {
+div#donnees-sup > div:nth-child(4),
+div#collecte-donnees > div:nth-child(4),
+div#suivi-individus > div:nth-child(4) {
     grid-area: d;
 }
 div#nb-individus > div:nth-child(5),
 div#nb-echantillons > div:nth-child(5),
-div#echantillons-sup > div:nth-child(5),
-div#donnees-sup > div:nth-child(5) {
+div#collecte-donnees > div:nth-child(5),
+div#suivi-individus > div:nth-child(5) {
     grid-area: e;
+}
+div#nb-individus > div:nth-child(6),
+div#nb-echantillons > div:nth-child(6),
+div#collecte-donnees > div:nth-child(6),
+div#suivi-individus > div:nth-child(6) {
+    grid-area: f;
 }
 
 div#echantillons-controle {
@@ -466,31 +485,31 @@ div#echantillons-controle > div:nth-child(3) {
     grid-area : c;
 }
 
-div#collecte-donnees,
-div#suivi-individus {
-    grid-template-areas: "a a a a a" "b c d e f";
-}
+/*div#collecte-donnees,*/
+/*div#suivi-individus {*/
+    /*grid-template-areas: "a a a a a" "b c d e f";*/
+/*}*/
 
-div#collecte-donnees > p:nth-child(1),
-div#suivi-individus > p:nth-child(1) {
-    grid-area: a;
-}
-div#collecte-donnees > div:nth-child(2),
-div#suivi-individus > div:nth-child(2) {
-    grid-area: b;
-}
-div#collecte-donnees > div:nth-child(3),
-div#suivi-individus > div:nth-child(3) {
-    grid-area: c;
-}
-div#collecte-donnees > div:nth-child(4),
-div#suivi-individus > div:nth-child(4) {
-    grid-area: d;
-}
-div#collecte-donnees > div:nth-child(5),
-div#suivi-individus > div:nth-child(5) {
-    grid-area: e;
-}
+/*div#collecte-donnees > p:nth-child(1),*/
+/*div#suivi-individus > p:nth-child(1) {*/
+    /*grid-area: a;*/
+/*}*/
+/*div#collecte-donnees > div:nth-child(2),*/
+/*div#suivi-individus > div:nth-child(2) {*/
+    /*grid-area: b;*/
+/*}*/
+/*div#collecte-donnees > div:nth-child(3),*/
+/*div#suivi-individus > div:nth-child(3) {*/
+    /*grid-area: c;*/
+/*}*/
+/*div#collecte-donnees > div:nth-child(4),*/
+/*div#suivi-individus > div:nth-child(4) {*/
+    /*grid-area: d;*/
+/*}*/
+/*div#collecte-donnees > div:nth-child(5),*/
+/*div#suivi-individus > div:nth-child(5) {*/
+    /*grid-area: e;*/
+/*}*/
 
 div#nb-individus,
 div#nb-echantillons,
@@ -500,6 +519,7 @@ div#echantillons-controle,
 div#collecte-donnees,
 div#suivi-individus {
     align-items: baseline;
+    grid-gap: 25px 0;
 }
 
 .sf-choice-container {

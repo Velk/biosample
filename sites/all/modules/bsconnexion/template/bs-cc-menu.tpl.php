@@ -14,10 +14,10 @@
             <a href="/ressources-biologiques/home">RESSOURCES BIOLOGIQUES</a>
             <ul id="bs-cc-dropdown-rb">
                 <li id="bs-cc-etablissement-li">
-                    <a href="/utilisateur/ress_bio/etablissement">Mon organisme</a>
+                    <a href="/utilisateur/ress_bio/organisme">Mon organisme</a>
                 </li>
                 <li id="bs-cc-annonces-li">
-                    <a href="/utilisateur/ress_bio/annonces">Mes collections</a>
+                    <a href="/utilisateur/ress_bio/collections">Mes collections</a>
                 </li>
             </ul>
         </li>
