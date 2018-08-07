@@ -3,6 +3,7 @@
         attach: function (context, settings) {
 
 
+
             /* ---------------------------------------------------------------------------------*/
             /* ------------- START - Ajax retrieve filters from filter categorie ---------------*/
             /* ---------------------------------------------------------------------------------*/
@@ -202,6 +203,16 @@
                     toDisableScroll();
                 }
 
+                // Call toRetrieveSpecialFilters function
+                toRetrieveSpecialFilters();
+
+                // Call specialFiltersAjaxRequest function
+                specialFiltersAjaxRequest();
+
+            });
+
+            function toRetrieveSpecialFilters(){
+
                 // Set user choice stored in session
                 $(".sf-container > .sf-choice-container > input").each(function(){
 
@@ -214,6 +225,8 @@
                             var toCompareName = Object.keys(sessionStorage)[s].split("sf_")[1];
                             var toCompareValue = sessionStorage.getItem(Object.keys(sessionStorage)[s]);
 
+                            // When user open special filter container
+                            // it sets checkbox depending on his last choices
                             if(
                                 toCompareName === $(this).attr("name") &&
                                 toCompareValue ===  $(this).val()
@@ -225,18 +238,14 @@
                         }
                     }
                 });
-            });
-
+            }
 
             $("body").on("click", ".sf-container > .sf-choice-container > input", function(){
 
-                // Array containing every special filters
-                var arraySpecialFilters = [];
-               // console.log("input Name : " + $(this).attr('name'));
-               // console.log("input value : " + $(this).val());
+                /* Store into session, special filters user choice */
 
-               var toStockSpecialFilterName = "sf_" + $(this).attr('name');
-               var specialFilterValue = $(this).val();
+                var toStockSpecialFilterName = "sf_" + $(this).attr('name');
+                var specialFilterValue = $(this).val();
 
                 // Set into session the value of the filter
                 sessionStorage.setItem(
@@ -244,6 +253,34 @@
                     specialFilterValue
                 );
 
+                // Call specialFiltersAjaxRequest function
+                specialFiltersAjaxRequest();
+
+            });
+
+            $("body").on("click", "#sf-result-consult", function(){
+
+                // Call toShowResults function
+                toShowResults();
+
+                if($("#sf-result-consult > i").length > 0){
+
+                    // Remove the overlay
+                    $('#overlay-filters-container').fadeOut('slow', function(){
+                        $('#overlay-filters-container').remove();
+                    });
+                }
+
+                // Call toEnableScroll function
+                toEnableScroll();
+            });
+
+            function specialFiltersAjaxRequest(){
+
+                /* Get special filters user choice for Ajax request */
+
+                // Array containing every special filters
+                var arraySpecialFilters = [];
                 // Array containing one special filter with his value
                 var arraySpecialFilter = [];
 
@@ -264,11 +301,12 @@
                         arraySpecialFilters.push(arraySpecialFilter);
 
                         // Reinitialize array containing filter name and its value
+                        // In the purpose to store an other special filter with a clean array
                         arraySpecialFilter = [];
                     }
                 }
 
-                    // Initialize and define ajax datas
+                // Initialize and define ajax datas
                 var datas = {
 
                     arraySpecialFilters: arraySpecialFilters,
@@ -281,6 +319,9 @@
                     type: 'GET',
                     data: datas,
                     success: function(result){
+
+                        // Declare global variable to allow to get result
+                        arrayFinalResults = result.arrayFinalResults;
 
                         if(result.arrayFinalResultsSize > 0){
 
@@ -348,33 +389,24 @@
 
                         }
 
-
-                        // Hide every collection preview
-                        $("#block-views-rb-collections-block div.views-row").hide();
-
-                        for(var i = 0 ; i < result.arrayFinalResults.length ; i++){
-
-                            // Display only collection preview corresponding to user choice
-                            $("#article-" + result.arrayFinalResults[i]).parent().show();
-                        }
-
                     }
                 });
-            });
+            }
 
-            $("body").on("click", "#sf-result-consult", function(){
+            function toShowResults(){
 
-                if($("#sf-result-consult > i").length > 0){
+                // Hide every collection preview
+                $("#block-views-rb-collections-block div.views-row").hide();
 
-                    // Remove the overlay
-                    $('#overlay-filters-container').fadeOut('slow', function(){
-                        $('#overlay-filters-container').remove();
-                    });
+                for(var i = 0 ; i < arrayFinalResults.length ; i++){
+
+                    // Display only collection preview corresponding to user choice
+                    $("#article-" + arrayFinalResults[i]).parent().show();
                 }
 
-                // Call toEnableScroll function
-                toEnableScroll();
-            });
+                // // Call getNumberFiltersSelected function
+                // getNumberFiltersSelected();
+            }
 
             // Reinit every special filters
             $("body").on("click", "#ofc-reinit-sf", function () {
@@ -401,6 +433,9 @@
 
                 // Uncheck every inputs
                 $(".sf-choice-container > input").prop( "checked", false );
+
+                // Call specialFiltersAjaxRequest function
+                specialFiltersAjaxRequest();
             });
 
             /* ---------------------------------------------------------------------------------- */
@@ -845,14 +880,11 @@
 
             /* User choose which result he wants to see */
             $("body").on("click", "#ofc-requirement-filters-results", function(){
-                console.log("Click on requirement filters");
+
                 if($("#ofc-requirement-filters-results i").is(":visible")){
 
                     displaySelectedResult(resultsRequirementFilters);
                 }
-
-
-
             });
 
             $("body").on("click", "#ofc-filters-results", function(){
@@ -879,6 +911,9 @@
 
                 // Call toEnableScroll function
                 toEnableScroll();
+
+                // // Call getNumberFiltersSelected function
+                // getNumberFiltersSelected();
             }
 
             /* ---------------------------------------------------------------------------------- */
@@ -916,6 +951,9 @@
                 }
             }
 
+
+
+
             /* ---------------------------------------------------------------------------------- */
             /* ------------------------------- Cross : On Click --------------------------------- */
             /* ---------------------------------------------------------------------------------- */
@@ -930,6 +968,9 @@
 
                 // Call toEnableScroll function
                 toEnableScroll();
+
+                // // Call getNumberFiltersSelected function
+                // getNumberFiltersSelected();
             });
 
             /* ---------------------------------------------------------------------------------- */
@@ -1001,6 +1042,10 @@
 
                 $("body").css("overflow-y", "scroll");
             }
+
+            /* ---------------------------------------------------------------------------------- */
+            /* ------------------------------ Remove last error --------------------------------- */
+            /* ---------------------------------------------------------------------------------- */
 
             // Remove the last error to have a clear drupal message
             if(

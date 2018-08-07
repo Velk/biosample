@@ -12,36 +12,50 @@
 
             var tabIledeFrance = [75, 77, 78, 91, 92, 93, 94, 95];
 
+            retrieveDepartmentNumbers();
+
             var tabDepartmentNumbers = [];
+            var tabNumbMax = null;
 
-            // Set every Markers in the tab
-            $(".rsb-markers").each(function(){
-                var depNb = $(this).attr('id').split('rsb-marker-')[1];
+            function retrieveDepartmentNumbers(){
+                tabNumbMax = null;
+                tabDepartmentNumbers = [];
 
-                tabDepartmentNumbers.push(depNb);
-            });
+                // Set every Markers in the tab
+                $(".rsb-markers").each(function(){
+                    var depNb = $(this).attr('id').split('rsb-marker-')[1];
 
-            // Browse into the tabIledeFrance
-            for(var w=0 ; w < tabIledeFrance.length ; w++){
+                    tabDepartmentNumbers.push(depNb);
+                });
 
-                // Browse into the tabDepartmentNumbers
-                for(var v=0 ; v < tabDepartmentNumbers.length ; v++){
+                // Browse into the tabIledeFrance
+                // for(var w=0 ; w < tabIledeFrance.length ; w++){
+                //
+                //     // Browse into the tabDepartmentNumbers
+                //     for(var v=0 ; v < tabDepartmentNumbers.length ; v++){
+                //
+                //         // If the value of tabDepartmentNumber is inside the tabIledeFrance
+                //         if(tabDepartmentNumbers[v] == tabIledeFrance[w]){
+                //
+                //             // Remove the element
+                //             // tabDepartmentNumbers.splice(v,1);
+                //         }
+                //     }
+                // }
 
-                    // If the value of tabDepartmentNumber is inside the tabIledeFrance
-                    if(tabDepartmentNumbers[v] == tabIledeFrance[w]){
+                // Compare 2 arrays
+                // Stock the number max of elements
+                tabNumbMax = tabIledeFrance.length > tabDepartmentNumbers.length ? tabIledeFrance.length : tabDepartmentNumbers.length;
 
-                        // Remove the element
-                        // tabDepartmentNumbers.splice(v,1);
-                    }
-                }
+
+                // Set a delay to execute markersPositionning function
+                setTimeout(markersPositionning, 1000);
             }
-
-            // Compare 2 arrays
-            // Stock the number max of elements
-            var tabNumbMax = tabIledeFrance.length > tabDepartmentNumbers.length ? tabIledeFrance.length : tabDepartmentNumbers.length;
 
             // Markers position
             function markersPositionning() {
+
+
                 $("i.rsb-markers").each(function () {
                     // Id of the Marker without the #
                     var nameMarker = $(this).attr("id");
@@ -80,16 +94,12 @@
                     }
 
                     // Animate the appeareance of Marker
-                    $(idMarker).animate({
-                        opacity: "toggle"
-                    }, 500);
+                    // $(idMarker).animate({
+                    //     opacity: "toggle"
+                    // }, 500);
+                    $(idMarker).show();
                 });
             }
-
-            // Set a delay to execute markersPositionning function
-            setTimeout(markersPositionning, 500);
-
-
 
             function displayDatas(numberDepartment){
 
@@ -234,8 +244,7 @@
             });
 
             // Hover on markers
-            $(".rsb-markers").mouseenter(function(){
-
+            $("body").on("mouseenter", "i.rsb-markers", function(){
                 // Retrieve and stock the department number of the Marker
                 var numberDepartment = $(this).attr("id").split("rsb-marker-")[1];
 
@@ -249,7 +258,7 @@
                 displayDatas(numberDepartment);
             });
 
-            $(".rsb-markers").mouseleave(function(){
+            $("body").on("mouseleave", "i.rsb-markers", function(){
 
                 // Retrieve and stock the department number of the Marker
                 var numberDepartment = $(this).attr("id").split("rsb-marker-")[1];
@@ -312,6 +321,268 @@
             //         " pour rester informé des évolutions !</p>" +
             //         "</div>");
             // }
+
+            // Call getNumberFiltersSelected function
+            getNumberFiltersSelected();
+
+            $("body").on("click", "#sf-result-consult", function(){
+
+                // Call getNumberFiltersSelected function
+                // getNumberFiltersSelected();
+                setTimeout(getNumberFiltersSelected,500);
+            });
+
+            /* User choose which result he wants to see */
+            $("body").on("click", "#ofc-requirement-filters-results", function(){
+
+                if($("#ofc-requirement-filters-results i").is(":visible")){
+
+                    // Call getNumberFiltersSelected function
+                    // getNumberFiltersSelected();
+                    setTimeout(getNumberFiltersSelected,500);
+                }
+            });
+
+            $("body").on("click", "#ofc-filters-results", function(){
+
+                if($("#ofc-filters-results i").is(":visible")){
+
+                    // Call getNumberFiltersSelected function
+                    // getNumberFiltersSelected();
+                    setTimeout(getNumberFiltersSelected,500);
+                }
+            });
+
+            /* ---------------------------------------------------------------------------------- */
+            /* ------------------------------- Cross : On Click --------------------------------- */
+            /* ---------------------------------------------------------------------------------- */
+
+            // When user click on the overlay's cross : Overlay containing filters disappear
+            $("body").on('click', 'i#ofc-remove', function(){
+
+                // Call getNumberFiltersSelected function
+                getNumberFiltersSelected();
+            });
+
+            /* ---------------------------------------------------------------------------------- */
+            /* ----------------------- Reinit all filters : On Click ---------------------------- */
+            /* ---------------------------------------------------------------------------------- */
+
+            // When user click on reinitialize all filters button
+            $("body").on('click', '#reinit-all-filters', function(){
+
+                // Call getNumberFiltersSelected function
+                getNumberFiltersSelected();
+            });
+
+            function getNumberFiltersSelected(){
+
+                /* ------------------------------------------------------------------------- */
+                /* ---------------------- Filters selected number -------------------------- */
+                /* ------------------------------------------------------------------------- */
+
+                // Initialize numberFiltersSelected that would allow to get number of filters
+                var numberFiltersSelected = 0;
+
+                // Browse into session
+                for(var s = 0 ; s < sessionStorage.length ; s++){
+
+                    // Check if the value of the filter isn't "indifferent"
+                    if( sessionStorage.getItem(Object.keys(sessionStorage)[s]) !== "indifferent" ){
+
+                        // Increment numberFiltersSelected
+                        numberFiltersSelected++;
+                    }
+                }
+
+                // Update text : "répondant(s) au(x)  X critère(s) séléctionné(s)"
+                $("#special-filters-infos-map > span").text(numberFiltersSelected);
+
+                /* ------------------------------------------------------------------------- */
+                /* ------------------------- Collections number ---------------------------- */
+                /* ------------------------------------------------------------------------- */
+
+                var collectionsNumber = 0;
+                $(".view-rb-collections .views-row").each(function(){
+
+                    if( $(this).is(":visible") ){
+
+                        // Increment number of collections
+                        collectionsNumber++;
+                    }
+                });
+
+                // Update text : "Comprenant X collections"
+                $("#map-nb-collections > span").text(collectionsNumber);
+
+                /* ------------------------------------------------------------------------- */
+                /* -------------------------- Biobanks number ------------------------------ */
+                /* ------------------------------------------------------------------------- */
+
+                // Number of biobanks
+                var biobanksNumber = 0;
+                // Array containing biobanks
+                var arrayCompareBiobankName = {};
+
+                $(".field-name-field-nom-organisme .field-item").each(function(){
+
+                    if( $(this).is(":visible") ){
+
+                        var biobankName = $(this).text();
+
+                        // If biobankName isn't set yet
+                        if( arrayCompareBiobankName[biobankName] == null ){
+
+                            // Set to 1
+                            arrayCompareBiobankName[biobankName] = 1;
+                        }else{
+
+                            // Else increment
+                            arrayCompareBiobankName[biobankName] = arrayCompareBiobankName[biobankName] + 1;
+                        }
+                    }
+                });
+
+                // Foreach into arrayCompareBiobankName and get key => value
+                $.each(arrayCompareBiobankName, function(key, value) {
+
+                    // Increment number of biobanks
+                    biobanksNumber++;
+                });
+
+                // Update text : "Biosample répertorie X Biobanques"
+                $("#map-nb-biobanks > span").text(biobanksNumber);
+
+                /* ------------------------------------------------------------------------- */
+                /* --------------------------- Samples number ------------------------------ */
+                /* ------------------------------------------------------------------------- */
+
+                // Number of biobanks
+                var samplesNumber = 0;
+                // Final symbol samples number
+                var symbolSamplesNumber = "";
+
+                $(".field-name-field-nombre-echantillons .field-item").each(function(){
+
+                    if( $(this).is(":visible") ){
+
+                        // Greater than or Lower than to compare
+                        var symbolToCompare = $(this).text().charAt(0);
+
+                        // Compare symbol
+                        switch (symbolToCompare){
+                            case "<" :
+                                if( symbolSamplesNumber === ">" ){
+                                    symbolSamplesNumber = ">";
+                                }else{
+                                    symbolSamplesNumber = "<";
+                                }
+                                break;
+                            case ">" :
+                                symbolSamplesNumber = ">";
+                                break;
+                        }
+
+                        // Remove two first chars that's to say the symbol and the space
+                        var sampleNumber = $(this).text().slice(2);
+                        // Replace space by nothing
+                        sampleNumber = sampleNumber.replace(/ /g, '');
+                        sampleNumber = parseInt(sampleNumber);
+
+                        samplesNumber = samplesNumber + sampleNumber;
+
+                    }
+
+                });
+
+                // Update text : "Pour un total X échantillons"
+                $("#map-nb-samples > span").text(symbolSamplesNumber + " " + samplesNumber);
+
+                /* ------------------------------------------------------------------------- */
+                /* --------------------------- Pins on the map ----------------------------- */
+                /* ------------------------------------------------------------------------- */
+
+                // Init array intended to contain node ID
+                var arrayNodeID = [];
+
+                // Browse every collection card
+                $(".view-rb-collections .node-rb-collections").each(function(){
+
+                    // If it's visible
+                    if( $(this).is(":visible") ){
+
+                        // Retrive the ID and split to get exclusively the node ID
+                        var nodeID = $(this).attr('id');
+                        nodeID = nodeID.split('article-')[1];
+
+                        // Push node ID into array
+                        arrayNodeID.push(nodeID);
+                    }
+                });
+
+                // Ajax request
+                var datas = {
+                    node_ID: arrayNodeID
+                };
+
+                $.ajax({
+                    url: Drupal.settings.basePath + 'ressources-biologiques/home/pins',
+                    dataType: 'json',
+                    type: 'GET',
+                    data: datas,
+                    success: function (result) {
+
+                        // Remove every markers on the map
+                        $(".rsb-markers").each(function(){
+                            $(this).remove();
+                        });
+
+                        for(var i = 0 ; i < result.arrayResultsPostalCode.length ; i++){
+
+                            // Get postal code and split to retrieve exclusively the two first chars
+                            var postalCode = result.arrayResultsPostalCode[i];
+                            postalCode = postalCode.toString().slice(0, 2);
+
+                            // Boolean to verify if pin is set or not
+                            var isPinExist = false;
+                            // Browse every marker
+                            $(".rsb-markers").each(function(){
+
+                                // If the pin is already implement, set boolean to true
+                                if( $(this).attr('id') === ("rsb-marker-" + postalCode) ){
+                                    isPinExist = true;
+                                }
+                            });
+
+                            // If pin isn't set
+                            if( isPinExist === false ){
+
+                                // Append the pin on the map
+                                $("#rsb-map-container").append(
+                                    '<i class="fa fa-map-marker rsb-markers" id="rsb-marker-' + postalCode + '"></i>'
+                                );
+                            }
+                        }
+
+                        // Remove all pin datas when user hover pin or land
+                        $("#rsb-map-marker-datas").remove();
+
+                        // Add structure corresponding to HTML structure of new pin datas
+                        $("#rsb-map-container").append(result.structure);
+
+                        /* ------------------------------------------------------------------------- */
+                        /* ------------------------- Departments number ---------------------------- */
+                        /* ------------------------------------------------------------------------- */
+
+                        // Update text : "Réparties sur X départements"
+                        $("#map-nb-departments > span").text(result.arrayResultsPostalCode.length);
+
+                    }
+                });
+
+                setTimeout(retrieveDepartmentNumbers, 1000);
+            }
+
         }
     };
 }(jQuery));
