@@ -1993,12 +1993,10 @@ function bs_rsb_creation_establishment_submit($form, &$form_state){
         /* End - E-mail body */
 
         // Mail's parameters
-//        $to = "d.appelgren@biosample.fr";
-//        $from = "d.appelgren@biosample.fr";
-//        $to = "contact@biosample.fr";
-//        $from = "contact@biosample.fr";
-        $to = "developer.biosample@gmail.com";
-        $from = "developer.biosample@gmail.com";
+        $to = "dorian.a@biosample.fr";
+        $from = "dorian.a@biosample.fr";
+//        $to = "developer.biosample@gmail.com";
+//        $from = "developer.biosample@gmail.com";
 
         // Subject of the mail
         $subject = "Ressources Biologiques - Création d'une fiche organisme";
@@ -2620,12 +2618,10 @@ function bs_rsb_updating_establishment_submit($form, &$form_state){
     /* End - E-mail body */
 
     // Mail's parameters
-//        $to = "d.appelgren@biosample.fr";
-//        $from = "d.appelgren@biosample.fr";
-//        $to = "contact@biosample.fr";
-//        $from = "contact@biosample.fr";
-    $to = "developer.biosample@gmail.com";
-    $from = "developer.biosample@gmail.com";
+    $to = "dorian.a@biosample.fr";
+    $from = "dorian.a@biosample.fr";
+//    $to = "developer.biosample@gmail.com";
+//    $from = "developer.biosample@gmail.com";
 
     // Subject of the mail
     $subject = "Ressources Biologiques - Modification d'une fiche organisme";
