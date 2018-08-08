@@ -1,15 +1,45 @@
 (function ($) {
-    Drupal.behaviors.bs_rsb_filters = {
-        attach: function (context, settings) {
 
+    Drupal.behaviors.bs_rsb_filters = {};
 
+    Drupal.behaviors.bs_rsb_filters.removeLoaderCriteriasResults = function() {
+
+        if( $( "#loader-criterias-container" ).length ){
+
+            $( "#loader-criterias-container" ).remove();
+        }
+
+        if( $( "#loader-criterias-container" ).length == 0){
+
+            $("#ofc-request-results").show();
+            $("#ofc-request-results-sf").show();
+        }
+    };
+
+    Drupal.behaviors.bs_rsb_filters.setLoaderCriteriasResults = function() {
+
+        if( $( "#loader-criterias-container" ).length == 0 ){
+
+            $("#overlay-filters-container").append(
+                "<div id='loader-criterias-container'>" +
+                "<div id='loader'></div>" +
+                "<p>Chargement ...</p>" +
+                "</div>"
+            );
+        }
+
+        if( $( "#loader-criterias-container" ).length ){
+
+            $("#ofc-request-results").hide();
+            $("#ofc-request-results-sf").hide();
+        }
+    };
+
+    Drupal.behaviors.bs_rsb_filters.attach = function(context) {
 
             /* ---------------------------------------------------------------------------------*/
             /* ------------- START - Ajax retrieve filters from filter categorie ---------------*/
             /* ---------------------------------------------------------------------------------*/
-
-            // var resultsRequirementFilters;
-            // var resultsFilters;
 
             // When user click on a filter category
             $(".bs-rsb-filter-title:not(.special-filters)").click(function(e){
@@ -63,92 +93,92 @@
                             "<div class='sf-container' id='nb-individus'>" +
                                 "<p>Nombre d'individus</p>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='nombre_individus' value='0' id='nb-individus-0'>" +
+                                    "<input type='checkbox' name='nombre_individus' value='0' id='nb-individus-0'>" +
                                     "<label for='nb-individus-0'>- de 100</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='nombre_individus' value='1' id='nb-individus-1'>" +
+                                    "<input type='checkbox' name='nombre_individus' value='1' id='nb-individus-1'>" +
                                     "<label for='nb-individus-1'>100 à 1 000</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='nombre_individus' value='2' id='nb-individus-2'>" +
+                                    "<input type='checkbox' name='nombre_individus' value='2' id='nb-individus-2'>" +
                                     "<label for='nb-individus-2'>1 001 à 10 000</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='nombre_individus' value='3' id='nb-individus-3'>" +
+                                    "<input type='checkbox' name='nombre_individus' value='3' id='nb-individus-3'>" +
                                     "<label for='nb-individus-3'>10 001 à 50 000</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='nombre_individus' value='4' id='nb-individus-4'>" +
+                                    "<input type='checkbox' name='nombre_individus' value='4' id='nb-individus-4'>" +
                                     "<label for='nb-individus-4'>+ de 50 000</label>" +
                                 "</div>" +
                             "</div>" +
                             "<div class='sf-container' id='nb-echantillons'>" +
                                 "<p>Nombre d'échantillons</p>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='nombre_echantillons' value='0' id='nb-echantillons-0'>" +
+                                    "<input type='checkbox' name='nombre_echantillons' value='0' id='nb-echantillons-0'>" +
                                     "<label for='nb-echantillons-0'>- de 100</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='nombre_echantillons' value='1' id='nb-echantillons-1'>" +
+                                    "<input type='checkbox' name='nombre_echantillons' value='1' id='nb-echantillons-1'>" +
                                     "<label for='nb-echantillons-1'>100 à 1 000</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='nombre_echantillons' value='2' id='nb-echantillons-2'>" +
+                                    "<input type='checkbox' name='nombre_echantillons' value='2' id='nb-echantillons-2'>" +
                                     "<label for='nb-echantillons-2'>1 001 à 10 000</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='nombre_echantillons' value='3' id='nb-echantillons-3'>" +
+                                    "<input type='checkbox' name='nombre_echantillons' value='3' id='nb-echantillons-3'>" +
                                     "<label for='nb-echantillons-3'>10 001 à 50 000</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='nombre_echantillons' value='4' id='nb-echantillons-4'>" +
+                                    "<input type='checkbox' name='nombre_echantillons' value='4' id='nb-echantillons-4'>" +
                                     "<label for='nb-echantillons-4'>+ de 50 000</label>" +
                                 "</div>" +
                             "</div>" +
                             "<div class='sf-container' id='collecte-donnees'>" +
                                 "<p>Collecte des données associées aux échantillons</p>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='collecte_donnees' value='0' id='collecte-donnees-0'>" +
+                                    "<input type='checkbox' name='collecte_donnees' value='0' id='collecte-donnees-0'>" +
                                     "<label for='collecte-donnees-0'>Avant</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='collecte_donnees' value='1' id='collecte-donnees-1'>" +
+                                    "<input type='checkbox' name='collecte_donnees' value='1' id='collecte-donnees-1'>" +
                                     "<label for='collecte-donnees-1'>Au moment de la collecte</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='collecte_donnees' value='2' id='collecte-donnees-2'>" +
+                                    "<input type='checkbox' name='collecte_donnees' value='2' id='collecte-donnees-2'>" +
                                     "<label for='collecte-donnees-2'>Après</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='collecte_donnees' value='3' id='collecte-donnees-3'>" +
+                                    "<input type='checkbox' name='collecte_donnees' value='3' id='collecte-donnees-3'>" +
                                     "<label for='collecte-donnees-3'>Suivi longitudinal</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='collecte_donnees' value='4' id='collecte-donnees-4'>" +
+                                    "<input type='checkbox' name='collecte_donnees' value='4' id='collecte-donnees-4'>" +
                                     "<label for='collecte-donnees-4'>Aucune</label>" +
                                 "</div>" +
                             "</div>" +
                             "<div class='sf-container' id='suivi-individus'>" +
                                 "<p>Suivi des individus</p>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='suivi_individus' value='0' id='suivi-individus-0'>" +
+                                    "<input type='checkbox' name='suivi_individus' value='0' id='suivi-individus-0'>" +
                                     "<label for='suivi-individus-0'>Avant</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='suivi_individus' value='1' id='suivi-individus-1'>" +
+                                    "<input type='checkbox' name='suivi_individus' value='1' id='suivi-individus-1'>" +
                                     "<label for='suivi-individus-1'>Au moment de la collecte</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='suivi_individus' value='2' id='suivi-individus-2'>" +
+                                    "<input type='checkbox' name='suivi_individus' value='2' id='suivi-individus-2'>" +
                                     "<label for='suivi-individus-2'>Après</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='suivi_individus' value='3' id='suivi-individus-3'>" +
+                                    "<input type='checkbox' name='suivi_individus' value='3' id='suivi-individus-3'>" +
                                     "<label for='suivi-individus-3'>Suivi longitudinal</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='suivi_individus' value='4' id='suivi-individus-4'>" +
+                                    "<input type='checkbox' name='suivi_individus' value='4' id='suivi-individus-4'>" +
                                     "<label for='suivi-individus-4'>Aucun</label>" +
                                 "</div>" +
                             "</div>" +
@@ -166,30 +196,30 @@
                             "<div class='sf-container' id='echantillons-sup'>" +
                                 "<p>Collecte d'échantillons supplémentaires</p>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='collecte_echantillons_sup' value='0' id='echantillons-sup-0'>" +
+                                    "<input type='checkbox' name='collecte_echantillons_sup' value='0' id='echantillons-sup-0'>" +
                                     "<label for='echantillons-sup-0'>Collecte continue</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='collecte_echantillons_sup' value='1' id='echantillons-sup-1'>" +
+                                    "<input type='checkbox' name='collecte_echantillons_sup' value='1' id='echantillons-sup-1'>" +
                                     "<label for='echantillons-sup-1'>A la demande</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='collecte_echantillons_sup' value='2' id='echantillons-sup-2'>" +
+                                    "<input type='checkbox' name='collecte_echantillons_sup' value='2' id='echantillons-sup-2'>" +
                                     "<label for='echantillons-sup-2'>Aucune</label>" +
                                 "</div>" +
                             "</div>" +
                             "<div class='sf-container' id='donnees-sup'>" +
                                 "<p>Collecte de données supplémentaires</p>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='collecte_donnees_sup' value='0' id='donnees-sup-0'>" +
+                                    "<input type='checkbox' name='collecte_donnees_sup' value='0' id='donnees-sup-0'>" +
                                     "<label for='donnees-sup-0'>Collecte continue</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='collecte_donnees_sup' value='1' id='donnees-sup-1'>" +
+                                    "<input type='checkbox' name='collecte_donnees_sup' value='1' id='donnees-sup-1'>" +
                                     "<label for='donnees-sup-1'>A la demande</label>" +
                                 "</div>" +
                                 "<div class='sf-choice-container'>" +
-                                    "<input type='radio' name='collecte_donnees_sup' value='2' id='donnees-sup-2'>" +
+                                    "<input type='checkbox' name='collecte_donnees_sup' value='2' id='donnees-sup-2'>" +
                                     "<label for='donnees-sup-2'>Aucune</label>" +
                                 "</div>" +
                             "</div>" +
@@ -219,7 +249,23 @@
                     // Loop on session
                     for(var s = 0 ; s < sessionStorage.length ; s++) {
 
-                        // Check if session parameter is a special filter
+                        // Check if session parameter is a special filter as checkbox
+                        if (Object.keys(sessionStorage)[s].match("^[0-9]_sf_")) {
+
+                            var toCompareName = Object.keys(sessionStorage)[s].slice(2);
+                            toCompareName = Object.keys(sessionStorage)[s].split("sf_")[1];
+                            var toCompareValue = sessionStorage.getItem(Object.keys(sessionStorage)[s]);
+
+                            // When user open special filter container
+                            // it sets checkbox depending on his last choices
+                            if(
+                                toCompareName === $(this).attr("name") &&
+                                toCompareValue ===  $(this).val()
+                            ){
+                                $(this).prop( "checked", true );
+                            }
+                        }
+                        // Check if session parameter is a special filter as radio
                         if (Object.keys(sessionStorage)[s].match("^sf_")) {
 
                             var toCompareName = Object.keys(sessionStorage)[s].split("sf_")[1];
@@ -231,8 +277,6 @@
                                 toCompareName === $(this).attr("name") &&
                                 toCompareValue ===  $(this).val()
                             ){
-                                // console.log($(this).attr("name"));
-                                // console.log($(this).val());
                                 $(this).prop( "checked", true );
                             }
                         }
@@ -240,18 +284,45 @@
                 });
             }
 
+            /*
+             * Call specialFiltersAjaxRequest function
+             * Pass toShowResults as callback
+             */
+            specialFiltersAjaxRequest(toShowResults);
+
             $("body").on("click", ".sf-container > .sf-choice-container > input", function(){
 
                 /* Store into session, special filters user choice */
 
-                var toStockSpecialFilterName = "sf_" + $(this).attr('name');
-                var specialFilterValue = $(this).val();
+                // If name is "echantillons_controle"
+                if( $(this).attr('name') === "echantillons_controle" ){
 
-                // Set into session the value of the filter
-                sessionStorage.setItem(
-                    toStockSpecialFilterName,
-                    specialFilterValue
-                );
+                    var toStockSpecialFilterName = "sf_" + $(this).attr('name');
+                    var specialFilterValue = $(this).val();
+
+                    // Set into session the value of the filter
+                    sessionStorage.setItem(
+                        toStockSpecialFilterName,
+                        specialFilterValue
+                    );
+                }else{
+
+                    var toStockSpecialFilterName = $(this).val() + "_sf_" + $(this).attr('name');
+                    var specialFilterValue = $(this).val();
+
+                    if( $(this).is( ":checked" ) == true ){
+
+                        // Set into session the value of the filter
+                        sessionStorage.setItem(
+                            toStockSpecialFilterName,
+                            specialFilterValue
+                        );
+                    }else{
+
+                        // Unchecked -> Remove item from session
+                        sessionStorage.removeItem(toStockSpecialFilterName);
+                    }
+                }
 
                 // Call specialFiltersAjaxRequest function
                 specialFiltersAjaxRequest();
@@ -275,7 +346,10 @@
                 toEnableScroll();
             });
 
-            function specialFiltersAjaxRequest(){
+            function specialFiltersAjaxRequest(callback){
+
+                // Call Drupal.behaviors.bs_rsb_filters.setLoaderCriteriasResults function
+                Drupal.behaviors.bs_rsb_filters.setLoaderCriteriasResults();
 
                 /* Get special filters user choice for Ajax request */
 
@@ -287,6 +361,27 @@
                 // Loop on session
                 for(var s = 0 ; s < sessionStorage.length ; s++){
 
+                    // if session item is from a checkbox input
+                    if(Object.keys(sessionStorage)[s].match("^[0-9]_sf_")){
+
+                        // Retrieve and split the filter name
+                        var specialFilterName = Object.keys(sessionStorage)[s].slice(2);
+                        specialFilterName = Object.keys(sessionStorage)[s].split("sf_")[1];
+
+                        // Push filter name
+                        arraySpecialFilter.push(specialFilterName);
+                        // Push its value
+                        arraySpecialFilter.push(sessionStorage.getItem(Object.keys(sessionStorage)[s]));
+
+                        // Push into array containing every filters, the array containing filter name with its value
+                        arraySpecialFilters.push(arraySpecialFilter);
+
+                        // Reinitialize array containing filter name and its value
+                        // In the purpose to store an other special filter with a clean array
+                        arraySpecialFilter = [];
+                    }
+
+                    // if session item is from a radio input
                     if(Object.keys(sessionStorage)[s].match("^sf_")){
 
                         // Retrieve and split the filter name
@@ -305,6 +400,7 @@
                         arraySpecialFilter = [];
                     }
                 }
+
 
                 // Initialize and define ajax datas
                 var datas = {
@@ -389,23 +485,59 @@
 
                         }
 
+                        /*
+                         * Call callback function
+                         * See callback function parameter
+                         */
+                        if(typeof callback !== 'undefined' || callback ){
+
+                            callback();
+                        }
+
+                        Drupal.behaviors.bs_rsb_filters.removeLoaderCriteriasResults();
                     }
                 });
+
+
             }
 
             function toShowResults(){
+// console.log("enter");
+                // Check if session is set
+                if( sessionStorage.length !== 0){
 
-                // Hide every collection preview
-                $("#block-views-rb-collections-block div.views-row").hide();
+                    var isSessionHasFilters = false;
 
-                for(var i = 0 ; i < arrayFinalResults.length ; i++){
+                    // Browse the session
+                    for( var i = 0 ; i < sessionStorage.length ; i++ ){
 
-                    // Display only collection preview corresponding to user choice
-                    $("#article-" + arrayFinalResults[i]).parent().show();
+                        // If a session value is different than "indifferent"
+                        if( sessionStorage.getItem(Object.keys(sessionStorage)[i]) !== "indifferent" ){
+
+                            // Session has filter(s)
+                            isSessionHasFilters = true;
+                        }
+                    }
+
+                    // If session has filters show exclusively collections found
+                    if( isSessionHasFilters ){
+
+                        // Hide every collection preview
+                        $("#block-views-rb-collections-block div.views-row").hide();
+
+                        for(var i = 0 ; i < arrayFinalResults.length ; i++){
+
+                            // Display only collection preview corresponding to user choice
+                            $("#article-" + arrayFinalResults[i]).parent().show();
+                        }
+                    }else{
+
+                        // Otherwise show every collection
+                        $("#block-views-rb-collections-block div.views-row").show();
+                    }
                 }
 
-                // // Call getNumberFiltersSelected function
-                // getNumberFiltersSelected();
+                Drupal.behaviors.bs_rsb_map.getNumberFiltersSelected();
             }
 
             // Reinit every special filters
@@ -596,8 +728,8 @@
              */
             function requiredFilterAjax(arrayRequirementFilterNames){
 
-                // Call setLoaderCriteriasResults()
-                setLoaderCriteriasResults();
+                // Call Drupal.behaviors.bs_rsb_filters.setLoaderCriteriasResults function
+                Drupal.behaviors.bs_rsb_filters.setLoaderCriteriasResults();
 
                 /*
                  Then check the length of the array containing filter's name
@@ -638,11 +770,13 @@
                                 // Initialize and define boolean saying there is result
                                 var isResult = true;
 
+                                var classDiv = false;
+
                                 // Initialize and define a variable containing the result of requirement filters
                                 resultsRequirementFilters = result.resultsFiltersRequirement;
 
                                 // Call appendResult function
-                                appendResult(message, idDiv, isResult);
+                                appendResult(message, idDiv, isResult, classDiv);
 
                                 // If the ajax request returns no result
                             }else if(result.resultsFiltersRequirement.length === 0){
@@ -656,12 +790,14 @@
                                 // Initialize and define boolean saying there is no result
                                 var isResult = false;
 
+                                var classDiv = false;
+
                                 // Initialize and define a variable containing the result of requirement filters
                                 // Here there is nothing
                                 // var results = result.resultsFiltersRequirement;
 
                                 // Call appendResult function
-                                appendResult(message, idDiv, isResult);
+                                appendResult(message, idDiv, isResult, classDiv);
 
                             }
                         }
@@ -670,19 +806,21 @@
                 }else if(arrayRequirementFilterNames.length === 0){
 
                     // Initialize and define the message
-                    var message = 'Aucun résultat ne correspond à votre recherche pour vos exigences.';
+                    var message = 'Tous les résultats correspondent à vos exigences.';
 
                     // Initialize and define the id of the result container
                     var idDiv = 'ofc-requirement-filters-results';
 
                     // Initialize and define boolean saying there is no result
-                    var isResult = false;
+                    var isResult = true;
+
+                    var classDiv = true;
 
                     // Initialize and define a variable with "null" as value
                     // var results = null;
 
                     // Call appendResult function
-                    appendResult(message, idDiv, isResult);
+                    appendResult(message, idDiv, isResult, classDiv);
 
                 }
             }
@@ -698,8 +836,8 @@
              */
             function otherFilterAjax(arrayFilterNames){
 
-                // Call setLoaderCriteriasResults()
-                setLoaderCriteriasResults();
+                // Call Drupal.behaviors.bs_rsb_filters.setLoaderCriteriasResults function
+                Drupal.behaviors.bs_rsb_filters.setLoaderCriteriasResults();
 
                 /*
                  Then check the length of the array containing filter's name
@@ -736,11 +874,13 @@
                                 // Initialize and define boolean saying there is result
                                 var isResult = true;
 
+                                var classDiv = false;
+
                                 // Initialize and define a variable containing the result of requirement filters
                                 resultsFilters = result.resultsFilters;
 
                                 // Call appendResult function
-                                appendResult(message, idDiv, isResult);
+                                appendResult(message, idDiv, isResult, classDiv);
 
                                 // If the ajax request returns no result
                             }else if(result.resultsFilters.length === 0){
@@ -754,12 +894,14 @@
                                 // Initialize and define boolean saying there is no result
                                 var isResult = false;
 
+                                var classDiv = false;
+
                                 // Initialize and define a variable containing the result of requirement filters
                                 // Here there is nothing
                                 // var results = result.resultsFilters;
 
                                 // Call appendResult function
-                                appendResult(message, idDiv, isResult);
+                                appendResult(message, idDiv, isResult, classDiv);
 
                             }
                         }
@@ -768,19 +910,21 @@
                 }else if(arrayFilterNames.length === 0){
 
                     // Initialize and define the message
-                    var message = 'Aucun résultat ne correspond à votre recherche pour vos filtres d\'exigences et de préférences.';
+                    var message = 'Tous les résultats correspondent à vos exigences et préférences.';
 
                     // Initialize and define the id of the result container
                     var idDiv = 'ofc-filters-results';
 
                     // Initialize and define boolean saying there is no result
-                    var isResult = false;
+                    var isResult = true;
+
+                    var classDiv = true;
 
                     // Initialize and define a variable with "null" as value
                     // var results = null;
 
                     // Call appendResult function
-                    appendResult(message, idDiv, isResult);
+                    appendResult(message, idDiv, isResult, classDiv);
 
                 }
             }
@@ -792,19 +936,24 @@
              * @param isResult
              * @param results
              */
-            function appendResult(message, idDiv, isResult){
+            function appendResult(message, idDiv, isResult, classDiv){
 
                 var consultResults = "";
+                var className = "";
 
                 if(isResult){
                     consultResults = '<i class="fa fa-eye"></i>';
+                }
+
+                if(classDiv){
+                    className = "class='all-result'";
                 }
 
                 // Append the container with the appropriate message
                 if($('div#overlay-filters-container > #ofc-request-results > #' + idDiv).length === 0){
 
                     $('div#overlay-filters-container > #ofc-request-results').append(
-                        '<div id="' + idDiv + '">' +
+                        '<div id="' + idDiv + '" ' + className + '>' +
                         '<p>' +
                         message +
                         '</p>' +
@@ -821,6 +970,16 @@
                         '</p>' +
                         consultResults
                     );
+
+                    if( className !== "" ){
+
+                        if(!$(this).hasClass("all-result")){
+
+                            $("#ofc-request-results > #" + idDiv).addClass("all-result");
+                        }
+                    }else{
+                        $("#ofc-request-results > #" + idDiv).removeClass("all-result")
+                    }
                 }
 
                 /* Design results */
@@ -855,8 +1014,8 @@
 
                 if( $( "#loader-criterias-container" ).length ){
 
-                    // Call removeLoaderCriteriasResults()
-                    removeLoaderCriteriasResults();
+                    // Call Drupal.behaviors.bs_rsb_filters.removeLoaderCriteriasResults function
+                    Drupal.behaviors.bs_rsb_filters.removeLoaderCriteriasResults();
                 }
 
             }
@@ -864,17 +1023,43 @@
             /* User choose which result he wants to see */
             $("body").on("click", "#ofc-requirement-filters-results", function(){
 
-                if($("#ofc-requirement-filters-results i").is(":visible")){
+                if( $(this).hasClass("all-result") ){
 
-                    displaySelectedResult(resultsRequirementFilters);
+                    // Show every collection
+                    $("#block-views-rb-collections-block .views-row").show();
+
+                    // Remove the filter overlay
+                    $('#overlay-filters-container').remove();
+
+                    // Call toEnableScroll function
+                    toEnableScroll();
+                }else{
+
+                    if($("#ofc-requirement-filters-results i").is(":visible")){
+
+                        displaySelectedResult(resultsRequirementFilters);
+                    }
                 }
             });
 
             $("body").on("click", "#ofc-filters-results", function(){
 
-                if($("#ofc-filters-results i").is(":visible")){
+                if( $(this).hasClass("all-result") ){
 
-                    displaySelectedResult(resultsFilters);
+                    // Show every collection
+                    $("#block-views-rb-collections-block .views-row").show();
+
+                    // Remove the filter overlay
+                    $('#overlay-filters-container').remove();
+
+                    // Call toEnableScroll function
+                    toEnableScroll();
+                }else{
+
+                    if($("#ofc-filters-results i").is(":visible")){
+
+                        displaySelectedResult(resultsFilters);
+                    }
                 }
             });
 
@@ -903,38 +1088,38 @@
             /* ---------------------- Loader : Waiting criterias results ------------------------ */
             /* ---------------------------------------------------------------------------------- */
 
-            function setLoaderCriteriasResults(){
-
-                if( $( "#loader-criterias-container" ).length == 0 ){
-
-                    $("#overlay-filters-container").append(
-                        "<div id='loader-criterias-container'>" +
-                        "<div id='loader'></div>" +
-                        "<p>Chargement ...</p>" +
-                        "</div>"
-                    );
-                }
-
-                if( $( "#loader-criterias-container" ).length ){
-
-                    $("#ofc-request-results").hide();
-                    $("#ofc-request-results-sf").hide();
-                }
-            }
-
-            function removeLoaderCriteriasResults(){
-
-                if( $( "#loader-criterias-container" ).length ){
-
-                    $( "#loader-criterias-container" ).remove();
-                }
-
-                if( $( "#loader-criterias-container" ).length == 0){
-
-                    $("#ofc-request-results").show();
-                    $("#ofc-request-results-sf").show();
-                }
-            }
+            // function setLoaderCriteriasResults(){
+            //
+            //     if( $( "#loader-criterias-container" ).length == 0 ){
+            //
+            //         $("#overlay-filters-container").append(
+            //             "<div id='loader-criterias-container'>" +
+            //             "<div id='loader'></div>" +
+            //             "<p>Chargement ...</p>" +
+            //             "</div>"
+            //         );
+            //     }
+            //
+            //     if( $( "#loader-criterias-container" ).length ){
+            //
+            //         $("#ofc-request-results").hide();
+            //         $("#ofc-request-results-sf").hide();
+            //     }
+            // }
+            //
+            // function removeLoaderCriteriasResults(){
+            //
+            //     if( $( "#loader-criterias-container" ).length ){
+            //
+            //         $( "#loader-criterias-container" ).remove();
+            //     }
+            //
+            //     if( $( "#loader-criterias-container" ).length == 0){
+            //
+            //         $("#ofc-request-results").show();
+            //         $("#ofc-request-results-sf").show();
+            //     }
+            // }
 
 
 
@@ -953,7 +1138,6 @@
 
                 // Call toEnableScroll function
                 toEnableScroll();
-
 
                 if($("#ofc-filters-results").is(":visible")){
 
@@ -1048,7 +1232,14 @@
                 // Loop on session
                 for(var s = 0 ; s < sessionStorage.length ; s++) {
 
-                    // Check if session parameter is a special filter
+                    // Check if session parameter is a special filter as checkbox
+                    if (Object.keys(sessionStorage)[s].match("^[0-9]_sf_")) {
+
+                        // Push it into the array
+                        arrayToDelete.push(Object.keys(sessionStorage)[s]);
+                    }
+
+                    // Check if session parameter is a special filter as radio
                     if (Object.keys(sessionStorage)[s].match("^sf_")) {
 
                         // Push it into the array
@@ -1079,5 +1270,5 @@
             }
 
         }
-    };
+    // };
 }(jQuery));
