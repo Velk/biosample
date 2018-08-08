@@ -411,25 +411,8 @@
             // Reinit every special filters
             $("body").on("click", "#ofc-reinit-sf", function () {
 
-                // Initiliaze an array containing session parameter to delete
-                var arrayToDelete = [];
-
-                // Loop on session
-                for(var s = 0 ; s < sessionStorage.length ; s++) {
-
-                    // Check if session parameter is a special filter
-                    if (Object.keys(sessionStorage)[s].match("^sf_")) {
-
-                        // Push it into the array
-                        arrayToDelete.push(Object.keys(sessionStorage)[s]);
-                    }
-                }
-
-                // Browse through the array
-                for(var i = 0 ; i < arrayToDelete.length ; i++){
-                    // Remove every special filter in the session
-                    sessionStorage.removeItem(arrayToDelete[i]);
-                }
+                // Call deleteSessionSpecialFilters function
+                deleteSessionSpecialFilters();
 
                 // Uncheck every inputs
                 $(".sf-choice-container > input").prop( "checked", false );
@@ -1032,13 +1015,10 @@
                         // Set the value to indifferent in purpose to reinitialize every filter
                         sessionStorage.setItem(Object.keys(sessionStorage)[i], "indifferent");
                     }
-
-                    // Check if the session parameter start by "sf_"
-                    if(Object.keys(sessionStorage)[i].match("^sf_")){
-                            // Remove this item from the session
-                            sessionStorage.removeItem(Object.keys(sessionStorage)[i]);
-                    }
                 }
+
+                // Call deleteSessionSpecialFilters function
+                deleteSessionSpecialFilters();
 
                 // Go back to home family filter
                 $("#bs-rsb-families li").removeClass("bs-rsb-family-selected");
@@ -1059,6 +1039,28 @@
             function toEnableScroll(){
 
                 $("body").css("overflow-y", "scroll");
+            }
+
+            function deleteSessionSpecialFilters(){
+                // Initiliaze an array containing session parameter to delete
+                var arrayToDelete = [];
+
+                // Loop on session
+                for(var s = 0 ; s < sessionStorage.length ; s++) {
+
+                    // Check if session parameter is a special filter
+                    if (Object.keys(sessionStorage)[s].match("^sf_")) {
+
+                        // Push it into the array
+                        arrayToDelete.push(Object.keys(sessionStorage)[s]);
+                    }
+                }
+
+                // Browse through the array
+                for(var i = 0 ; i < arrayToDelete.length ; i++){
+                    // Remove every special filter in the session
+                    sessionStorage.removeItem(arrayToDelete[i]);
+                }
             }
 
             /* ---------------------------------------------------------------------------------- */
