@@ -347,6 +347,25 @@ function bs_rsb_pins_request(){
 
         // Insert into array Datas the number of biobanks
         $arrayDatas[$key]["nbIndividus"] = $value;
+
+        // Set the corresponding string
+        switch ($arrayDatas[$key]["nbIndividus"]) {
+            case $arrayDatas[$key]["nbIndividus"] < 100 :
+                $arrayDatas[$key]["nbIndividus"] = "- de 100";
+                break;
+            case ($arrayDatas[$key]["nbIndividus"] >= 100 && $arrayDatas[$key]["nbIndividus"] <= 1000) :
+                $arrayDatas[$key]["nbIndividus"] = "100 à 1 000";
+                break;
+            case ($arrayDatas[$key]["nbIndividus"] >= 1001 && $arrayDatas[$key]["nbIndividus"] <= 10000) :
+                $arrayDatas[$key]["nbIndividus"] = "1 001 à 10 000";
+                break;
+            case ($arrayDatas[$key]["nbIndividus"] >= 10001 && $arrayDatas[$key]["nbIndividus"] <= 50000) :
+                $arrayDatas[$key]["nbIndividus"] = "10 001 à 50 000";
+                break;
+            case $arrayDatas[$key]["nbIndividus"] > 50000 :
+                $arrayDatas[$key]["nbIndividus"] = "+ de 50 000";
+                break;
+        }
     }
 
     // Browse throughout array containing samples number
@@ -354,6 +373,25 @@ function bs_rsb_pins_request(){
 
         // Insert into array Datas the number of biobanks
         $arrayDatas[$key]["nbSamples"] = $value;
+
+        // Set the corresponding string
+        switch ($arrayDatas[$key]["nbSamples"]) {
+            case $arrayDatas[$key]["nbSamples"] < 100 :
+                $arrayDatas[$key]["nbSamples"] = "- de 100";
+                break;
+            case ($arrayDatas[$key]["nbSamples"] >= 100 && $arrayDatas[$key]["nbSamples"] <= 1000) :
+                $arrayDatas[$key]["nbSamples"] = "100 à 1 000";
+                break;
+            case ($arrayDatas[$key]["nbSamples"] >= 1001 && $arrayDatas[$key]["nbSamples"] <= 10000) :
+                $arrayDatas[$key]["nbSamples"] = "1 001 à 10 000";
+                break;
+            case ($arrayDatas[$key]["nbSamples"] >= 10001 && $arrayDatas[$key]["nbSamples"] <= 50000) :
+                $arrayDatas[$key]["nbSamples"] = "10 001 à 50 000";
+                break;
+            case $arrayDatas[$key]["nbSamples"] > 50000 :
+                $arrayDatas[$key]["nbSamples"] = "+ de 50 000";
+                break;
+        }
     }
 
     // Set total departments number
@@ -959,8 +997,8 @@ function bs_rsb_block_view($delta = '') {
             /* ---------------------------------------------------------------------------*/
             /* -------------- Retrieve the total number of individus ------------------*/
             /* ---------------------------------------------------------------------------*/
-            $query = db_select('field_revision_field_nombre_individus', 'fni');
-            $query->fields('fni',array('field_nombre_individus_value'));
+            $query = db_select('field_data_field_nb_exact_individus', 'ei');
+            $query->fields('ei',array('field_nb_exact_individus_value'));
             $query->condition("bundle", "rb_collections", "=");
             $resultsTotalIndividu = $query->execute();
 
@@ -969,7 +1007,7 @@ function bs_rsb_block_view($delta = '') {
 
             foreach ($resultsTotalIndividu as $resultTotalIndividu) {
                 // Foreach result, sum them
-                $totalIndividus = $totalIndividus + $resultTotalIndividu->field_nombre_individus_value;
+                $totalIndividus = $totalIndividus + $resultTotalIndividu->field_nb_exact_individus_value;
             }
 
             $data['totalIndividus'] = $totalIndividus;
@@ -977,8 +1015,8 @@ function bs_rsb_block_view($delta = '') {
             /* ---------------------------------------------------------------------------*/
             /* -------------- Retrieve the total number of echantillons ------------------*/
             /* ---------------------------------------------------------------------------*/
-            $query = db_select('field_revision_field_nombre_echantillons', 'fne');
-            $query->fields('fne',array('field_nombre_echantillons_value'));
+            $query = db_select('field_data_field_nb_exact_echantillons', 'ee');
+            $query->fields('ee',array('field_nb_exact_echantillons_value'));
             $query->condition("bundle", "rb_collections", "=");
             $resultsTotalEchantillon = $query->execute();
 
@@ -987,7 +1025,7 @@ function bs_rsb_block_view($delta = '') {
 
             foreach ($resultsTotalEchantillon as $resultTotalEchantillon) {
                 // Foreach result, sum them
-                $totalEchantillons = $totalEchantillons + $resultTotalEchantillon->field_nombre_echantillons_value;
+                $totalEchantillons = $totalEchantillons + $resultTotalEchantillon->field_nb_exact_echantillons_value;
             }
 
             $data['totalEchantillons'] = $totalEchantillons;
@@ -1940,6 +1978,42 @@ function bs_rsb_creation_establishment_submit($form, &$form_state){
 
 //        $tabInsert = ["Afrique du Sud", "Afghanistan", "Albanie", "Algérie" ,"Allemagne","Andorre","Angola","Antigua-et-Barbuda","Arabie Saoudite","Argentine","Arménie","Australie","Autriche","Azerbaïdjan","Bahamas","Bahreïn","Bangladesh","Barbade","Belgique","Belize","Bénin","Bhoutan","Biélorussie","Birmanie","Bolivie","Bosnie-Herzégovine","Botswana","Brésil","Brunei","Bulgarie","Burkina Faso","Burundi","Cambodge","Cameroun","Canada","Cap-Vert","Chili","Chine","Chypre","Colombie","Comores","Corée du Nord","Corée du Sud","Costa Rica","Côte d’Ivoire", "Croatie","Cuba","Danemark","Djibouti","Dominique","Égypte","Émirats arabes unis","Équateur","Érythrée","Espagne","Estonie","États-Unis","Éthiopie","Fidji","Finlande","France","Gabon","Gambie","Géorgie","Ghana","Grèce","Grenade","Guatemala","Guinée","Guinée équatoriale","Guinée-Bissau","Guyana","Haïti","Honduras","Hongrie","Îles Cook","Îles Marshall","Inde","Indonésie","Irak","Iran","Irlande","Islande","Israël","Italie","Jamaïque","Japon","Jordanie","Kazakhstan","Kenya","Kirghizistan","Kiribati","Koweït","Laos","Lesotho","Lettonie","Liban","Liberia","Libye","Liechtenstein","Lituanie","Luxembourg","Macédoine","Madagascar","Malaisie","Malawi","Maldives","Mali","Malte","Maroc","Maurice","Mauritanie","Mexique","Micronésie","Moldavie","Monaco","Mongolie","Monténégro","Mozambique","Namibie","Nauru","Népal","Nicaragua","Niger","Nigeria","Niue","Norvège","Nouvelle-Zélande","Oman","Ouganda","Ouzbékistan","Pakistan","Palaos","Palestine","Panama","Papouasie-Nouvelle-Guinée","Paraguay","Pays-Bas","Pérou","Philippines","Pologne","Portugal","Qatar","République centrafricaine","République démocratique du Congo","République Dominicaine","République du Congo","République tchèque","Roumanie","Royaume-Uni","Russie","Rwanda","Saint-Kitts-et-Nevis","Saint-Vincent-et-les-Grenadines","Sainte-Lucie","Saint-Marin","Salomon","Salvador","Samoa","São Tomé-et-Principe","Sénégal","Serbie","Seychelles","Sierra Leone","Singapour","Slovaquie","Slovénie","Somalie","Soudan","Soudan du Sud","Sri Lanka","Suède","Suisse","Suriname","Swaziland","Syrie","Tadjikistan","Tanzanie","Tchad","Thaïlande","Timor oriental","Togo","Tonga","Trinité-et-Tobago","Tunisie","Turkménistan","Turquie","Tuvalu","Ukraine","Uruguay","Vanuatu","Vatican","Venezuela","Viêt Nam","Yémen","Zambie", "Zimbabwe"];
 
+        /* --------------------------------------------------------------------------------------------------- */
+        /* ---------------------------------------- Mail to BioSample ---------------------------------------- */
+        /* --------------------------------------------------------------------------------------------------- */
+
+        /* Start - E-mail body */
+        $body = "Création d'une fiche organisme : " . "\n\n" .
+            "Identifiant de l'organisme : " . $GLOBALS['user']->uid . "\n\n" .
+            "Nom : " . $form_state['values']['name'] . "\n" .
+            "Adresse : " . $form_state['values']['address'] . "\n" .
+            "Ville : " . $form_state['values']['city'] . "\n" .
+            "Code postal : " . $form_state['values']['postal_code'] . "\n\n" .
+            "URL : " . $_SERVER['HTTP_HOST'] . "/admin/BioSample/rb-manager/" . $GLOBALS['user']->uid . "/edit" . "\n" ;
+        /* End - E-mail body */
+
+        // Mail's parameters
+//        $to = "d.appelgren@biosample.fr";
+//        $from = "d.appelgren@biosample.fr";
+//        $to = "contact@biosample.fr";
+//        $from = "contact@biosample.fr";
+        $to = "developer.biosample@gmail.com";
+        $from = "developer.biosample@gmail.com";
+
+        // Subject of the mail
+        $subject = "Ressources Biologiques - Création d'une fiche organisme";
+
+        // Call mail function
+        $params = array(
+            'subject' => $subject,
+            'body' => $body,
+        );
+
+        if(drupal_mail('bs_rsb', '30', $to, "fr", $params, $from)){
+//            drupal_set_message("Un e-mail .");
+        } else {
+//            drupal_set_message("Erreur, la demande de contact n'a pas abouti.");
+        }
     }
 }
 
@@ -2531,6 +2605,42 @@ function bs_rsb_updating_establishment_submit($form, &$form_state){
 
     drupal_set_message("Les changements ont bien été pris en compte.");
 
+    /* --------------------------------------------------------------------------------------------------- */
+    /* ---------------------------------------- Mail to BioSample ---------------------------------------- */
+    /* --------------------------------------------------------------------------------------------------- */
+
+    /* Start - E-mail body */
+    $body = "Modification d'une fiche organisme : " . "\n\n" .
+        "Identifiant de l'organisme : " . $GLOBALS['user']->uid . "\n\n" .
+        "Nom : " . $form_state['values']['name'] . "\n" .
+        "Adresse : " . $form_state['values']['address'] . "\n" .
+        "Ville : " . $form_state['values']['city'] . "\n" .
+        "Code postal : " . $form_state['values']['postal_code'] . "\n\n" .
+        "URL : " . $_SERVER['HTTP_HOST'] . "/admin/BioSample/rb-manager/" . $GLOBALS['user']->uid . "/edit" . "\n" ;
+    /* End - E-mail body */
+
+    // Mail's parameters
+//        $to = "d.appelgren@biosample.fr";
+//        $from = "d.appelgren@biosample.fr";
+//        $to = "contact@biosample.fr";
+//        $from = "contact@biosample.fr";
+    $to = "developer.biosample@gmail.com";
+    $from = "developer.biosample@gmail.com";
+
+    // Subject of the mail
+    $subject = "Ressources Biologiques - Modification d'une fiche organisme";
+
+    // Call mail function
+    $params = array(
+        'subject' => $subject,
+        'body' => $body,
+    );
+
+    if(drupal_mail('bs_rsb', '40', $to, "fr", $params, $from)){
+//            drupal_set_message("Un e-mail .");
+    } else {
+//            drupal_set_message("Erreur, la demande de contact n'a pas abouti.");
+    }
 }
 
 /**
@@ -3542,6 +3652,14 @@ function bs_rsb_mail($key, &$message, $params) {
             $message['body'][] = $params['body'];
             break;
         case '20':
+            $message['subject'] = $params['subject'];
+            $message['body'][] = $params['body'];
+            break;
+        case '30':
+            $message['subject'] = $params['subject'];
+            $message['body'][] = $params['body'];
+            break;
+        case '40':
             $message['subject'] = $params['subject'];
             $message['body'][] = $params['body'];
             break;

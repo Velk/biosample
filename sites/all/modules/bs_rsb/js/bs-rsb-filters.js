@@ -647,7 +647,7 @@
                                 // }
 
                                 // Initialize and define the message
-                                var message = 'Nous avons trouvé : ' + result.rowCountFiltersRequirement + ' résultat(s)<br>correspondant à vos éxigences';
+                                var message = 'Nous avons trouvé : ' + result.rowCountFiltersRequirement + ' résultat(s)<br>correspondant à vos exigences uniquement';
 
                                 // Initialize and define the id of the result container
                                 var idDiv = 'ofc-requirement-filters-results';
@@ -665,7 +665,7 @@
                             }else if(result.resultsFiltersRequirement.length === 0){
 
                                 // Initialize and define the message
-                                var message = 'Aucun résultat ne correspond à votre recherche pour vos éxigences.';
+                                var message = 'Aucun résultat ne correspond à votre recherche pour vos exigences.';
 
                                 // Initialize and define the id of the result container
                                 var idDiv = 'ofc-requirement-filters-results';
@@ -687,7 +687,7 @@
                 }else if(arrayRequirementFilterNames.length === 0){
 
                     // Initialize and define the message
-                    var message = 'Aucun résultat ne correspond à votre recherche pour vos éxigences.';
+                    var message = 'Aucun résultat ne correspond à votre recherche pour vos exigences.';
 
                     // Initialize and define the id of the result container
                     var idDiv = 'ofc-requirement-filters-results';
@@ -745,7 +745,7 @@
                             if(result.resultsFilters.length > 0){
 
                                 // Initialize and define the message
-                                var message = 'Nous avons trouvé : ' + result.rowCountFilters + ' résultat(s).';
+                                var message = 'Nous avons trouvé : ' + result.rowCountFilters + ' résultat(s) correspondant à vos exigences et à vos préférences.';
 
                                 // Initialize and define the id of the result container
                                 var idDiv = 'ofc-filters-results';
@@ -763,7 +763,7 @@
                             }else if(result.resultsFilters.length === 0){
 
                                 // Initialize and define the message
-                                var message = 'Aucun résultat ne correspond à votre recherche pour vos filtres.';
+                                var message = 'Aucun résultat ne correspond à votre recherche pour vos filtres d\'exigences et de préférences.';
 
                                 // Initialize and define the id of the result container
                                 var idDiv = 'ofc-filters-results';
@@ -785,7 +785,7 @@
                 }else if(arrayFilterNames.length === 0){
 
                     // Initialize and define the message
-                    var message = 'Aucun résultat ne correspond à votre recherche pour vos filtres.';
+                    var message = 'Aucun résultat ne correspond à votre recherche pour vos filtres d\'exigences et de préférences.';
 
                     // Initialize and define the id of the result container
                     var idDiv = 'ofc-filters-results';
@@ -935,6 +935,7 @@
                 if( $( "#loader-criterias-container" ).length ){
 
                     $("#ofc-request-results").hide();
+                    $("#ofc-request-results-sf").hide();
                 }
             }
 
@@ -948,6 +949,7 @@
                 if( $( "#loader-criterias-container" ).length == 0){
 
                     $("#ofc-request-results").show();
+                    $("#ofc-request-results-sf").show();
                 }
             }
 
@@ -968,6 +970,18 @@
 
                 // Call toEnableScroll function
                 toEnableScroll();
+
+
+                if($("#ofc-filters-results").is(":visible")){
+
+                    $("#ofc-filters-results").click();
+                }
+
+                if($("#sf-result-consult").is(":visible")){
+
+                    $("#sf-result-consult").click();
+                }
+
 
                 // // Call getNumberFiltersSelected function
                 // getNumberFiltersSelected();
@@ -1009,7 +1023,6 @@
 
                 // Browse every parameters stocked in session
                 for(var i = 0 ; i < sessionStorage.length ; i++){
-
                     // Check if the value of the parameter is "requirement" or "preference" or "indifferent"
                     if(
                         sessionStorage.getItem(Object.keys(sessionStorage)[i]) === "requirement" ||
@@ -1020,6 +1033,11 @@
                         sessionStorage.setItem(Object.keys(sessionStorage)[i], "indifferent");
                     }
 
+                    // Check if the session parameter start by "sf_"
+                    if(Object.keys(sessionStorage)[i].match("^sf_")){
+                            // Remove this item from the session
+                            sessionStorage.removeItem(Object.keys(sessionStorage)[i]);
+                    }
                 }
 
                 // Go back to home family filter

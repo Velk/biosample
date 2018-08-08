@@ -47,7 +47,6 @@
                 // Stock the number max of elements
                 tabNumbMax = tabIledeFrance.length > tabDepartmentNumbers.length ? tabIledeFrance.length : tabDepartmentNumbers.length;
 
-
                 // Set a delay to execute markersPositionning function
                 setTimeout(markersPositionning, 1000);
             }
