@@ -1,0 +1,152 @@
+// Cookie banner config
+// --------------------
+// You can override all default variables for
+// each components in this file
+// ==========================================
+
+// You must override the namespace here if you need one
+$nameSpace: "" !default;
+
+// Globals
+// =======
+$body-bannerClass   : "has-cookie-banner" !default;
+$body-popinClass    : "has-cookie-popin" !default;
+
+$root-font-size: 0.875rem !default;
+$grid-gap: 20px;
+
+$text-title-color  : #0a0a0a !default;
+$text-content-color: #444444 !default;
+$bgc               : #ffffff !default;
+
+
+// Components
+// ==========
+
+
+// Components - Banner
+// ==================
+
+// Variables
+// ---------
+// $banner-position      : "bottom" !default; // can be "top" or "bottom"
+// $banner-containerClass: "#{$nameSpace}CookieBanner" !default;
+// $banner-innerClass    : "#{$nameSpace}CookieBanner-inner" !default;
+// $banner-textClass     : "#{$nameSpace}CookieBanner-text" !default;
+// $banner-titleClass    : "#{$nameSpace}CookieBanner-title" !default;
+// $banner-infoClass     : "#{$nameSpace}CookieBanner-info" !default;
+
+// Layout
+// ------
+// $banner-innerWidth    : 1024px !default;
+// $banner-padding       : 1em !default;
+
+// Colors
+// ---------
+// $banner-title-color   : $text-title-color;
+// $banner-bgc           : $bgc !default;
+// $banner-boxShadow     : 0 -3px 10px rgba(0, 0, 0, 0.2);
+
+
+// Components - Buttons
+// ====================
+
+// Variables
+// ---------
+// $btn-wrapper-class: "#{$nameSpace}CookieBanner-actions" !default;
+// $btn-class        : "#{$nameSpace}CookieBtn" !default;
+// $btn-altClass     : "is-alt" !default;
+// $btn-radius       : 4px !default;
+
+// Colors 
+// ------
+// $btn-mainColor        : #067d54 !default;
+// $btn-mainBgc          : #d3f9d8 !default;
+// $btn-mainColor-effect : #ffffff !default;
+// $btn-mainBgc-effect   : #067d54 !default;
+// $btn-altColor         : #24313d !default;
+// $btn-altBgc           : transparent !default;
+
+
+// Components - Toogle
+// ====================
+
+// Variables
+// ---------
+// $tgl-headClass      : ".#{$nameSpace}CookieToogle-btn" !default;
+// $tgl-activeClass    : ".#{$nameSpace}is-toggle" !default;
+// $tgl-contentClass   : ".#{$nameSpace}CookieToogle-content" !default;
+
+
+// Components - Overlay
+// ====================
+// Variables
+// ---------
+// $ovl-class: "#{$nameSpace}CookieOverlay" !default;
+
+// Colors
+// ------
+// $ovl-color: rgba(0, 0, 0, 0.5) !default;
+
+
+// Components - Modal
+// ==================
+
+// Variables
+// ---------
+// $md-class           : ".#{$nameSpace}CookieModal" !default;
+// $md-closeClasse     : ".#{$nameSpace}CookieModal-close" !default;
+// $md-innerClass      : ".#{$nameSpace}CookieModal-inner" !default;
+// $md-headerClass     : ".#{$nameSpace}CookieModal-header" !default;
+// $md-titleClass      : ".#{$nameSpace}CookieModal-title" !default;
+// $md-paramClass      : ".#{$nameSpace}CookieParam" !default;
+// $md-paramTitleClass : ".#{$nameSpace}CookieParam-title" !default;
+// $md-paramHeadClass  : ".#{$nameSpace}CookieParam-head" !default;
+// $md-actionsClass    : ".#{$nameSpace}CookieModal-actions" !default;
+// $md-maxWidth  : 520px !default;
+// $md-maxHeight : 50vh !default;
+
+// Colors
+// ---------
+// $md-bgc            : #ffffff !default;
+// $md-boxShadow      : 0 -3px 10px rgba(0, 0, 0, 0.2);
+// $md-separatorColor : #e0e0e0 !default;
+
+
+// Components - Checkbox
+// =====================
+
+// Variables
+// ---------
+// $check-class       : ".#{$nameSpace}CookieCheck" !default;
+// $check-statutClass : ".#{$nameSpace}CookieCheck-statut" !default;
+// $check-statutActive: ".#{$nameSpace}is-active" !default;
+// $check-labelClass  : ".#{$nameSpace}CookieCheck-label" !default;
+// $check-inputClass  : ".#{$nameSpace}CookieCheck-input" !default;
+// $check-maxWidth  : 640px !default;
+// $check-maxHeight : 50vh;
+
+// Colors
+// ------
+// $check-bgc              : #707070 !default;
+// $check-activeColor      : #067d54 !default;
+// $check-cocheBg          : #ffffff !default;
+// $check-cocheBorder      : #707070 !default;
+
+
+// Media Queries
+// =============
+$tablet : 1024px !default;
+$mobile : 640px !default;
+
+@mixin Tablet {
+  @media screen and (max-width: $tablet) {
+    @content;
+  }
+}
+
+@mixin Mobile {
+  @media screen and (max-width: $mobile) {
+    @content;
+  }
+}

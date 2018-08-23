@@ -1,0 +1,70 @@
+// Atom : Banner
+
+// Config
+// =====
+// variables
+$banner-position      : "bottom" !default; // can be "top" or "bottom"
+$banner-containerClass: ".#{$nameSpace}CookieBanner" !default;
+$banner-innerClass    : ".#{$nameSpace}CookieBanner-inner" !default;
+
+$banner-textClass     : ".#{$nameSpace}CookieBanner-text" !default;
+$banner-titleClass    : ".#{$nameSpace}CookieBanner-title" !default;
+$banner-infoClass     : ".#{$nameSpace}CookieBanner-info" !default;
+// layout
+$banner-innerWidth    : 1024px !default;
+$banner-padding       : 1em !default;
+// colors
+$banner-title-color   : $text-title-color;
+$banner-bgc           : $bgc !default;
+$banner-boxShadow     : 0 -3px 10px rgba(0, 0, 0, 0.2);
+
+
+#{$banner-containerClass} {
+  position: fixed;
+  @if $banner-position == "top" {
+    top: 0;
+  }
+  @if $banner-position == "bottom" {
+    bottom: 0;
+  }
+  width: 100%;
+  font-size: $root-font-size; // 14px
+  color: $text-content-color;
+  padding: $banner-padding 0;
+  box-sizing: border-box;
+  background-color: $bgc;
+  box-shadow: $banner-boxShadow;
+  font-size: 15px;
+  z-index: 5;
+  @include Tablet {
+    padding: $banner-padding;
+  }
+}
+
+#{$banner-innerClass} {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: #{$banner-innerWidth};
+  margin: 0 auto;
+  @include Mobile {
+    flex-direction: column;
+  }
+}
+#{$banner-textClass} {
+  margin-right: $grid-gap;
+  @include Mobile {
+    margin-right: 0;
+    margin-bottom: $grid-gap;
+  }
+}
+#{$banner-titleClass} {
+  color: $text-title-color;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+#{$banner-infoClass} {
+  font-size: 12 / 14 * 1em;
+  line-height: 1.2;
+}
