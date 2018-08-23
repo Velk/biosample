@@ -1,0 +1,14 @@
+@import "reset";
+@import "global";
+
+// Config
+@import "variables";
+
+
+// Components
+@import "cookie_banner/banner";
+@import "cookie_banner/btns";
+@import "cookie_banner/modal";
+@import "cookie_banner/check-btn";
+@import "cookie_banner/toggle";
+@import "cookie_banner/overlay";
