@@ -42,14 +42,14 @@ function bs_contact_admin_settings(){
     '#type' => 'textfield',
     '#title' => t('Latitude of BioSample on the map'),
     '#description' => t('Change the latitude of BioSample on the map'),
-    '#default_value' => variable_get('bs_contact_latitude','45.7477813'),
+    '#default_value' => variable_get('bs_contact_latitude','45.751520'),
   );
 
   $form['bs_contact_longitude'] = array(
     '#type' => 'textfield',
     '#title' => t('Longitude of BioSample on the map'),
     '#description' => t('Change the longitude of BioSample on the map'),
-    '#default_value' => variable_get('bs_contact_longitude','4.791871899999933'),
+    '#default_value' => variable_get('bs_contact_longitude','4.739560'),
   );
 
   $form['bs_contact_title'] = array(
@@ -63,14 +63,14 @@ function bs_contact_admin_settings(){
     '#type' => 'textfield',
     '#title' => t('Adress'),
     '#description' => t('Change the adress'),
-    '#default_value' => variable_get('bs_contact_adress','73 rue Commandant Charcot'),
+    '#default_value' => variable_get('bs_contact_adress','166 Rue Pierre Auguste Roiret'),
   );
 
   $form['bs_contact_city'] = array(
     '#type' => 'textfield',
     '#title' => t('City'),
     '#description' => t('Change the city'),
-    '#default_value' => variable_get('bs_contact_city','69110 Sainte-Foy-Lès-Lyon'),
+    '#default_value' => variable_get('bs_contact_city','69290 Craponnes'),
   );
 
   $form['bs_contact_tel_fax'] = array(
