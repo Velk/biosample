@@ -70,7 +70,7 @@ function bs_contact_admin_settings(){
     '#type' => 'textfield',
     '#title' => t('City'),
     '#description' => t('Change the city'),
-    '#default_value' => variable_get('bs_contact_city','69290 Craponnes'),
+    '#default_value' => variable_get('bs_contact_city','69290 Craponne'),
   );
 
   $form['bs_contact_tel_fax'] = array(
@@ -135,7 +135,7 @@ function bs_contact_block_view($delta = '') {
 
       $data['map_script1'] = "<script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyB_dBiSyZnQAcf70ca81iR6Dx7c9l4jt7c'></script>";
       $data['map_script2'] = "<script type='text/javascript' src='https://embedmaps.com/google-maps-authorization/script.js?id=ed3fff63c6cbefe079ad45f602efc6007bf27145'></script>";
-      $data['map_script3'] = "<script type='text/javascript'>function init_map(){var myOptions = {zoom:13,center:new google.maps.LatLng(".variable_get('bscontact_latitude','45.7477813').",".variable_get('bscontact_longitude','4.791871899999933')."),mapTypeId: google.maps.MapTypeId.ROADMAP};map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);marker = new google.maps.Marker({map: map,position: new google.maps.LatLng(".variable_get('bscontact_latitude','45.7477813').",".variable_get('bscontact_longitude','4.791871899999933').")});infowindow = new google.maps.InfoWindow({content:'<strong>".variable_get('bscontact_title','BIOSAMPLE')."</strong><br>".variable_get('bscontact_adress','73 rue Commandant Charcot')."<br>".variable_get('bscontact_city','69110 Lyon')."<br>'});google.maps.event.addListener(marker, 'click', function(){infowindow.open(map,marker);});infowindow.open(map,marker);}google.maps.event.addDomListener(window, 'load', init_map);</script>";
+      $data['map_script3'] = "<script type='text/javascript'>function init_map(){var myOptions = {zoom:13,center:new google.maps.LatLng(".variable_get('bscontact_latitude','45.751520').",".variable_get('bscontact_longitude','4.739560')."),mapTypeId: google.maps.MapTypeId.ROADMAP};map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);marker = new google.maps.Marker({map: map,position: new google.maps.LatLng(".variable_get('bscontact_latitude','45.751520').",".variable_get('bscontact_longitude','4.739560').")});infowindow = new google.maps.InfoWindow({content:'<strong>".variable_get('bscontact_title','BIOSAMPLE')."</strong><br>".variable_get('bscontact_adress','166 Rue Pierre Auguste Roiret')."<br>".variable_get('bscontact_city','69290 Craponne')."<br>'});google.maps.event.addListener(marker, 'click', function(){infowindow.open(map,marker);});infowindow.open(map,marker);}google.maps.event.addDomListener(window, 'load', init_map);</script>";
 
       $block['content']['#markup'] = theme('bs_contact', $data);
       $block['content']['#attached']['css'][] = array(
