@@ -1254,8 +1254,10 @@ function bsconnexion_block_info() {
         'info' => t('Menu compte client'),
         'status' => TRUE,
         'region' => 'content',
-        'visibility' => BLOCK_VISIBILITY_LISTED,
-        'pages' => "utilisateur/profil\r\nutilisateur/catalogueg\r\nutilisateur/catalogueg/*\r\nutilisateur/cataloguep\r\nutilisateur/historique\r\nutilisateur/devis\r\nutilisateur/abonnements\r\nutilisateur/ress_bio/etablissement\r\nutilisateur/ress_bio/annonces\r\nutilisateur/ress_bio/favoris\r\nnode/add/rb-collections\r\nressources-biologiques/home",
+        'visibility' => BLOCK_VISIBILITY_NOTLISTED,
+        'pages' => "<front>\r\ncontactez-nous",
+//        'visibility' => BLOCK_VISIBILITY_LISTED,
+//        'pages' => "utilisateur/profil\r\nutilisateur/catalogueg\r\nutilisateur/catalogueg/*\r\nutilisateur/cataloguep\r\nutilisateur/historique\r\nutilisateur/devis\r\nutilisateur/abonnements\r\nutilisateur/ress_bio/etablissement\r\nutilisateur/ress_bio/annonces\r\nutilisateur/ress_bio/favoris\r\nnode/add/rb-collections\r\nressources-biologiques/home",
         'weight' => 1,
     );
 
