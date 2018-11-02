@@ -1,4 +1,0 @@
-name = BS Cookies
-description = Module de gestion des cookies de BioSample
-core = 7.x
-package = BIOSAMPLE

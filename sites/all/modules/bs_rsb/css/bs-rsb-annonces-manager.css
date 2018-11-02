@@ -132,8 +132,28 @@ div#bs-rsb-annonce-header > a#consult-map {
     margin: 25px 15px !important;
 }
 
+/*.bs-rsb-card-action-consult {*/
+    /*grid-area: action-consult;*/
+    /*margin-left: 15px;*/
+    /*margin-bottom: 10px;*/
+/*}*/
+/*.bs-rsb-card-action-consult > a {*/
+    /*display: block;*/
+    /*width: 100%;*/
+    /*text-align: center;*/
+    /*background-color: #1e6a8e;*/
+    /*color: #fff !important;*/
+    /*font-size: 16px;*/
+    /*padding: 3px 5px;*/
+    /*box-sizing: border-box;*/
+/*}*/
+/*.bs-rsb-card-action-consult > a > i {*/
+    /*margin-left: 5px;*/
+/*}*/
+
 .bs-rsb-card-action-edit {
     grid-area: action-edit;
+    /*margin-right: 15px;*/
     margin-bottom: 10px;
 }
 .bs-rsb-card-action-edit > a {
@@ -193,6 +213,30 @@ div#bs-rsb-annonce-header > a#consult-map {
 /* ------------------------------------------------------------------------------------- */
 /* ---------------------------------- Edit - Annonce ----------------------------------- */
 /* ------------------------------------------------------------------------------------- */
+
+/*#rb-collections-node-form{*/
+    /*position: relative;*/
+    /*width: 600px;*/
+    /*margin: auto;*/
+/*}*/
+
+/*#rb-collections-node-form input:not(.form-submit) {*/
+    /*width: 100%;*/
+    /*margin: 7px 0 15px 0;*/
+    /*padding: 7px 10px;*/
+    /*border: 2px solid #1e6a8e;*/
+    /*border-radius: 2px;*/
+/*}*/
+
+/*#rb-collections-node-form select {*/
+    /*width: 100%;*/
+    /*margin: 7px 0 15px 0;*/
+    /*padding: 7px 10px;*/
+    /*background-color: #1e6a8e;*/
+    /*border: none;*/
+    /*border-radius: 2px;*/
+    /*color: #fff;*/
+/*}*/
 
 #rb-collections-node-form .form-type-textarea textarea {
     border: 2px solid #1e6a8e;
@@ -312,122 +356,59 @@ fieldset.filter-wrapper {
     margin: 50px auto;
 }
 
-#rb-collections-node-form .field-name-field-nom-organisme,
-#rb-collections-node-form .field-name-field-statut-organisme {
-    display: none;
-}
-
 #rb-collections-node-form > div {
     width: 600px;
     padding: 25px 50px;
     box-shadow: 0px 0px 3px #d1dade;
     display: grid;
-    /*align-items: end;*/
-    /*grid-template-columns: repeat(18, 1fr);*/
-    /*grid-gap: 20px;*/
-    /*grid-template-areas:*/
-            /*"a a a a a a a a a b b b b b b b b b"*/
-            /*"c c c c c c c c c c c c c c c c c c"*/
-            /*"d d d d d d d d e e e e e f f f f f"*/
-            /*"g g g g g g h h h h h h i i i i i i"*/
-            /*"j j j j j j j j j j j j j j j j j j"*/
-            /*"k k k k k k k k k k k k k k k k k k"*/
-            /*"l l l l l l l l l l l l l l l l l l";*/
-            /*!*"n n n n n n n n n o o o o o o o o o"*!*/
-            /*!*"p p p p p p p p p . . . . . . . . ."*!*/
-            /*!*"q q q q q q q q q q q q q q q q q q";*!*/
-    grid-template-columns: repeat(2, 50%);
+    align-items: end;
+    grid-template-columns: repeat(18, 1fr);
+    grid-gap: 20px;
     grid-template-areas:
-            "a b"
-            "c d"
-            "e f"
-            "g h"
-            "i j"
-            "k l"
-            "m m"
-            "n n"
-            "o o"
-            "p p"
-            "q q"
-            "r r"
-            "s s"
-            "t t"
-            "u u";
-    grid-gap: 40px 30px;
-    align-items: center;
-    justify-content: space-around;
+            "a a a a a a a a a b b b b b b b b b"
+            "c c c c c c c c c c c c c c c c c c"
+            "d d d d d d d d e e e e e f f f f f"
+            "g g g g g g h h h h h h i i i i i i"
+            "j j j j j j j j j j j j j j j j j j"
+            "k k k k k k k k k k k k k k k k k k"
+            "l l l l l l l l l l l l l l l l l l";
 }
 
-/*#rb-collections-node-form .form-item,*/
-/*#rb-collections-node-form .form-action {*/
-    /*margin:0 !important;*/
-/*}*/
-/*#rb-collections-node-form > div > div {*/
-    /*margin: 0;*/
-/*}*/
-
-#rb-collections-node-form .form-item-title {
+.form-item-title {
     grid-area: a;
 }
-#rb-collections-node-form .field-name-field-nom-collection {
+#edit-field-nom-organisme {
     grid-area: b;
 }
-#rb-collections-node-form .field-name-field-regne {
+#edit-field-nom-collection {
     grid-area: c;
 }
-#rb-collections-node-form .field-name-field-cp-hebergement {
+#edit-field-type-de-collection {
     grid-area: d;
 }
-#rb-collections-node-form .field-name-field-statut {
+#edit-field-nombre-donneurs {
     grid-area: e;
 }
-#rb-collections-node-form .field-name-field-accessibility {
+#edit-field-nombre-echantillons {
     grid-area: f;
 }
-#rb-collections-node-form .field-name-field-statut-consentement {
+#edit-field-collecte-echantillons-supp {
     grid-area: g;
 }
-#rb-collections-node-form .field-name-field-catalogue {
+#edit-field-disponibilite {
     grid-area: h;
 }
-#rb-collections-node-form .field-name-field-nombre-individus {
+#edit-field-regne {
     grid-area: i;
 }
-#rb-collections-node-form .field-name-field-nb-exact-individus {
+#edit-field-presentation {
     grid-area: j;
 }
-#rb-collections-node-form .field-name-field-nombre-echantillons {
+#edit-field-critere {
     grid-area: k;
 }
-#rb-collections-node-form .field-name-field-nb-exact-echantillons {
+#edit-actions {
     grid-area: l;
-}
-#rb-collections-node-form .field-name-field-collecte-donnees {
-    grid-area: m;
-}
-#rb-collections-node-form .field-name-field-suivi-individus {
-    grid-area: n;
-}
-#rb-collections-node-form .field-name-field-echantillons-controle {
-    grid-area: o;
-}
-#rb-collections-node-form .field-name-field-collecte-echantillons-sup {
-    grid-area: p;
-}
-#rb-collections-node-form .field-name-field-collecte-donnees-sup {
-    grid-area: q;
-}
-#rb-collections-node-form .field-name-field-tracabilite {
-    grid-area: r;
-}
-#rb-collections-node-form .field-name-field-presentation {
-    grid-area: s;
-}
-#rb-collections-node-form fieldset.group-criteres {
-    grid-area: t;
-}
-#rb-collections-node-form div#edit-actions {
-    grid-area: u;
 }
 
 /* Fields */
@@ -437,25 +418,13 @@ fieldset.filter-wrapper {
     margin-bottom: 8px;
 }
 
-#rb-collections-node-form input:not(.form-submit),
-#rb-collections-node-form input:not([type="radio"]) {
+#rb-collections-node-form input:not(.form-submit) {
     width: 100%;
     margin: 7px 0 0 0;
     padding: 7px 10px;
     box-shadow: inset 0px 1px 2px #d1dade;
     border: none;
     border-bottom: 2px solid #1e6a8e;
-}
-
-#rb-collections-node-form .form-type-radio {
-    display: inline-block;
-    margin: auto 30px !important;
-}
-
-input[type="radio"] {
-    height: 16px;
-    display: block;
-    box-shadow: none !important;
 }
 
 #rb-collections-node-form select {
@@ -467,95 +436,38 @@ input[type="radio"] {
     color: #fff;
 }
 
-#rb-collections-node-form .form-radios {
-    text-align: center;
-}
-
-#rb-collections-node-form .form-type-radio label {
-    color: #424242;
-    font-style: italic;
-}
-
-/* Fieldset */
-#rb-collections-node-form fieldset.group-criteres {
-    border: none;
-    border-top: 2px solid #1e6a8e;
-    text-align: left;
-    margin: 15px 0 0 0;
-    box-shadow: inset 0px 0px 5px #c5c5c5;
-    padding-right: 25px;
-    padding-left: 25px;
-}
-#rb-collections-node-form fieldset.group-criteres.collapsed {
-    box-shadow: none;
-}
-#rb-collections-node-form fieldset.group-criteres > legend {
-    font-size: 18px;
-    background-color: #fff;
-}
-
-/* Checkboxes multiple choice */
-div#edit-field-collecte-donnees-und,
-div#edit-field-suivi-individus-und {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    justify-items: center;
-    grid-gap: 0 20px;
-}
-
-div#edit-field-collecte-echantillons-sup-und,
-div#edit-field-collecte-donnees-sup-und {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    justify-items: center;
-    grid-gap: 0 20px;
-}
-
-div#edit-field-collecte-donnees-und input,
-div#edit-field-suivi-individus-und input,
-div#edit-field-collecte-echantillons-sup-und input,
-div#edit-field-collecte-donnees-sup-und input {
-    -webkit-box-shadow: none !important;
-    -moz-box-shadow: none !important;
-    box-shadow: none !important;
-}
-
-div#edit-field-collecte-donnees-und > .form-item,
-div#edit-field-suivi-individus-und > .form-item,
-div#edit-field-collecte-echantillons-sup-und > .form-item,
-div#edit-field-collecte-donnees-sup-und > .form-item {
-    width: 100%;
-    margin: 0;
-    padding: 10px;
-    box-sizing: border-box;
-    box-shadow: inset 0px 0px 5px #d8d8d8;
-}
-div#edit-field-collecte-donnees-und > .form-item:hover,
-div#edit-field-suivi-individus-und > .form-item:hover,
-div#edit-field-collecte-echantillons-sup-und > .form-item:hover,
-div#edit-field-collecte-donnees-sup-und > .form-item:hover {
-    background-color: #fbfbfb;
-}
-div#edit-field-collecte-donnees-und > .form-item > input,
-div#edit-field-suivi-individus-und > .form-item > input,
-div#edit-field-collecte-echantillons-sup-und > .form-item > input,
-div#edit-field-collecte-donnees-sup-und > .form-item > input {
-    height: 16px;
-    margin: 7px 0 0 0;
-}
-div#edit-field-collecte-donnees-und > .form-item > label,
-div#edit-field-suivi-individus-und > .form-item > label,
-div#edit-field-collecte-echantillons-sup-und > .form-item > label,
-div#edit-field-collecte-donnees-sup-und > .form-item > label {
-    width: 100%;
-    text-align: center;
-    margin: 10px 0 0 0;
-    height: calc(100% - 16px - 10px - 7px);
-}
 
 /* ------------------------------------------------------------------------------------- */
 /* ------------------------------ Consult - Full annonce ------------------------------- */
 /* ------------------------------------------------------------------------------------- */
+/*.node-rb-collections{*/
+    /*position: relative;*/
+    /*width: 600px;*/
+    /*margin: 50px auto !important;*/
+/*}*/
+
+/*.node-rb-collections div.field:first-of-type {*/
+    /*margin-bottom: 50px;*/
+/*}*/
+
+/*.node-rb-collections div.field:first-of-type .field-items {*/
+    /*border-left:1px solid #1e6a8e;*/
+    /*padding-left:15px;*/
+    /*margin-top: 20px;*/
+    /*text-align: justify;*/
+/*}*/
+
+/*.node-rb-collections h3.field-label{*/
+    /*font-family: "Roboto Condensed", oswaldregular !important;*/
+    /*font-weight: 500;*/
+    /*font-size: 20px;*/
+    /*text-transform: uppercase;*/
+    /*color: #1e6a8e;*/
+/*}*/
+
+/*.node-rb-collections div.field:not(:first-of-type) {*/
+    /*margin-bottom: 20px;*/
+/*}*/
 
 .node-rb-collections {
     position: relative;
@@ -572,7 +484,6 @@ div#edit-field-collecte-donnees-sup-und > .form-item > label {
     padding: 50px !important;
     box-sizing: border-box;
     grid-template-areas:
-            "project-name a"
             "b a"
             "c a"
             "d a"
@@ -581,78 +492,73 @@ div#edit-field-collecte-donnees-sup-und > .form-item > label {
             "g a"
             "h a"
             "i a"
-            "j a"
-            "k a"
-            "l a"
-            "m a"
-            "n a"
-            "criteres criteres";
+            "j a";
 }
 
-#project-name {
-    grid-area: project-name;
-    padding-top:25px;
-}
-.node-rb-collections .field-name-field-presentation {
+.node-rb-collections .field-name-field-presentation{
     grid-area: a;
 }
-.node-rb-collections .field-name-field-nom-collection{
+.node-rb-collections .field-name-field-nom-organisme{
     grid-area: b;
-    padding-top:25px !important;
 }
-.node-rb-collections .field-name-field-regne{
+.node-rb-collections .field-name-field-type-de-collection{
     grid-area: c;
 }
-.node-rb-collections .field-name-field-statut-consentement{
+.node-rb-collections .field-name-field-nombre-echantillons{
     grid-area: d;
 }
-.node-rb-collections .field-name-field-catalogue{
+.node-rb-collections .field-name-field-nombre-donneurs{
     grid-area: e;
 }
-.node-rb-collections .field-name-field-nombre-individus{
+.node-rb-collections .field-name-field-collecte-echantillons-supp{
     grid-area: f;
 }
-.node-rb-collections .field-name-field-nombre-echantillons{
+.node-rb-collections .field-name-field-disponibilite{
     grid-area: g;
 }
-.node-rb-collections .field-name-field-collecte-donnees{
+.node-rb-collections .field-name-field-regne{
     grid-area: h;
 }
-.node-rb-collections .field-name-field-suivi-individus{
+.node-rb-collections .field-name-field-nom-collection{
     grid-area: i;
 }
-.node-rb-collections .field-name-field-echantillons-controle{
+.node-rb-collections #bs-rsb-establishment-link {
     grid-area: j;
 }
-.node-rb-collections .field-name-field-collecte-echantillons-sup{
-    grid-area: k;
-}
-.node-rb-collections .field-name-field-collecte-donnees-sup{
-    grid-area: l;
-}
-.node-rb-collections .field-name-field-tracabilite{
-    grid-area: m;
-}
-.node-rb-collections #bs-rsb-establishment-link {
-    grid-area: n;
-    padding-bottom: 30px;
-}
-.node-rb-collections .group-criteres {
-    grid-area: criteres;
-}
 
-.node-rb-collections .node-content div.field.section:not(.field-name-field-presentation) {
+.node-rb-collections .field-name-field-nom-organisme,
+.node-rb-collections .field-name-field-type-de-collection,
+.node-rb-collections .field-name-field-nombre-echantillons,
+.node-rb-collections .field-name-field-nombre-donneurs,
+.node-rb-collections .field-name-field-collecte-echantillons-supp,
+.node-rb-collections .field-name-field-disponibilite,
+.node-rb-collections .field-name-field-regne,
+.node-rb-collections .field-name-field-nom-collection {
     background-color: #37474f;
     padding: 10px 25px;
 }
-.node-rb-collections .node-content div.field.section:not(.field-name-field-presentation):before {
+.node-rb-collections .field-name-field-nom-organisme:before,
+.node-rb-collections .field-name-field-type-de-collection:before,
+.node-rb-collections .field-name-field-nombre-echantillons:before,
+.node-rb-collections .field-name-field-nombre-donneurs:before,
+.node-rb-collections .field-name-field-collecte-echantillons-supp:before,
+.node-rb-collections .field-name-field-disponibilite:before,
+.node-rb-collections .field-name-field-regne:before,
+.node-rb-collections .field-name-field-nom-collection:before {
     font-family: "FontAwesome";
     content: "\f105";
     margin-right: 10px;
     color: #d1dade;
     vertical-align: top;
 }
-.node-rb-collections .node-content div.field.section:not(.field-name-field-presentation) > h3 {
+.node-rb-collections .field-name-field-nom-organisme > h3,
+.node-rb-collections .field-name-field-type-de-collection > h3,
+.node-rb-collections .field-name-field-nombre-echantillons > h3,
+.node-rb-collections .field-name-field-nombre-donneurs > h3,
+.node-rb-collections .field-name-field-collecte-echantillons-supp > h3,
+.node-rb-collections .field-name-field-disponibilite > h3,
+.node-rb-collections .field-name-field-regne > h3,
+.node-rb-collections .field-name-field-nom-collection > h3 {
     color: #d1dade;
     font-weight: normal;
     font-size: 16px;
@@ -660,12 +566,26 @@ div#edit-field-collecte-donnees-sup-und > .form-item > label {
     display: inline-block;
     width: calc(100% - 20px);
 }
-.node-rb-collections .node-content div.field.section:not(.field-name-field-presentation) > div {
+.node-rb-collections .field-name-field-nom-organisme > div,
+.node-rb-collections .field-name-field-type-de-collection > div,
+.node-rb-collections .field-name-field-nombre-echantillons > div,
+.node-rb-collections .field-name-field-nombre-donneurs > div,
+.node-rb-collections .field-name-field-collecte-echantillons-supp > div,
+.node-rb-collections .field-name-field-disponibilite > div,
+.node-rb-collections .field-name-field-regne > div,
+.node-rb-collections .field-name-field-nom-collection > div {
     color: #fff;
     font-size: 16px;
     padding-left: 15px;
     padding-bottom: 20px;
     border-bottom: 1px solid #808080;
+}
+
+.node-rb-collections .field-name-field-nom-organisme {
+    padding-top: 30px;
+}
+.node-rb-collections .field-name-field-nom-collection {
+    padding-bottom: 30px;
 }
 
 /* Link to the establishment sheet */
@@ -716,49 +636,19 @@ div#edit-field-collecte-donnees-sup-und > .form-item > label {
     box-shadow: inset -5px 1px 5px #d1dade;
 }
 
-/* Criterias section */
-.node-rb-collections .group-criteres {
-    margin: 50px 0 10px 0;
-    border: none;
-    padding: 10px 25px;
-    box-sizing: border-box;
-    box-shadow: 1px 1px 5px #d1dade;
-}
-.node-rb-collections .group-criteres > legend {
-    display: none;
-}
-.node-rb-collections .group-criteres > .fieldset-content {
-    display: grid;
-}
-.node-rb-collections .group-criteres > .fieldset-content > .field {
-    padding: 15px 0;
-    margin: 0;
-    border-bottom: 1px solid #e9e9e9;
-}
-.node-rb-collections .group-criteres > .fieldset-content > .field:last-of-type {
-    border: none;
-}
-.node-rb-collections .group-criteres > .fieldset-content > .field > .field-label::before {
-    font-family: "FontAwesome";
-    content: "\f105";
-    margin-right: 10px;
-    color: #1e6a8e;
-    vertical-align: top;
-}
-.node-rb-collections .group-criteres > .fieldset-content > .field > .field-label {
-    color: #1e6a8e;
-}
-.node-rb-collections .group-criteres > .fieldset-content > .field > .field-items {
-    padding-left: 15px;
-}
-
 /* ------------------------------------------------------------------------------------- */
 /* ---------------------------------- Menu - Annonce ----------------------------------- */
 /* ------------------------------------------------------------------------------------- */
 /* Start - Custom the automatic menu */
 .tabs{
+    /*width: 600px;*/
+    /*margin: auto;*/
+    /*margin-bottom: 50px !important;*/
+    /*border-radius: 0 !important;*/
+    /*box-shadow: 2px 3px 5px -1px #b5b5b5;*/
     width: 100%;
     border-radius: 0 !important;
+    /*background-color: #1e6a8e;*/
     background-color: #20313a;
     padding: 5px 25px;
     box-sizing: border-box;
@@ -767,29 +657,57 @@ div#edit-field-collecte-donnees-sup-und > .form-item > label {
     margin:0 !important;
 }
 .tabs > ul{
+    /*margin:0 !important;*/
+    /*padding:0 !important;*/
     margin: 0 auto !important;
     padding: 0 !important;
     width: 600px;
-    display: grid;
-    grid-template-columns: repeat(2 , 1fr);
 }
 .tabs li{
-    width: 100%;
+    width: calc(100% / 2);
     margin: 0 !important;
 }
 .tabs li > a {
     width: 100%;
     box-sizing: border-box;
     text-align: center;
+    /*color: #424242 !important;*/
     border-radius: 0 !important;
+    /*background-color: #1e6a8e !important;*/
     background-color: #20313a !important;
     color: #fff !important;
 }
+.tabs li:nth-child(1) > a {
+    /*background-color: #ffe4cd !important;*/
+    /*background-color: #1e6a8e !important;*/
+    /*color: #fff !important;*/
+}
+.tabs li:nth-child(2) > a {
+    /*background-color: #d2ffda !important;*/
+
+}
+/*.tabs li:nth-child(3) > a {*/
+    /*background-color: #ffc2c2 !important;*/
+/*}*/
 
 .tabs li > a:hover {
     border: none !important;
+    /*background-color: #427e92 !important;*/
     background-color: #37474f !important;
+    /*-webkit-box-shadow: inset 1px 1px 5px #424242;*/
 }
+/*.tabs li:nth-child(1) > a:hover {*/
+    /*background-color: #ffc693 !important;*/
+    /*color: #ffe4cd;*/
+/*}*/
+/*.tabs li:nth-child(2) > a:hover {*/
+    /*background-color: #9acea3 !important;*/
+    /*color: #d2ffda;*/
+/*}*/
+/*.tabs li:nth-child(3) > a:hover {*/
+    /*background-color: #ff8c8c !important;*/
+    /*color: #ffc2c2;*/
+/*}*/
 
 .tabs li > a.active {
     border: none !important;

@@ -28,10 +28,18 @@ foreach ($results as $result) {
             </p>
         </div>
         <?php
+        if($result->organism_type){
+        ?>
+            <div id="es-type">
+                <span>Type</span>
+                <p><?php echo $result->organism_type; ?></p>
+            </div>
+        <?php
+        }
         if($result->organism_theme){
         ?>
         <div id="es-theme">
-            <span>Thematique(s)</span>
+            <span>Thematique</span>
             <p><?php echo $result->organism_theme; ?></p>
         </div>
         <?php
@@ -58,50 +66,9 @@ foreach ($results as $result) {
     </div>
     <div id="presentation">
         <h2 id="label-presentation">Présentation</h2>
-        <a href="#bs-rsb-ec-container">
-            <i class="fa fa-long-arrow-down" aria-hidden="true"></i>
-        </a>
         <div><?php echo $result->presentation; ?></div>
     </div>
 <?php
 }
 ?>
 </div>
-
-<div id="bs-rsb-ec-container">
-    <h2>Les collections de l'organisme</h2>
-
-    <div id="bs-rsb-ec-cards-container">
-    <?php
-        // Browse results
-        foreach ($everyCollections as $everyCollection) {
-    ?>
-
-        <div class="bs-rsb-ec-cards">
-            <div class="bs-rsb-ec-card-title">
-                <i class="fa fa-file"></i><p><?php echo $everyCollection->title; ?></p>
-            </div>
-            <div class="bs-rsb-ec-card-content">
-                <p><?php echo $everyCollection->field_nom_collection_value; ?></p>
-            </div>
-            <div class="bs-rsb-ec-card-action-edit">
-                <a href="/ressources-biologiques/home/<?php toURLString($everyCollection->title); ?>/<?php echo $everyCollection->uid; ?>" title="Consulter la collection">Consulter <i class="fa fa-pencil"></i></a>
-            </div>
-        </div>
-    <?php
-        }
-    ?>
-    </div>
-</div>
-<?php
-
-function toURLString($string){
-
-    $string = strtolower($string);
-
-    $string = str_replace(' ', '-', $string);
-
-    echo $string;
-}
-
-?>

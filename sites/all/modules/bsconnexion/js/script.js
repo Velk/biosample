@@ -111,7 +111,7 @@
                 $("#main-content-wrapper").css("margin-left", -$("#main-content-wrapper").offset().left);
                 $("#main-content-wrapper").css("width", $(window).width());
                 $("#main-content-wrapper>div>div").css("padding", "0");
-                // $("#main-wrapper .container-inner").css("margin-top", "17px");
+                $("#main-wrapper .container-inner").css("margin-top", "17px");
             }
 
 
@@ -126,7 +126,7 @@
                 $("#main-content-wrapper").css("margin-left", -$("#main-content-wrapper").offset().left);
                 $("#main-content-wrapper").css("width", $(window).width());
                 $("#main-content-wrapper>div>div").css("padding", "0");
-                // $("#main-wrapper .container-inner").css("margin-top", "17px");
+                $("#main-wrapper .container-inner").css("margin-top", "17px");
             }
         /* End - Set the content at the entire window width */
 

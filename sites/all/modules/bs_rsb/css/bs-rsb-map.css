@@ -56,7 +56,7 @@ div#rsb-map-infos > li {
     margin: 12px 0;
 }
 
-div#rsb-map-infos > li > span.rsb-value{
+div#rsb-map-infos > li > span{
     color: #1e6a8e;
     font-size: 30px;
     font-weight:600;

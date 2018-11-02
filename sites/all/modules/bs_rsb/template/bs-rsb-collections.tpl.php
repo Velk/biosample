@@ -3,7 +3,7 @@
     <div id="bs-rsb-families">
         <nav>
             <ul>
-                <li id="all-regne" class="bs-rsb-family-selected">
+                <li id="all-regne">
                     <a href="#collections"><i class="fa fa-home"></i></a>
                 </li><!--
                     --><li>
